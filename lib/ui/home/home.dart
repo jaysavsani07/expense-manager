@@ -1,6 +1,6 @@
 import 'package:expense_manager/core/keys.dart';
 import 'package:expense_manager/core/routes.dart';
-import 'package:expense_manager/data/models/app_state.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/dashboard/dashboard.dart';
 import 'package:expense_manager/ui/history/history.dart';

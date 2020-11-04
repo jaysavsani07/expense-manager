@@ -1,4 +1,4 @@
-import 'package:expense_manager/data/models/app_state.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_action.dart';

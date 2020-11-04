@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:expense_manager/core/keys.dart';
-import 'package:expense_manager/data/models/app_state.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
@@ -72,5 +72,10 @@ class _ViewModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _ViewModel && runtimeType == other.runtimeType;
+      other is _ViewModel &&
+          runtimeType == other.runtimeType &&
+          entry == other.entry;
+
+  @override
+  int get hashCode => entry.hashCode;
 }

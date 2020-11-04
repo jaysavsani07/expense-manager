@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/routes.dart';
-import 'package:expense_manager/data/models/app_state.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
