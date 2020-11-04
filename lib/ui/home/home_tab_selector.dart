@@ -1,4 +1,5 @@
 import 'package:expense_manager/core/keys.dart';
+import 'package:expense_manager/core/localization.dart';
 import 'package:expense_manager/data/models/app_state.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/home/home_action.dart';
@@ -29,8 +30,8 @@ class HomeTabSelector extends StatelessWidget {
                     : AppKeys.statsTab,
               ),
               label: tab == HomeTab.dashboard
-                  ? AppKeys.todoTab.toString()
-                  : AppKeys.statsTab.toString(),
+                  ? AppLocalizations.dashboard
+                  : AppLocalizations.history,
             );
           }).toList(),
         );
@@ -50,7 +51,7 @@ class _ViewModel {
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      activeTab: store.state.activeTab,
+      activeTab: store.state.homeState.activeTab,
       onTabSelected: (index) {
         store.dispatch(UpdateHomeTabAction((HomeTab.values[index])));
       },

@@ -1,11 +1,11 @@
-import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/home/home_action.dart';
+import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:redux/redux.dart';
 
-final tabsReducer = combineReducers<HomeTab>([
-  TypedReducer<HomeTab, UpdateHomeTabAction>(_activeTabReducer),
+final homeReducer = combineReducers<HomeState>([
+  TypedReducer<HomeState, UpdateHomeTabAction>(_activeTabReducer),
 ]);
 
-HomeTab _activeTabReducer(HomeTab activeTab, UpdateHomeTabAction action) {
-  return action.homeTab;
+HomeState _activeTabReducer(HomeState homeState, UpdateHomeTabAction action) {
+  return homeState.copyWith(activeTab: action.homeTab);
 }

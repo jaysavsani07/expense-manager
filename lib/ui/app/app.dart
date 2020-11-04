@@ -1,6 +1,8 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/theme.dart';
 import 'package:expense_manager/data/models/app_state.dart';
+import 'package:expense_manager/ui/addEntry/addEntry.dart';
+import 'package:expense_manager/ui/dashboard/dashboard_action.dart';
 import 'package:expense_manager/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -22,10 +24,11 @@ class MyApp extends StatelessWidget {
           AppRoutes.home: (context) {
             return HomeScreen(
               onInit: () {
-                // StoreProvider.of<AppState>(context).dispatch(LoadTodosAction());
+                StoreProvider.of<AppState>(context).dispatch(LoadAllEntryAction());
               },
             );
           },
+          AppRoutes.addEntry: (context) => AddEntry()
         },
       ),
     );

@@ -30,12 +30,17 @@ dependencies:
   cupertino_icons: ^1.0.0
   redux: ^4.0.0+3
   flutter_redux: ^0.7.0
-  redux_thunk: ^0.3.0
-  http: ^0.12.2
+  redux_logging: ^0.4.0
+  moor_flutter: ^3.1.0
+  moor: ^3.4.0
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  moor_generator: ^3.4.0
+  build_runner:
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
