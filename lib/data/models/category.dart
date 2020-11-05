@@ -7,16 +7,12 @@ import 'package:moor/moor.dart';
 
 @immutable
 class Category {
-  final int id;
   final String name;
   final IconData icon;
   final Color iconColor;
 
   Category(
-      {this.id,
-      @required this.name,
-      @required this.icon,
-      @required this.iconColor});
+      {@required this.name, @required this.icon, @required this.iconColor});
 
   Category copyWith({String name, IconData icon, Color iconColor}) {
     return Category(name: name, icon: icon, iconColor: iconColor);
@@ -24,7 +20,6 @@ class Category {
 
   factory Category.fromCategoryEntity(CategoryEntityData categoryEntityData) {
     return Category(
-        id: categoryEntityData.id,
         name: categoryEntityData.name,
         icon: categoryEntityData.icon.jsonToIconData(),
         iconColor: Color(int.parse(categoryEntityData.iconColor)));
@@ -43,17 +38,15 @@ class Category {
       identical(this, other) ||
       other is Category &&
           runtimeType == other.runtimeType &&
-          id == other.id &&
           name == other.name &&
           icon == other.icon &&
           iconColor == other.iconColor;
 
   @override
-  int get hashCode =>
-      id.hashCode ^ name.hashCode ^ icon.hashCode ^ iconColor.hashCode;
+  int get hashCode => name.hashCode ^ icon.hashCode ^ iconColor.hashCode;
 
   @override
   String toString() {
-    return 'Category{id: $id, name: $name, icon: $icon, iconColor: $iconColor}';
+    return 'Category{name: $name, icon: $icon, iconColor: $iconColor}';
   }
 }

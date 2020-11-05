@@ -38,11 +38,8 @@ class _AddEntryState extends State<AddEntry> {
               ),
               FlatButton(
                   onPressed: () {
-                    print(
-                        "ok1234 ${Entry(amount: double.parse(amount)).toString()}");
-
-                    print("ok1234 ${amount}");
-                    // vm.onSaveCallback(Entry(amount: double.parse(amount)));
+                    vm.onSaveCallback(Entry(
+                        amount: double.parse(amount) ,categoryName: "Health"));
                   },
                   child: Text("SAVE"))
             ],
@@ -76,9 +73,9 @@ class _ViewModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is _ViewModel &&
-          runtimeType == other.runtimeType &&
-          entry == other.entry;
+          other is _ViewModel &&
+              runtimeType == other.runtimeType &&
+              entry == other.entry;
 
   @override
   int get hashCode => entry.hashCode;

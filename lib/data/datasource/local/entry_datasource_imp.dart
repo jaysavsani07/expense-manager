@@ -2,6 +2,7 @@ import 'package:expense_manager/data/datasource/entry_dataSource.dart';
 import 'package:expense_manager/data/datasource/local/model/app_database.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moor/moor.dart';
 
@@ -38,5 +39,10 @@ class EntryDataSourceImp extends EntryDataSource {
         .map((event) => Category.fromCategoryEntity(event))
         .toList()
         .asStream();
+  }
+
+  @override
+  Stream<List<EntryWithCategory>> getAllEntryWithCategory() {
+    return appDatabase.getAllEntryWithCategory();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'app_database.g.dart';
@@ -7,16 +8,20 @@ class EntryEntity extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   RealColumn get amount => real()();
+
+  TextColumn get categoryName =>
+      text().customConstraint('REFERENCES category_entity(name)')();
 }
 
 class CategoryEntity extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
   TextColumn get icon => text()();
 
   TextColumn get iconColor => text()();
+
+  @override
+  Set<Column> get primaryKey => {name};
 }
 
 @UseMoor(tables: [EntryEntity, CategoryEntity])
@@ -32,14 +37,33 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration {
-    return MigrationStrategy(onCreate: (Migrator m) async {
-      await m.createAll();
-      await createDefaultCategory();
-    });
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+        await createDefaultCategory();
+      },
+    );
   }
 
-  Stream<List<EntryEntityData>> getAllEntry() =>
-      select(entryEntity).get().asStream();
+  Stream<List<EntryEntityData>> getAllEntry() {
+    return select(entryEntity).get().asStream();
+  }
+
+  Stream<List<EntryWithCategory>> getAllEntryWithCategory() {
+    return select(entryEntity)
+        .join([
+          leftOuterJoin(categoryEntity,
+              categoryEntity.name.equalsExp(entryEntity.categoryName))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategory(
+                entry: row.readTable(entryEntity),
+                category: row.readTable(categoryEntity));
+          }).toList();
+        });
+  }
 
   Stream<int> addNewEntry(EntryEntityCompanion entity) =>
       into(entryEntity).insert(entity).asStream();
