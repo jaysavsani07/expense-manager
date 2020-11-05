@@ -19,7 +19,10 @@ class Dashboard extends StatelessWidget {
           constraints: BoxConstraints.expand(),
           child: Column(
             children: [
-              Text(vm.list.map((e) => e.toString()).join(",")),
+              Expanded(
+                  child: ListView(
+                children: vm.list.map((e) => Text(e.toString())).toList(),
+              )),
               OutlinedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoutes.addEntry);

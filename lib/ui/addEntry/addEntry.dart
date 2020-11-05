@@ -19,8 +19,6 @@ class AddEntry extends StatefulWidget {
 }
 
 class _AddEntryState extends State<AddEntry> {
-  String amount = "0";
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -36,11 +34,16 @@ class _AddEntryState extends State<AddEntry> {
               TextFormField(
                 autofocus: true,
                 keyboardType: TextInputType.number,
-                onSaved: (value) => amount = value,
+                onChanged: (value) => amount = value,
               ),
               FlatButton(
-                  onPressed:
-                      vm.onSaveCallback(Entry(amount: double.parse(amount))),
+                  onPressed: () {
+                    print(
+                        "ok1234 ${Entry(amount: double.parse(amount)).toString()}");
+
+                    print("ok1234 ${amount}");
+                    // vm.onSaveCallback(Entry(amount: double.parse(amount)));
+                  },
                   child: Text("SAVE"))
             ],
           ),
@@ -48,6 +51,8 @@ class _AddEntryState extends State<AddEntry> {
       },
     );
   }
+
+  String amount = "0";
 }
 
 class _ViewModel {
@@ -63,7 +68,6 @@ class _ViewModel {
     return _ViewModel(
       entry: store.state.addEntryState.entry,
       onSaveCallback: (entry) {
-        Completer completer = Completer();
         store.dispatch(AddEntryAction(entry));
       },
     );
