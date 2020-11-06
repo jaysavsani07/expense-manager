@@ -52,7 +52,7 @@ class DashboardCategoryList extends StatelessWidget {
                             child: Column(
                               children: [
                                 Text(e.category.name),
-                                Text(e.entry.amount.toString())
+                                Text(e.entry.modifiedDate.toString())
                               ],
                             ),
                           )

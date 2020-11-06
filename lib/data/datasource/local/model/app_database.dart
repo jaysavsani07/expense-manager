@@ -11,6 +11,8 @@ class EntryEntity extends Table {
 
   TextColumn get categoryName =>
       text().customConstraint('REFERENCES category_entity(name)')();
+
+  DateTimeColumn get modifiedDate => dateTime()();
 }
 
 class CategoryEntity extends Table {

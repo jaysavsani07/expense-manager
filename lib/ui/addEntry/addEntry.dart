@@ -16,6 +16,9 @@ class AddEntry extends StatefulWidget {
 }
 
 class _AddEntryState extends State<AddEntry> {
+  String amount = "0";
+  String categoryName = "";
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
@@ -41,19 +44,25 @@ class _AddEntryState extends State<AddEntry> {
                       crossAxisCount: 2),
                   scrollDirection: Axis.horizontal,
                   children: vm.categoryList
-                      .map((e) => Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 5),
-                            width: 110,
-                            height: 110,
-                            child: Card(
-                              color: e.iconColor,
-                              elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
+                      .map((category) => InkWell(
+                            onTap: () {
+                              categoryName = category.name;
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 5),
+                              width: 110,
+                              height: 110,
+                              child: Card(
+                                color: category.iconColor,
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8),
+                                  ),
+                                ),
+                                child: Icon(category.icon),
                               ),
-                              child: Icon(e.icon),
                             ),
                           ))
                       .toList(),
@@ -61,9 +70,12 @@ class _AddEntryState extends State<AddEntry> {
               ),
               FlatButton(
                   onPressed: () {
-                    vm.onSaveCallback(Entry(
-                        amount: double.parse(amount),
-                        categoryName: "Shopping"));
+                    vm.onSaveCallback(
+                      Entry(
+                          amount: double.parse(amount),
+                          categoryName: categoryName,
+                          modifiedDate: DateTime.now()),
+                    );
                   },
                   child: Text("SAVE"))
             ],
@@ -72,8 +84,6 @@ class _AddEntryState extends State<AddEntry> {
       },
     );
   }
-
-  String amount = "0";
 }
 
 class _ViewModel {

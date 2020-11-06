@@ -11,8 +11,12 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   final int id;
   final double amount;
   final String categoryName;
+  final DateTime modifiedDate;
   EntryEntityData(
-      {@required this.id, @required this.amount, @required this.categoryName});
+      {@required this.id,
+      @required this.amount,
+      @required this.categoryName,
+      @required this.modifiedDate});
   factory EntryEntityData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -20,12 +24,15 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     final intType = db.typeSystem.forDartType<int>();
     final doubleType = db.typeSystem.forDartType<double>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return EntryEntityData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       amount:
           doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
       categoryName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}category_name']),
+      modifiedDate: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}modified_date']),
     );
   }
   @override
@@ -40,6 +47,9 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     if (!nullToAbsent || categoryName != null) {
       map['category_name'] = Variable<String>(categoryName);
     }
+    if (!nullToAbsent || modifiedDate != null) {
+      map['modified_date'] = Variable<DateTime>(modifiedDate);
+    }
     return map;
   }
 
@@ -51,6 +61,9 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       categoryName: categoryName == null && nullToAbsent
           ? const Value.absent()
           : Value(categoryName),
+      modifiedDate: modifiedDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(modifiedDate),
     );
   }
 
@@ -61,6 +74,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       id: serializer.fromJson<int>(json['id']),
       amount: serializer.fromJson<double>(json['amount']),
       categoryName: serializer.fromJson<String>(json['categoryName']),
+      modifiedDate: serializer.fromJson<DateTime>(json['modifiedDate']),
     );
   }
   @override
@@ -70,70 +84,90 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       'id': serializer.toJson<int>(id),
       'amount': serializer.toJson<double>(amount),
       'categoryName': serializer.toJson<String>(categoryName),
+      'modifiedDate': serializer.toJson<DateTime>(modifiedDate),
     };
   }
 
-  EntryEntityData copyWith({int id, double amount, String categoryName}) =>
+  EntryEntityData copyWith(
+          {int id,
+          double amount,
+          String categoryName,
+          DateTime modifiedDate}) =>
       EntryEntityData(
         id: id ?? this.id,
         amount: amount ?? this.amount,
         categoryName: categoryName ?? this.categoryName,
+        modifiedDate: modifiedDate ?? this.modifiedDate,
       );
   @override
   String toString() {
     return (StringBuffer('EntryEntityData(')
           ..write('id: $id, ')
           ..write('amount: $amount, ')
-          ..write('categoryName: $categoryName')
+          ..write('categoryName: $categoryName, ')
+          ..write('modifiedDate: $modifiedDate')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(id.hashCode, $mrjc(amount.hashCode, categoryName.hashCode)));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(amount.hashCode,
+          $mrjc(categoryName.hashCode, modifiedDate.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is EntryEntityData &&
           other.id == this.id &&
           other.amount == this.amount &&
-          other.categoryName == this.categoryName);
+          other.categoryName == this.categoryName &&
+          other.modifiedDate == this.modifiedDate);
 }
 
 class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   final Value<int> id;
   final Value<double> amount;
   final Value<String> categoryName;
+  final Value<DateTime> modifiedDate;
   const EntryEntityCompanion({
     this.id = const Value.absent(),
     this.amount = const Value.absent(),
     this.categoryName = const Value.absent(),
+    this.modifiedDate = const Value.absent(),
   });
   EntryEntityCompanion.insert({
     this.id = const Value.absent(),
     @required double amount,
     @required String categoryName,
+    @required DateTime modifiedDate,
   })  : amount = Value(amount),
-        categoryName = Value(categoryName);
+        categoryName = Value(categoryName),
+        modifiedDate = Value(modifiedDate);
   static Insertable<EntryEntityData> custom({
     Expression<int> id,
     Expression<double> amount,
     Expression<String> categoryName,
+    Expression<DateTime> modifiedDate,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (amount != null) 'amount': amount,
       if (categoryName != null) 'category_name': categoryName,
+      if (modifiedDate != null) 'modified_date': modifiedDate,
     });
   }
 
   EntryEntityCompanion copyWith(
-      {Value<int> id, Value<double> amount, Value<String> categoryName}) {
+      {Value<int> id,
+      Value<double> amount,
+      Value<String> categoryName,
+      Value<DateTime> modifiedDate}) {
     return EntryEntityCompanion(
       id: id ?? this.id,
       amount: amount ?? this.amount,
       categoryName: categoryName ?? this.categoryName,
+      modifiedDate: modifiedDate ?? this.modifiedDate,
     );
   }
 
@@ -149,6 +183,9 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
     if (categoryName.present) {
       map['category_name'] = Variable<String>(categoryName.value);
     }
+    if (modifiedDate.present) {
+      map['modified_date'] = Variable<DateTime>(modifiedDate.value);
+    }
     return map;
   }
 
@@ -157,7 +194,8 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
     return (StringBuffer('EntryEntityCompanion(')
           ..write('id: $id, ')
           ..write('amount: $amount, ')
-          ..write('categoryName: $categoryName')
+          ..write('categoryName: $categoryName, ')
+          ..write('modifiedDate: $modifiedDate')
           ..write(')'))
         .toString();
   }
@@ -200,8 +238,23 @@ class $EntryEntityTable extends EntryEntity
         $customConstraints: 'REFERENCES category_entity(name)');
   }
 
+  final VerificationMeta _modifiedDateMeta =
+      const VerificationMeta('modifiedDate');
+  GeneratedDateTimeColumn _modifiedDate;
   @override
-  List<GeneratedColumn> get $columns => [id, amount, categoryName];
+  GeneratedDateTimeColumn get modifiedDate =>
+      _modifiedDate ??= _constructModifiedDate();
+  GeneratedDateTimeColumn _constructModifiedDate() {
+    return GeneratedDateTimeColumn(
+      'modified_date',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, amount, categoryName, modifiedDate];
   @override
   $EntryEntityTable get asDslTable => this;
   @override
@@ -229,6 +282,14 @@ class $EntryEntityTable extends EntryEntity
               data['category_name'], _categoryNameMeta));
     } else if (isInserting) {
       context.missing(_categoryNameMeta);
+    }
+    if (data.containsKey('modified_date')) {
+      context.handle(
+          _modifiedDateMeta,
+          modifiedDate.isAcceptableOrUnknown(
+              data['modified_date'], _modifiedDateMeta));
+    } else if (isInserting) {
+      context.missing(_modifiedDateMeta);
     }
     return context;
   }

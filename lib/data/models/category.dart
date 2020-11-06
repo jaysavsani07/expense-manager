@@ -10,12 +10,17 @@ class Category {
   final String name;
   final IconData icon;
   final Color iconColor;
+  final bool isSelected;
 
   Category(
-      {@required this.name, @required this.icon, @required this.iconColor});
+      {@required this.name,
+      @required this.icon,
+      @required this.iconColor,
+      this.isSelected});
 
   Category copyWith({String name, IconData icon, Color iconColor}) {
-    return Category(name: name, icon: icon, iconColor: iconColor);
+    return Category(
+        name: name, icon: icon, iconColor: iconColor, isSelected: false);
   }
 
   factory Category.fromCategoryEntity(CategoryEntityData categoryEntityData) {
