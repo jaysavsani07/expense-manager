@@ -1,20 +1,29 @@
+import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:flutter/material.dart';
 
 @immutable
 class AddEntryState {
   final Entry entry;
+  final List<Category> categoryList;
   final Exception exception;
 
-  AddEntryState({@required this.entry, @required this.exception});
+  AddEntryState(
+      {@required this.entry,
+      @required this.categoryList,
+      @required this.exception});
 
   factory AddEntryState.initial() {
-    return AddEntryState(entry: Entry.initial(), exception: null);
+    return AddEntryState(
+        entry: Entry.initial(), categoryList: [], exception: null);
   }
 
-  AddEntryState copyWith({Entry entry, Exception exception}) {
+  AddEntryState copyWith(
+      {Entry entry, List<Category> categoryList, Exception exception}) {
     return AddEntryState(
-        entry: entry ?? this.entry, exception: exception ?? this.exception);
+        entry: entry ?? this.entry,
+        categoryList: categoryList ?? this.categoryList,
+        exception: exception ?? this.exception);
   }
 
   @override
@@ -23,13 +32,15 @@ class AddEntryState {
       other is AddEntryState &&
           runtimeType == other.runtimeType &&
           entry == other.entry &&
+          categoryList == other.categoryList &&
           exception == other.exception;
 
   @override
-  int get hashCode => entry.hashCode ^ exception.hashCode;
+  int get hashCode =>
+      entry.hashCode ^ categoryList.hashCode ^ exception.hashCode;
 
   @override
   String toString() {
-    return 'AddEntryState{entry: $entry, exception: $exception}';
+    return 'AddEntryState{entry: $entry, categoryList: $categoryList, exception: $exception}';
   }
 }

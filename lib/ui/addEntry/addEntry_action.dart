@@ -1,3 +1,4 @@
+import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry.dart';
 
 class AddEntryAction {
@@ -19,6 +20,17 @@ class SavedEntryAction {
   @override
   String toString() {
     return 'SavedEntryAction{entry: $entry}';
+  }
+}
+
+class AllCategoryLoadedAction {
+  final List<Category> categoryList;
+
+  AllCategoryLoadedAction({this.categoryList});
+
+  @override
+  String toString() {
+    return 'AllCategoryLoaded{categoryList: $categoryList}';
   }
 }
 

@@ -5,12 +5,19 @@ import 'package:redux/redux.dart';
 final addEntryReducer = combineReducers<AddEntryState>([
   TypedReducer<AddEntryState, AddEntryAction>(_addEntryReducer),
   TypedReducer<AddEntryState, SavedEntryAction>(_savedEntryExceptionReducer),
+  TypedReducer<AddEntryState, AllCategoryLoadedAction>(
+      _allCategoryLoadedReducer),
   TypedReducer<AddEntryState, ExceptionAction>(_addEntryExceptionReducer),
 ]);
 
 AddEntryState _addEntryReducer(
     AddEntryState addEntryState, AddEntryAction action) {
   return addEntryState;
+}
+
+AddEntryState _allCategoryLoadedReducer(
+    AddEntryState addEntryState, AllCategoryLoadedAction action) {
+  return addEntryState.copyWith(categoryList: action.categoryList);
 }
 
 AddEntryState _savedEntryExceptionReducer(

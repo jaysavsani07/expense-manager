@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:expense_manager/core/keys.dart';
+import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
-import 'package:expense_manager/ui/home/home_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -36,10 +33,37 @@ class _AddEntryState extends State<AddEntry> {
                 keyboardType: TextInputType.number,
                 onChanged: (value) => amount = value,
               ),
+              Container(
+                height: 235,
+                child: GridView(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  scrollDirection: Axis.horizontal,
+                  children: vm.categoryList
+                      .map((e) => Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 5),
+                            width: 110,
+                            height: 110,
+                            child: Card(
+                              color: e.iconColor,
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                              ),
+                              child: Icon(e.icon),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
               FlatButton(
                   onPressed: () {
                     vm.onSaveCallback(Entry(
-                        amount: double.parse(amount) ,categoryName: "Shopping"));
+                        amount: double.parse(amount),
+                        categoryName: "Shopping"));
                   },
                   child: Text("SAVE"))
             ],
@@ -55,15 +79,18 @@ class _AddEntryState extends State<AddEntry> {
 class _ViewModel {
   final Function(Entry) onSaveCallback;
   final Entry entry;
+  final List<Category> categoryList;
 
   _ViewModel({
     @required this.entry,
+    @required this.categoryList,
     @required this.onSaveCallback,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       entry: store.state.addEntryState.entry,
+      categoryList: store.state.addEntryState.categoryList,
       onSaveCallback: (entry) {
         store.dispatch(AddEntryAction(entry));
       },
@@ -73,9 +100,9 @@ class _ViewModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is _ViewModel &&
-              runtimeType == other.runtimeType &&
-              entry == other.entry;
+      other is _ViewModel &&
+          runtimeType == other.runtimeType &&
+          entry == other.entry;
 
   @override
   int get hashCode => entry.hashCode;

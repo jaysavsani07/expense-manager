@@ -28,6 +28,14 @@ class RepositoryMiddleware extends MiddlewareClass<AppState> {
         print("ok12345 ${e}");
         next(ExceptionAction(e));
       });
+
+      repository.getAllCategory().listen((event) {
+        print("ok1234567 ${event.toString()}");
+        next(AllCategoryLoadedAction(categoryList: event));
+      }, onError: (e) {
+        print("ok12345 ${e}");
+        next(ExceptionAction(e));
+      });
     }
     next(action);
   }
