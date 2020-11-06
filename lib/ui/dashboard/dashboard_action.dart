@@ -1,4 +1,5 @@
 import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 
 class LoadAllEntryAction {
   @override
@@ -8,7 +9,7 @@ class LoadAllEntryAction {
 }
 
 class AllEntryLoadedAction {
-  final List<Entry> list;
+  final List<EntryWithCategory> list;
 
   AllEntryLoadedAction({this.list});
 

@@ -43,6 +43,7 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<EntryWithCategory>> getAllEntryWithCategory() {
-    return appDatabase.getAllEntryWithCategory();
+    return appDatabase.getAllEntryWithCategory().map((event) =>
+        event.map((e) => EntryWithCategory.fromEntryEntity(e)).toList());
   }
 }

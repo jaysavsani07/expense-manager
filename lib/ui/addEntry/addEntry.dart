@@ -39,7 +39,7 @@ class _AddEntryState extends State<AddEntry> {
               FlatButton(
                   onPressed: () {
                     vm.onSaveCallback(Entry(
-                        amount: double.parse(amount) ,categoryName: "Health"));
+                        amount: double.parse(amount) ,categoryName: "Shopping"));
                   },
                   child: Text("SAVE"))
             ],

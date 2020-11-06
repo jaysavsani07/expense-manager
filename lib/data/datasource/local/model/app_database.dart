@@ -24,6 +24,18 @@ class CategoryEntity extends Table {
   Set<Column> get primaryKey => {name};
 }
 
+class EntryWithCategoryData {
+  final EntryEntityData entry;
+  final CategoryEntityData category;
+
+  EntryWithCategoryData({@required this.entry, @required this.category});
+
+  @override
+  String toString() {
+    return 'EntryWithCategoryData{entry: ${entry.toString()}, category: ${category.toString()}';
+  }
+}
+
 @UseMoor(tables: [EntryEntity, CategoryEntity])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -49,7 +61,7 @@ class AppDatabase extends _$AppDatabase {
     return select(entryEntity).get().asStream();
   }
 
-  Stream<List<EntryWithCategory>> getAllEntryWithCategory() {
+  Stream<List<EntryWithCategoryData>> getAllEntryWithCategory() {
     return select(entryEntity)
         .join([
           leftOuterJoin(categoryEntity,
@@ -58,7 +70,7 @@ class AppDatabase extends _$AppDatabase {
         .watch()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
-            return EntryWithCategory(
+            return EntryWithCategoryData(
                 entry: row.readTable(entryEntity),
                 category: row.readTable(categoryEntity));
           }).toList();

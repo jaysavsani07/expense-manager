@@ -1,18 +1,19 @@
 import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:flutter/material.dart';
 
 @immutable
 class DashboardState {
-  final List<Entry> list;
+  final List<EntryWithCategory> list;
   final Exception exception;
 
   DashboardState({@required this.list, @required this.exception});
 
   factory DashboardState.initial() {
-    return DashboardState(list: <Entry>[], exception: null);
+    return DashboardState(list: <EntryWithCategory>[], exception: null);
   }
 
-  DashboardState copyWith({List<Entry> list, Exception exception}) {
+  DashboardState copyWith({List<EntryWithCategory> list, Exception exception}) {
     return DashboardState(
         list: list ?? this.list, exception: exception ?? this.exception);
   }

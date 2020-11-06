@@ -1,6 +1,6 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
-import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/ui/dashboard/dashboard_category_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -20,9 +20,8 @@ class Dashboard extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                  child: ListView(
-                children: vm.list.map((e) => Text(e.toString())).toList(),
-              )),
+                child: DashboardCategoryList(),
+              ),
               OutlinedButton(
                   onPressed: () {
                     Navigator.pushNamed(context, AppRoutes.addEntry);
@@ -37,25 +36,16 @@ class Dashboard extends StatelessWidget {
 }
 
 class _ViewModel {
-  final List<Entry> list;
+  // final List<EntryWithCategory> list;
 
-  _ViewModel({
+  _ViewModel(/*{
     @required this.list,
-  });
+  }*/
+      );
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      list: store.state.dashboardState.list,
-    );
+        // list: store.state.dashboardState.list,
+        );
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is _ViewModel &&
-          runtimeType == other.runtimeType &&
-          list == other.list;
-
-  @override
-  int get hashCode => list.hashCode;
 }

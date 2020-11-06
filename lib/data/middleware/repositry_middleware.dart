@@ -21,12 +21,7 @@ class RepositoryMiddleware extends MiddlewareClass<AppState> {
         next(ExceptionAction(e));
       });
     } else if (action is LoadAllEntryAction) {
-      repository.getAllEntryWithCategory().map((event) {
-        return event;
-      }).listen((event) {
-        print("ok124 ${event.toString()}");
-      });
-      repository.getAllEntry().listen((event) {
+      repository.getAllEntryWithCategory().listen((event) {
         print("ok1234567 ${event.toString()}");
         next(AllEntryLoadedAction(list: event));
       }, onError: (e) {
