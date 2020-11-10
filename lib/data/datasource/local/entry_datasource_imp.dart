@@ -1,6 +1,7 @@
 import 'package:expense_manager/data/datasource/entry_dataSource.dart';
 import 'package:expense_manager/data/datasource/local/model/app_database.dart';
 import 'package:expense_manager/data/models/category.dart';
+import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
@@ -45,9 +46,9 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<EntryWithCategory>> getAllEntryWithCategory() {
+  Stream<List<CategoryWithSum>> getAllEntryWithCategory() {
     return appDatabase.getAllEntryWithCategory().map((event) => event
-        .map((e) => EntryWithCategory.fromEntryWithCategoryEntity(e))
+        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
         .toList());
   }
 

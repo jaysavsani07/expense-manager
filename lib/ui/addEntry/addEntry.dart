@@ -61,7 +61,17 @@ class _AddEntryState extends State<AddEntry> {
                                     Radius.circular(8),
                                   ),
                                 ),
-                                child: Icon(category.icon),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.center,
+                                        child: Icon(category.icon)),
+                                    Align(
+                                      child: Text(category.name),
+                                      alignment: Alignment.bottomCenter,
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ))

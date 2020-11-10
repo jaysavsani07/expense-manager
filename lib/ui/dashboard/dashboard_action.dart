@@ -1,3 +1,4 @@
+import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 
@@ -9,7 +10,7 @@ class LoadAllEntryAction {
 }
 
 class AllEntryLoadedAction {
-  final List<EntryWithCategory> list;
+  final List<CategoryWithSum> list;
 
   AllEntryLoadedAction({this.list});
 

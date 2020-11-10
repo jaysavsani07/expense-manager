@@ -1,3 +1,4 @@
+import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
@@ -25,7 +26,7 @@ class RepositoryMiddleware extends MiddlewareClass<AppState> {
       });
     } else if (action is LoadAllEntryAction) {
       repository.getAllEntryWithCategory().listen(
-          (List<EntryWithCategory> event) {
+          (List<CategoryWithSum> event) {
         // print("ok1234567 ${event.toString()}");
         next(AllEntryLoadedAction(list: event));
       }, onError: (e) {

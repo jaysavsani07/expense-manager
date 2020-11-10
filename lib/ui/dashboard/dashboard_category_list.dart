@@ -1,3 +1,4 @@
+import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,11 +18,11 @@ class DashboardCategoryList extends StatelessWidget {
         return ListView(
           children: vm.list
               .map((e) => Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 16  , vertical: 4),
                     width: double.maxFinite,
                     height: 110,
                     child: Card(
-                      elevation: 2,
+                      elevation: 1,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
@@ -34,28 +35,73 @@ class DashboardCategoryList extends StatelessWidget {
                                   bottomLeft: Radius.circular(8)),
                               color: e.category.iconColor,
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 12),
                             height: double.maxFinite,
                             child: Icon(e.category.icon),
                           ),
-                          Flexible(
-                            flex: 4,
-                            child: Column(
-                              children: [
-                                Text(e.category.name),
-                                Text(e.entry.amount.toString())
-                              ],
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                  bottom: 4,
+                                  top: 4),
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceAround,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment
+                                        .spaceBetween,
+                                    children: [
+                                      Text(
+                                        e.category.name,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight:
+                                            FontWeight.bold),
+                                      ),
+                                      Text(
+                                          e.total
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight:
+                                              FontWeight
+                                                  .bold))
+                                    ],
+                                  ),
+                                 /* Row(
+                                    children: [
+                                      Text(
+                                        DateFormat('d MMM')
+                                            .format(e.entry
+                                            .modifiedDate),
+                                        style:
+                                        TextTheme().caption,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets
+                                            .symmetric(
+                                            horizontal: 4),
+                                        child: Icon(
+                                          Icons.circle,
+                                          size: 8,
+                                        ),
+                                      ),
+                                      Text(
+                                        DateFormat.Hm().format(
+                                            e.entry.modifiedDate),
+                                        style:
+                                        TextTheme().caption,
+                                      ),
+                                    ],
+                                  ),*/
+                                ],
+                              ),
                             ),
                           ),
-                          Flexible(
-                            flex: 4,
-                            child: Column(
-                              children: [
-                                Text(e.category.name),
-                                Text(e.entry.modifiedDate.toString())
-                              ],
-                            ),
-                          )
                         ],
                       ),
                     ),
@@ -68,7 +114,7 @@ class DashboardCategoryList extends StatelessWidget {
 }
 
 class _ViewModel {
-  final List<EntryWithCategory> list;
+  final List<CategoryWithSum> list;
 
   _ViewModel({
     @required this.list,

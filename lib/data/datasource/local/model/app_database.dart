@@ -39,6 +39,18 @@ class EntryWithCategoryData {
   }
 }
 
+class CategoryWithSumData {
+  final double total;
+  final CategoryEntityData category;
+
+  CategoryWithSumData({@required this.total, @required this.category});
+
+  @override
+  String toString() {
+    return 'CategoryWithSumData{total: $total, category: $category}';
+  }
+}
+
 @UseMoor(tables: [EntryEntity, CategoryEntity])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -64,8 +76,24 @@ class AppDatabase extends _$AppDatabase {
     return select(entryEntity).get().asStream();
   }
 
-  Stream<List<EntryWithCategoryData>> getAllEntryWithCategory() {
-    return select(entryEntity)
+  Stream<List<CategoryWithSumData>> getAllEntryWithCategory() {
+    return (select(entryEntity).join([])
+          ..groupBy([entryEntity.categoryName])
+          ..addColumns([entryEntity.amount.sum()]))
+        .join([
+          innerJoin(categoryEntity,
+              categoryEntity.name.equalsExp(entryEntity.categoryName))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return CategoryWithSumData(
+                total: row.read(entryEntity.amount.sum()),
+                category: row.readTable(categoryEntity));
+          }).toList();
+        });
+
+    /*  return select(entryEntity)
         .join([
           innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
@@ -77,7 +105,7 @@ class AppDatabase extends _$AppDatabase {
                 entry: row.readTable(entryEntity),
                 category: row.readTable(categoryEntity));
           }).toList();
-        });
+        });*/
   }
 
   Stream<List<EntryWithCategoryData>> getDateWiseAllEntryWithCategory() {
@@ -90,8 +118,7 @@ class AppDatabase extends _$AppDatabase {
           innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
-        .get()
-        .asStream()
+        .watch()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return EntryWithCategoryData(
