@@ -1,5 +1,6 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
+import 'package:expense_manager/data/models/history.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'app_database.g.dart';
@@ -66,10 +67,31 @@ class AppDatabase extends _$AppDatabase {
   Stream<List<EntryWithCategoryData>> getAllEntryWithCategory() {
     return select(entryEntity)
         .join([
-          leftOuterJoin(categoryEntity,
+          innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
         .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategoryData(
+                entry: row.readTable(entryEntity),
+                category: row.readTable(categoryEntity));
+          }).toList();
+        });
+  }
+
+  Stream<List<EntryWithCategoryData>> getDateWiseAllEntryWithCategory() {
+    return (select(entryEntity)
+          ..orderBy([
+            (u) => OrderingTerm(
+                expression: u.modifiedDate, mode: OrderingMode.desc)
+          ]))
+        .join([
+          innerJoin(categoryEntity,
+              categoryEntity.name.equalsExp(entryEntity.categoryName))
+        ])
+        .get()
+        .asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return EntryWithCategoryData(

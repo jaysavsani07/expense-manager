@@ -35,7 +35,7 @@ class HomeScreenState extends State<HomeScreen> {
           appBar: AppBar(
             title: Text("Dashboard"),
           ),
-          body: activeTab == HomeTab.dashboard ? Dashboard() : History(),
+          body: activeTab == HomeTab.dashboard ? Dashboard() : History1(),
           bottomNavigationBar: HomeTabSelector(),
         );
       },

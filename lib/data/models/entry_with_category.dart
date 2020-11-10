@@ -9,7 +9,7 @@ class EntryWithCategory {
 
   EntryWithCategory({@required this.entry, @required this.category});
 
-  factory EntryWithCategory.fromEntryEntity(EntryWithCategoryData entityData) {
+  factory EntryWithCategory.fromEntryWithCategoryEntity(EntryWithCategoryData entityData) {
     return EntryWithCategory(
         entry: Entry.fromEntryEntity(entityData.entry),
         category: Category.fromCategoryEntity(entityData.category));

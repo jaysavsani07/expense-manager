@@ -2,6 +2,7 @@ import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart'
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
+import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart';
@@ -34,5 +35,10 @@ class EntryRepositoryImp extends EntryRepository {
   @override
   Stream<List<EntryWithCategory>> getAllEntryWithCategory() {
     return entryDataSourceImp.getAllEntryWithCategory();
+  }
+
+  @override
+  Stream<List<History>> getDateWiseAllEntryWithCategory() {
+    return entryDataSourceImp.getDateWiseAllEntryWithCategory();
   }
 }
