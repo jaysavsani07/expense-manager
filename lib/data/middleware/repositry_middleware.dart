@@ -1,9 +1,8 @@
 import 'package:expense_manager/data/models/category_with_sum.dart';
-import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_action.dart';
 import 'package:expense_manager/ui/history/history_action.dart';
 import 'package:flutter/cupertino.dart';

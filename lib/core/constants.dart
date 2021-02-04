@@ -24,4 +24,11 @@ class AppConstants {
         icon: Icons.fastfood,
         iconColor: Color(int.parse("0xFFc03c42"))),
   ];
+
+  static final keyboard = [
+    ["1", "2", "3"],
+    ["4", "5", "6"],
+    ["7", "8", "9"],
+    [".", "0", "<-"]
+  ];
 }

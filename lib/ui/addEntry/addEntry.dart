@@ -1,10 +1,10 @@
 import 'package:expense_manager/core/keys.dart';
 import 'package:expense_manager/data/models/category.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
+import 'package:expense_manager/ui/addEntry/amount_text.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -31,11 +31,12 @@ class _AddEntryState extends State<AddEntry> {
           ),
           body: Column(
             children: [
-              TextFormField(
+              /*TextFormField(
                 autofocus: true,
                 keyboardType: TextInputType.number,
                 onChanged: (value) => amount = value,
-              ),
+              ),*/
+              AmountText(),
               Container(
                 height: 235,
                 child: GridView(

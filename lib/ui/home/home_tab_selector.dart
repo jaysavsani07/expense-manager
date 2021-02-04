@@ -1,7 +1,7 @@
 import 'package:expense_manager/core/keys.dart';
 import 'package:expense_manager/core/localization.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/home/home_action.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

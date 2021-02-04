@@ -1,7 +1,7 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/theme.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_action.dart';
 import 'package:expense_manager/ui/home/home.dart';
 import 'package:flutter/material.dart';
