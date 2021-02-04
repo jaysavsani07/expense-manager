@@ -1,6 +1,7 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'app_database.g.dart';
@@ -50,6 +51,8 @@ class CategoryWithSumData {
     return 'CategoryWithSumData{total: $total, category: $category}';
   }
 }
+
+final appDatabaseProvider = Provider((ref) => AppDatabase());
 
 @UseMoor(tables: [EntryEntity, CategoryEntity])
 class AppDatabase extends _$AppDatabase {

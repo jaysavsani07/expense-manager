@@ -1,21 +1,18 @@
 import 'package:expense_manager/data/models/history.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
+import 'package:expense_manager/ui/history/history_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
-import 'package:redux/redux.dart';
 
-class History1 extends StatelessWidget {
-  History1({Key key}) : super(key: key);
-
+class History1 extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, _ViewModel>(
-      distinct: true,
-      converter: _ViewModel.fromStore,
-      builder: (context, vm) {
-        return ListView(
+  Widget build(BuildContext context, ScopedReader watch) {
+    final vm = watch(historyModelProvider);
+    return ProviderListener<HistoryViewModel>(
+        provider: historyModelProvider,
+        onChange: (context, model) async {},
+        child: ListView(
           shrinkWrap: true,
           children: vm.list
               .map((History history) => Padding(
@@ -120,22 +117,6 @@ class History1 extends StatelessWidget {
                     ),
                   ))
               .toList(),
-        );
-      },
-    );
-  }
-}
-
-class _ViewModel {
-  final List<History> list;
-
-  _ViewModel({
-    @required this.list,
-  });
-
-  static _ViewModel fromStore(Store<AppState> store) {
-    return _ViewModel(
-      list: store.state.historyState.list,
-    );
+        ));
   }
 }

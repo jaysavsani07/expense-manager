@@ -1,44 +1,44 @@
 import 'package:expense_manager/core/keys.dart';
-import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/core/localization.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/dashboard.dart';
 import 'package:expense_manager/ui/history/history.dart';
-import 'package:expense_manager/ui/home/home_tab_selector.dart';
+import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
+import 'package:flutter_riverpod/all.dart';
 
-class HomeScreen extends StatefulWidget {
-  final void Function() onInit;
-
-  HomeScreen({@required this.onInit}) : super(key: AppKeys.homeScreen);
-
+class HomeScreen extends ConsumerWidget {
   @override
-  HomeScreenState createState() => HomeScreenState();
-}
-
-class HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    widget.onInit();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, HomeTab>(
-      distinct: true,
-      converter: (Store<AppState> store) => store.state.homeState.activeTab,
-      builder: (BuildContext context, HomeTab activeTab) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Dashboard"),
-          ),
-          body: activeTab == HomeTab.dashboard ? Dashboard() : History1(),
-          bottomNavigationBar: HomeTabSelector(),
-        );
-      },
+  Widget build(BuildContext context, ScopedReader watch) {
+    final homeViewModel = watch(signInModelProvider);
+    return ProviderListener<HomeViewModel>(
+      provider: signInModelProvider,
+      onChange: (context, model) async {},
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Dashboard"),
+        ),
+        body: homeViewModel.activeTab == HomeTab.dashboard
+            ? Dashboard()
+            : History1(),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: HomeTab.values.indexOf(homeViewModel.activeTab),
+          onTap: homeViewModel.changeTab,
+          items: HomeTab.values.map((tab) {
+            return BottomNavigationBarItem(
+              icon: Icon(
+                tab == HomeTab.dashboard ? Icons.home : Icons.history,
+                key: tab == HomeTab.dashboard
+                    ? AppKeys.todoTab
+                    : AppKeys.statsTab,
+              ),
+              label: tab == HomeTab.dashboard
+                  ? AppLocalizations.dashboard
+                  : AppLocalizations.history,
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

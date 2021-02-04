@@ -1,36 +1,23 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/theme.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
-import 'package:expense_manager/ui/dashboard/dashboard_action.dart';
 import 'package:expense_manager/ui/home/home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
 
 class MyApp extends StatelessWidget {
-  final Store<AppState> store;
-
-  const MyApp({Key key, this.store}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider(
-      store: store,
-      child: MaterialApp(
-        onGenerateTitle: (context) => "Title",
-        theme: AppTheme.theme,
-        routes: {
-          AppRoutes.home: (context) {
-            return HomeScreen(
-              onInit: () {
-                StoreProvider.of<AppState>(context).dispatch(LoadAllEntryAction());
-              },
-            );
-          },
-          AppRoutes.addEntry: (context) => AddEntry()
+    return MaterialApp(
+      onGenerateTitle: (context) => "Title",
+      theme: AppTheme.theme,
+      routes: {
+        AppRoutes.home: (context) {
+          return HomeScreen();
         },
-      ),
+        AppRoutes.addEntry: (context) => AddEntry()
+      },
     );
   }
 }

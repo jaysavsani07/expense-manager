@@ -6,9 +6,12 @@ import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor/moor.dart';
 import 'package:expense_manager/extension/datetime_extension.dart';
+
+final dataSourceProvider = Provider(
+    (ref) => EntryDataSourceImp(appDatabase: ref.read(appDatabaseProvider)));
 
 class EntryDataSourceImp extends EntryDataSource {
   AppDatabase appDatabase;

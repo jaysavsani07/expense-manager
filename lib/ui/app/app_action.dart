@@ -1,3 +1,0 @@
-class TodosNotLoadedAction {}
-
-class TodosLoadedAction {}

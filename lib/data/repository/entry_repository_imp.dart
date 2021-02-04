@@ -5,7 +5,11 @@ import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor/moor.dart';
+
+final repositoryProvider = Provider((ref) =>
+    EntryRepositoryImp(entryDataSourceImp: ref.read(dataSourceProvider)));
 
 class EntryRepositoryImp extends EntryRepository {
   EntryDataSourceImp entryDataSourceImp;

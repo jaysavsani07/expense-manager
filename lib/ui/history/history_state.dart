@@ -1,18 +1,11 @@
 import 'package:expense_manager/data/models/history.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-@immutable
-class HistoryState {
-  final List<History> list;
+final historyModelProvider = ChangeNotifierProvider<HistoryViewModel>(
+  (ref) => HistoryViewModel(),
+);
 
-  HistoryState({@required this.list});
-
-  factory HistoryState.initial() {
-    return HistoryState(list: []);
-  }
-
-  HistoryState copyWith({List<History> list}) {
-    return HistoryState(list: list ?? this.list);
-  }
-
+class HistoryViewModel with ChangeNotifier {
+  List<History> list = [];
 }

@@ -1,31 +1,16 @@
-import 'package:expense_manager/core/keys.dart';
-import 'package:expense_manager/data/models/category.dart';
+import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:expense_manager/ui/addEntry/amount_text.dart';
-import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/ui/addEntry/addEntry_action.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
+import 'package:flutter_riverpod/all.dart';
 
-class AddEntry extends StatefulWidget {
-  AddEntry() : super(key: AppKeys.addTodoFab);
-
+class AddEntry extends ConsumerWidget {
   @override
-  _AddEntryState createState() => _AddEntryState();
-}
-
-class _AddEntryState extends State<AddEntry> {
-  String amount = "0";
-  String categoryName = "";
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, _ViewModel>(
-      distinct: true,
-      converter: _ViewModel.fromStore,
-      builder: (context, vm) {
-        return Scaffold(
+  Widget build(BuildContext context, ScopedReader watch) {
+    final vm = watch(addEntryModelProvider);
+    return ProviderListener<AddEntryViewModel>(
+        provider: addEntryModelProvider,
+        onChange: (context, model) async {},
+        child: Scaffold(
           appBar: AppBar(
             title: Text("Dashboard"),
           ),
@@ -47,7 +32,7 @@ class _AddEntryState extends State<AddEntry> {
                   children: vm.categoryList
                       .map((category) => InkWell(
                             onTap: () {
-                              categoryName = category.name;
+                              // categoryName = category.name;
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
@@ -81,50 +66,16 @@ class _AddEntryState extends State<AddEntry> {
               ),
               FlatButton(
                   onPressed: () {
-                    vm.onSaveCallback(
-                      Entry(
-                          amount: double.parse(amount),
-                          categoryName: categoryName,
-                          modifiedDate: DateTime.now()),
-                    );
+                    // vm.onSaveCallback(
+                    //   Entry(
+                    //       amount: double.parse(amount),
+                    //       categoryName: categoryName,
+                    //       modifiedDate: DateTime.now()),
+                    // );
                   },
                   child: Text("SAVE"))
             ],
           ),
-        );
-      },
-    );
+        ));
   }
-}
-
-class _ViewModel {
-  final Function(Entry) onSaveCallback;
-  final Entry entry;
-  final List<Category> categoryList;
-
-  _ViewModel({
-    @required this.entry,
-    @required this.categoryList,
-    @required this.onSaveCallback,
-  });
-
-  static _ViewModel fromStore(Store<AppState> store) {
-    return _ViewModel(
-      entry: store.state.addEntryState.entry,
-      categoryList: store.state.addEntryState.categoryList,
-      onSaveCallback: (entry) {
-        store.dispatch(AddEntryAction(entry));
-      },
-    );
-  }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is _ViewModel &&
-          runtimeType == other.runtimeType &&
-          entry == other.entry;
-
-  @override
-  int get hashCode => entry.hashCode;
 }
