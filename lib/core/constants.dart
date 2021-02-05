@@ -23,6 +23,7 @@ class AppConstants {
         name: "Utilities",
         icon: Icons.fastfood,
         iconColor: Color(int.parse("0xFFc03c42"))),
+    otherCategory
   ];
 
   static final otherCategory = Category(

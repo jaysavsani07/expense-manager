@@ -16,6 +16,7 @@ class HomeScreen extends ConsumerWidget {
       onChange: (context, model) async {},
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.grey.shade50,
           title: Text("Dashboard"),
         ),
         body: homeViewModel.activeTab == HomeTab.dashboard
