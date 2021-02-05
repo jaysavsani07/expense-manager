@@ -25,6 +25,11 @@ class AppConstants {
         iconColor: Color(int.parse("0xFFc03c42"))),
   ];
 
+  static final otherCategory = Category(
+      name: "Other",
+      icon: Icons.fastfood,
+      iconColor: Color(int.parse("0xFFc03c42")));
+
   static final keyboard = [
     ["1", "2", "3"],
     ["4", "5", "6"],

@@ -1,7 +1,8 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
-import 'package:expense_manager/ui/addEntry/amount_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class AddEntry extends ConsumerWidget {
   @override
@@ -16,64 +17,80 @@ class AddEntry extends ConsumerWidget {
           ),
           body: Column(
             children: [
-              /*TextFormField(
-                autofocus: true,
-                keyboardType: TextInputType.number,
-                onChanged: (value) => amount = value,
-              ),*/
-              AmountText(),
-              Container(
-                height: 235,
-                child: GridView(
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2),
-                  scrollDirection: Axis.horizontal,
-                  children: vm.categoryList
-                      .map((category) => InkWell(
-                            onTap: () {
-                              // categoryName = category.name;
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 5),
-                              width: 110,
-                              height: 110,
-                              child: Card(
-                                color: category.iconColor,
-                                elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Align(
-                                        alignment: Alignment.center,
-                                        child: Icon(category.icon)),
-                                    Align(
-                                      child: Text(category.name),
-                                      alignment: Alignment.bottomCenter,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ),
-              ),
-              FlatButton(
-                  onPressed: () {
-                    // vm.onSaveCallback(
-                    //   Entry(
-                    //       amount: double.parse(amount),
-                    //       categoryName: categoryName,
-                    //       modifiedDate: DateTime.now()),
-                    // );
-                  },
-                  child: Text("SAVE"))
+              [
+                vm.amount.text.xl4.bold.make().p4(),
+                AppConstants.keyboard
+                    .map((e) => Flexible(
+                          flex: 1,
+                          child: e
+                              .map((e) => Flexible(
+                                  flex: 1,
+                                  child: e.text.xl2
+                                      .make()
+                                      .centered()
+                                      .box
+                                      .height(100)
+                                      .width(100)
+                                      .make()
+                                      .onInkTap(() {
+                                    vm.textChange(e);
+                                  })))
+                              .toList()
+                              .row(
+                                  axisSize: MainAxisSize.max,
+                                  alignment: MainAxisAlignment.spaceBetween),
+                        ))
+                    .toList()
+                    .column()
+                    .expand(),
+              ].column().expand(),
+              GridView(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                scrollDirection: Axis.horizontal,
+                children: vm.categoryList
+                    .map((category) => [
+                          10.heightBox,
+                          Icon(
+                            category.icon,
+                            color: vm.category == category
+                                ? Vx.black
+                                : category.iconColor,
+                          ),
+                          category.name.text.center
+                              .make()
+                              .pSymmetric(v: 10, h: 4),
+                        ]
+                            .column()
+                            .centered()
+                            .box
+                            .width(110)
+                            .height(110)
+                            .color(vm.category == category
+                                ? category.iconColor.withOpacity(0.5)
+                                : Vx.gray300)
+                            .roundedSM
+                            .make()
+                            .onInkTap(() {
+                          vm.categoryChange(category);
+                        }).p4())
+                    .toList(),
+              ).box.height(235).make(),
+              "Save"
+                  .text
+                  .xl
+                  .white
+                  .make()
+                  .centered()
+                  .box
+                  .purple500
+                  .width(double.infinity)
+                  .height(56)
+                  .make()
+                  .onInkTap(() {
+                vm.addEntry();
+              }),
             ],
           ),
         ));
