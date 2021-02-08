@@ -50,4 +50,9 @@ class EntryRepositoryImp extends EntryRepository {
   Stream<List<History>> getDateWiseAllEntryWithCategory() {
     return entryDataSourceImp.getDateWiseAllEntryWithCategory();
   }
+
+  @override
+  Stream<bool> reorderCategory(int oldIndex, int newIndex) {
+    return entryDataSourceImp.reorderCategory(oldIndex, newIndex);
+  }
 }

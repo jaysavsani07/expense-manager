@@ -108,8 +108,13 @@ class Dashboard extends ConsumerWidget {
               ),
               OutlinedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.addEntry,
-                        arguments: null);
+                    // Navigator.pushNamed(context, AppRoutes.addEntry,
+                    //     arguments: null);
+
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.categoryList,
+                    );
                   },
                   child: Text("NEW"))
             ],

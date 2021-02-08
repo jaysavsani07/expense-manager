@@ -16,4 +16,7 @@ abstract class EntryRepository {
   Stream<List<CategoryWithSum>> getAllEntryWithCategory();
 
   Stream<List<History>> getDateWiseAllEntryWithCategory();
+
+  Stream<bool> reorderCategory(int oldIndex,int newIndex);
+
 }

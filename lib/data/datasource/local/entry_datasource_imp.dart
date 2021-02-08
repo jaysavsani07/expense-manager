@@ -45,12 +45,8 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<Category>> getAllCategory() {
-    return appDatabase
-        .getAllCategory()
-        .expand((element) => element)
-        .map((event) => Category.fromCategoryEntity(event))
-        .toList()
-        .asStream();
+    return appDatabase.getAllCategory().map(
+        (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
   }
 
   @override
@@ -81,5 +77,10 @@ class EntryDataSourceImp extends EntryDataSource {
       });
       return map;
     }).map((map) => map.values.toList());
+  }
+
+  @override
+  Stream<bool> reorderCategory(int oldIndex, int newIndex) {
+    return appDatabase.reorderCategory(oldIndex, newIndex);
   }
 }

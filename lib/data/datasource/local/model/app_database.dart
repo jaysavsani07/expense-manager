@@ -18,6 +18,8 @@ class EntryEntity extends Table {
 }
 
 class CategoryEntity extends Table {
+  IntColumn get id => integer()();
+
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
   TextColumn get icon => text()();
@@ -95,20 +97,6 @@ class AppDatabase extends _$AppDatabase {
                 category: row.readTable(categoryEntity));
           }).toList();
         });
-
-    /*  return select(entryEntity)
-        .join([
-          innerJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
-        ])
-        .watch()
-        .map((List<TypedResult> rows) {
-          return rows.map((TypedResult row) {
-            return EntryWithCategoryData(
-                entry: row.readTable(entryEntity),
-                category: row.readTable(categoryEntity));
-          }).toList();
-        });*/
   }
 
   Stream<List<EntryWithCategoryData>> getDateWiseAllEntryWithCategory() {
@@ -137,15 +125,35 @@ class AppDatabase extends _$AppDatabase {
   Stream<bool> updateEntry(EntryEntityCompanion entity) =>
       update(entryEntity).replace(entity).asStream();
 
-  Stream<List<CategoryEntityData>> getAllCategory() =>
-      select(categoryEntity).get().asStream();
+  Stream<List<CategoryEntityData>> getAllCategory() => (select(categoryEntity)
+        ..orderBy(
+            [(u) => OrderingTerm(expression: u.id, mode: OrderingMode.asc)]))
+      .watch();
 
   Stream<int> addNewCategory(CategoryEntityCompanion category) =>
       into(categoryEntity).insert(category).asStream();
 
+  Stream<int> addNewCategory1(CategoryEntityCompanion category) => customInsert(
+      "INSERT INTO category_entity (id, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(id), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
+      updates: {categoryEntity}).asStream();
+
   Future createDefaultCategory() async {
     AppConstants.defaultCategoryList.forEach((category) async {
-      await addNewCategory(category.toCategoryEntityCompanion()).single;
+      await addNewCategory1(category.toCategoryEntityCompanion()).single;
     });
+  }
+
+  Stream<bool> reorderCategory(int oldIndex, int newIndex) {
+    return transaction(() async {
+      await (update(categoryEntity)
+            ..where((tbl) => tbl.id.equals(oldIndex + 1)))
+          .write(CategoryEntityCompanion(id: Value(-1)));
+      await (update(categoryEntity)
+            ..where((tbl) => tbl.id.equals(newIndex + 1)))
+          .write(CategoryEntityCompanion(id: Value(oldIndex + 1)));
+      await (update(categoryEntity)..where((tbl) => tbl.id.equals(-1)))
+          .write(CategoryEntityCompanion(id: Value(newIndex + 1)));
+      return true;
+    }).asStream();
   }
 }

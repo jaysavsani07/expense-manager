@@ -1,6 +1,7 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/theme.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
+import 'package:expense_manager/ui/categoryList/category_list.dart';
 import 'package:expense_manager/ui/home/home.dart';
 import 'package:flutter/material.dart';
 
@@ -13,12 +14,11 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (context) => "Title",
       theme: AppTheme.theme,
       routes: {
-        AppRoutes.home: (context) {
-          return HomeScreen();
-        },
+        AppRoutes.home: (context) => HomeScreen(),
         AppRoutes.addEntry: (context) => AddEntry(
               entryWithCategory: ModalRoute.of(context).settings.arguments,
-            )
+            ),
+        AppRoutes.categoryList: (context) => CategoryList(),
       },
     );
   }

@@ -359,17 +359,23 @@ class $EntryEntityTable extends EntryEntity
 
 class CategoryEntityData extends DataClass
     implements Insertable<CategoryEntityData> {
+  final int id;
   final String name;
   final String icon;
   final String iconColor;
   CategoryEntityData(
-      {@required this.name, @required this.icon, @required this.iconColor});
+      {@required this.id,
+      @required this.name,
+      @required this.icon,
+      @required this.iconColor});
   factory CategoryEntityData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return CategoryEntityData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       icon: stringType.mapFromDatabaseResponse(data['${effectivePrefix}icon']),
       iconColor: stringType
@@ -379,6 +385,9 @@ class CategoryEntityData extends DataClass
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
     }
@@ -393,6 +402,7 @@ class CategoryEntityData extends DataClass
 
   CategoryEntityCompanion toCompanion(bool nullToAbsent) {
     return CategoryEntityCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
       iconColor: iconColor == null && nullToAbsent
@@ -405,6 +415,7 @@ class CategoryEntityData extends DataClass
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return CategoryEntityData(
+      id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       icon: serializer.fromJson<String>(json['icon']),
       iconColor: serializer.fromJson<String>(json['iconColor']),
@@ -414,14 +425,17 @@ class CategoryEntityData extends DataClass
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'icon': serializer.toJson<String>(icon),
       'iconColor': serializer.toJson<String>(iconColor),
     };
   }
 
-  CategoryEntityData copyWith({String name, String icon, String iconColor}) =>
+  CategoryEntityData copyWith(
+          {int id, String name, String icon, String iconColor}) =>
       CategoryEntityData(
+        id: id ?? this.id,
         name: name ?? this.name,
         icon: icon ?? this.icon,
         iconColor: iconColor ?? this.iconColor,
@@ -429,6 +443,7 @@ class CategoryEntityData extends DataClass
   @override
   String toString() {
     return (StringBuffer('CategoryEntityData(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('icon: $icon, ')
           ..write('iconColor: $iconColor')
@@ -437,39 +452,46 @@ class CategoryEntityData extends DataClass
   }
 
   @override
-  int get hashCode =>
-      $mrjf($mrjc(name.hashCode, $mrjc(icon.hashCode, iconColor.hashCode)));
+  int get hashCode => $mrjf($mrjc(id.hashCode,
+      $mrjc(name.hashCode, $mrjc(icon.hashCode, iconColor.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is CategoryEntityData &&
+          other.id == this.id &&
           other.name == this.name &&
           other.icon == this.icon &&
           other.iconColor == this.iconColor);
 }
 
 class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
+  final Value<int> id;
   final Value<String> name;
   final Value<String> icon;
   final Value<String> iconColor;
   const CategoryEntityCompanion({
+    this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.icon = const Value.absent(),
     this.iconColor = const Value.absent(),
   });
   CategoryEntityCompanion.insert({
+    @required int id,
     @required String name,
     @required String icon,
     @required String iconColor,
-  })  : name = Value(name),
+  })  : id = Value(id),
+        name = Value(name),
         icon = Value(icon),
         iconColor = Value(iconColor);
   static Insertable<CategoryEntityData> custom({
+    Expression<int> id,
     Expression<String> name,
     Expression<String> icon,
     Expression<String> iconColor,
   }) {
     return RawValuesInsertable({
+      if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (icon != null) 'icon': icon,
       if (iconColor != null) 'icon_color': iconColor,
@@ -477,8 +499,12 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
   }
 
   CategoryEntityCompanion copyWith(
-      {Value<String> name, Value<String> icon, Value<String> iconColor}) {
+      {Value<int> id,
+      Value<String> name,
+      Value<String> icon,
+      Value<String> iconColor}) {
     return CategoryEntityCompanion(
+      id: id ?? this.id,
       name: name ?? this.name,
       icon: icon ?? this.icon,
       iconColor: iconColor ?? this.iconColor,
@@ -488,6 +514,9 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
@@ -503,6 +532,7 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
   @override
   String toString() {
     return (StringBuffer('CategoryEntityCompanion(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('icon: $icon, ')
           ..write('iconColor: $iconColor')
@@ -516,6 +546,18 @@ class $CategoryEntityTable extends CategoryEntity
   final GeneratedDatabase _db;
   final String _alias;
   $CategoryEntityTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
   @override
@@ -550,7 +592,7 @@ class $CategoryEntityTable extends CategoryEntity
   }
 
   @override
-  List<GeneratedColumn> get $columns => [name, icon, iconColor];
+  List<GeneratedColumn> get $columns => [id, name, icon, iconColor];
   @override
   $CategoryEntityTable get asDslTable => this;
   @override
@@ -562,6 +604,11 @@ class $CategoryEntityTable extends CategoryEntity
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
