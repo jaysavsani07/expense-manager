@@ -29,14 +29,6 @@ class Entry {
         description: description ?? this.description);
   }
 
-  factory Entry.initial() {
-    return Entry(
-        amount: 0,
-        categoryName: "",
-        modifiedDate: DateTime.now(),
-        description: "");
-  }
-
   factory Entry.fromEntryEntity(EntryEntityData entityData) {
     return Entry(
         id: entityData.id,

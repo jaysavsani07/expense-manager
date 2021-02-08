@@ -1,4 +1,5 @@
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
@@ -73,7 +74,18 @@ class AddEntry extends ConsumerWidget {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                          "Category".text.gray600.start.make(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              "Category".text.gray600.start.make(),
+                              Icon(Icons.more_vert_rounded).onInkTap(() {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.categoryList,
+                                );
+                              })
+                            ],
+                          ),
                           8.heightBox,
                           GridView(
                             shrinkWrap: true,

@@ -140,6 +140,11 @@ class AppDatabase extends _$AppDatabase {
   Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
       update(categoryEntity).replace(entity).asStream();
 
+  Stream<int> deleteCategory(CategoryEntityCompanion entity) =>
+      (delete(categoryEntity)..where((tbl) => tbl.id.equals(entity.id.value)))
+          .go()
+          .asStream();
+
   Future createDefaultCategory() async {
     AppConstants.defaultCategoryList.forEach((category) async {
       await addNewCategory1(category.toCategoryEntityCompanion()).single;

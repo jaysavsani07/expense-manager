@@ -101,7 +101,10 @@ class AddCategory extends ConsumerWidget {
             ],
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              vm.saveCategory();
+              Navigator.pop(context);
+            },
             child: Icon(Icons.done),
           ),
         ));

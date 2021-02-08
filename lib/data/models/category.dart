@@ -7,13 +7,15 @@ import 'package:moor/moor.dart';
 
 @immutable
 class Category {
+  final int id;
   final String name;
   final IconData icon;
   final Color iconColor;
   final bool isSelected;
 
   Category(
-      {@required this.name,
+      {this.id,
+      @required this.name,
       @required this.icon,
       @required this.iconColor,
       this.isSelected});
@@ -25,6 +27,7 @@ class Category {
 
   factory Category.fromCategoryEntity(CategoryEntityData categoryEntityData) {
     return Category(
+        id: categoryEntityData.id,
         name: categoryEntityData.name,
         icon: categoryEntityData.icon.jsonToIconData(),
         iconColor: Color(int.parse(categoryEntityData.iconColor)));
@@ -32,6 +35,7 @@ class Category {
 
   CategoryEntityCompanion toCategoryEntityCompanion() {
     return CategoryEntityCompanion(
+        id: id == null ? Value.absent() : Value(id),
         name: Value(name),
         icon: Value(icon.iconDataToJson()),
         iconColor:
