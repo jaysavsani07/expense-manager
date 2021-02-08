@@ -3,6 +3,7 @@ import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final addEntryModelProvider = ChangeNotifierProvider<AddEntryViewModel>(
@@ -16,6 +17,7 @@ class AddEntryViewModel with ChangeNotifier {
   String amount = "0";
   cat.Category category = AppConstants.otherCategory;
   bool isShowNumPad = true;
+  DateTime date = DateTime.now();
 
   AddEntryViewModel({@required this.entryDataSourceImp}) {
     entryDataSourceImp.getAllCategory().listen((event) {
@@ -50,6 +52,18 @@ class AddEntryViewModel with ChangeNotifier {
 
   void categoryChange(cat.Category category) {
     this.category = category;
+    notifyListeners();
+  }
+
+  void changeDate(DateTime dateTime) {
+    this.date = DateTime(
+        dateTime.year, dateTime.month, dateTime.day, date.hour, date.minute);
+    notifyListeners();
+  }
+
+  void changeTime(TimeOfDay timeOfDay) {
+    this.date = DateTime(
+        date.year, date.month, date.day, timeOfDay.hour, timeOfDay.minute);
     notifyListeners();
   }
 
