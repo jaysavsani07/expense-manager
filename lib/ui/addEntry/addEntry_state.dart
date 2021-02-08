@@ -18,6 +18,7 @@ class AddEntryViewModel with ChangeNotifier {
   cat.Category category = AppConstants.otherCategory;
   bool isShowNumPad = true;
   DateTime date = DateTime.now();
+  String description = "";
 
   AddEntryViewModel({@required this.entryDataSourceImp}) {
     entryDataSourceImp.getAllCategory().listen((event) {
@@ -32,7 +33,8 @@ class AddEntryViewModel with ChangeNotifier {
         .addNewEntry(Entry(
             amount: double.parse(amount),
             categoryName: category.name,
-            modifiedDate: DateTime.now()))
+            modifiedDate: date,
+            description: description))
         .listen((event) {});
   }
 
@@ -58,6 +60,11 @@ class AddEntryViewModel with ChangeNotifier {
   void changeDate(DateTime dateTime) {
     this.date = DateTime(
         dateTime.year, dateTime.month, dateTime.day, date.hour, date.minute);
+    notifyListeners();
+  }
+
+  void changeDescription(String description) {
+    this.description = description;
     notifyListeners();
   }
 
@@ -106,6 +113,8 @@ class AddEntryViewModel with ChangeNotifier {
     categoryList = [];
     amount = "0";
     category = AppConstants.otherCategory;
+    date = DateTime.now();
+    description = "";
     isShowNumPad = true;
     super.dispose();
   }

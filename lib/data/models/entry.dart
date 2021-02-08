@@ -8,22 +8,33 @@ class Entry {
   final int id;
   final String categoryName;
   final DateTime modifiedDate;
+  final String description;
 
   Entry(
       {this.id,
       @required this.amount,
       @required this.categoryName,
-      @required this.modifiedDate});
+      @required this.modifiedDate,
+      @required this.description});
 
-  Entry copyWith({double amount, String categoryName, DateTime modifiedDate}) {
+  Entry copyWith(
+      {double amount,
+      String categoryName,
+      DateTime modifiedDate,
+      String description}) {
     return Entry(
         amount: amount ?? this.amount,
         categoryName: categoryName ?? this.categoryName,
-        modifiedDate: modifiedDate ?? this.modifiedDate);
+        modifiedDate: modifiedDate ?? this.modifiedDate,
+        description: description ?? this.description);
   }
 
   factory Entry.initial() {
-    return Entry(amount: 0, categoryName: "", modifiedDate: DateTime.now());
+    return Entry(
+        amount: 0,
+        categoryName: "",
+        modifiedDate: DateTime.now(),
+        description: "");
   }
 
   factory Entry.fromEntryEntity(EntryEntityData entityData) {
@@ -31,14 +42,16 @@ class Entry {
         id: entityData.id,
         amount: entityData.amount,
         categoryName: entityData.categoryName,
-        modifiedDate: entityData.modifiedDate);
+        modifiedDate: entityData.modifiedDate,
+        description: entityData.description);
   }
 
   EntryEntityCompanion toEntryEntityCompanion() {
     return EntryEntityCompanion(
         amount: Value(amount),
         categoryName: Value(categoryName),
-        modifiedDate: Value(modifiedDate));
+        modifiedDate: Value(modifiedDate),
+        description: Value(description));
   }
 
   @override
@@ -49,17 +62,19 @@ class Entry {
           amount == other.amount &&
           id == other.id &&
           categoryName == other.categoryName &&
-          modifiedDate == other.modifiedDate;
+          modifiedDate == other.modifiedDate &&
+          description == other.description;
 
   @override
   int get hashCode =>
       amount.hashCode ^
       id.hashCode ^
       categoryName.hashCode ^
-      modifiedDate.hashCode;
+      modifiedDate.hashCode ^
+      description.hashCode;
 
   @override
   String toString() {
-    return 'Entry{amount: $amount, id: $id, categoryName: $categoryName, modifiedDate: $modifiedDate}';
+    return 'Entry{amount: $amount, id: $id, categoryName: $categoryName, modifiedDate: $modifiedDate, description: $description}';
   }
 }

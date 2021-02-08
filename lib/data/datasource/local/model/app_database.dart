@@ -1,6 +1,4 @@
 import 'package:expense_manager/core/constants.dart';
-import 'package:expense_manager/data/models/entry_with_category.dart';
-import 'package:expense_manager/data/models/history.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
@@ -15,6 +13,8 @@ class EntryEntity extends Table {
       text().customConstraint('REFERENCES category_entity(name)')();
 
   DateTimeColumn get modifiedDate => dateTime()();
+
+  TextColumn get description => text().withLength(max: 100)();
 }
 
 class CategoryEntity extends Table {

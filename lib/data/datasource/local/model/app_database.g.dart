@@ -12,11 +12,13 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   final double amount;
   final String categoryName;
   final DateTime modifiedDate;
+  final String description;
   EntryEntityData(
       {@required this.id,
       @required this.amount,
       @required this.categoryName,
-      @required this.modifiedDate});
+      @required this.modifiedDate,
+      @required this.description});
   factory EntryEntityData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -33,6 +35,8 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}category_name']),
       modifiedDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}modified_date']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
     );
   }
   @override
@@ -50,6 +54,9 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     if (!nullToAbsent || modifiedDate != null) {
       map['modified_date'] = Variable<DateTime>(modifiedDate);
     }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
     return map;
   }
 
@@ -64,6 +71,9 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       modifiedDate: modifiedDate == null && nullToAbsent
           ? const Value.absent()
           : Value(modifiedDate),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
     );
   }
 
@@ -75,6 +85,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       amount: serializer.fromJson<double>(json['amount']),
       categoryName: serializer.fromJson<String>(json['categoryName']),
       modifiedDate: serializer.fromJson<DateTime>(json['modifiedDate']),
+      description: serializer.fromJson<String>(json['description']),
     );
   }
   @override
@@ -85,6 +96,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       'amount': serializer.toJson<double>(amount),
       'categoryName': serializer.toJson<String>(categoryName),
       'modifiedDate': serializer.toJson<DateTime>(modifiedDate),
+      'description': serializer.toJson<String>(description),
     };
   }
 
@@ -92,12 +104,14 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
           {int id,
           double amount,
           String categoryName,
-          DateTime modifiedDate}) =>
+          DateTime modifiedDate,
+          String description}) =>
       EntryEntityData(
         id: id ?? this.id,
         amount: amount ?? this.amount,
         categoryName: categoryName ?? this.categoryName,
         modifiedDate: modifiedDate ?? this.modifiedDate,
+        description: description ?? this.description,
       );
   @override
   String toString() {
@@ -105,7 +119,8 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
           ..write('id: $id, ')
           ..write('amount: $amount, ')
           ..write('categoryName: $categoryName, ')
-          ..write('modifiedDate: $modifiedDate')
+          ..write('modifiedDate: $modifiedDate, ')
+          ..write('description: $description')
           ..write(')'))
         .toString();
   }
@@ -113,8 +128,10 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   @override
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
-      $mrjc(amount.hashCode,
-          $mrjc(categoryName.hashCode, modifiedDate.hashCode))));
+      $mrjc(
+          amount.hashCode,
+          $mrjc(categoryName.hashCode,
+              $mrjc(modifiedDate.hashCode, description.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -122,7 +139,8 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
           other.id == this.id &&
           other.amount == this.amount &&
           other.categoryName == this.categoryName &&
-          other.modifiedDate == this.modifiedDate);
+          other.modifiedDate == this.modifiedDate &&
+          other.description == this.description);
 }
 
 class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
@@ -130,31 +148,37 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   final Value<double> amount;
   final Value<String> categoryName;
   final Value<DateTime> modifiedDate;
+  final Value<String> description;
   const EntryEntityCompanion({
     this.id = const Value.absent(),
     this.amount = const Value.absent(),
     this.categoryName = const Value.absent(),
     this.modifiedDate = const Value.absent(),
+    this.description = const Value.absent(),
   });
   EntryEntityCompanion.insert({
     this.id = const Value.absent(),
     @required double amount,
     @required String categoryName,
     @required DateTime modifiedDate,
+    @required String description,
   })  : amount = Value(amount),
         categoryName = Value(categoryName),
-        modifiedDate = Value(modifiedDate);
+        modifiedDate = Value(modifiedDate),
+        description = Value(description);
   static Insertable<EntryEntityData> custom({
     Expression<int> id,
     Expression<double> amount,
     Expression<String> categoryName,
     Expression<DateTime> modifiedDate,
+    Expression<String> description,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (amount != null) 'amount': amount,
       if (categoryName != null) 'category_name': categoryName,
       if (modifiedDate != null) 'modified_date': modifiedDate,
+      if (description != null) 'description': description,
     });
   }
 
@@ -162,12 +186,14 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
       {Value<int> id,
       Value<double> amount,
       Value<String> categoryName,
-      Value<DateTime> modifiedDate}) {
+      Value<DateTime> modifiedDate,
+      Value<String> description}) {
     return EntryEntityCompanion(
       id: id ?? this.id,
       amount: amount ?? this.amount,
       categoryName: categoryName ?? this.categoryName,
       modifiedDate: modifiedDate ?? this.modifiedDate,
+      description: description ?? this.description,
     );
   }
 
@@ -186,6 +212,9 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
     if (modifiedDate.present) {
       map['modified_date'] = Variable<DateTime>(modifiedDate.value);
     }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
     return map;
   }
 
@@ -195,7 +224,8 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
           ..write('id: $id, ')
           ..write('amount: $amount, ')
           ..write('categoryName: $categoryName, ')
-          ..write('modifiedDate: $modifiedDate')
+          ..write('modifiedDate: $modifiedDate, ')
+          ..write('description: $description')
           ..write(')'))
         .toString();
   }
@@ -252,9 +282,20 @@ class $EntryEntityTable extends EntryEntity
     );
   }
 
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn('description', $tableName, false,
+        maxTextLength: 100);
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, amount, categoryName, modifiedDate];
+      [id, amount, categoryName, modifiedDate, description];
   @override
   $EntryEntityTable get asDslTable => this;
   @override
@@ -290,6 +331,14 @@ class $EntryEntityTable extends EntryEntity
               data['modified_date'], _modifiedDateMeta));
     } else if (isInserting) {
       context.missing(_modifiedDateMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
     }
     return context;
   }
