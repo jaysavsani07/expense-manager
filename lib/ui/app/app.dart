@@ -16,7 +16,9 @@ class MyApp extends StatelessWidget {
         AppRoutes.home: (context) {
           return HomeScreen();
         },
-        AppRoutes.addEntry: (context) => AddEntry()
+        AppRoutes.addEntry: (context) => AddEntry(
+              entryWithCategory: ModalRoute.of(context).settings.arguments,
+            )
       },
     );
   }

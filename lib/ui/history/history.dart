@@ -1,9 +1,11 @@
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/ui/history/history_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class History1 extends ConsumerWidget {
   @override
@@ -110,7 +112,10 @@ class History1 extends ConsumerWidget {
                                         ),
                                       ],
                                     ),
-                                  ))
+                                  ).onInkTap(() {
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.addEntry,arguments: e);
+                                  }))
                               .toList(),
                         )
                       ],

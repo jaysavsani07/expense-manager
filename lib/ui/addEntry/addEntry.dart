@@ -1,4 +1,6 @@
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,11 +9,15 @@ import 'package:intl/intl.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddEntry extends ConsumerWidget {
+  final EntryWithCategory entryWithCategory;
+
+  AddEntry({@required this.entryWithCategory}) : super();
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(addEntryModelProvider);
+    final vm = watch(addEntryModelProvider(entryWithCategory));
     return ProviderListener<AddEntryViewModel>(
-        provider: addEntryModelProvider,
+        provider: addEntryModelProvider(entryWithCategory),
         onChange: (context, model) async {},
         child: Scaffold(
           appBar: AppBar(

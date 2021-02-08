@@ -34,6 +34,11 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<bool> updateEntry(Entry entry) {
+    return appDatabase.updateEntry(entry.toEntryEntityCompanion());
+  }
+
+  @override
   Stream<int> addNewCategory(Category category) {
     return appDatabase.addNewCategory(category.toCategoryEntityCompanion());
   }

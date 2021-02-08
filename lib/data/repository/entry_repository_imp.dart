@@ -27,6 +27,11 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<bool> updateEntry(Entry entry) {
+    return entryDataSourceImp.updateEntry(entry);
+  }
+
+  @override
   Stream<int> addNewCategory(Category category) {
     return entryDataSourceImp.addNewCategory(category);
   }

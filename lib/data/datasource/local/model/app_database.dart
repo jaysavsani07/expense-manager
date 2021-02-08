@@ -134,6 +134,9 @@ class AppDatabase extends _$AppDatabase {
   Stream<int> addNewEntry(EntryEntityCompanion entity) =>
       into(entryEntity).insert(entity).asStream();
 
+  Stream<bool> updateEntry(EntryEntityCompanion entity) =>
+      update(entryEntity).replace(entity).asStream();
+
   Stream<List<CategoryEntityData>> getAllCategory() =>
       select(categoryEntity).get().asStream();
 

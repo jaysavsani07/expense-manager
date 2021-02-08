@@ -7,6 +7,7 @@ abstract class EntryDataSource {
   Stream<List<Entry>> getAllEntry();
 
   Stream<int> addNewEntry(Entry entry);
+  Stream<bool> updateEntry(Entry entry);
 
   Stream<List<Category>> getAllCategory();
 
