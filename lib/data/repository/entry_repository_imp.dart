@@ -42,6 +42,11 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<bool> updateCategory(Category category) {
+    return entryDataSourceImp.updateCategory(category);
+  }
+
+  @override
   Stream<List<CategoryWithSum>> getAllEntryWithCategory() {
     return entryDataSourceImp.getAllEntryWithCategory();
   }

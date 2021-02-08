@@ -12,6 +12,7 @@ abstract class EntryRepository {
   Stream<List<Category>> getAllCategory();
 
   Stream<int> addNewCategory(Category category);
+  Stream<bool> updateCategory(Category category);
 
   Stream<List<CategoryWithSum>> getAllEntryWithCategory();
 

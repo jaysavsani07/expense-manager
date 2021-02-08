@@ -44,6 +44,11 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<bool> updateCategory(Category category) {
+    return appDatabase.updateCategory(category.toCategoryEntityCompanion());
+  }
+
+  @override
   Stream<List<Category>> getAllCategory() {
     return appDatabase.getAllCategory().map(
         (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());

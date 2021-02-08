@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/categoryList/category_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,8 +24,8 @@ class CategoryList extends ConsumerWidget {
             onReorder: vm.reorder,
             children: vm.categoryList
                 .map((e) => Padding(
-              key: ValueKey(e),
-              padding: const EdgeInsets.symmetric(
+                      key: ValueKey(e),
+                      padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 4),
                       child: Row(
                         children: [
@@ -64,7 +65,10 @@ class CategoryList extends ConsumerWidget {
                             ),
                           ),
                         ],
-                      ),
+                      ).onInkTap(() {
+                        Navigator.pushNamed(context, AppRoutes.addCategory,
+                            arguments: e);
+                      }),
                     ))
                 .toList(),
           ),

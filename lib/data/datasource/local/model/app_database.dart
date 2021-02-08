@@ -137,6 +137,9 @@ class AppDatabase extends _$AppDatabase {
       "INSERT INTO category_entity (id, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(id), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
       updates: {categoryEntity}).asStream();
 
+  Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
+      update(categoryEntity).replace(entity).asStream();
+
   Future createDefaultCategory() async {
     AppConstants.defaultCategoryList.forEach((category) async {
       await addNewCategory1(category.toCategoryEntityCompanion()).single;
