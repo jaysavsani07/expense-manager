@@ -32,76 +32,78 @@ class AddCategory extends ConsumerWidget {
                     })
                   ],
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              24.heightBox,
-              Row(
-                children: [
-                  Icon(
-                    vm.iconData,
-                    size: 36,
-                    color: vm.color,
-                  ).pSymmetric(h: 24),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      "Name".text.make(),
-                      24.heightBox,
-                      VxTextField(
-                        value: vm.name,
-                        keyboardType: TextInputType.text,
-                        borderRadius: 7.5,
-                        borderType: VxTextFieldBorderType.none,
-                        fillColor: Vx.white,
-                        maxLine: 2,
-                        textInputAction: TextInputAction.done,
-                        maxLength: 20,
-                        onChanged: (text) {
-                          vm.changeName(text);
-                        },
-                      ),
-                    ],
-                  ).pOnly(right: 24).expand(),
-                ],
-              ),
-              24.heightBox,
-              "Icon".text.make().pOnly(left: 24),
-              24.heightBox,
-              GridView(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                scrollDirection: Axis.horizontal,
-                children: AppConstants.iconList
-                    .map((icon) => Icon(
-                          icon,
-                          color: Vx.black,
-                        ).onInkTap(() {
-                          vm.changeIcon(icon);
-                        }))
-                    .toList(),
-              ).box.height(150).make(),
-              24.heightBox,
-              "Color".text.make().pOnly(left: 24),
-              24.heightBox,
-              GridView(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                scrollDirection: Axis.horizontal,
-                children: AppConstants.iconColorList
-                    .map((color) => Icon(
-                          Icons.circle,
-                          size: 36,
-                          color: color,
-                        ).onInkTap(() {
-                          vm.changeColor(color);
-                        }))
-                    .toList(),
-              ).box.height(170).make(),
-              24.heightBox,
-            ],
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                24.heightBox,
+                Row(
+                  children: [
+                    Icon(
+                      vm.iconData,
+                      size: 36,
+                      color: vm.color,
+                    ).pSymmetric(h: 24),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        "Name".text.make(),
+                        24.heightBox,
+                        VxTextField(
+                          value: vm.name,
+                          keyboardType: TextInputType.text,
+                          borderRadius: 7.5,
+                          borderType: VxTextFieldBorderType.none,
+                          fillColor: Vx.white,
+                          maxLine: 2,
+                          textInputAction: TextInputAction.done,
+                          maxLength: 20,
+                          onChanged: (text) {
+                            vm.changeName(text);
+                          },
+                        ),
+                      ],
+                    ).pOnly(right: 24).expand(),
+                  ],
+                ),
+                24.heightBox,
+                "Icon".text.make().pOnly(left: 24),
+                24.heightBox,
+                GridView(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  scrollDirection: Axis.horizontal,
+                  children: AppConstants.iconList
+                      .map((icon) => Icon(
+                            icon,
+                            color: Vx.black,
+                          ).onInkTap(() {
+                            vm.changeIcon(icon);
+                          }))
+                      .toList(),
+                ).box.height(150).make(),
+                24.heightBox,
+                "Color".text.make().pOnly(left: 24),
+                24.heightBox,
+                GridView(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3),
+                  scrollDirection: Axis.horizontal,
+                  children: AppConstants.iconColorList
+                      .map((color) => Icon(
+                            Icons.circle,
+                            size: 36,
+                            color: color,
+                          ).onInkTap(() {
+                            vm.changeColor(color);
+                          }))
+                      .toList(),
+                ).box.height(170).make(),
+                24.heightBox,
+              ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

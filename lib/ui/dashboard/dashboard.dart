@@ -3,6 +3,8 @@ import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
@@ -47,54 +49,15 @@ class Dashboard extends ConsumerWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8, right: 8, bottom: 4, top: 4),
-                                      child: Column(
+                                      child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                e.category.name,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(e.total.toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold))
-                                            ],
-                                          ),
-                                          /* Row(
-                                    children: [
-                                      Text(
-                                        DateFormat('d MMM')
-                                            .format(e.entry
-                                            .modifiedDate),
-                                        style:
-                                        TextTheme().caption,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets
-                                            .symmetric(
-                                            horizontal: 4),
-                                        child: Icon(
-                                          Icons.circle,
-                                          size: 8,
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat.Hm().format(
-                                            e.entry.modifiedDate),
-                                        style:
-                                        TextTheme().caption,
-                                      ),
-                                    ],
-                                  ),*/
+                                          e.category.name.text.bold.base.make(),
+                                          "${NumberFormat.simpleCurrency().currencySymbol} ${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                                              .text
+                                              .lg
+                                              .make()
                                         ],
                                       ),
                                     ),

@@ -6,6 +6,7 @@ import 'package:expense_manager/ui/history/history.dart';
 import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends ConsumerWidget {
   @override
@@ -17,7 +18,7 @@ class HomeScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey.shade50,
-          title: Text("Dashboard"),
+          title: (homeViewModel.activeTab == HomeTab.dashboard?"Dashboard":"History").text.xl3.make(),
         ),
         body: homeViewModel.activeTab == HomeTab.dashboard
             ? Dashboard()
