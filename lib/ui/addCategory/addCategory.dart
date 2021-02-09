@@ -23,12 +23,14 @@ class AddCategory extends ConsumerWidget {
             leading: Icon(Icons.close).onInkTap(() {
               Navigator.pop(context);
             }),
-            actions: [
-              Icon(Icons.delete).p16().onInkTap(() {
-                vm.deleteCategory();
-                Navigator.pop(context);
-              })
-            ],
+            actions: vm.category == null
+                ? null
+                : [
+                    Icon(Icons.delete).p16().onInkTap(() {
+                      vm.deleteCategory();
+                      Navigator.pop(context);
+                    })
+                  ],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +57,7 @@ class AddCategory extends ConsumerWidget {
                         maxLine: 2,
                         textInputAction: TextInputAction.done,
                         maxLength: 20,
-                        onSubmitted: (text) {
+                        onChanged: (text) {
                           vm.changeName(text);
                         },
                       ),

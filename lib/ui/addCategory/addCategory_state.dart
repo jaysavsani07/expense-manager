@@ -13,19 +13,22 @@ final addCategoryModelProvider =
 
 class AddCategoryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
-  cat.Category category = AppConstants.otherCategory;
+  cat.Category category;
   String name;
   IconData iconData;
   Color color;
 
   AddCategoryViewModel(
       {@required this.entryDataSourceImp, @required this.category}) {
-    if (category != null) {
-      this.category = category;
+    if (category == null) {
+      name = "";
+      iconData = AppConstants.otherCategory.icon;
+      color = AppConstants.otherCategory.iconColor;
+    } else {
+      name = category.name;
+      iconData = category.icon;
+      color = category.iconColor;
     }
-    name = category.name;
-    iconData = category.icon;
-    color = category.iconColor;
     notifyListeners();
   }
 
@@ -41,14 +44,19 @@ class AddCategoryViewModel with ChangeNotifier {
 
   void changeName(String name) {
     this.name = name;
-    notifyListeners();
   }
 
   void saveCategory() {
-    entryDataSourceImp
-        .updateCategory(cat.Category(
-            id: category.id, name: name, icon: iconData, iconColor: color))
-        .listen((event) {});
+    if (category == null)
+      entryDataSourceImp
+          .addNewCategory(
+              cat.Category(name: name, icon: iconData, iconColor: color))
+          .listen((event) {});
+    else
+      entryDataSourceImp
+          .updateCategory(cat.Category(
+              id: category.id, name: name, icon: iconData, iconColor: color))
+          .listen((event) {});
   }
 
   void deleteCategory() {
@@ -57,7 +65,7 @@ class AddCategoryViewModel with ChangeNotifier {
 
   @override
   void dispose() {
-    category = AppConstants.otherCategory;
+    category = null;
     super.dispose();
   }
 }

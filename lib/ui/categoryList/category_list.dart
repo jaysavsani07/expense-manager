@@ -72,6 +72,13 @@ class CategoryList extends ConsumerWidget {
                     ))
                 .toList(),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.addCategory,
+                  arguments: null);
+            },
+            child: Icon(Icons.add),
+          ),
         ));
   }
 }
