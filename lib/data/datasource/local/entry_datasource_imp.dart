@@ -12,7 +12,8 @@ import 'package:moor/moor.dart';
 import 'package:expense_manager/extension/datetime_extension.dart';
 
 final dataSourceProvider = Provider(
-    (ref) => EntryDataSourceImp(appDatabase: ref.read(appDatabaseProvider)));
+        (ref) =>
+        EntryDataSourceImp(appDatabase: ref.read(appDatabaseProvider)));
 
 class EntryDataSourceImp extends EntryDataSource {
   AppDatabase appDatabase;
@@ -57,20 +58,45 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<List<Category>> getAllCategory() {
     return appDatabase.getAllCategory().map(
-        (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
+            (event) =>
+            event.map((e) => Category.fromCategoryEntity(e)).toList());
   }
 
   @override
   Stream<List<CategoryWithSum>> getAllEntryWithCategory() {
-    return appDatabase.getAllEntryWithCategory().map((event) => event
-        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-        .toList());
+    return appDatabase.getAllEntryWithCategory().map((event) =>
+        event
+            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+            .toList());
   }
 
   @override
   Stream<List<History>> getDateWiseAllEntryWithCategory() {
     return appDatabase
         .getDateWiseAllEntryWithCategory()
+        .map((List<EntryWithCategoryData> list) {
+      Map<String, History> map = Map();
+      String title;
+      list.forEach((EntryWithCategoryData data) {
+        title = data.entry.modifiedDate.toTitle();
+        if (map.containsKey(title)) {
+          map[title]
+              .list
+              .add(EntryWithCategory.fromEntryWithCategoryEntity(data));
+        } else {
+          map[title] = History(
+              title: title,
+              list: [EntryWithCategory.fromEntryWithCategoryEntity(data)]);
+        }
+      });
+      return map;
+    }).map((map) => map.values.toList());
+  }
+
+  @override
+  Stream<List<History>> getDateWiseAllEntryWithCategoryByMonth(int month) {
+    return appDatabase
+        .getDateWiseAllEntryWithCategoryByMonth(month)
         .map((List<EntryWithCategoryData> list) {
       Map<String, History> map = Map();
       String title;
