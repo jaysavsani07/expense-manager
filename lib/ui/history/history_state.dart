@@ -11,10 +11,16 @@ class HistoryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
 
   List<History> list = [];
+  List<String> monthList = [];
 
   HistoryViewModel({@required this.entryDataSourceImp}) {
     entryDataSourceImp.getDateWiseAllEntryWithCategory().listen((event) {
       list = event;
+      notifyListeners();
+    });
+    entryDataSourceImp.getMonthList().listen((event) {
+      monthList = event;
+      print(event);
       notifyListeners();
     });
   }

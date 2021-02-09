@@ -18,7 +18,7 @@ abstract class EntryRepository {
   Stream<List<CategoryWithSum>> getAllEntryWithCategory();
 
   Stream<List<History>> getDateWiseAllEntryWithCategory();
-
+  Stream<List<String>> getMonthList();
   Stream<bool> reorderCategory(int oldIndex,int newIndex);
 
 }

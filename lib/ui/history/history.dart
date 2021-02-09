@@ -14,114 +14,93 @@ class History1 extends ConsumerWidget {
     return ProviderListener<HistoryViewModel>(
         provider: historyModelProvider,
         onChange: (context, model) async {},
-        child: ListView(
-          shrinkWrap: true,
-          children: vm.list
-              .map((History history) => Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          history.title,
-                          style: TextTheme().caption,
-                        ),
-                        ListView(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          children: history.list
-                              .map((e) => Container(
-                                    padding: EdgeInsets.symmetric(vertical: 8),
-                                    height: 66,
-                                    child: Row(
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              child: Row(
+                children: vm.monthList
+                    .map((e) => e.text.white.base
+                        .make()
+                        .pSymmetric(h: 12, v: 4)
+                        .box
+                        .black
+                        .withRounded(value: 4)
+                        .margin(EdgeInsets.all(6))
+                        .make())
+                    .toList(),
+              ).pOnly(left: 12),
+            ),
+            ListView(
+              shrinkWrap: true,
+              children: vm.list
+                  .map((History history) => Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          history.title.text.light.make(),
+                          8.heightBox,
+                          ListView(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            children: history.list
+                                .map((e) => Row(
                                       children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(25)),
-                                            color: e.category.iconColor,
-                                          ),
-                                          height: 50,
-                                          width: 50,
-                                          child: Icon(e.category.icon),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8,
-                                                right: 8,
-                                                bottom: 4,
-                                                top: 4),
-                                            child: Column(
+                                        Icon(e.category.icon)
+                                            .p8()
+                                            .box
+                                            .color(e.category.iconColor)
+                                            .roundedFull
+                                            .make(),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      e.category.name,
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                        e.entry.amount
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold))
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      DateFormat('d MMM')
-                                                          .format(e.entry
-                                                              .modifiedDate),
-                                                      style:
-                                                          TextTheme().caption,
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 4),
-                                                      child: Icon(
-                                                        Icons.circle,
-                                                        size: 8,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      DateFormat.Hm().format(
-                                                          e.entry.modifiedDate),
-                                                      style:
-                                                          TextTheme().caption,
-                                                    ),
-                                                  ],
-                                                ),
+                                                e.category.name.text.bold.base
+                                                    .make(),
+                                                "${NumberFormat.simpleCurrency().currencySymbol}${e.entry.amount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                                                    .text
+                                                    .lg
+                                                    .make()
                                               ],
                                             ),
-                                          ),
-                                        ),
+                                            Row(
+                                              children: [
+                                                DateFormat('d MMM')
+                                                    .format(
+                                                        e.entry.modifiedDate)
+                                                    .text
+                                                    .make(),
+                                                Icon(
+                                                  Icons.circle,
+                                                  size: 8,
+                                                ).pSymmetric(h: 4),
+                                                DateFormat.Hm()
+                                                    .format(
+                                                        e.entry.modifiedDate)
+                                                    .text
+                                                    .make(),
+                                              ],
+                                            ),
+                                          ],
+                                        ).pSymmetric(h: 8, v: 8).expand(),
                                       ],
-                                    ),
-                                  ).onInkTap(() {
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.addEntry,arguments: e);
-                                  }))
-                              .toList(),
-                        )
-                      ],
-                    ),
-                  ))
-              .toList(),
+                                    ).pSymmetric(v: 4).onInkTap(() {
+                                      Navigator.pushNamed(
+                                          context, AppRoutes.addEntry,
+                                          arguments: e);
+                                    }))
+                                .toList(),
+                          )
+                        ],
+                      ).pSymmetric(h: 16, v: 12))
+                  .toList(),
+            ).expand(),
+          ],
         ));
   }
 }

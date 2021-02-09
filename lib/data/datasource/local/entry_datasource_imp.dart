@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/entry_dataSource.dart';
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:expense_manager/data/models/category.dart';
@@ -87,6 +88,13 @@ class EntryDataSourceImp extends EntryDataSource {
       });
       return map;
     }).map((map) => map.values.toList());
+  }
+
+  @override
+  Stream<List<String>> getMonthList() {
+    return appDatabase
+        .getMonthList()
+        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
   }
 
   @override

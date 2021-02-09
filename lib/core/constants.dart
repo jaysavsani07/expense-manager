@@ -38,6 +38,21 @@ class AppConstants {
     [".", "0", "<-"]
   ];
 
+  static final monthList = {
+    1: "Jan",
+    2: "Feb",
+    3: "Mar",
+    4: "Apr",
+    5: "May",
+    6: "Jun",
+    7: "Jul",
+    8: "Aug",
+    9: "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec"
+  };
+
   static final iconList = [
     Icons.fastfood_rounded,
     Icons.movie_creation_rounded,
