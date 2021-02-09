@@ -25,6 +25,7 @@ class AddCategory extends ConsumerWidget {
             }),
             actions: [
               Icon(Icons.delete).p16().onInkTap(() {
+                vm.deleteCategory();
                 Navigator.pop(context);
               })
             ],

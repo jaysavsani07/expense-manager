@@ -52,10 +52,7 @@ class AddCategoryViewModel with ChangeNotifier {
   }
 
   void deleteCategory() {
-    entryDataSourceImp
-        .updateCategory(cat.Category(
-            id: category.id, name: name, icon: iconData, iconColor: color))
-        .listen((event) {});
+    entryDataSourceImp.deleteCategory(category.id).listen((event) {});
   }
 
   @override

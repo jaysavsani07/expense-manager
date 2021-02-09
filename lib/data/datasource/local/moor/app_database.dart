@@ -140,8 +140,8 @@ class AppDatabase extends _$AppDatabase {
   Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
       update(categoryEntity).replace(entity).asStream();
 
-  Stream<int> deleteCategory(CategoryEntityCompanion entity) =>
-      (delete(categoryEntity)..where((tbl) => tbl.id.equals(entity.id.value)))
+  Stream<int> deleteCategory(int id) =>
+      (delete(categoryEntity)..where((tbl) => tbl.id.equals(id)))
           .go()
           .asStream();
 

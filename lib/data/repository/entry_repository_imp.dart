@@ -47,6 +47,11 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<int> deleteCategory(int id) {
+    return entryDataSourceImp.deleteCategory(id);
+  }
+
+  @override
   Stream<List<CategoryWithSum>> getAllEntryWithCategory() {
     return entryDataSourceImp.getAllEntryWithCategory();
   }

@@ -1,5 +1,5 @@
 import 'package:expense_manager/data/datasource/entry_dataSource.dart';
-import 'package:expense_manager/data/datasource/local/model/app_database.dart';
+import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
@@ -46,6 +46,11 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<bool> updateCategory(Category category) {
     return appDatabase.updateCategory(category.toCategoryEntityCompanion());
+  }
+
+  @override
+  Stream<int> deleteCategory(int id) {
+    return appDatabase.deleteCategory(id);
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:expense_manager/data/datasource/local/model/app_database.dart';
+import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:meta/meta.dart';
 import 'package:moor/moor.dart';
 
