@@ -71,6 +71,17 @@ class EntryRepositoryImp extends EntryRepository {
     return entryDataSourceImp.getMonthList();
   }
 
+  
+  @override
+  Stream<List<String>> getMonthListByYear(int year){
+    return entryDataSourceImp.getMonthListByYear(year);
+  }
+
+  @override
+  Stream<List<int>> getYearList() {
+    return entryDataSourceImp.getYearList();
+  }
+
   @override
   Stream<bool> reorderCategory(int oldIndex, int newIndex) {
     return entryDataSourceImp.reorderCategory(oldIndex, newIndex);

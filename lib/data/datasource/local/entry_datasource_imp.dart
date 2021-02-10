@@ -12,8 +12,7 @@ import 'package:moor/moor.dart';
 import 'package:expense_manager/extension/datetime_extension.dart';
 
 final dataSourceProvider = Provider(
-        (ref) =>
-        EntryDataSourceImp(appDatabase: ref.read(appDatabaseProvider)));
+    (ref) => EntryDataSourceImp(appDatabase: ref.read(appDatabaseProvider)));
 
 class EntryDataSourceImp extends EntryDataSource {
   AppDatabase appDatabase;
@@ -58,16 +57,14 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<List<Category>> getAllCategory() {
     return appDatabase.getAllCategory().map(
-            (event) =>
-            event.map((e) => Category.fromCategoryEntity(e)).toList());
+        (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
   }
 
   @override
   Stream<List<CategoryWithSum>> getAllEntryWithCategory() {
-    return appDatabase.getAllEntryWithCategory().map((event) =>
-        event
-            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-            .toList());
+    return appDatabase.getAllEntryWithCategory().map((event) => event
+        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+        .toList());
   }
 
   @override
@@ -121,6 +118,18 @@ class EntryDataSourceImp extends EntryDataSource {
     return appDatabase
         .getMonthList()
         .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+  }
+
+  @override
+  Stream<List<String>> getMonthListByYear(int year) {
+    return appDatabase
+        .getMonthListByYear(year)
+        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+  }
+
+  @override
+  Stream<List<int>> getYearList() {
+    return appDatabase.getYearList();
   }
 
   @override

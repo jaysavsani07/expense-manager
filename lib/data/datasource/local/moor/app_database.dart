@@ -148,6 +148,20 @@ class AppDatabase extends _$AppDatabase {
         .watch();
   }
 
+  Stream<List<int>> getMonthListByYear(int year) {
+    return customSelect(
+        "SELECT DISTINCT CAST(strftime('%m' , entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year;",
+        readsFrom: {entryEntity},
+        variables: [Variable.withInt(year)]).map((QueryRow row) => row.readInt("c1")).watch();
+  }
+
+  Stream<List<int>> getYearList() {
+    return (selectOnly(entryEntity, distinct: true)
+          ..addColumns([entryEntity.modifiedDate.year]))
+        .map((row) => row.read(entryEntity.modifiedDate.year))
+        .watch();
+  }
+
   Stream<int> addNewEntry(EntryEntityCompanion entity) =>
       into(entryEntity).insert(entity).asStream();
 

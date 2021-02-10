@@ -9,7 +9,7 @@ class AppTheme {
         appBarTheme: AppBarTheme(
             color: Vx.white,
             elevation: 0,
-            iconTheme: IconThemeData(color: Vx.black),
+            iconTheme: IconThemeData(color: Vx.black, size: 20),
             textTheme: TextTheme(
                 headline6: TextStyle(
                   color: Colors.black,

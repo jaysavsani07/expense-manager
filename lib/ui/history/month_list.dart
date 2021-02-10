@@ -8,25 +8,27 @@ import 'package:velocity_x/velocity_x.dart';
 class MonthList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(monthListModelProvider);
+    final vm = watch(monthListViewModelProvider);
     return SingleChildScrollView(
-      child: Row(
+      child: ListView(
+        shrinkWrap: false,
+        scrollDirection: Axis.horizontal,
         children: vm.monthList
             .map((e) => e.text
-                    .color(vm.selectedMonth == e ? Vx.white : Vx.black)
-                    .base
-                    .make()
-                    .pSymmetric(h: 12, v: 4)
-                    .box
-                    .color(vm.selectedMonth == e ? Vx.black : Vx.gray500)
-                    .withRounded(value: 4)
-                    .margin(EdgeInsets.all(6))
-                    .make()
-                    .onInkTap(() {
-                  vm.changeMonth(e);
-                }))
+            .color(vm.selectedMonth == e ? Vx.white : Vx.black)
+            .base
+            .make()
+            .pSymmetric(h: 12, v: 4)
+            .box
+            .color(vm.selectedMonth == e ? Vx.black : Vx.gray500)
+            .withRounded(value: 4)
+            .margin(EdgeInsets.all(6))
+            .make()
+            .onInkTap(() {
+          vm.changeMonth(e);
+        }))
             .toList(),
-      ).pOnly(left: 12),
+      ).h(40),
     );
   }
 }

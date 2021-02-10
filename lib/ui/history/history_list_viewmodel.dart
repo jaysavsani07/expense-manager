@@ -7,19 +7,19 @@ import 'package:expense_manager/ui/history/month_list_viewmodel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final historyModelProvider = ChangeNotifierProvider<HistoryViewModel>((ref) {
-  String month = ref.watch(monthListModelProvider).selectedMonth;
-  return HistoryViewModel(
+final historyListViewModelProvider = ChangeNotifierProvider<HistoryListViewModel>((ref) {
+  String month = ref.watch(monthListViewModelProvider).selectedMonth;
+  return HistoryListViewModel(
       entryDataSourceImp: ref.read(repositoryProvider), selectedMonth: month);
 });
 
-class HistoryViewModel with ChangeNotifier {
+class HistoryListViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
   StreamSubscription subscription;
   List<History> list = [];
   String selectedMonth;
 
-  HistoryViewModel(
+  HistoryListViewModel(
       {@required this.entryDataSourceImp, @required this.selectedMonth}) {
     subscription = entryDataSourceImp
         .getDateWiseAllEntryWithCategoryByMonth(AppConstants.monthList.keys
