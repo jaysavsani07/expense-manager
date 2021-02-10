@@ -1,4 +1,3 @@
-import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,47 +12,44 @@ class Dashboard extends ConsumerWidget {
     return ProviderListener<DashboardViewModel>(
         provider: dashboardViewModelProvider,
         onChange: (context, model) async {},
-        child: Container(
-          constraints: BoxConstraints.expand(),
-          child: Column(
+        child: Scaffold(
+          body: Column(
             children: [
-              Expanded(
-                child: ListView(
-                  children: vm.list
-                      .map((e) => Row(
-                            children: [
-                              Icon(
-                                e.category.icon,
-                                color: Vx.white,
-                              )
-                                  .box
-                                  .p12
-                                  .height(80)
-                                  .withDecoration(BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8),
-                                        bottomLeft: Radius.circular(8)),
-                                    color: e.category.iconColor,
-                                  ))
-                                  .make(),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    e.category.name.text.bold.base.make(),
-                                    "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                                        .text
-                                        .lg
-                                        .make()
-                                  ],
-                                ).pSymmetric(v: 4, h: 8),
-                              ),
-                            ],
-                          ).card.zero.withRounded(value: 8).white.p8.make())
-                      .toList(),
-                ),
-              ),
+              ListView(
+                children: vm.list
+                    .map((e) => Row(
+                          children: [
+                            Icon(
+                              e.category.icon,
+                              color: Vx.white,
+                            )
+                                .box
+                                .p12
+                                .height(80)
+                                .withDecoration(BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      bottomLeft: Radius.circular(8)),
+                                  color: e.category.iconColor,
+                                ))
+                                .make(),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  e.category.name.text.bold.base.make(),
+                                  "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                                      .text
+                                      .lg
+                                      .make()
+                                ],
+                              ).pSymmetric(v: 4, h: 8),
+                            ),
+                          ],
+                        ).card.zero.withRounded(value: 8).white.p8.make())
+                    .toList(),
+              ).expand(),
             ],
           ),
         ));

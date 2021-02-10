@@ -17,18 +17,9 @@ class HomeScreen extends ConsumerWidget {
       provider: signInModelProvider,
       onChange: (context, model) async {},
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
-          title: (homeViewModel.activeTab == HomeTab.dashboard
-                  ? "Dashboard"
-                  : "History")
-              .text
-              .xl3
-              .make(),
-        ),
         body: homeViewModel.activeTab == HomeTab.dashboard
             ? Dashboard()
-            : History1(),
+            : History(),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
