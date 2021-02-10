@@ -20,61 +20,40 @@ class Dashboard extends ConsumerWidget {
               Expanded(
                 child: ListView(
                   children: vm.list
-                      .map((e) => Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 4),
-                            width: double.maxFinite,
-                            height: 110,
-                            child: Card(
-                              elevation: 1,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)),
+                      .map((e) => Row(
+                            children: [
+                              Icon(
+                                e.category.icon,
+                                color: Vx.white,
+                              )
+                                  .box
+                                  .p12
+                                  .height(80)
+                                  .withDecoration(BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        bottomLeft: Radius.circular(8)),
+                                    color: e.category.iconColor,
+                                  ))
+                                  .make(),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    e.category.name.text.bold.base.make(),
+                                    "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                                        .text
+                                        .lg
+                                        .make()
+                                  ],
+                                ).pSymmetric(v: 4, h: 8),
                               ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          bottomLeft: Radius.circular(8)),
-                                      color: e.category.iconColor,
-                                    ),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 12),
-                                    height: double.maxFinite,
-                                    child: Icon(e.category.icon),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8, right: 8, bottom: 4, top: 4),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          e.category.name.text.bold.base.make(),
-                                          "${NumberFormat.simpleCurrency().currencySymbol} ${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                                              .text
-                                              .lg
-                                              .make()
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ))
+                            ],
+                          ).card.zero.withRounded(value: 8).white.p8.make())
                       .toList(),
                 ),
               ),
-              OutlinedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.addEntry,
-                        arguments: null);
-                  },
-                  child: Text("NEW"))
             ],
           ),
         ));

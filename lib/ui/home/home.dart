@@ -1,5 +1,6 @@
 import 'package:expense_manager/core/keys.dart';
 import 'package:expense_manager/core/localization.dart';
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/dashboard/dashboard.dart';
 import 'package:expense_manager/ui/history/history.dart';
@@ -18,11 +19,26 @@ class HomeScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey.shade50,
-          title: (homeViewModel.activeTab == HomeTab.dashboard?"Dashboard":"History").text.xl3.make(),
+          title: (homeViewModel.activeTab == HomeTab.dashboard
+                  ? "Dashboard"
+                  : "History")
+              .text
+              .xl3
+              .make(),
         ),
         body: homeViewModel.activeTab == HomeTab.dashboard
             ? Dashboard()
             : History1(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
+          },
+          backgroundColor: Vx.black,
+          child: Icon(
+            Icons.add,
+            color: Vx.white,
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: HomeTab.values.indexOf(homeViewModel.activeTab),
           onTap: homeViewModel.changeTab,

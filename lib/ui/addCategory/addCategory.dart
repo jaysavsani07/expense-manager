@@ -110,7 +110,11 @@ class AddCategory extends ConsumerWidget {
               vm.saveCategory();
               Navigator.pop(context);
             },
-            child: Icon(Icons.done),
+            backgroundColor: Vx.black,
+            child: Icon(
+              Icons.done,
+              color: Vx.white,
+            ),
           ),
         ));
   }

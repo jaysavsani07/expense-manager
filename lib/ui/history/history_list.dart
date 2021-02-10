@@ -27,7 +27,7 @@ class HistoryList extends ConsumerWidget {
                     children: history.list
                         .map((e) => Row(
                               children: [
-                                Icon(e.category.icon)
+                                Icon(e.category.icon, color: Vx.white)
                                     .p8()
                                     .box
                                     .color(e.category.iconColor)
@@ -41,8 +41,7 @@ class HistoryList extends ConsumerWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        e.category.name.text.bold.base
-                                            .make(),
+                                        e.category.name.text.bold.base.make(),
                                         "${NumberFormat.simpleCurrency().currencySymbol}${e.entry.amount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                                             .text
                                             .lg
@@ -69,8 +68,7 @@ class HistoryList extends ConsumerWidget {
                                 ).pSymmetric(h: 8, v: 8).expand(),
                               ],
                             ).pSymmetric(v: 4).onInkTap(() {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.addEntry,
+                              Navigator.pushNamed(context, AppRoutes.addEntry,
                                   arguments: e);
                             }))
                         .toList(),

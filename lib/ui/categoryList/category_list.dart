@@ -77,7 +77,9 @@ class CategoryList extends ConsumerWidget {
               Navigator.pushNamed(context, AppRoutes.addCategory,
                   arguments: null);
             },
-            child: Icon(Icons.add),
+            backgroundColor: Vx.black,
+
+            child: Icon(Icons.add,color: Vx.white,),
           ),
         ));
   }
