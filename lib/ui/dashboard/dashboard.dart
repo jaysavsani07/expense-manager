@@ -13,9 +13,23 @@ class Dashboard extends ConsumerWidget {
         provider: dashboardViewModelProvider,
         onChange: (context, model) async {},
         child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.grey.shade50,
+            title: "Total expense".text.xl2.make(),
+            actions: [Icon(Icons.settings_outlined).p16().onInkTap(() {})],
+          ),
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              "${NumberFormat.simpleCurrency().currencySymbol}${vm.list.map((e) => e.total).fold(0.0, (previousValue, element) => previousValue + element).toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                  .text
+                  .bold
+                  .xl5
+                  .make()
+                  .pSymmetric(h: 8),
+              16.heightBox,
               ListView(
+                shrinkWrap: true,
                 children: vm.list
                     .map((e) => Row(
                           children: [
@@ -49,7 +63,7 @@ class Dashboard extends ConsumerWidget {
                           ],
                         ).card.zero.withRounded(value: 8).white.p8.make())
                     .toList(),
-              ).expand(),
+              ),
             ],
           ),
         ));
