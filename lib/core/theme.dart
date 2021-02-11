@@ -9,6 +9,7 @@ class AppTheme {
         cardTheme: CardTheme(
           color: Colors.white
         ),
+        backgroundColor: Colors.white,
         cursorColor: Colors.white,
         appBarTheme: AppBarTheme(
             color: Vx.white,
@@ -33,6 +34,7 @@ class AppTheme {
         scaffoldBackgroundColor: Colors.grey.shade900,
         cardTheme: CardTheme(color: Colors.grey.shade800, shadowColor: Colors.grey.shade50),
         cursorColor: Colors.grey.shade800,
+        backgroundColor: Colors.grey.shade800,
         appBarTheme: AppBarTheme(color: Vx.gray800));
   }
 }
