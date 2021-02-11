@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
-import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +9,13 @@ final categoryWithEntryListProvider =
     StreamProvider<List<CategoryWithEntryList>>((ref) {
   return ref.read(repositoryProvider).getAllEntryWithCategory();
 });
+
+// final totalExpenseProvider = ChangeNotifierProvider((ref) => ref
+//     .watch(categoryWithEntryListProvider)
+//     .data
+//     .value
+//     .map((e) => e.total)
+//     .reduce((value, element) => value + element));
 
 final dashboardViewModelProvider = ChangeNotifierProvider<DashboardViewModel>(
   (ref) => DashboardViewModel(entryDataSourceImp: ref.read(repositoryProvider)),
@@ -61,7 +65,11 @@ class DashboardViewModel with ChangeNotifier {
       maxY: categoryWithSum.maxAmount,
       lineBarsData: [
         LineChartBarData(
-          spots: categoryWithSum.entry.asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value.amount)).toList(),
+          spots: categoryWithSum.entry
+              .asMap()
+              .entries
+              .map((e) => FlSpot(e.key.toDouble(), e.value.amount))
+              .toList(),
           isCurved: true,
           colors: [categoryWithSum.category.iconColor],
           barWidth: 2,

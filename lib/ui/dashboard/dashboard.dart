@@ -117,39 +117,17 @@ class _PageViewState extends State<PageView1> {
                   scrollDirection: Axis.vertical,
                   children: widget.vm.list
                       .map((list) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                list.category.icon,
-                                color: Vx.white,
-                              )
-                                  .box
-                                  .p12
-                                  .height(80)
-                                  .withDecoration(BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8),
-                                        bottomLeft: Radius.circular(8)),
-                                    color: list.category.iconColor,
-                                  ))
-                                  .make(),
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    list.category.name.text.bold.base.make(),
-                                    "${NumberFormat.simpleCurrency().currencySymbol}${list.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                                        .text
-                                        .lg
-                                        .xl
-                                        .make()
-                                  ],
-                                ).pSymmetric(v: 4, h: 8)
-                              ),
-                              8.widthBox,
-                              list.category.name.text.make()
-                            ],
-                          ).box.height(12).make())
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        size: 16,
+                        color: list.category.iconColor,
+                      ),
+                      8.widthBox,
+                      list.category.name.text.make()
+                    ],
+                  ).box.height(12).make())
                       .toList(),
                 ).pSymmetric(h: 16).expand()
               ],
