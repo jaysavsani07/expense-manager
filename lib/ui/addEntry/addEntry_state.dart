@@ -100,7 +100,7 @@ class AddEntryViewModel with ChangeNotifier {
   }
 
   void textChange(String text) {
-    if (text == "<-")
+    if (text == "DEL")
       backPress();
     else if (text == ".")
       dotPress();

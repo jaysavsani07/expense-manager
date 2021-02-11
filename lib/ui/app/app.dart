@@ -5,23 +5,31 @@ import 'package:expense_manager/ui/addEntry/addEntry.dart';
 import 'package:expense_manager/ui/categoryList/category_list.dart';
 import 'package:expense_manager/ui/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'app_state.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateTitle: (context) => "Title",
-      theme: AppTheme.theme,
-      routes: {
-        AppRoutes.home: (context) => HomeScreen(),
-        AppRoutes.addEntry: (context) => AddEntry(
-            entryWithCategory: ModalRoute.of(context).settings.arguments),
-        AppRoutes.categoryList: (context) => CategoryList(),
-        AppRoutes.addCategory: (context) =>
-            AddCategory(category: ModalRoute.of(context).settings.arguments),
-      },
-    );
+  Widget build(BuildContext context, ScopedReader watch) {
+    final appThemeState = watch(appThemeStateNotifier);
+    return ProviderListener<AppThemeState>(
+        onChange: (context, model) async {},
+        provider: appThemeStateNotifier,
+        child: MaterialApp(
+          onGenerateTitle: (context) => "Title",
+          theme: AppTheme.theme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: appThemeState.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+          routes: {
+            AppRoutes.home: (context) => HomeScreen(),
+            AppRoutes.addEntry: (context) =>
+                AddEntry(entryWithCategory: ModalRoute.of(context).settings.arguments),
+            AppRoutes.categoryList: (context) => CategoryList(),
+            AppRoutes.addCategory: (context) =>
+                AddCategory(category: ModalRoute.of(context).settings.arguments),
+          },
+        ));
   }
 }

@@ -22,7 +22,6 @@ class AddEntry extends ConsumerWidget {
         onChange: (context, model) async {},
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.grey.shade50,
             leading: Icon(Icons.close).onInkTap(() {
               Navigator.pop(context);
             }),
@@ -34,7 +33,7 @@ class AddEntry extends ConsumerWidget {
                   .centered()
                   .box
                   .p8
-                  .white
+                  .color(Theme.of(context).cursorColor)
                   .roundedSM
                   .make()
                   .onInkTap(() {
@@ -56,12 +55,12 @@ class AddEntry extends ConsumerWidget {
                                   children: e
                                       .map((e) => Flexible(
                                           flex: 1,
-                                          child: e.text.xl2
+                                          child: e.text.xl3.color(Colors.blue)
                                               .make()
-                                              .centered()
+                                              .objectCenter()
                                               .box
                                               .height(100)
-                                              .width(100)
+                                              .width(context.screenWidth / 3)
                                               .make()
                                               .onInkTap(() {
                                             vm.textChange(e);

@@ -13,7 +13,6 @@ class History extends ConsumerWidget {
     final vm = watch(historyViewModelProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade50,
         title: "History".text.xl3.make(),
         actions: [
           Icon(Icons.calendar_today_rounded).p16().onInkTap(() {

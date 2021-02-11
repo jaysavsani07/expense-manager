@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
@@ -22,6 +23,7 @@ class Dashboard extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     "Total expense".text.xl2.make().pOnly(left: 8),
+                    DarkModeSwitch(),
                     Icon(Icons.settings_outlined).p16().onInkTap(() {})
                   ],
                 ),
@@ -59,24 +61,41 @@ class Dashboard extends ConsumerWidget {
                                   .make(),
                               Expanded(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     e.category.name.text.bold.base.make(),
                                     "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                                         .text
                                         .lg
+                                        .xl
                                         .make()
                                   ],
                                 ).pSymmetric(v: 4, h: 8),
                               ),
                             ],
-                          ).card.zero.withRounded(value: 8).white.p8.make())
+                          ).card.zero.withRounded(value: 8).p8.make())
                       .toList(),
                 ),
               ],
             ),
           ),
         ));
+  }
+}
+
+class DarkModeSwitch extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final appThemeState = context.read(appThemeStateNotifier);
+    return Switch(
+      value: appThemeState.isDarkModeEnabled,
+      onChanged: (enabled) {
+        if (enabled) {
+          appThemeState.setDarkTheme();
+        } else {
+          appThemeState.setLightTheme();
+        }
+      },
+    );
   }
 }

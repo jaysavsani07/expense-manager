@@ -6,13 +6,17 @@ class AppTheme {
     return ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.grey.shade50,
+        cardTheme: CardTheme(
+          color: Colors.white
+        ),
+        cursorColor: Colors.white,
         appBarTheme: AppBarTheme(
             color: Vx.white,
             elevation: 0,
             iconTheme: IconThemeData(color: Vx.black, size: 20),
             textTheme: TextTheme(
                 headline6: TextStyle(
-                  color: Colors.black,
+                  color: Colors.blue,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -21,5 +25,14 @@ class AppTheme {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ))));
+  }
+
+  static ThemeData get darkTheme {
+    return ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.grey.shade900,
+        cardTheme: CardTheme(color: Colors.grey.shade800, shadowColor: Colors.grey.shade50),
+        cursorColor: Colors.grey.shade800,
+        appBarTheme: AppBarTheme(color: Vx.gray800));
   }
 }
