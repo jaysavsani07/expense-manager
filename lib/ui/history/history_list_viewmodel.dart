@@ -22,7 +22,7 @@ class HistoryListViewModel with ChangeNotifier {
   HistoryListViewModel(
       {@required this.entryDataSourceImp, @required this.selectedMonth}) {
     subscription = entryDataSourceImp
-        .getDateWiseAllEntryWithCategoryByMonth(AppConstants.monthList.keys
+        .getAllEntryWithCategoryDateWiseByMonth(AppConstants.monthList.keys
             .firstWhere(
                 (element) => AppConstants.monthList[element] == selectedMonth,
                 orElse: () => 1))

@@ -1,5 +1,6 @@
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';
+import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/history.dart';
@@ -17,13 +18,23 @@ class EntryRepositoryImp extends EntryRepository {
   EntryRepositoryImp({@required this.entryDataSourceImp});
 
   @override
-  Stream<List<Entry>> getAllEntry() {
-    return entryDataSourceImp.getAllEntry();
+  Stream<List<String>> getMonthList() {
+    return entryDataSourceImp.getMonthList();
   }
 
   @override
-  Stream<int> addNewEntry(Entry entry) {
-    return entryDataSourceImp.addNewEntry(entry);
+  Stream<List<String>> getMonthListByYear(int year) {
+    return entryDataSourceImp.getMonthListByYear(year);
+  }
+
+  @override
+  Stream<List<int>> getYearList() {
+    return entryDataSourceImp.getYearList();
+  }
+
+  @override
+  Stream<int> addEntry(Entry entry) {
+    return entryDataSourceImp.addEntry(entry);
   }
 
   @override
@@ -32,13 +43,28 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<int> addNewCategory(Category category) {
-    return entryDataSourceImp.addNewCategory(category);
+  Stream<List<Entry>> getAllEntry() {
+    return entryDataSourceImp.getAllEntry();
   }
 
   @override
-  Stream<List<Category>> getAllCategory() {
-    return entryDataSourceImp.getAllCategory();
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory() {
+    return entryDataSourceImp.getAllEntryWithCategory();
+  }
+
+  @override
+  Stream<List<History>> getAllEntryWithCategoryDateWise() {
+    return entryDataSourceImp.getAllEntryWithCategoryDateWise();
+  }
+
+  @override
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month) {
+    return entryDataSourceImp.getAllEntryWithCategoryDateWiseByMonth(month);
+  }
+
+  @override
+  Stream<int> addCategory(Category category) {
+    return entryDataSourceImp.addCategory(category);
   }
 
   @override
@@ -52,38 +78,17 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<CategoryWithSum>> getAllEntryWithCategory() {
-    return entryDataSourceImp.getAllEntryWithCategory();
-  }
-
-  @override
-  Stream<List<History>> getDateWiseAllEntryWithCategory() {
-    return entryDataSourceImp.getDateWiseAllEntryWithCategory();
-  }
-
-  @override
-  Stream<List<History>> getDateWiseAllEntryWithCategoryByMonth(int month) {
-    return entryDataSourceImp.getDateWiseAllEntryWithCategoryByMonth(month);
-  }
-
-  @override
-  Stream<List<String>> getMonthList() {
-    return entryDataSourceImp.getMonthList();
-  }
-
-  
-  @override
-  Stream<List<String>> getMonthListByYear(int year){
-    return entryDataSourceImp.getMonthListByYear(year);
-  }
-
-  @override
-  Stream<List<int>> getYearList() {
-    return entryDataSourceImp.getYearList();
-  }
-
-  @override
   Stream<bool> reorderCategory(int oldIndex, int newIndex) {
     return entryDataSourceImp.reorderCategory(oldIndex, newIndex);
+  }
+
+  @override
+  Stream<List<Category>> getAllCategory() {
+    return entryDataSourceImp.getAllCategory();
+  }
+
+  @override
+  Stream<List<CategoryWithSum>> getAllCategoryWithSum() {
+    return entryDataSourceImp.getAllCategoryWithSum();
   }
 }

@@ -134,6 +134,7 @@ class _PageViewState extends State<PageView1> {
               shrinkWrap: true,
               children: widget.vm.list
                   .map((e) => Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                           Icon(
                             e.category.icon,
@@ -149,18 +150,17 @@ class _PageViewState extends State<PageView1> {
                                 color: e.category.iconColor,
                               ))
                               .make(),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                e.category.name.text.bold.base.make(),
-                                "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                                    .text
-                                    .lg
-                                    .make()
-                              ],
-                            ).pSymmetric(v: 4, h: 8),
-                          ),
+                          e.category.name.text.bold.base.ellipsis
+                              .make()
+                              .pSymmetric(v: 4, h: 8)
+                              .expand(),
+                          LineChart(widget.vm.getLineChatData(e)).h(40).w(80),
+                          16.widthBox,
+                          "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                              .text
+                              .lg
+                              .make()
+                              .w(50)
                         ],
                       ).card.zero.withRounded(value: 8).white.p8.make())
                   .toList(),

@@ -77,29 +77,42 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  Stream<List<int>> getMonthList() {
+    return (selectOnly(entryEntity, distinct: true)
+          ..addColumns([entryEntity.modifiedDate.month]))
+        .map((row) => row.read(entryEntity.modifiedDate.month))
+        .watch();
+  }
+
+  Stream<List<int>> getMonthListByYear(int year) {
+    return customSelect(
+        "SELECT DISTINCT CAST(strftime('%m' , entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year;",
+        readsFrom: {
+          entryEntity
+        },
+        variables: [
+          Variable.withInt(year)
+        ]).map((QueryRow row) => row.readInt("c1")).watch();
+  }
+
+  Stream<List<int>> getYearList() {
+    return (selectOnly(entryEntity, distinct: true)
+          ..addColumns([entryEntity.modifiedDate.year]))
+        .map((row) => row.read(entryEntity.modifiedDate.year))
+        .watch();
+  }
+
+  Stream<int> addEntry(EntryEntityCompanion entity) =>
+      into(entryEntity).insert(entity).asStream();
+
+  Stream<bool> updateEntry(EntryEntityCompanion entity) =>
+      update(entryEntity).replace(entity).asStream();
+
   Stream<List<EntryEntityData>> getAllEntry() {
     return select(entryEntity).get().asStream();
   }
 
-  Stream<List<CategoryWithSumData>> getAllEntryWithCategory() {
-    return (select(entryEntity).join([])
-          ..groupBy([entryEntity.categoryName])
-          ..addColumns([entryEntity.amount.sum()]))
-        .join([
-          innerJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
-        ])
-        .watch()
-        .map((List<TypedResult> rows) {
-          return rows.map((TypedResult row) {
-            return CategoryWithSumData(
-                total: row.read(entryEntity.amount.sum()),
-                category: row.readTable(categoryEntity));
-          }).toList();
-        });
-  }
-
-  Stream<List<EntryWithCategoryData>> getDateWiseAllEntryWithCategory() {
+  Stream<List<EntryWithCategoryData>> getAllEntryWithCategory() {
     return (select(entryEntity)
           ..orderBy([
             (u) => OrderingTerm(
@@ -119,7 +132,7 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<EntryWithCategoryData>> getDateWiseAllEntryWithCategoryByMonth(
+  Stream<List<EntryWithCategoryData>> getAllEntryWithCategoryByMonth(
       int month) {
     return (select(entryEntity)
           ..where((tbl) => tbl.modifiedDate.month.equals(month))
@@ -141,42 +154,15 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<int>> getMonthList() {
-    return (selectOnly(entryEntity, distinct: true)
-          ..addColumns([entryEntity.modifiedDate.month]))
-        .map((row) => row.read(entryEntity.modifiedDate.month))
-        .watch();
-  }
-
-  Stream<List<int>> getMonthListByYear(int year) {
-    return customSelect(
-        "SELECT DISTINCT CAST(strftime('%m' , entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year;",
-        readsFrom: {entryEntity},
-        variables: [Variable.withInt(year)]).map((QueryRow row) => row.readInt("c1")).watch();
-  }
-
-  Stream<List<int>> getYearList() {
-    return (selectOnly(entryEntity, distinct: true)
-          ..addColumns([entryEntity.modifiedDate.year]))
-        .map((row) => row.read(entryEntity.modifiedDate.year))
-        .watch();
-  }
-
-  Stream<int> addNewEntry(EntryEntityCompanion entity) =>
-      into(entryEntity).insert(entity).asStream();
-
-  Stream<bool> updateEntry(EntryEntityCompanion entity) =>
-      update(entryEntity).replace(entity).asStream();
-
   Stream<List<CategoryEntityData>> getAllCategory() => (select(categoryEntity)
         ..orderBy(
             [(u) => OrderingTerm(expression: u.id, mode: OrderingMode.asc)]))
       .watch();
 
-  Stream<int> addNewCategory(CategoryEntityCompanion category) =>
+  Stream<int> addCategory(CategoryEntityCompanion category) =>
       into(categoryEntity).insert(category).asStream();
 
-  Stream<int> addNewCategory1(CategoryEntityCompanion category) => customInsert(
+  Stream<int> addCategory1(CategoryEntityCompanion category) => customInsert(
       "INSERT INTO category_entity (id, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(id), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
       updates: {categoryEntity}).asStream();
 
@@ -187,12 +173,6 @@ class AppDatabase extends _$AppDatabase {
       (delete(categoryEntity)..where((tbl) => tbl.id.equals(id)))
           .go()
           .asStream();
-
-  Future createDefaultCategory() async {
-    AppConstants.defaultCategoryList.forEach((category) async {
-      await addNewCategory1(category.toCategoryEntityCompanion()).single;
-    });
-  }
 
   Stream<bool> reorderCategory(int oldIndex, int newIndex) {
     return transaction(() async {
@@ -206,5 +186,29 @@ class AppDatabase extends _$AppDatabase {
           .write(CategoryEntityCompanion(id: Value(newIndex + 1)));
       return true;
     }).asStream();
+  }
+
+  Stream<List<CategoryWithSumData>> getAllCategoryWithSum() {
+    return (select(entryEntity).join([])
+          ..groupBy([entryEntity.categoryName])
+          ..addColumns([entryEntity.amount.sum()]))
+        .join([
+          innerJoin(categoryEntity,
+              categoryEntity.name.equalsExp(entryEntity.categoryName))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return CategoryWithSumData(
+                total: row.read(entryEntity.amount.sum()),
+                category: row.readTable(categoryEntity));
+          }).toList();
+        });
+  }
+
+  Future createDefaultCategory() async {
+    AppConstants.defaultCategoryList.forEach((category) async {
+      await addCategory1(category.toCategoryEntityCompanion()).single;
+    });
   }
 }

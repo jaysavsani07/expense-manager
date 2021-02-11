@@ -49,7 +49,7 @@ class AddCategoryViewModel with ChangeNotifier {
   void saveCategory() {
     if (category == null)
       entryDataSourceImp
-          .addNewCategory(
+          .addCategory(
               cat.Category(name: name, icon: iconData, iconColor: color))
           .listen((event) {});
     else
