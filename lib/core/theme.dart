@@ -6,9 +6,7 @@ class AppTheme {
     return ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.grey.shade50,
-        cardTheme: CardTheme(
-          color: Colors.white
-        ),
+        cardTheme: CardTheme(color: Colors.white),
         backgroundColor: Colors.white,
         cursorColor: Colors.white,
         appBarTheme: AppBarTheme(
