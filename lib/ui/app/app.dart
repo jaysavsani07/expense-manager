@@ -4,6 +4,7 @@ import 'package:expense_manager/ui/addCategory/addCategory.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
 import 'package:expense_manager/ui/categoryList/category_list.dart';
 import 'package:expense_manager/ui/home/home.dart';
+import 'package:expense_manager/ui/setting/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_state.dart';
@@ -21,14 +22,17 @@ class MyApp extends ConsumerWidget {
           onGenerateTitle: (context) => "Title",
           theme: AppTheme.theme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: appThemeState.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+          themeMode: appThemeState.isDarkModeEnabled
+              ? ThemeMode.dark
+              : ThemeMode.light,
           routes: {
             AppRoutes.home: (context) => HomeScreen(),
-            AppRoutes.addEntry: (context) =>
-                AddEntry(entryWithCategory: ModalRoute.of(context).settings.arguments),
+            AppRoutes.addEntry: (context) => AddEntry(
+                entryWithCategory: ModalRoute.of(context).settings.arguments),
             AppRoutes.categoryList: (context) => CategoryList(),
-            AppRoutes.addCategory: (context) =>
-                AddCategory(category: ModalRoute.of(context).settings.arguments),
+            AppRoutes.addCategory: (context) => AddCategory(
+                category: ModalRoute.of(context).settings.arguments),
+            AppRoutes.setting: (context) => Setting(),
           },
         ));
   }

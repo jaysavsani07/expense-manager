@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
@@ -25,8 +25,9 @@ class Dashboard extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     "Total expense".text.xl2.make().pOnly(left: 8),
-                    DarkModeSwitch(),
-                    Icon(Icons.settings_outlined).p16().onInkTap(() {})
+                    Icon(Icons.settings_outlined).p16().onInkTap(() {
+                      Navigator.pushNamed(context, AppRoutes.setting);
+                    })
                   ],
                 ),
                 "${NumberFormat.simpleCurrency().currencySymbol}${vm.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
@@ -117,17 +118,17 @@ class _PageViewState extends State<PageView1> {
                   scrollDirection: Axis.vertical,
                   children: widget.vm.list
                       .map((list) => Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        size: 16,
-                        color: list.category.iconColor,
-                      ),
-                      8.widthBox,
-                      list.category.name.text.make()
-                    ],
-                  ).box.height(12).make())
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                size: 16,
+                                color: list.category.iconColor,
+                              ),
+                              8.widthBox,
+                              list.category.name.text.make()
+                            ],
+                          ).box.height(12).make())
                       .toList(),
                 ).pSymmetric(h: 16).expand()
               ],
@@ -171,22 +172,5 @@ class _PageViewState extends State<PageView1> {
         ).expand()
       ],
     ).expand();
-  }
-}
-
-class DarkModeSwitch extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final appThemeState = context.read(appThemeStateNotifier);
-    return Switch(
-      value: appThemeState.isDarkModeEnabled,
-      onChanged: (enabled) {
-        if (enabled) {
-          appThemeState.setDarkTheme();
-        } else {
-          appThemeState.setLightTheme();
-        }
-      },
-    );
   }
 }
