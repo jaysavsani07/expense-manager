@@ -112,8 +112,10 @@ class AppDatabase extends _$AppDatabase {
     return select(entryEntity).get().asStream();
   }
 
-  Stream<List<EntryWithCategoryData>> getAllEntryWithCategory() {
+  Stream<List<EntryWithCategoryData>> getAllEntryWithCategory(
+      DateTime start, DateTime end) {
     return (select(entryEntity)
+          ..where((row) => row.modifiedDate.isBetweenValues(start, end))
           ..orderBy([
             (u) => OrderingTerm(
                 expression: u.modifiedDate, mode: OrderingMode.desc)

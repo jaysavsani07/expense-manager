@@ -48,13 +48,13 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory() {
-    return entryDataSourceImp.getAllEntryWithCategory();
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end) {
+    return entryDataSourceImp.getAllEntryWithCategory(start, end);
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise() {
-    return entryDataSourceImp.getAllEntryWithCategoryDateWise();
+  Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end) {
+    return entryDataSourceImp.getAllEntryWithCategoryDateWise(start, end);
   }
 
   @override
