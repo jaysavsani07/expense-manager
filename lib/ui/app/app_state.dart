@@ -4,16 +4,15 @@ import 'package:expense_manager/data/datasource/sharedpref/shared_preference_hel
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-final appStateNotifier = ChangeNotifierProvider((ref) => AppThemeState());
+final appStateNotifier =
+    ChangeNotifierProvider((ref) => AppThemeState(ref.read));
 
 class AppThemeState extends ChangeNotifier {
+  Reader reader;
   var isDarkModeEnabled = false;
   var currentLocale = Locale('en', 'US');
 
-  SharedPreferencesHelper prefs;
-
-  AppThemeState() {
+  AppThemeState(this.reader) {
     _loadFromPrefs();
   }
 
@@ -29,19 +28,17 @@ class AppThemeState extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  void changeLocale({Locale switchToLocale}){
+  void changeLocale({Locale switchToLocale}) {
     currentLocale = switchToLocale;
     notifyListeners();
   }
 
   _loadFromPrefs() async {
-    prefs = await SharedPreferencesHelper.getInstance();
-    isDarkModeEnabled = prefs.getBool(Preferences.IS_DARK_MODE);
+    isDarkModeEnabled =
+        reader(sharedPreferencesProvider).getBool(Preferences.IS_DARK_MODE);
   }
 
   _saveToPrefs() async {
-    await prefs.putBool(Preferences.IS_DARK_MODE, isDarkModeEnabled);
+    await reader(sharedPreferencesProvider).putBool(Preferences.IS_DARK_MODE, isDarkModeEnabled);
   }
 }
-
