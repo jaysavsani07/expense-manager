@@ -1,3 +1,5 @@
+import 'package:expense_manager/data/datasource/language_data.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,9 +26,13 @@ class Dashboard extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    "Total expense".text.xl2.make().pOnly(left: 8),
+                    AppLocalization.of(context).getTranslatedVal("home_title").text.xl2.make().pOnly(left: 8),
                     DarkModeSwitch(),
-                    Icon(Icons.settings_outlined).p16().onInkTap(() {})
+                    Icon(Icons.settings_outlined).p16().onInkTap(() {}),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: LanguageDropDown(),
+                    )
                   ],
                 ),
                 "${NumberFormat.simpleCurrency().currencySymbol}${vm.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
@@ -98,8 +104,7 @@ class _PageViewState extends State<PageView1> {
                   aspectRatio: 1,
                   child: PieChart(
                     PieChartData(
-                        pieTouchData:
-                            PieTouchData(touchCallback: (pieTouchResponse) {
+                        pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
                           widget.vm.onGraphItemTeach(pieTouchResponse);
                         }),
                         borderData: FlBorderData(
@@ -117,17 +122,17 @@ class _PageViewState extends State<PageView1> {
                   scrollDirection: Axis.vertical,
                   children: widget.vm.list
                       .map((list) => Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.circle,
-                        size: 16,
-                        color: list.category.iconColor,
-                      ),
-                      8.widthBox,
-                      list.category.name.text.make()
-                    ],
-                  ).box.height(12).make())
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                size: 16,
+                                color: list.category.iconColor,
+                              ),
+                              8.widthBox,
+                              list.category.name.text.make()
+                            ],
+                          ).box.height(12).make())
                       .toList(),
                 ).pSymmetric(h: 16).expand()
               ],
@@ -147,8 +152,7 @@ class _PageViewState extends State<PageView1> {
                               .height(80)
                               .withDecoration(BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    bottomLeft: Radius.circular(8)),
+                                    topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
                                 color: e.category.iconColor,
                               ))
                               .make(),
@@ -177,16 +181,40 @@ class _PageViewState extends State<PageView1> {
 class DarkModeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appThemeState = context.read(appThemeStateNotifier);
+    final appState = context.read(appStateNotifier);
     return Switch(
-      value: appThemeState.isDarkModeEnabled,
+      value: appState.isDarkModeEnabled,
       onChanged: (enabled) {
         if (enabled) {
-          appThemeState.setDarkTheme();
+          appState.setDarkTheme();
         } else {
-          appThemeState.setLightTheme();
+          appState.setLightTheme();
         }
       },
+    );
+  }
+}
+
+class LanguageDropDown extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.read(appStateNotifier);
+    return DropdownButton(
+      onChanged: (Language language) {
+        print(language.languageCode);
+        Locale _tempLocale = Locale(language.languageCode, 'BR');
+        appState.changeLocale(switchToLocale: _tempLocale);
+      },
+      icon: Icon(
+        Icons.language_outlined,
+      ),
+      items: Language.languageList()
+          .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
+              value: lang,
+              child: Row(
+                children: <Widget>[Text(lang.flag), Text(lang.languageCode)],
+              )))
+          .toList(),
     );
   }
 }
