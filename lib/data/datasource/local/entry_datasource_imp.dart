@@ -60,9 +60,9 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory() {
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end) {
     return appDatabase
-        .getAllEntryWithCategory()
+        .getAllEntryWithCategory(start, end)
         .map((event) =>
             event.map((e) => EntryWithCategory.fromEntryWithCategoryEntity(e)))
         .map((event) {
@@ -94,9 +94,9 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise() {
+  Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end) {
     return appDatabase
-        .getAllEntryWithCategory()
+        .getAllEntryWithCategory(start, end)
         .map((List<EntryWithCategoryData> list) {
       Map<String, History> map = Map();
       String title;

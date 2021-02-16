@@ -12,8 +12,8 @@ abstract class EntryRepository {
   Stream<int> addEntry(Entry entry);
   Stream<bool> updateEntry(Entry entry);
   Stream<List<Entry>> getAllEntry();
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory();
-  Stream<List<History>> getAllEntryWithCategoryDateWise();
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end);
+  Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end);
   Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month);
 
   Stream<int> addCategory(Category category);

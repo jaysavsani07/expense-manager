@@ -5,6 +5,7 @@ import 'package:expense_manager/ui/addCategory/addCategory.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
 import 'package:expense_manager/ui/categoryList/category_list.dart';
 import 'package:expense_manager/ui/home/home.dart';
+import 'package:expense_manager/ui/setting/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,11 +45,12 @@ class MyApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           routes: {
             AppRoutes.home: (context) => HomeScreen(),
-            AppRoutes.addEntry: (context) =>
-                AddEntry(entryWithCategory: ModalRoute.of(context).settings.arguments),
+            AppRoutes.addEntry: (context) => AddEntry(
+                entryWithCategory: ModalRoute.of(context).settings.arguments),
             AppRoutes.categoryList: (context) => CategoryList(),
-            AppRoutes.addCategory: (context) =>
-                AddCategory(category: ModalRoute.of(context).settings.arguments),
+            AppRoutes.addCategory: (context) => AddCategory(
+                category: ModalRoute.of(context).settings.arguments),
+            AppRoutes.setting: (context) => Setting(),
           },
         ));
   }

@@ -1,5 +1,7 @@
+import 'package:expense_manager/core/date_time_util.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
+import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -7,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryWithEntryListProvider =
     StreamProvider<List<CategoryWithEntryList>>((ref) {
-  return ref.read(repositoryProvider).getAllEntryWithCategory();
+  return ref.read(repositoryProvider).getAllEntryWithCategory(null, null);
 });
 
 // final totalExpenseProvider = ChangeNotifierProvider((ref) => ref
@@ -18,7 +20,9 @@ final categoryWithEntryListProvider =
 //     .reduce((value, element) => value + element));
 
 final dashboardViewModelProvider = ChangeNotifierProvider<DashboardViewModel>(
-  (ref) => DashboardViewModel(entryDataSourceImp: ref.read(repositoryProvider)),
+  (ref) => DashboardViewModel(
+      entryDataSourceImp: ref.read(repositoryProvider),
+      cycleDate: int.parse(ref.watch(monthStartDateStateNotifier).date)),
 );
 
 class DashboardViewModel with ChangeNotifier {
@@ -27,11 +31,16 @@ class DashboardViewModel with ChangeNotifier {
   List<CategoryWithEntryList> list = [];
   List<PieChartSectionData> graphList = [];
   int touchedIndex = -1;
+  int cycleDate = 1;
   double total = 0;
   double today = 0;
 
-  DashboardViewModel({@required this.entryDataSourceImp}) {
-    entryDataSourceImp.getAllEntryWithCategory().listen((event) {
+  DashboardViewModel(
+      {@required this.entryDataSourceImp, @required this.cycleDate}) {
+    entryDataSourceImp
+        .getAllEntryWithCategory(DateTimeUtil.getStartDateTime(cycleDate),
+            DateTimeUtil.getEndDateTime(cycleDate))
+        .listen((event) {
       list = event;
       total = list
           .map((e) => e.total)

@@ -3,4 +3,5 @@ class AppRoutes {
   static final addEntry = '/addEntry';
   static final categoryList = '/categoryList';
   static final addCategory = '/addCategory';
+  static final setting = '/setting';
 }

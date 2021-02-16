@@ -1,5 +1,6 @@
 import 'package:expense_manager/data/datasource/language_data.dart';
 import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,11 +29,13 @@ class Dashboard extends ConsumerWidget {
                   children: [
                     AppLocalization.of(context).getTranslatedVal("home_title").text.xl2.make().pOnly(left: 8),
                     DarkModeSwitch(),
-                    Icon(Icons.settings_outlined).p16().onInkTap(() {}),
                     Padding(
                       padding: EdgeInsets.all(8.0),
                       child: LanguageDropDown(),
-                    )
+                    ),
+                    Icon(Icons.settings_outlined).p16().onInkTap(() {
+                      Navigator.pushNamed(context, AppRoutes.setting);
+                    })
                   ],
                 ),
                 "${NumberFormat.simpleCurrency().currencySymbol}${vm.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
@@ -178,6 +181,7 @@ class _PageViewState extends State<PageView1> {
   }
 }
 
+
 class DarkModeSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -218,3 +222,5 @@ class LanguageDropDown extends StatelessWidget {
     );
   }
 }
+
+
