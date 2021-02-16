@@ -15,7 +15,11 @@ final yearProvider =
 
 final monthListProvider = StreamProvider.autoDispose<List<String>>((ref) {
   int year = ref.watch(yearProvider).state;
-  return ref.read(repositoryProvider).getMonthListByYear(year).map((event) {
+  return ref
+      .read(repositoryProvider)
+      .getMonthListByYear(year)
+      .where((event) => event.isNotEmpty)
+      .map((event) {
     ref.read(monthProvider).state = event.first;
     return event;
   });

@@ -27,7 +27,12 @@ class Dashboard extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppLocalization.of(context).getTranslatedVal("home_title").text.xl2.make().pOnly(left: 8),
+                    AppLocalization.of(context)
+                        .getTranslatedVal("home_title")
+                        .text
+                        .xl2
+                        .make()
+                        .pOnly(left: 8),
                     DarkModeSwitch(),
                     Padding(
                       padding: EdgeInsets.all(8.0),
@@ -38,18 +43,9 @@ class Dashboard extends ConsumerWidget {
                     })
                   ],
                 ),
-                "${NumberFormat.simpleCurrency().currencySymbol}${vm.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                    .text
-                    .bold
-                    .xl5
-                    .make()
-                    .pSymmetric(h: 16),
+                TotalAmount(),
                 8.heightBox,
-                "${NumberFormat.simpleCurrency().currencySymbol}${vm.today.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")} Today"
-                    .text
-                    .green500
-                    .make()
-                    .pOnly(left: 18),
+                TodayAmount(),
                 16.heightBox,
                 PageView1(
                   vm: vm,
@@ -105,9 +101,10 @@ class _PageViewState extends State<PageView1> {
               children: [
                 AspectRatio(
                   aspectRatio: 1,
-                  child: PieChart(
+                  child:widget.vm.graphList.isEmpty?SizedBox(): PieChart(
                     PieChartData(
-                        pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                        pieTouchData:
+                            PieTouchData(touchCallback: (pieTouchResponse) {
                           widget.vm.onGraphItemTeach(pieTouchResponse);
                         }),
                         borderData: FlBorderData(
@@ -155,7 +152,8 @@ class _PageViewState extends State<PageView1> {
                               .height(80)
                               .withDecoration(BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                                    topLeft: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8)),
                                 color: e.category.iconColor,
                               ))
                               .make(),
@@ -181,6 +179,30 @@ class _PageViewState extends State<PageView1> {
   }
 }
 
+class TotalAmount extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final totalAmount = watch(totalAmountProvider).state;
+    return "${NumberFormat.simpleCurrency().currencySymbol}${totalAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+        .text
+        .bold
+        .xl5
+        .make()
+        .pSymmetric(h: 16);
+  }
+}
+
+class TodayAmount extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final todayAmount = watch(todayAmountProvider).state;
+    return "${NumberFormat.simpleCurrency().currencySymbol}${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")} Today"
+        .text
+        .green500
+        .make()
+        .pOnly(left: 18);
+  }
+}
 
 class DarkModeSwitch extends StatelessWidget {
   @override
@@ -222,5 +244,3 @@ class LanguageDropDown extends StatelessWidget {
     );
   }
 }
-
-

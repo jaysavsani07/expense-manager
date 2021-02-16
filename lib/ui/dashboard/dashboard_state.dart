@@ -6,24 +6,37 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:expense_manager/extension/datetime_extension.dart';
 
 final categoryWithEntryListProvider =
     StreamProvider<List<CategoryWithEntryList>>((ref) {
   return ref.read(repositoryProvider).getAllEntryWithCategory(null, null);
 });
 
-// final totalExpenseProvider = ChangeNotifierProvider((ref) => ref
-//     .watch(categoryWithEntryListProvider)
-//     .data
-//     .value
-//     .map((e) => e.total)
-//     .reduce((value, element) => value + element));
+final totalAmountProvider = StateProvider<double>((ref) {
+  return ref
+      .watch(dashboardViewModelProvider)
+      .list
+      .map((e) => e.total)
+      .fold(0.0, (previousValue, element) => previousValue + element);
+});
 
-final dashboardViewModelProvider = ChangeNotifierProvider<DashboardViewModel>(
-  (ref) => DashboardViewModel(
+final todayAmountProvider = StateProvider<double>((ref) {
+  return ref
+      .watch(dashboardViewModelProvider)
+      .list
+      .expand((element) => element.entry)
+      .where((e) => e.modifiedDate.isToday())
+      .map((e) => e.amount)
+      .fold(0.0, (previousValue, element) => previousValue + element);
+});
+
+final dashboardViewModelProvider =
+    ChangeNotifierProvider<DashboardViewModel>((ref) {
+  return DashboardViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
-      cycleDate: int.parse(ref.watch(monthStartDateStateNotifier).date)),
-);
+      cycleDate: int.parse(ref.watch(monthStartDateStateNotifier).date));
+});
 
 class DashboardViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
@@ -32,8 +45,6 @@ class DashboardViewModel with ChangeNotifier {
   List<PieChartSectionData> graphList = [];
   int touchedIndex = -1;
   int cycleDate = 1;
-  double total = 0;
-  double today = 0;
 
   DashboardViewModel(
       {@required this.entryDataSourceImp, @required this.cycleDate}) {
@@ -42,10 +53,6 @@ class DashboardViewModel with ChangeNotifier {
             DateTimeUtil.getEndDateTime(cycleDate))
         .listen((event) {
       list = event;
-      total = list
-          .map((e) => e.total)
-          .fold(0.0, (previousValue, element) => previousValue + element);
-      today = list.first.total;
       graphList = getPieChartData(list);
       notifyListeners();
     });
@@ -94,7 +101,7 @@ class DashboardViewModel with ChangeNotifier {
       return PieChartSectionData(
         color: e.value.category.iconColor,
         value: e.value.total,
-        title: '${100 * e.value.total ~/ total}%',
+        title: '${100 * e.value.total ~/ 100}%',
         radius: e.key == touchedIndex ? 60 : 50,
         titleStyle: TextStyle(
             fontSize: e.key == touchedIndex ? 20 : 16,
