@@ -4,25 +4,26 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final monthStartDateStateNotifier =
-    ChangeNotifierProvider((ref) => MonthStartDateState());
+    ChangeNotifierProvider((ref) => MonthStartDateState(ref.read));
 
 class MonthStartDateState extends ChangeNotifier {
+  Reader reader;
   String date = "1";
 
-  SharedPreferencesHelper prefs;
-
-  MonthStartDateState() {
+  MonthStartDateState(this.reader) {
     _loadFromPrefs();
   }
 
   _loadFromPrefs() async {
-    prefs = await SharedPreferencesHelper.getInstance();
-    date = prefs.getString(Preferences.MONTH_CYCLE_DATE);
+    date = reader(sharedPreferencesProvider)
+        .getString(Preferences.MONTH_CYCLE_DATE,defValue: "1");
+    notifyListeners();
   }
 
   setDate(String date) async {
     this.date = date;
     notifyListeners();
-    await prefs.putString(Preferences.MONTH_CYCLE_DATE, date);
+    await reader(sharedPreferencesProvider)
+        .putString(Preferences.MONTH_CYCLE_DATE, date);
   }
 }

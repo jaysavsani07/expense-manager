@@ -1,29 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final sharedPreferencesProvider =
+    Provider<SharedPreferencesHelper>((ref) => throw UnimplementedError());
+
 class SharedPreferencesHelper {
-  static SharedPreferencesHelper _instance;
+  final SharedPreferences _prefs;
 
-  static Future<SharedPreferencesHelper> get instance async {
-    return await getInstance();
-  }
-
-  static SharedPreferences _prefs;
-
-  SharedPreferencesHelper._();
-
-  Future _init() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
-  static Future<SharedPreferencesHelper> getInstance() async {
-    if (_instance == null) {
-      _instance = new SharedPreferencesHelper._();
-      await _instance._init();
-    }
-    return _instance;
-  }
+  SharedPreferencesHelper(this._prefs);
 
   // put object
   Future<bool> putObject(String key, Object value) {
