@@ -60,7 +60,8 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end) {
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
+      DateTime start, DateTime end) {
     return appDatabase
         .getAllEntryWithCategory(start, end)
         .map((event) =>
@@ -75,8 +76,8 @@ class EntryDataSourceImp extends EntryDataSource {
               map[element.category.name] = CategoryWithEntryList(
                   category: element.category,
                   total: element.entry.amount,
-                  maxAmount: null,
-                  numberOfEntry: null,
+                  maxY: null,
+                  maxX: null,
                   entry: [element.entry]);
             }
           });
@@ -87,14 +88,22 @@ class EntryDataSourceImp extends EntryDataSource {
             .map((e) => e.copyWith(
                 total: e.entry.fold(0.0,
                     (previousValue, element) => previousValue + element.amount),
-                numberOfEntry: e.entry.length,
-                maxAmount: e.entry.map((e) => e.amount).toList().reduce(
+                maxX: e.entry.length.toDouble(),
+                maxY: e.entry.map((e) => e.amount).toList().reduce(
                     (value, element) => value > element ? value : element)))
-            .toList());
+            .toList())
+        .map((event) {
+          return event.map((e) => e.copyWith(
+              maxX: event.map((e) => e.maxX).toList().reduce(
+                  (value, element) => value > element ? value : element),
+              maxY: event.map((e) => e.maxY).toList().reduce(
+                  (value, element) => value > element ? value : element))).toList();
+        });
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end) {
+  Stream<List<History>> getAllEntryWithCategoryDateWise(
+      DateTime start, DateTime end) {
     return appDatabase
         .getAllEntryWithCategory(start, end)
         .map((List<EntryWithCategoryData> list) {

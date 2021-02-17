@@ -1,22 +1,20 @@
-import 'package:expense_manager/data/datasource/language_data.dart';
 import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/ui/dashboard/category_list_view.dart';
+import 'package:expense_manager/ui/dashboard/category_pie_chart_view.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:expense_manager/ui/app/app_state.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(dashboardViewModelProvider);
     return ProviderListener<DashboardViewModel>(
-        provider: dashboardViewModelProvider,
+        provider: categoryListProvider,
         onChange: (context, model) async {},
         child: SafeArea(
           top: true,
@@ -27,9 +25,12 @@ class Dashboard extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-
-                    AppLocalization.of(context).getTranslatedVal("home_title").text.xl2.make().pOnly(left: 8),
-
+                    AppLocalization.of(context)
+                        .getTranslatedVal("home_title")
+                        .text
+                        .xl2
+                        .make()
+                        .pOnly(left: 8),
                     AppLocalization.of(context)
                         .getTranslatedVal("home_title")
                         .text
@@ -41,13 +42,11 @@ class Dashboard extends ConsumerWidget {
                     })
                   ],
                 ),
-                TotalAmount(),
+                const TotalAmount(),
                 8.heightBox,
-                TodayAmount(),
+                const TodayAmount(),
                 16.heightBox,
-                PageView1(
-                  vm: vm,
-                ),
+                const SmoothPageView(),
               ],
             ),
           ),
@@ -55,16 +54,16 @@ class Dashboard extends ConsumerWidget {
   }
 }
 
-class PageView1 extends StatefulWidget {
-  final DashboardViewModel vm;
-
-  PageView1({@required this.vm}) : super();
+class SmoothPageView extends StatefulWidget {
+  const SmoothPageView({
+    Key key,
+  }) : super(key: key);
 
   @override
   _PageViewState createState() => _PageViewState();
 }
 
-class _PageViewState extends State<PageView1> {
+class _PageViewState extends State<SmoothPageView> {
   PageController controller;
 
   @override
@@ -76,14 +75,12 @@ class _PageViewState extends State<PageView1> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         SmoothPageIndicator(
           controller: controller,
           count: 2,
@@ -97,81 +94,8 @@ class _PageViewState extends State<PageView1> {
           scrollDirection: Axis.horizontal,
           controller: controller,
           children: [
-            Column(
-              children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child:widget.vm.graphList.isEmpty?SizedBox(): PieChart(
-                    PieChartData(
-                        pieTouchData:
-                            PieTouchData(touchCallback: (pieTouchResponse) {
-                          widget.vm.onGraphItemTeach(pieTouchResponse);
-                        }),
-                        borderData: FlBorderData(
-                          show: false,
-                        ),
-                        sectionsSpace: 8,
-                        centerSpaceRadius: 80,
-                        sections: widget.vm.graphList),
-                  ),
-                ),
-                GridView(
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, childAspectRatio: 5),
-                  scrollDirection: Axis.vertical,
-                  children: widget.vm.list
-                      .map((list) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 16,
-                                color: list.category.iconColor,
-                              ),
-                              8.widthBox,
-                              list.category.name.text.make()
-                            ],
-                          ).box.height(12).make())
-                      .toList(),
-                ).pSymmetric(h: 16).expand()
-              ],
-            ),
-            ListView(
-              shrinkWrap: true,
-              children: widget.vm.list
-                  .map((e) => Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Icon(
-                            e.category.icon,
-                            color: Vx.white,
-                          )
-                              .box
-                              .p12
-                              .height(80)
-                              .withDecoration(BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    bottomLeft: Radius.circular(8)),
-                                color: e.category.iconColor,
-                              ))
-                              .make(),
-                          e.category.name.text.bold.base.ellipsis
-                              .make()
-                              .pSymmetric(v: 4, h: 8)
-                              .expand(),
-                          LineChart(widget.vm.getLineChatData(e)).h(40).w(80),
-                          16.widthBox,
-                          "${NumberFormat.simpleCurrency().currencySymbol}${e.total.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                              .text
-                              .lg
-                              .make()
-                              .w(50)
-                        ],
-                      ).card.zero.withRounded(value: 8).p8.make())
-                  .toList(),
-            ),
+            const CategoryPieChartView(),
+            const CategoryListView(),
           ],
         ).expand()
       ],
@@ -180,9 +104,11 @@ class _PageViewState extends State<PageView1> {
 }
 
 class TotalAmount extends ConsumerWidget {
+  const TotalAmount({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final totalAmount = watch(totalAmountProvider).state;
+    final totalAmount = watch(totalAmountProvider);
     return "${NumberFormat.simpleCurrency().currencySymbol}${totalAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
         .text
         .bold
@@ -193,9 +119,11 @@ class TotalAmount extends ConsumerWidget {
 }
 
 class TodayAmount extends ConsumerWidget {
+  const TodayAmount({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final todayAmount = watch(todayAmountProvider).state;
+    final todayAmount = watch(todayAmountProvider);
     return "${NumberFormat.simpleCurrency().currencySymbol}${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")} Today"
         .text
         .green500
@@ -203,4 +131,3 @@ class TodayAmount extends ConsumerWidget {
         .pOnly(left: 18);
   }
 }
-
