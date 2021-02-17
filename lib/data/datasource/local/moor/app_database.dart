@@ -9,8 +9,8 @@ class EntryEntity extends Table {
 
   RealColumn get amount => real()();
 
-  TextColumn get categoryName =>
-      text().customConstraint('REFERENCES category_entity(name)')();
+  TextColumn get categoryName => text().nullable().customConstraint(
+      'NULL REFERENCES category_entity(name) ON DELETE SET NULL')();
 
   DateTimeColumn get modifiedDate => dateTime()();
 
@@ -69,12 +69,12 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration {
-    return MigrationStrategy(
-      onCreate: (Migrator m) async {
-        await m.createAll();
-        await createDefaultCategory();
-      },
-    );
+    return MigrationStrategy(onCreate: (Migrator m) async {
+      await m.createAll();
+      await createDefaultCategory();
+    }, beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+    });
   }
 
   Stream<List<int>> getMonthList() {
@@ -121,7 +121,7 @@ class AppDatabase extends _$AppDatabase {
                 expression: u.modifiedDate, mode: OrderingMode.desc)
           ]))
         .join([
-          innerJoin(categoryEntity,
+          leftOuterJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
         .watch()
@@ -143,7 +143,7 @@ class AppDatabase extends _$AppDatabase {
                 expression: u.modifiedDate, mode: OrderingMode.desc)
           ]))
         .join([
-          innerJoin(categoryEntity,
+          leftOuterJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
         .watch()

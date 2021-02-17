@@ -32,7 +32,6 @@ class CategoryItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final category = watch(_currentCategory);
-    print(category.maxX);
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [

@@ -20,7 +20,7 @@ class AddEntryViewModel with ChangeNotifier {
 
   List<cat.Category> categoryList = [];
   String amount = "0";
-  cat.Category category = AppConstants.otherCategory;
+  cat.Category category;
   bool isShowNumPad = true;
   DateTime date = DateTime.now();
   String description = "";
@@ -37,7 +37,6 @@ class AddEntryViewModel with ChangeNotifier {
     }
     entryDataSourceImp.getAllCategory().listen((event) {
       categoryList = event;
-      print(event);
       notifyListeners();
     });
   }
@@ -56,7 +55,7 @@ class AddEntryViewModel with ChangeNotifier {
       entryDataSourceImp
           .addEntry(Entry(
               amount: double.parse(amount),
-              categoryName: category.name,
+              categoryName: category?.name,
               modifiedDate: date,
               description: description))
           .listen((event) {});

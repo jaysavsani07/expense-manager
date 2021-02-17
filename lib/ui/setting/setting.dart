@@ -32,10 +32,7 @@ class Setting extends ConsumerWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              "Language".text.bold.xl.make(),
-              LanguageDropDown()
-            ],
+            children: ["Language".text.bold.xl.make(), LanguageDropDown()],
           )
         ],
       ).pSymmetric(h: 16),
@@ -95,7 +92,6 @@ class LanguageDropDown extends StatelessWidget {
     final appState = context.read(appStateNotifier);
     return DropdownButton(
       onChanged: (Language language) {
-        print(language.languageCode);
         Locale _tempLocale = Locale(language.languageCode, 'BR');
         appState.changeLocale(switchToLocale: _tempLocale);
       },
@@ -104,10 +100,10 @@ class LanguageDropDown extends StatelessWidget {
       ),
       items: Language.languageList()
           .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
-          value: lang,
-          child: Row(
-            children: <Widget>[Text(lang.flag), Text(lang.languageCode)],
-          )))
+              value: lang,
+              child: Row(
+                children: <Widget>[Text(lang.flag), Text(lang.languageCode)],
+              )))
           .toList(),
     );
   }
