@@ -6,7 +6,7 @@ class AppConstants {
     Category(
         name: "Food ans Drinks",
         icon: Icons.fastfood_rounded,
-        iconColor: Color(int.parse("0xFFc03c42"))),
+        iconColor: Color(0xFFc03c42)),
     Category(
         name: "Health",
         icon: Icons.local_hospital_rounded,

@@ -7,8 +7,16 @@ class AppTheme {
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.grey.shade50,
         cardTheme: CardTheme(color: Colors.white),
+        primaryColor: Colors.blue,
         backgroundColor: Colors.white,
         cursorColor: Colors.white,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.blueGrey
+        ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.greenAccent,
+          highlightColor: Colors.red
+        ),
         appBarTheme: AppBarTheme(
             color: Vx.white,
             elevation: 0,
@@ -33,6 +41,13 @@ class AppTheme {
         cardTheme: CardTheme(color: Colors.grey.shade800, shadowColor: Colors.grey.shade50),
         cursorColor: Colors.grey.shade800,
         backgroundColor: Colors.grey.shade800,
-        appBarTheme: AppBarTheme(color: Vx.gray800));
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.pink
+        ),
+        buttonTheme: ButtonThemeData(
+            buttonColor: Colors.blue,
+            highlightColor: Colors.red
+        ),
+        appBarTheme: AppBarTheme(color: Colors.black12));
   }
 }

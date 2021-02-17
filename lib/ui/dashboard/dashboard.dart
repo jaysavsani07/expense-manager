@@ -28,11 +28,6 @@ class Dashboard extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppLocalization.of(context).getTranslatedVal("home_title").text.xl2.make().pOnly(left: 8),
-                    DarkModeSwitch(),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: LanguageDropDown(),
-                    ),
                     Icon(Icons.settings_outlined).p16().onInkTap(() {
                       Navigator.pushNamed(context, AppRoutes.setting);
                     })
@@ -82,12 +77,14 @@ class _PageViewState extends State<PageView1> {
   @override
   void dispose() {
     super.dispose();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+
         SmoothPageIndicator(
           controller: controller,
           count: 2,
@@ -182,45 +179,5 @@ class _PageViewState extends State<PageView1> {
 }
 
 
-class DarkModeSwitch extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final appState = context.read(appStateNotifier);
-    return Switch(
-      value: appState.isDarkModeEnabled,
-      onChanged: (enabled) {
-        if (enabled) {
-          appState.setDarkTheme();
-        } else {
-          appState.setLightTheme();
-        }
-      },
-    );
-  }
-}
-
-class LanguageDropDown extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final appState = context.read(appStateNotifier);
-    return DropdownButton(
-      onChanged: (Language language) {
-        print(language.languageCode);
-        Locale _tempLocale = Locale(language.languageCode, 'BR');
-        appState.changeLocale(switchToLocale: _tempLocale);
-      },
-      icon: Icon(
-        Icons.language_outlined,
-      ),
-      items: Language.languageList()
-          .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
-              value: lang,
-              child: Row(
-                children: <Widget>[Text(lang.flag), Text(lang.languageCode)],
-              )))
-          .toList(),
-    );
-  }
-}
 
 

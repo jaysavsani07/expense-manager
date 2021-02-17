@@ -1,3 +1,4 @@
+import 'package:expense_manager/data/datasource/language_data.dart';
 import 'package:expense_manager/ui/setting/month_start_date_list.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,6 +28,13 @@ class Setting extends ConsumerWidget {
             children: [
               "Month Start Date".text.bold.xl.make(),
               MonthStartDate()
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              "Language".text.bold.xl.make(),
+              LanguageDropDown()
             ],
           )
         ],
@@ -78,5 +86,29 @@ class DarkModeSwitch extends StatelessWidget {
         }
       },
     ).pSymmetric(h: 8).card.zero.rounded.p8.make();
+  }
+}
+
+class LanguageDropDown extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.read(appStateNotifier);
+    return DropdownButton(
+      onChanged: (Language language) {
+        print(language.languageCode);
+        Locale _tempLocale = Locale(language.languageCode, 'BR');
+        appState.changeLocale(switchToLocale: _tempLocale);
+      },
+      icon: Icon(
+        Icons.language_outlined,
+      ),
+      items: Language.languageList()
+          .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
+          value: lang,
+          child: Row(
+            children: <Widget>[Text(lang.flag), Text(lang.languageCode)],
+          )))
+          .toList(),
+    );
   }
 }

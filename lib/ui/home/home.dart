@@ -24,10 +24,8 @@ class HomeScreen extends ConsumerWidget {
           onPressed: () {
             Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
           },
-          backgroundColor: Vx.black,
           child: Icon(
             Icons.add,
-            color: Vx.white,
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
