@@ -3,6 +3,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:flutter/material.dart';
@@ -48,12 +49,19 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end) {
+  Stream<List<EntryList>> getAllEntryByCategory(String categoryName) {
+    return entryDataSourceImp.getAllEntryByCategory(categoryName);
+  }
+
+  @override
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
+      DateTime start, DateTime end) {
     return entryDataSourceImp.getAllEntryWithCategory(start, end);
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end) {
+  Stream<List<History>> getAllEntryWithCategoryDateWise(
+      DateTime start, DateTime end) {
     return entryDataSourceImp.getAllEntryWithCategoryDateWise(start, end);
   }
 

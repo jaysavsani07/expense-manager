@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -80,7 +81,16 @@ class CategoryItem extends ConsumerWidget {
             .make()
             .w(50)
       ],
-    ).card.zero.withRounded(value: 8).p8.make();
+    )
+        .onInkTap(() {
+          Navigator.pushNamed(context, AppRoutes.categoryDetails,
+              arguments: category.category);
+        })
+        .card
+        .zero
+        .withRounded(value: 8)
+        .p8
+        .make();
   }
 }
 

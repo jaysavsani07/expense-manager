@@ -112,6 +112,17 @@ class AppDatabase extends _$AppDatabase {
     return select(entryEntity).get().asStream();
   }
 
+  Stream<List<EntryEntityData>> getAllEntryByCategory(String categoryName) {
+    return (select(entryEntity)
+          ..where((row) => row.categoryName.equals(categoryName))
+          ..orderBy([
+            (u) => OrderingTerm(
+                expression: u.modifiedDate, mode: OrderingMode.desc)
+          ]))
+        .get()
+        .asStream();
+  }
+
   Stream<List<EntryWithCategoryData>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return (select(entryEntity)
