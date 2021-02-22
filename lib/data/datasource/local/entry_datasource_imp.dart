@@ -5,6 +5,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
+import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +61,26 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<List<EntryList>> getAllEntryByCategory(String categoryName) {
+    return appDatabase
+        .getAllEntryByCategory(categoryName)
+        .map((List<EntryEntityData> list) {
+      Map<String, EntryList> map = Map();
+      String title;
+      list.forEach((EntryEntityData data) {
+        title = data.modifiedDate.toTitle();
+        if (map.containsKey(title)) {
+          map[title].list.add(Entry.fromEntryEntity(data));
+        } else {
+          map[title] =
+              EntryList(title: title, list: [Entry.fromEntryEntity(data)]);
+        }
+      });
+      return map;
+    }).map((map) => map.values.toList());
+  }
+
+  @override
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return appDatabase
@@ -93,11 +114,13 @@ class EntryDataSourceImp extends EntryDataSource {
                     (value, element) => value > element ? value : element)))
             .toList())
         .map((event) {
-          return event.map((e) => e.copyWith(
-              maxX: event.map((e) => e.maxX).toList().reduce(
-                  (value, element) => value > element ? value : element),
-              maxY: event.map((e) => e.maxY).toList().reduce(
-                  (value, element) => value > element ? value : element))).toList();
+          return event
+              .map((e) => e.copyWith(
+                  maxX: event.map((e) => e.maxX).toList().reduce(
+                      (value, element) => value > element ? value : element),
+                  maxY: event.map((e) => e.maxY).toList().reduce(
+                      (value, element) => value > element ? value : element)))
+              .toList();
         });
   }
 

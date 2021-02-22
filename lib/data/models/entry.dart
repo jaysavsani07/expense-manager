@@ -42,7 +42,7 @@ class Entry {
     return EntryEntityCompanion(
         id: id == null ? Value.absent() : Value(id),
         amount: Value(amount),
-        categoryName: Value(categoryName),
+        categoryName: categoryName == null ? Value.absent() :  Value(categoryName),
         modifiedDate: Value(modifiedDate),
         description: Value(description));
   }

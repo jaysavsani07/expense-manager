@@ -16,7 +16,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   EntryEntityData(
       {@required this.id,
       @required this.amount,
-      @required this.categoryName,
+      this.categoryName,
       @required this.modifiedDate,
       @required this.description});
   factory EntryEntityData.fromData(
@@ -159,11 +159,10 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   EntryEntityCompanion.insert({
     this.id = const Value.absent(),
     @required double amount,
-    @required String categoryName,
+    this.categoryName = const Value.absent(),
     @required DateTime modifiedDate,
     @required String description,
   })  : amount = Value(amount),
-        categoryName = Value(categoryName),
         modifiedDate = Value(modifiedDate),
         description = Value(description);
   static Insertable<EntryEntityData> custom({
@@ -264,8 +263,9 @@ class $EntryEntityTable extends EntryEntity
   GeneratedTextColumn get categoryName =>
       _categoryName ??= _constructCategoryName();
   GeneratedTextColumn _constructCategoryName() {
-    return GeneratedTextColumn('category_name', $tableName, false,
-        $customConstraints: 'REFERENCES category_entity(name)');
+    return GeneratedTextColumn('category_name', $tableName, true,
+        $customConstraints:
+            'NULL REFERENCES category_entity(name) ON DELETE SET NULL');
   }
 
   final VerificationMeta _modifiedDateMeta =
@@ -321,8 +321,6 @@ class $EntryEntityTable extends EntryEntity
           _categoryNameMeta,
           categoryName.isAcceptableOrUnknown(
               data['category_name'], _categoryNameMeta));
-    } else if (isInserting) {
-      context.missing(_categoryNameMeta);
     }
     if (data.containsKey('modified_date')) {
       context.handle(

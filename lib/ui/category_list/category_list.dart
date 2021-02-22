@@ -1,5 +1,5 @@
 import 'package:expense_manager/core/routes.dart';
-import 'package:expense_manager/ui/categoryList/category_list_state.dart';
+import 'package:expense_manager/ui/category_list/category_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';

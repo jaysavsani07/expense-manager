@@ -14,10 +14,6 @@ class History {
     return History(title: title ?? this.title, list: list ?? this.list);
   }
 
-  factory History.initial() {
-    return History(title: "0", list: []);
-  }
-
   @override
   String toString() {
     return 'History{title: $title, list: $list}';

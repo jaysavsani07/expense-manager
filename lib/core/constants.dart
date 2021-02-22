@@ -10,26 +10,25 @@ class AppConstants {
     Category(
         name: "Health",
         icon: Icons.local_hospital_rounded,
-        iconColor: Color(int.parse("0xFF56717c"))),
+        iconColor: Color(0xFF56717c)),
     Category(
         name: "Shopping",
         icon: Icons.shopping_cart_rounded,
-        iconColor: Color(int.parse("0xFFfdbe0d"))),
+        iconColor: Color(0xFFfdbe0d)),
     Category(
         name: "Transportation",
         icon: Icons.directions_bus_rounded,
-        iconColor: Color(int.parse("0xFF188976"))),
+        iconColor: Color(0xFF188976)),
     Category(
         name: "Utilities",
         icon: Icons.build_rounded,
-        iconColor: Color(int.parse("0xFFc03c42"))),
-    otherCategory
+        iconColor: Color(0xFFAB3A66)),
   ];
 
   static final otherCategory = Category(
       name: "Other",
       icon: Icons.ac_unit_rounded,
-      iconColor: Color(int.parse("0xFFc03c42")));
+      iconColor: Color(0xFF798897));
 
   static final keyboard = [
     ["1", "2", "3"],
@@ -81,32 +80,16 @@ class AppConstants {
   ];
 
   static final iconColorList = [
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF56717c")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF188976")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF56717c")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF188976")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF56717c")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF188976")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF188976")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF56717c")),
-    Color(int.parse("0xFFfdbe0d")),
-    Color(int.parse("0xFFc03c42")),
-    Color(int.parse("0xFF188976")),
-    Color(int.parse("0xFFfdbe0d")),
+    Color(0xFFc03c42),
+    Color(0xFFfdbe0d),
+    Color(0xFF188976),
+    Color(0xFF86447C),
+    Color(0xFF5B4C7E),
+    Color(0xFF5B4C7E),
+    Color(0xFF2F4858),
+    Color(0xFF008FC7),
+    Color(0xFF2B81CF),
+    Color(0xFF567600),
+    Color(0xFFB9538E),
   ];
 }

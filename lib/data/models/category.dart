@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -27,10 +28,13 @@ class Category {
 
   factory Category.fromCategoryEntity(CategoryEntityData categoryEntityData) {
     return Category(
-        id: categoryEntityData.id,
-        name: categoryEntityData.name,
-        icon: categoryEntityData.icon.jsonToIconData(),
-        iconColor: Color(int.parse(categoryEntityData.iconColor)));
+        id: categoryEntityData?.id,
+        name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
+        icon: categoryEntityData?.icon?.jsonToIconData() ??
+            AppConstants.otherCategory.icon,
+        iconColor: categoryEntityData?.iconColor != null
+            ? Color(int.parse(categoryEntityData?.iconColor))
+            : AppConstants.otherCategory.iconColor);
   }
 
   CategoryEntityCompanion toCategoryEntityCompanion() {
