@@ -14,7 +14,6 @@ class CategoryList extends ConsumerWidget {
         onChange: (context, model) async {},
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.grey.shade50,
             title: Text("Category list"),
             leading: Icon(Icons.close).onInkTap(() {
               Navigator.pop(context);

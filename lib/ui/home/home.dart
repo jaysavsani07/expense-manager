@@ -13,37 +13,87 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final homeViewModel = watch(signInModelProvider);
-    return ProviderListener<HomeViewModel>(
-      provider: signInModelProvider,
-      onChange: (context, model) async {},
-      child: Scaffold(
-        body: homeViewModel.activeTab == HomeTab.dashboard
-            ? Dashboard()
-            : History(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
-          },
-          child: Icon(
-            Icons.add,
-          ),
+    return Scaffold(
+      body: homeViewModel.activeTab == HomeTab.dashboard
+          ? Dashboard()
+          : History(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
+        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: HomeTab.values.indexOf(homeViewModel.activeTab),
-          onTap: homeViewModel.changeTab,
-          items: HomeTab.values.map((tab) {
-            return BottomNavigationBarItem(
-              icon: Icon(
-                tab == HomeTab.dashboard ? Icons.home : Icons.history,
-                key: tab == HomeTab.dashboard
-                    ? AppKeys.todoTab
-                    : AppKeys.statsTab,
+        child: BottomAppBar(
+          notchMargin: 8,
+          shape: CircularNotchedRectangle(),
+          child: Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 60,
+                  child: InkWell(
+                    onTap: () => homeViewModel.changeTab(0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.dashboard,
+                          color: homeViewModel.activeTab == HomeTab.dashboard
+                              ? Colors.blue
+                              : null,
+                        ),
+                        8.widthBox,
+                        Text(
+                          AppLocalizations.dashboard,
+                          style: TextStyle(
+                              color:
+                                  homeViewModel.activeTab == HomeTab.dashboard
+                                      ? Colors.blue
+                                      : null),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              label: tab == HomeTab.dashboard
-                  ? AppLocalizations.dashboard
-                  : AppLocalizations.history,
-            );
-          }).toList(),
+              SizedBox(width: 60),
+              Expanded(
+                child: SizedBox(
+                  height: 60,
+                  child: InkWell(
+                    onTap: () => homeViewModel.changeTab(1),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.history,
+                          color: homeViewModel.activeTab == HomeTab.history
+                              ? Colors.blue
+                              : null,
+                        ),
+                        8.widthBox,
+                        Text(
+                          AppLocalizations.history,
+                          style: TextStyle(
+                              color: homeViewModel.activeTab == HomeTab.history
+                                  ? Colors.blue
+                                  : null),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

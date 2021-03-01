@@ -31,15 +31,16 @@ class AddEntry extends ConsumerWidget {
                   .make()
                   .centered()
                   .box
+                  .height(108)
+                  .make()
+                  .card
                   .p8
-              .height(108)
-                  .color(Theme.of(context).cursorColor)
-                  .roundedSM
+                  .zero
+                  .withRounded(value: 8)
                   .make()
                   .onInkTap(() {
-                    vm.showNumPad();
-                  })
-                  .p4(),
+                vm.showNumPad();
+              }).p4(),
               16.heightBox,
               Expanded(
                   child: vm.isShowNumPad
@@ -96,19 +97,21 @@ class AddEntry extends ConsumerWidget {
                                         crossAxisCount: 2),
                                 scrollDirection: Axis.horizontal,
                                 children: vm.categoryList
-                                    .map((category) => [
-                                          10.heightBox,
-                                          Icon(
-                                            category.icon,
-                                            color: vm.category == category
-                                                ? Vx.black
-                                                : category.iconColor,
-                                          ),
-                                          category.name.text.center
-                                              .make()
-                                              .pSymmetric(v: 10, h: 4),
-                                        ]
-                                            .column()
+                                    .map((category) => Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                              10.heightBox,
+                                              Icon(
+                                                category.icon,
+                                                color: vm.category == category
+                                                    ? Vx.black
+                                                    : category.iconColor,
+                                              ),
+                                              category.name.text.center
+                                                  .make()
+                                                  .pSymmetric(v: 10, h: 4),
+                                            ])
                                             .centered()
                                             .box
                                             .width(110)
@@ -148,10 +151,10 @@ class AddEntry extends ConsumerWidget {
                                           Icon(Icons.arrow_drop_down)
                                         ],
                                       )
-                                          .box
-                                          .p8
-                                          .white
-                                          .roundedSM
+                                          .p8()
+                                          .card
+                                          .zero
+                                          .withRounded(value: 8)
                                           .make()
                                           .onInkTap(() {
                                         _selectDate(context, vm);
@@ -179,10 +182,10 @@ class AddEntry extends ConsumerWidget {
                                                 .expand(),
                                             Icon(Icons.arrow_drop_down)
                                           ])
-                                          .box
-                                          .p8
-                                          .white
-                                          .roundedSM
+                                          .p8()
+                                          .card
+                                          .zero
+                                          .withRounded(value: 8)
                                           .make()
                                           .onInkTap(() {
                                         _selectTime(context, vm);
@@ -197,7 +200,7 @@ class AddEntry extends ConsumerWidget {
                                 keyboardType: TextInputType.text,
                                 borderRadius: 7.5,
                                 borderType: VxTextFieldBorderType.none,
-                                fillColor: Vx.white,
+                                fillColor: context.theme.cardTheme.color,
                                 maxLine: 2,
                                 textInputAction: TextInputAction.done,
                                 maxLength: 100,

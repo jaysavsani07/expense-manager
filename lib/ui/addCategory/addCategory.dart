@@ -19,7 +19,6 @@ class AddCategory extends ConsumerWidget {
         onChange: (context, model) async {},
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.grey.shade50,
             leading: Icon(Icons.close).onInkTap(() {
               Navigator.pop(context);
             }),
@@ -54,7 +53,7 @@ class AddCategory extends ConsumerWidget {
                           keyboardType: TextInputType.text,
                           borderRadius: 7.5,
                           borderType: VxTextFieldBorderType.none,
-                          fillColor: Vx.white,
+                          fillColor: context.theme.cardTheme.color,
                           maxLine: 2,
                           textInputAction: TextInputAction.done,
                           maxLength: 20,
