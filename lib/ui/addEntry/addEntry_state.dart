@@ -21,7 +21,6 @@ class AddEntryViewModel with ChangeNotifier {
   List<cat.Category> categoryList = [];
   String amount = "0";
   cat.Category category;
-  bool isShowNumPad = true;
   DateTime date = DateTime.now();
   String description = "";
 
@@ -29,7 +28,6 @@ class AddEntryViewModel with ChangeNotifier {
       {@required this.entryDataSourceImp, @required this.entryWithCategory}) {
     this.entryWithCategory = entryWithCategory;
     if (entryWithCategory != null) {
-      isShowNumPad = false;
       amount = entryWithCategory.entry.amount.toString();
       date = entryWithCategory.entry.modifiedDate;
       category = entryWithCategory.category;
@@ -62,22 +60,13 @@ class AddEntryViewModel with ChangeNotifier {
     }
   }
 
-  void showNumPad() {
-    if (!isShowNumPad) {
-      isShowNumPad = true;
-      notifyListeners();
-    }
-  }
-
-  void hideNumPad() {
-    if (isShowNumPad) {
-      isShowNumPad = false;
-      notifyListeners();
-    }
-  }
-
   void categoryChange(cat.Category category) {
     this.category = category;
+    notifyListeners();
+  }
+
+  void amountChange(String amount) {
+    this.amount = amount;
     notifyListeners();
   }
 
@@ -98,40 +87,6 @@ class AddEntryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void textChange(String text) {
-    if (text == "DEL")
-      backPress();
-    else if (text == ".")
-      dotPress();
-    else
-      numberPress(text);
-  }
-
-  void numberPress(String text) {
-    if (amount == "0") {
-      amount = text;
-    } else {
-      amount = amount + text;
-    }
-    notifyListeners();
-  }
-
-  void backPress() {
-    if (amount.length > 1) {
-      amount = amount.substring(0, amount.length - 1);
-    } else {
-      amount = "0";
-    }
-    notifyListeners();
-  }
-
-  void dotPress() {
-    if (!amount.contains(".")) {
-      amount = amount + ".";
-      notifyListeners();
-    }
-  }
-
   @override
   void dispose() {
     categoryList = [];
@@ -139,7 +94,6 @@ class AddEntryViewModel with ChangeNotifier {
     category = AppConstants.otherCategory;
     date = DateTime.now();
     description = "";
-    isShowNumPad = true;
     super.dispose();
   }
 }
