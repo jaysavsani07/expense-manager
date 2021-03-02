@@ -13,13 +13,15 @@ class CategoryPieChartView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final vm = watch(categoryPieChartProvider);
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: vm.isEmpty
-              ? SizedBox()
-              : PieChart(
+        vm.isEmpty
+            ? SizedBox()
+            : SizedBox(
+                height: 140,
+                width: 140,
+                child: PieChart(
                   PieChartData(
                       pieTouchData:
                           PieTouchData(touchCallback: (pieTouchResponse) {
@@ -33,13 +35,13 @@ class CategoryPieChartView extends ConsumerWidget {
                         show: false,
                       ),
                       sectionsSpace: 8,
-                      centerSpaceRadius: 80,
                       sections: vm),
                 ),
-        ),
-        const CategoryPieChatListView()
+              ).expand(),
+        24.widthBox,
+        CategoryPieChatListView()
       ],
-    );
+    ).pSymmetric(h: 16,v: 24).card.roundedSM.make().pSymmetric(h: 24);
   }
 }
 
@@ -51,10 +53,8 @@ class CategoryPieChatListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final vm = watch(categoryPieChartListProvider);
-    return GridView(
+    return ListView(
       shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 5),
       scrollDirection: Axis.vertical,
       children: vm
           .map((list) => Row(
@@ -62,14 +62,14 @@ class CategoryPieChatListView extends ConsumerWidget {
                 children: [
                   Icon(
                     Icons.circle,
-                    size: 16,
+                    size: 10,
                     color: list.iconColor,
                   ),
-                  8.widthBox,
-                  list.name.text.make()
+                  4.widthBox,
+                  list.name.text.sm.ellipsis.make()
                 ],
-              ).box.height(12).make())
+              ).pOnly(bottom: 24))
           .toList(),
-    ).pSymmetric(h: 16).expand();
+    ).expand();
   }
 }

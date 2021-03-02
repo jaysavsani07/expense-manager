@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/category_list_view.dart';
@@ -7,99 +8,65 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    return ProviderListener<DashboardViewModel>(
-        provider: categoryListProvider,
-        onChange: (context, model) async {},
-        child: SafeArea(
-          top: true,
-          child: Scaffold(
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppLocalization.of(context)
-                        .getTranslatedVal("home_title")
-                        .text
-                        .xl2
-                        .make()
-                        .pOnly(left: 8),
-                    AppLocalization.of(context)
-                        .getTranslatedVal("home_title")
-                        .text
-                        .xl2
-                        .make()
-                        .pOnly(left: 8),
-                    Icon(Icons.settings_outlined).p16().onInkTap(() {
-                      Navigator.pushNamed(context, AppRoutes.setting);
-                    })
-                  ],
-                ),
-                const TotalAmount(),
-                8.heightBox,
-                const TodayAmount(),
-                16.heightBox,
-                const SmoothPageView(),
-              ],
-            ),
-          ),
-        ));
-  }
-}
-
-class SmoothPageView extends StatefulWidget {
-  const SmoothPageView({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _PageViewState createState() => _PageViewState();
-}
-
-class _PageViewState extends State<SmoothPageView> {
-  PageController controller;
-
-  @override
-  void initState() {
-    controller = PageController(initialPage: 0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SmoothPageIndicator(
-          controller: controller,
-          count: 2,
-          effect: JumpingDotEffect(
-            activeDotColor: Vx.black,
-            dotHeight: 8,
-            dotWidth: 8,
+    return SafeArea(
+      top: true,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DottedBorder(
+                          color: Colors.blue,
+                          dashPattern: [5, 5],
+                          radius: Radius.circular(12),
+                          borderType: BorderType.RRect,
+                          child: "Dashboard"
+                              .text
+                              .lg
+                              .bold
+                              .color(Colors.blue)
+                              .make()
+                              .pSymmetric(h: 8, v: 4))
+                      .pOnly(left: 24),
+                  Icon(
+                    Icons.settings,
+                    size: 20,
+                  ).p24().onInkTap(() {
+                    Navigator.pushNamed(context, AppRoutes.setting);
+                  })
+                ],
+              ),
+              24.heightBox,
+              "Hello, Jay".text.xl4.make().pOnly(left: 24),
+              20.heightBox,
+              const TodayAmount(),
+              30.heightBox,
+              "Total Expanse".text.xl.bold.make().pOnly(left: 24),
+              20.heightBox,
+              const CategoryPieChartView(),
+              30.heightBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  "Quick Add".text.xl.bold.make(),
+                  "Manage Category".text.lg.color(Colors.blue).bold.make(),
+                ],
+              ).pSymmetric(h: 24),
+              20.heightBox,
+              const CategoryListView()
+            ],
           ),
         ),
-        PageView(
-          scrollDirection: Axis.horizontal,
-          controller: controller,
-          children: [
-            const CategoryPieChartView(),
-            const CategoryListView(),
-          ],
-        ).expand()
-      ],
-    ).expand();
+      ),
+    );
   }
 }
 
@@ -124,10 +91,29 @@ class TodayAmount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final todayAmount = watch(todayAmountProvider);
-    return "${NumberFormat.simpleCurrency().currencySymbol}${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")} Today"
-        .text
-        .green500
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            "TODAY'S EXPANSE".text.sm.semiBold.white.make(),
+            16.heightBox,
+            "${NumberFormat.simpleCurrency().currencySymbol} ${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                .text
+                .xl2
+                .bold
+                .white
+                .make()
+          ],
+        )
+      ],
+    )
+        .pSymmetric(v: 24, h: 16)
+        .card
+        .roundedSM
+        .color(Colors.blue)
+        .elevation(1)
         .make()
-        .pOnly(left: 18);
+        .pSymmetric(h: 24);
   }
 }
