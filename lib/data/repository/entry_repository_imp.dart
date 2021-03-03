@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
@@ -98,5 +99,15 @@ class EntryRepositoryImp extends EntryRepository {
   @override
   Stream<List<CategoryWithSum>> getAllCategoryWithSum() {
     return entryDataSourceImp.getAllCategoryWithSum();
+  }
+
+  @override
+  Stream<List<CategoryWithSum>> getCategoryDetails(filter filterType) {
+    if (filterType == filter.lastMonth)
+      return entryDataSourceImp.getAllLastMonthCategoryWithSum();
+    else if (filterType == filter.lastYear)
+      return entryDataSourceImp.getAllLastYearCategoryWithSum();
+    else
+      return entryDataSourceImp.getAllCategoryWithSum();
   }
 }

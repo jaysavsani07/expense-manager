@@ -203,4 +203,20 @@ class EntryDataSourceImp extends EntryDataSource {
         .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
         .toList());
   }
+
+  @override
+  Stream<List<CategoryWithSum>> getAllLastMonthCategoryWithSum() {
+    return appDatabase.getAllLastMonthCategoryWithSum().map((event) =>
+        event
+            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+            .toList());
+  }
+
+  @override
+  Stream<List<CategoryWithSum>> getAllLastYearCategoryWithSum() {
+    return appDatabase.getAllLastYearCategoryWithSum().map((event) =>
+        event
+            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+            .toList());
+  }
 }

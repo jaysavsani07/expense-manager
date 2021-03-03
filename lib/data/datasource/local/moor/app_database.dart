@@ -1,6 +1,7 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:expense_manager/extension/datetime_extension.dart';
 
 part 'app_database.g.dart';
 
@@ -167,6 +168,51 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
+  Stream<List<CategoryWithSumData>> getAllLastMonthCategoryWithSum() {
+    return ((select(entryEntity)
+              ..where((tbl) => tbl.modifiedDate.isBiggerThanValue(
+                  DateTime.now().subtract(Duration(days: 30)))))
+            .join([])
+              ..groupBy([entryEntity.categoryName])
+              ..addColumns([entryEntity.amount.sum()])
+              ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
+        .join([
+          innerJoin(categoryEntity,
+              categoryEntity.name.equalsExp(entryEntity.categoryName))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return CategoryWithSumData(
+                total: row.read(entryEntity.amount.sum()),
+                category: row.readTable(categoryEntity));
+          }).toList();
+        });
+  }
+
+  Stream<List<CategoryWithSumData>> getAllLastYearCategoryWithSum() {
+    return ((select(entryEntity)
+              ..where((tbl) => tbl.modifiedDate.isBiggerThanValue(
+                  DateTime.now().subtract(Duration(days: 365)))))
+            .join([])
+              ..groupBy([entryEntity.categoryName])
+              ..addColumns([entryEntity.amount.sum()])
+      ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())])
+    )
+        .join([
+          innerJoin(categoryEntity,
+              categoryEntity.name.equalsExp(entryEntity.categoryName))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return CategoryWithSumData(
+                total: row.read(entryEntity.amount.sum()),
+                category: row.readTable(categoryEntity));
+          }).toList();
+        });
+  }
+
   Stream<List<CategoryEntityData>> getAllCategory() => (select(categoryEntity)
         ..orderBy(
             [(u) => OrderingTerm(expression: u.id, mode: OrderingMode.asc)]))
@@ -204,7 +250,9 @@ class AppDatabase extends _$AppDatabase {
   Stream<List<CategoryWithSumData>> getAllCategoryWithSum() {
     return (select(entryEntity).join([])
           ..groupBy([entryEntity.categoryName])
-          ..addColumns([entryEntity.amount.sum()]))
+          ..addColumns([entryEntity.amount.sum()])
+      ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())])
+    )
         .join([
           innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
