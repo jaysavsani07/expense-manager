@@ -5,7 +5,8 @@
 gpg --quiet --batch --yes --decrypt --passphrase="$ANDROID_KEYS_SECRET_PASSPHRASE" \
 --output android/android_keys.zip android/android_keys.zip.gpg && cd android && jar xvf android_keys.zip && cd -
 echo $PWD
-FILE=./expensemanager.jks
+FILE=expensemanager.jks
 if test -f "$FILE"; then
     echo "$FILE exists."
 fi
+echo *****
