@@ -10,7 +10,7 @@ import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor/moor.dart';
-
+import 'package:rxdart/rxdart.dart';
 final repositoryProvider = Provider((ref) =>
     EntryRepositoryImp(entryDataSourceImp: ref.read(dataSourceProvider)));
 

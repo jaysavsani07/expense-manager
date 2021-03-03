@@ -180,7 +180,7 @@ class AppDatabase extends _$AppDatabase {
           innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
-        .watch()
+        .get().asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
@@ -203,7 +203,7 @@ class AppDatabase extends _$AppDatabase {
           innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
-        .watch()
+        .get().asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
@@ -257,7 +257,7 @@ class AppDatabase extends _$AppDatabase {
           innerJoin(categoryEntity,
               categoryEntity.name.equalsExp(entryEntity.categoryName))
         ])
-        .watch()
+        .get().asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(

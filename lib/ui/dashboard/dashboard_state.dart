@@ -11,7 +11,7 @@ import 'package:expense_manager/extension/datetime_extension.dart';
 
 final totalAmountProvider = Provider<double>((ref) {
   return ref
-      .watch(categoryListProvider)
+      .watch(dashboardProvider)
       .list
       .map((e) => e.total)
       .fold(0.0, (previousValue, element) => previousValue + element);
@@ -19,7 +19,7 @@ final totalAmountProvider = Provider<double>((ref) {
 
 final todayAmountProvider = Provider<double>((ref) {
   return ref
-      .watch(categoryListProvider)
+      .watch(dashboardProvider)
       .list
       .expand((element) => element.entry)
       .where((e) => e.modifiedDate.isToday())
@@ -32,7 +32,7 @@ final categoryPieChartTeachItemProvider = StateProvider<int>((_) => -1);
 final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {
   int touchedIndex = ref.watch(categoryPieChartTeachItemProvider).state;
   double totalAmount = ref.read(totalAmountProvider);
-  return ref.watch(categoryListProvider).list.asMap().entries.map((e) {
+  return ref.watch(dashboardProvider).list.asMap().entries.map((e) {
     return PieChartSectionData(
       color: e.value.category.iconColor,
       value: e.value.total,
@@ -47,10 +47,10 @@ final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {
 });
 
 final categoryPieChartListProvider = Provider<List<cat.Category>>((ref) {
-  return ref.watch(categoryListProvider).list.map((e) => e.category).toList();
+  return ref.watch(dashboardProvider).list.map((e) => e.category).toList();
 });
 
-final categoryListProvider = ChangeNotifierProvider<DashboardViewModel>((ref) {
+final dashboardProvider = ChangeNotifierProvider<DashboardViewModel>((ref) {
   return DashboardViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
       cycleDate: int.parse(ref.watch(monthStartDateStateNotifier).date));
@@ -67,6 +67,22 @@ class DashboardViewModel with ChangeNotifier {
         .getAllEntryWithCategory(DateTimeUtil.getStartDateTime(cycleDate),
             DateTimeUtil.getEndDateTime(cycleDate))
         .listen((event) {
+      list = event;
+      notifyListeners();
+    });
+  }
+}
+
+final categoryListProvider = ChangeNotifierProvider<CategoryModel>((ref) {
+  return CategoryModel(entryDataSourceImp: ref.read(repositoryProvider));
+});
+
+class CategoryModel with ChangeNotifier {
+  EntryRepositoryImp entryDataSourceImp;
+  List<cat.Category> list = [];
+
+  CategoryModel({@required this.entryDataSourceImp}) {
+    entryDataSourceImp.getAllCategory().listen((event) {
       list = event;
       notifyListeners();
     });
