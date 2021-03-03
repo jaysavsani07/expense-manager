@@ -28,12 +28,6 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
         # Add build runner commands here if you have any
-      - name: Format files
-        run: flutter format --set-exit-if-changed .
-      - name: Analyze files
-        run: flutter analyze .
-      - name: Run the tests
-        run: flutter test
       - name: Build the APK
         run: flutter build apk --release
       - name: Upload artifact to Github
