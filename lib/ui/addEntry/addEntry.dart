@@ -158,7 +158,7 @@ class AddEntry extends ConsumerWidget {
             },
           ),
         ],
-      ).box.make().scrollVertical().pSymmetric(h: 24),
+      ).scrollVertical().pSymmetric(h: 24),
     );
   }
 

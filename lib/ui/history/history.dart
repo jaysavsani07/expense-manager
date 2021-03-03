@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/ui/history/history_list.dart';
 import 'package:expense_manager/ui/history/month_list.dart';
 import 'package:expense_manager/ui/history/year_list.dart';
@@ -11,9 +12,24 @@ class History extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
       appBar: AppBar(
-        title: "History".text.xl3.make(),
+        title: DottedBorder(
+                color: Colors.blue,
+                dashPattern: [5, 5],
+                radius: Radius.circular(12),
+                borderType: BorderType.RRect,
+                child: "History"
+                    .text
+                    .lg
+                    .bold
+                    .color(Colors.blue)
+                    .make()
+                    .pSymmetric(h: 8, v: 4))
+            .pOnly(left: 24),
         actions: [
-          Icon(Icons.calendar_today_rounded).p16().onInkTap(() {
+          Icon(
+            Icons.calendar_today_rounded,
+            size: 20,
+          ).p24().onInkTap(() {
             showModalBottomSheet(
                 context: context,
                 shape: RoundedRectangleBorder(
@@ -24,6 +40,7 @@ class History extends ConsumerWidget {
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MonthList(),
           HistoryList(),

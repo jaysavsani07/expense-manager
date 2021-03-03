@@ -1,4 +1,5 @@
 import 'package:expense_manager/ui/history/history_view_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -16,17 +17,17 @@ class MonthList extends ConsumerWidget {
                     children: monthList
                         .map((e) => e.text
                                 .color(context.read(monthProvider).state == e
-                                    ? Vx.white
-                                    : Vx.black)
+                                    ? Colors.white
+                                    : Colors.blue)
                                 .base
                                 .make()
-                                .pSymmetric(h: 12, v: 4)
+                                .pSymmetric(h: 14, v: 9)
                                 .box
                                 .color(context.read(monthProvider).state == e
-                                    ? Vx.black
-                                    : Vx.gray500)
-                                .withRounded(value: 4)
-                                .margin(EdgeInsets.all(6))
+                                    ? Colors.blue
+                                    : Color(0xffEEEEEE))
+                                .rounded
+                                .margin(EdgeInsets.symmetric(vertical: 8,horizontal: 4))
                                 .make()
                                 .onInkTap(() {
                               context.read(monthProvider).state = e;
@@ -35,7 +36,7 @@ class MonthList extends ConsumerWidget {
                   ),
               loading: () => SizedBox(),
               error: (e, str) => Text(e.toString()))
-          .h(40),
+          .h(48),
     );
   }
 }
