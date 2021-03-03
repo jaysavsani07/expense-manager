@@ -61,8 +61,8 @@ jobs:
         with:
           flutter-version: 1.22.5
       - name: Install Flutter dependencies
-        run: flutter pub get
-        run: flutter build apk --release
+      - run: flutter pub get
+      - run: flutter build apk --release
       - name: Run Fastlane
         uses: maierj/fastlane-action@v1.4.0
         with:
