@@ -60,7 +60,6 @@ jobs:
         uses: subosito/flutter-action@v1
         with:
           flutter-version: 1.22.5
-      - name: Install Flutter dependencies
       - run: flutter pub get
       - run: flutter build apk --release
       - name: Run Fastlane
