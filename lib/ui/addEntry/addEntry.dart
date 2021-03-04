@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddEntry extends ConsumerWidget {
-  final EntryWithCategory entryWithCategory;
+  final Tuple2<EntryWithCategory, Category> entryWithCategory;
 
   AddEntry({@required this.entryWithCategory}) : super();
 
@@ -45,7 +46,7 @@ class AddEntry extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           VxTextField(
-            value: vm.description,
+            value: vm.amount,
             keyboardType: TextInputType.number,
             borderRadius: 8,
             borderType: VxTextFieldBorderType.none,
@@ -153,7 +154,7 @@ class AddEntry extends ConsumerWidget {
             maxLine: 2,
             textInputAction: TextInputAction.done,
             maxLength: 100,
-            onSubmitted: (text) {
+            onChanged: (text) {
               vm.changeDescription(text);
             },
           ),

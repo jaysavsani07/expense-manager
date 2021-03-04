@@ -31,7 +31,14 @@ class CategoryList extends ConsumerWidget {
                     .make()
                     .pSymmetric(h: 8, v: 4)),
             actions: [
-              "Add New".text.lg.bold.color(Colors.blue).make().p20().onInkTap(() {
+              "Add New"
+                  .text
+                  .lg
+                  .bold
+                  .color(Colors.blue)
+                  .make()
+                  .p20()
+                  .onInkTap(() {
                 Navigator.pushNamed(context, AppRoutes.addCategory,
                     arguments: null);
               })
@@ -40,36 +47,38 @@ class CategoryList extends ConsumerWidget {
           body: ReorderableListView(
             onReorder: vm.reorder,
             children: vm.categoryList
-                .map((e) => Padding(
-                      key: ValueKey(e),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 14),
-                      child: Row(
-                        key: ValueKey(e),
-                        children: [
-                          Icon(
-                            e.icon,
-                            size: 20,
-                            color: e.iconColor,
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                              children: [
-                                e.name.text.make().pSymmetric(h: 16),
-                                Icon(
-                                  Icons.drag_handle_outlined,
-                                  size: 20,
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ).onInkTap(() {
+                .map((e) => InkWell(
+                      key: ValueKey(e.id),
+                      onTap: () {
                         Navigator.pushNamed(context, AppRoutes.addCategory,
                             arguments: e);
-                      }),
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 14),
+                        child: Row(
+                          children: [
+                            Icon(
+                              e.icon,
+                              size: 20,
+                              color: e.iconColor,
+                            ),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  e.name.text.make().pSymmetric(h: 16),
+                                  Icon(
+                                    Icons.drag_handle_outlined,
+                                    size: 20,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ))
                 .toList(),
           ),

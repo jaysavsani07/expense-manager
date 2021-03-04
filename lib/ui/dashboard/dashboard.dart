@@ -57,7 +57,12 @@ class Dashboard extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   "Quick Add".text.xl.bold.make(),
-                  "Manage Category".text.lg.color(Colors.blue).bold.make(),
+                  "Manage Category".text.lg.color(Colors.blue).bold.make().onInkTap(() {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.categoryList,
+                    );
+                  }),
                 ],
               ).pSymmetric(h: 24),
               20.heightBox,

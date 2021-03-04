@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HistoryList extends ConsumerWidget {
@@ -73,7 +74,7 @@ class HistoryList extends ConsumerWidget {
                                         ).pSymmetric(v: 8).onInkTap(() {
                                           Navigator.pushNamed(
                                               context, AppRoutes.addEntry,
-                                              arguments: e);
+                                              arguments: Tuple2(e, null));
                                         }))
                                     .toList(),
                               )

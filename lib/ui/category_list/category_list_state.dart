@@ -28,9 +28,11 @@ class CategoryListViewModel with ChangeNotifier {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
-    entryDataSourceImp.reorderCategory(oldIndex, newIndex).listen((event) {
-      notifyListeners();
-    });
+    var x = categoryList[oldIndex];
+    categoryList.removeAt(oldIndex);
+    categoryList.insert(newIndex, x);
+    notifyListeners();
+    entryDataSourceImp.reorderCategory(oldIndex, newIndex).listen((event) {});
   }
 
   @override

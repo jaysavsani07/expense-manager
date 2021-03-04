@@ -3,6 +3,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 final _currentCategory = ScopedProvider<Category>(null);
@@ -49,7 +50,7 @@ class CategoryItem extends ConsumerWidget {
       ],
     )
         .onInkTap(() {
-          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
+          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: Tuple2(null, category));
         })
         .centered()
         .card

@@ -7,6 +7,7 @@ import 'package:expense_manager/ui/history/history.dart';
 import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -19,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
           : History(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: null);
+          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: Tuple2(null,null));
         },
         child: Icon(Icons.add),
       ),
