@@ -10,7 +10,7 @@ if test -f "$FILE"; then
     echo "$FILE exists."
 fi
 echo "echo 1"
-ls -d $PWD/*
+ls -d $PWD/android/*
 mv expensemanager.jks app
 echo ./
 echo "echo 2"
