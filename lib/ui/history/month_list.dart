@@ -13,13 +13,15 @@ class MonthList extends ConsumerWidget {
           .when(
               data: (monthList) => ListView(
                     shrinkWrap: false,
+                    padding: EdgeInsets.only(left: 24),
                     scrollDirection: Axis.horizontal,
                     children: monthList
                         .map((e) => e.text
                                 .color(context.read(monthProvider).state == e
                                     ? Colors.white
                                     : Colors.blue)
-                                .base
+                                .size(12)
+                                .medium
                                 .make()
                                 .pSymmetric(h: 14, v: 9)
                                 .box
@@ -27,11 +29,10 @@ class MonthList extends ConsumerWidget {
                                     ? Colors.blue
                                     : Color(0xffEEEEEE))
                                 .rounded
-                                .margin(EdgeInsets.symmetric(vertical: 8,horizontal: 4))
                                 .make()
                                 .onInkTap(() {
                               context.read(monthProvider).state = e;
-                            }))
+                            }).pSymmetric(v: 8,h: 4))
                         .toList(),
                   ),
               loading: () => SizedBox(),

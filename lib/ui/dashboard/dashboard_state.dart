@@ -27,6 +27,16 @@ final todayAmountProvider = Provider<double>((ref) {
       .fold(0.0, (previousValue, element) => previousValue + element);
 });
 
+final todayLineChartProvider = Provider<double>((ref) {
+  return ref
+      .watch(dashboardProvider)
+      .list
+      .expand((element) => element.entry)
+      .where((e) => e.modifiedDate.isToday())
+      .map((e) => e.amount)
+      .fold(0.0, (previousValue, element) => previousValue + element);
+});
+
 final categoryPieChartTeachItemProvider = StateProvider<int>((_) => -1);
 
 final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {

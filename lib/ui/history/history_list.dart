@@ -22,7 +22,7 @@ class HistoryList extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               30.heightBox,
-                              history.title.text.bold.base.start.make(),
+                              history.title.text.bold.size(18).make(),
                               14.heightBox,
                               ListView(
                                 physics: NeverScrollableScrollPhysics(),
@@ -42,7 +42,7 @@ class HistoryList extends ConsumerWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                e.category.name.text.bold.base
+                                                e.category.name.text.medium
                                                     .make(),
                                                 Row(
                                                   children: [
@@ -50,16 +50,18 @@ class HistoryList extends ConsumerWidget {
                                                         .format(e
                                                             .entry.modifiedDate)
                                                         .text
-                                                        .sm
-                                                        .light
+                                                        .size(12)
+                                                        .color(
+                                                            Color(0xff212121))
                                                         .make(),
                                                     8.widthBox,
                                                     DateFormat.Hm()
                                                         .format(e
                                                             .entry.modifiedDate)
                                                         .text
-                                                        .sm
-                                                        .light
+                                                        .size(12)
+                                                        .color(
+                                                            Color(0xff212121))
                                                         .make(),
                                                   ],
                                                 ),
@@ -67,7 +69,7 @@ class HistoryList extends ConsumerWidget {
                                             ).expand(),
                                             "${NumberFormat.simpleCurrency().currencySymbol} ${e.entry.amount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                                                 .text
-                                                .lg
+                                                .size(16)
                                                 .bold
                                                 .make()
                                           ],

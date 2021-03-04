@@ -30,34 +30,34 @@ class Dashboard extends ConsumerWidget {
                           borderType: BorderType.RRect,
                           child: "Dashboard"
                               .text
-                              .lg
-                              .bold
+                              .size(16)
+                              .medium
                               .color(Colors.blue)
                               .make()
                               .pSymmetric(h: 8, v: 4))
                       .pOnly(left: 24),
                   Icon(
                     Icons.settings,
-                    size: 20,
+                    size: 24,
                   ).p24().onInkTap(() {
                     Navigator.pushNamed(context, AppRoutes.setting);
                   })
                 ],
               ),
-              24.heightBox,
-              "Hello, Jay".text.xl4.make().pOnly(left: 24),
+              10.heightBox,
+              "Hello, Jay".text.size(34).make().pOnly(left: 24),
               20.heightBox,
               const TodayAmount(),
               30.heightBox,
-              "Total Expanse".text.xl.bold.make().pOnly(left: 24),
+              "Total Expanse".text.size(18).bold.make().pOnly(left: 24),
               20.heightBox,
               const CategoryPieChartView(),
               30.heightBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  "Quick Add".text.xl.bold.make(),
-                  "Manage Category".text.lg.color(Colors.blue).bold.make().onInkTap(() {
+                  "Quick Add".text.size(18).bold.make(),
+                  "Manage Category".text.size(16).color(Colors.blue).bold.make().onInkTap(() {
                     Navigator.pushNamed(
                       context,
                       AppRoutes.categoryList,
@@ -101,21 +101,21 @@ class TodayAmount extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            "TODAY'S EXPANSE".text.sm.semiBold.white.make(),
-            16.heightBox,
+            "TODAY'S EXPANSE".text.size(12).bold.white.make(),
+            6.heightBox,
             "${NumberFormat.simpleCurrency().currencySymbol} ${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                 .text
-                .xl2
-                .bold
+                .size(28)
+                .medium
                 .white
                 .make()
           ],
         )
       ],
     )
-        .pSymmetric(v: 24, h: 16)
+        .pSymmetric(v: 24, h: 14)
         .card
-        .roundedSM
+        .withRounded(value: 8)
         .color(Colors.blue)
         .elevation(1)
         .make()

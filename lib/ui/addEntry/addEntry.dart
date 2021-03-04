@@ -30,13 +30,20 @@ class AddEntry extends ConsumerWidget {
             borderType: BorderType.RRect,
             child: "Add Expense"
                 .text
-                .lg
-                .bold
+                .size(16)
+                .medium
                 .color(Colors.blue)
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
-          "Save".text.lg.bold.color(Colors.blue).make().p20().onInkTap(() {
+          "Save"
+              .text
+              .size(16)
+              .bold
+              .color(Colors.blue)
+              .make()
+              .p20()
+              .onInkTap(() {
             vm.addEntry();
             Navigator.pop(context);
           })
@@ -45,6 +52,7 @@ class AddEntry extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          20.heightBox,
           VxTextField(
             value: vm.amount,
             keyboardType: TextInputType.number,
@@ -55,17 +63,25 @@ class AddEntry extends ConsumerWidget {
             onChanged: (text) {
               vm.amountChange(text);
             },
+            style: TextStyle(fontSize: 32,fontWeight: FontWeight.w700),
             height: 80,
             hint: "${NumberFormat.simpleCurrency().currencySymbol} 00.00",
             textAlign: TextAlign.center,
             clear: false,
-          ).card.roundedSM.make(),
+          ).card.withRounded(value: 6).make(),
           30.heightBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              "Category".text.bold.base.start.make(),
-              "Edit".text.bold.sm.color(Colors.blue).start.make().onInkTap(() {
+              "Category".text.size(18).bold.make(),
+              "Edit"
+                  .text
+                  .size(18)
+                  .bold
+                  .color(Colors.blue)
+                  .start
+                  .make()
+                  .onInkTap(() {
                 Navigator.pushNamed(
                   context,
                   AppRoutes.categoryList,
@@ -89,14 +105,15 @@ class AddEntry extends ConsumerWidget {
                             color: category.iconColor,
                             size: 20,
                           ),
-                          category.name.text.sm.ellipsis.make().p4()
+                          4.heightBox,
+                          category.name.text.size(12).ellipsis.make().p4()
                         ],
                       )
                           .centered()
                           .card
                           .shape(RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(7.5)),
+                                  BorderRadius.all(Radius.circular(6)),
                               side: BorderSide(
                                   width: 1,
                                   color: vm.category == category
@@ -112,44 +129,64 @@ class AddEntry extends ConsumerWidget {
           30.heightBox,
           Row(children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              "Date".text.bold.base.start.make(),
+              "Date".text.size(18).bold.make(),
               8.heightBox,
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  DateFormat('dd.MM.yy').format(vm.date).text.base.make().p8(),
+                  DateFormat('dd/MM/yy')
+                      .format(vm.date)
+                      .text
+                      .size(14)
+                      .make()
+                      .p8(),
                   Icon(Icons.arrow_drop_down)
                 ],
-              ).box.border().roundedSM.make().onInkTap(() {
+              )
+                  .box
+                  .border(color: Color(0xffE0E0E0))
+                  .withRounded(value: 6)
+                  .make()
+                  .onInkTap(() {
                 _selectDate(context, vm);
               })
             ]).expand(),
             8.widthBox,
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              "Time".text.bold.base.start.make(),
+              "Time".text.size(18).bold.make(),
               8.heightBox,
               Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DateFormat('HH:mm').format(vm.date).text.base.make().p8(),
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                    DateFormat('HH:mm')
+                        .format(vm.date)
+                        .text
+                        .size(14)
+                        .make()
+                        .p8(),
                     Icon(Icons.arrow_drop_down)
-                  ]).box.border().roundedSM.make().onInkTap(() {
+                  ])
+                  .box
+                  .border(color: Color(0xffE0E0E0))
+                  .withRounded(value: 6)
+                  .make()
+                  .onInkTap(() {
                 _selectTime(context, vm);
               })
             ]).expand(),
           ]),
           30.heightBox,
-          "Note".text.bold.base.start.make(),
+          "Note".text.size(18).bold.start.make(),
           8.heightBox,
           VxTextField(
             value: vm.description,
             keyboardType: TextInputType.text,
-            borderRadius: 7.5,
+            borderRadius: 6,
             hint: "Enter note here",
             borderType: VxTextFieldBorderType.roundLine,
-            borderColor: Colors.black,
+            borderColor: Color(0xffE0E0E0),
             fillColor: context.theme.cardTheme.color,
             maxLine: 2,
             textInputAction: TextInputAction.done,

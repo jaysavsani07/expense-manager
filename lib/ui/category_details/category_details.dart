@@ -13,6 +13,9 @@ class CategoryDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: Icon(Icons.arrow_back_ios_rounded).onInkTap(() {
+            Navigator.pop(context);
+          }),
           title: DottedBorder(
                   color: Colors.blue,
                   dashPattern: [5, 5],
@@ -20,7 +23,7 @@ class CategoryDetails extends StatelessWidget {
                   borderType: BorderType.RRect,
                   child: "Total Expense"
                       .text
-                      .lg
+                      .size(16)
                       .bold
                       .color(Colors.blue)
                       .make()
@@ -47,13 +50,13 @@ class TotalAmount extends ConsumerWidget {
     final totalAmount = watch(categoryDetailsTotalAmountProvider);
     return "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
         .text
-        .xl3
+        .size(32)
         .bold
         .make()
         .pSymmetric(v: 20)
         .centered()
         .card
-        .roundedSM
+        .withRounded(value: 6)
         .elevation(1)
         .make()
         .pSymmetric(h: 24);
@@ -71,7 +74,8 @@ class CategoryFilterView extends ConsumerWidget {
         "Last Month"
             .text
             .color(filterType == filter.lastMonth ? Colors.white : Colors.blue)
-            .sm
+            .size(12)
+            .medium
             .make()
             .centered()
             .pSymmetric(v: 10)
@@ -79,43 +83,50 @@ class CategoryFilterView extends ConsumerWidget {
             .color(filterType == filter.lastMonth
                 ? Colors.blue
                 : Color(0xffEEEEEE))
-            .rounded
-            .margin(EdgeInsets.symmetric(horizontal: 10))
+            .withRounded(value: 20)
             .make()
             .onInkTap(() {
-          context.read(categoryDetailsFilterProvider).state = filter.lastMonth;
-        }).expand(),
+              context.read(categoryDetailsFilterProvider).state =
+                  filter.lastMonth;
+            })
+            .pSymmetric(h: 10)
+            .expand(),
         "Last Year"
             .text
             .color(filterType == filter.lastYear ? Colors.white : Colors.blue)
-            .sm
+            .size(12)
+            .medium
             .make()
             .centered()
             .pSymmetric(v: 10)
             .box
             .color(
                 filterType == filter.lastYear ? Colors.blue : Color(0xffEEEEEE))
-            .rounded
-            .margin(EdgeInsets.symmetric(horizontal: 10))
+            .withRounded(value: 20)
             .make()
             .onInkTap(() {
-          context.read(categoryDetailsFilterProvider).state = filter.lastYear;
-        }).expand(),
+              context.read(categoryDetailsFilterProvider).state =
+                  filter.lastYear;
+            })
+            .pSymmetric(h: 10)
+            .expand(),
         "All"
             .text
             .color(filterType == filter.all ? Colors.white : Colors.blue)
-            .sm
+            .size(12)
+            .medium
             .make()
             .centered()
             .pSymmetric(v: 10)
             .box
             .color(filterType == filter.all ? Colors.blue : Color(0xffEEEEEE))
-            .rounded
-            .margin(EdgeInsets.symmetric(horizontal: 10))
+            .withRounded(value: 20)
             .make()
             .onInkTap(() {
-          context.read(categoryDetailsFilterProvider).state = filter.all;
-        }).expand(),
+              context.read(categoryDetailsFilterProvider).state = filter.all;
+            })
+            .pSymmetric(h: 10)
+            .expand(),
       ],
     ).pSymmetric(h: 24);
   }
@@ -146,19 +157,19 @@ class CategoryList1 extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          e.category.name.text.bold.base.make(),
+                          e.category.name.text.size(14).medium.make(),
                           8.widthBox,
                           "${NumberFormat.simpleCurrency(decimalDigits: 0).format(e.total)}"
                               .text
                               .bold
-                              .base
+                              .size(16)
                               .make(),
                         ],
                       ),
                       8.heightBox,
                       LinearPercentIndicator(
                         lineHeight: 6,
-                        percent:e.total/ list.first.total,
+                        percent: e.total / list.first.total,
                         padding: EdgeInsets.symmetric(horizontal: 4),
                         backgroundColor: Color(0xffEEEEEE),
                         progressColor: e.category.iconColor,

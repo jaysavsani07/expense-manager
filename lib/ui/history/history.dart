@@ -19,8 +19,8 @@ class History extends ConsumerWidget {
                 borderType: BorderType.RRect,
                 child: "History"
                     .text
-                    .lg
-                    .bold
+                    .size(16)
+                    .medium
                     .color(Colors.blue)
                     .make()
                     .pSymmetric(h: 8, v: 4))
@@ -28,7 +28,7 @@ class History extends ConsumerWidget {
         actions: [
           Icon(
             Icons.calendar_today_rounded,
-            size: 20,
+            size: 24,
           ).p24().onInkTap(() {
             showModalBottomSheet(
                 context: context,
@@ -42,6 +42,7 @@ class History extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          10.heightBox,
           MonthList(),
           HistoryList(),
         ],

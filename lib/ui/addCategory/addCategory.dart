@@ -27,13 +27,13 @@ class AddCategory extends ConsumerWidget {
             borderType: BorderType.RRect,
             child: "New Category"
                 .text
-                .lg
-                .bold
+                .size(16)
+                .medium
                 .color(Colors.blue)
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
-          "Save".text.lg.bold.color(Colors.blue).make().p20().onInkTap(() {
+          "Save".text.size(16).bold.color(Colors.blue).make().p20().onInkTap(() {
             vm.saveCategory();
             Navigator.pop(context);
           })
@@ -42,6 +42,7 @@ class AddCategory extends ConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          20.heightBox,
           Row(
             children: [
               Icon(
@@ -56,15 +57,17 @@ class AddCategory extends ConsumerWidget {
                 fillColor: context.theme.cardTheme.color,
                 textInputAction: TextInputAction.done,
                 height: 80,
+                style: TextStyle(fontSize: 24,fontWeight: FontWeight.w700),
                 hint: "Tea",
+                clear: false,
                 onChanged: (text) {
                   vm.changeName(text);
                 },
               ).pOnly(right: 24).expand(),
             ],
-          ).card.roundedSM.make(),
+          ).card.withRounded(value: 6).make(),
           30.heightBox,
-          "Icon".text.bold.base.start.make(),
+          "Icon".text.bold.size(18).start.make(),
           GridView(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -80,7 +83,7 @@ class AddCategory extends ConsumerWidget {
                 .toList(),
           ).box.height(150).make(),
           30.heightBox,
-          "Color".text.bold.base.start.make(),
+          "Color".text.bold.size(18).start.make(),
           GridView(
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

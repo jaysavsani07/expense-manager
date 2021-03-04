@@ -69,7 +69,7 @@ class CategoryPieChatListView extends ConsumerWidget {
                     color: list.iconColor,
                   ),
                   4.widthBox,
-                  list.name.text.sm.ellipsis.make()
+                  list.name.text.size(14).ellipsis.make()
                 ],
               ).pOnly(bottom: 24))
           .toList(),

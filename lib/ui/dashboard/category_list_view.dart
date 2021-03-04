@@ -46,7 +46,8 @@ class CategoryItem extends ConsumerWidget {
           color: category.iconColor,
           size: 20,
         ),
-        category.name.text.sm.ellipsis.make().p4()
+        4.heightBox,
+        category.name.text.size(12).ellipsis.make().p4()
       ],
     )
         .onInkTap(() {

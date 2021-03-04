@@ -25,15 +25,15 @@ class CategoryList extends ConsumerWidget {
                 borderType: BorderType.RRect,
                 child: "Category list"
                     .text
-                    .lg
-                    .bold
+                    .size(16)
+                    .medium
                     .color(Colors.blue)
                     .make()
                     .pSymmetric(h: 8, v: 4)),
             actions: [
               "Add New"
                   .text
-                  .lg
+                  .size(16)
                   .bold
                   .color(Colors.blue)
                   .make()
@@ -81,7 +81,7 @@ class CategoryList extends ConsumerWidget {
                       ),
                     ))
                 .toList(),
-          ),
+          ).pOnly(top: 20),
         ));
   }
 }
