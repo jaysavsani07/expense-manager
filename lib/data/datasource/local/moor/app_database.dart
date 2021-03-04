@@ -148,7 +148,7 @@ class AppDatabase extends _$AppDatabase {
           ..where((tbl) => tbl.modifiedDate.month.equals(month))
           ..orderBy([
             (u) => OrderingTerm(
-                expression: u.modifiedDate, mode: OrderingMode.desc)
+                expression: u.modifiedDate, mode: OrderingMode.asc)
           ]))
         .join([
           leftOuterJoin(categoryEntity,

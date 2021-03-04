@@ -17,7 +17,7 @@ class MonthList extends ConsumerWidget {
                     scrollDirection: Axis.horizontal,
                     children: monthList
                         .map((e) => e.text
-                                .color(context.read(monthProvider).state == e
+                                .color(watch(monthProvider).state == e
                                     ? Colors.white
                                     : Colors.blue)
                                 .size(12)
@@ -25,7 +25,7 @@ class MonthList extends ConsumerWidget {
                                 .make()
                                 .pSymmetric(h: 14, v: 9)
                                 .box
-                                .color(context.read(monthProvider).state == e
+                                .color(watch(monthProvider).state == e
                                     ? Colors.blue
                                     : Color(0xffEEEEEE))
                                 .rounded

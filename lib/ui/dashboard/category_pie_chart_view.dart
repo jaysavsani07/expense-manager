@@ -73,6 +73,6 @@ class CategoryPieChatListView extends ConsumerWidget {
                 ],
               ).pOnly(bottom: 24))
           .toList(),
-    ).expand();
+    ).h(140).expand();
   }
 }

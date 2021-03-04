@@ -13,62 +13,58 @@ import 'package:velocity_x/velocity_x.dart';
 class Dashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    return SafeArea(
-      top: true,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  DottedBorder(
-                          color: Colors.blue,
-                          dashPattern: [5, 5],
-                          radius: Radius.circular(12),
-                          borderType: BorderType.RRect,
-                          child: "Dashboard"
-                              .text
-                              .size(16)
-                              .medium
-                              .color(Colors.blue)
-                              .make()
-                              .pSymmetric(h: 8, v: 4))
-                      .pOnly(left: 24),
-                  Icon(
-                    Icons.settings,
-                    size: 24,
-                  ).p24().onInkTap(() {
-                    Navigator.pushNamed(context, AppRoutes.setting);
-                  })
-                ],
-              ),
-              10.heightBox,
-              "Hello, Jay".text.size(34).make().pOnly(left: 24),
-              20.heightBox,
-              const TodayAmount(),
-              30.heightBox,
-              "Total Expanse".text.size(18).bold.make().pOnly(left: 24),
-              20.heightBox,
-              const CategoryPieChartView(),
-              30.heightBox,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  "Quick Add".text.size(18).bold.make(),
-                  "Manage Category".text.size(16).color(Colors.blue).bold.make().onInkTap(() {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.categoryList,
-                    );
-                  }),
-                ],
-              ).pSymmetric(h: 24),
-              20.heightBox,
-              const CategoryListView()
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: DottedBorder(
+            color: Colors.blue,
+            dashPattern: [5, 5],
+            radius: Radius.circular(12),
+            borderType: BorderType.RRect,
+            child: "Dashboard"
+                .text
+                .size(16)
+                .medium
+                .color(Colors.blue)
+                .make()
+                .pSymmetric(h: 8, v: 4))
+            .pOnly(left: 24),
+        actions: [
+          Icon(
+            Icons.settings,
+            size: 24,
+          ).p24().onInkTap(() {
+            Navigator.pushNamed(context, AppRoutes.setting);
+          })
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            10.heightBox,
+            "Hello, Jay".text.size(34).make().pOnly(left: 24),
+            20.heightBox,
+            const TodayAmount(),
+            30.heightBox,
+            "Total Expanse".text.size(18).bold.make().pOnly(left: 24),
+            20.heightBox,
+            const CategoryPieChartView(),
+            30.heightBox,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                "Quick Add".text.size(18).bold.make(),
+                "Manage Category".text.size(16).color(Colors.blue).bold.make().onInkTap(() {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.categoryList,
+                  );
+                }),
+              ],
+            ).pSymmetric(h: 24),
+            20.heightBox,
+            const CategoryListView()
+          ],
         ),
       ),
     );

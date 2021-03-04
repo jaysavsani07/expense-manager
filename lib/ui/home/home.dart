@@ -1,4 +1,3 @@
-import 'package:expense_manager/core/keys.dart';
 import 'package:expense_manager/core/localization.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
@@ -20,7 +19,8 @@ class HomeScreen extends ConsumerWidget {
           : History(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: Tuple2(null,null));
+          Navigator.pushNamed(context, AppRoutes.addEntry,
+              arguments: Tuple2(null, null));
         },
         child: Icon(Icons.add),
       ),
@@ -40,25 +40,27 @@ class HomeScreen extends ConsumerWidget {
                   height: 60,
                   child: InkWell(
                     onTap: () => homeViewModel.changeTab(0),
+                    borderRadius:
+                        BorderRadius.only(topRight: Radius.circular(24)),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
                           Icons.dashboard,
+                          size: 20,
                           color: homeViewModel.activeTab == HomeTab.dashboard
                               ? Colors.blue
                               : null,
                         ),
                         8.widthBox,
-                        Text(
-                          AppLocalizations.dashboard,
-                          style: TextStyle(
-                              color:
-                                  homeViewModel.activeTab == HomeTab.dashboard
-                                      ? Colors.blue
-                                      : null),
-                        )
+                        AppLocalizations.dashboard.text
+                            .size(12)
+                            .medium
+                            .color(homeViewModel.activeTab == HomeTab.dashboard
+                                ? Colors.blue
+                                : null)
+                            .make(),
                       ],
                     ),
                   ),
@@ -69,6 +71,8 @@ class HomeScreen extends ConsumerWidget {
                 child: SizedBox(
                   height: 60,
                   child: InkWell(
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(24)),
                     onTap: () => homeViewModel.changeTab(1),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -76,18 +80,19 @@ class HomeScreen extends ConsumerWidget {
                       children: <Widget>[
                         Icon(
                           Icons.history,
+                          size: 20,
                           color: homeViewModel.activeTab == HomeTab.history
                               ? Colors.blue
                               : null,
                         ),
                         8.widthBox,
-                        Text(
-                          AppLocalizations.history,
-                          style: TextStyle(
-                              color: homeViewModel.activeTab == HomeTab.history
-                                  ? Colors.blue
-                                  : null),
-                        )
+                        AppLocalizations.history.text
+                            .size(12)
+                            .medium
+                            .color(homeViewModel.activeTab == HomeTab.history
+                                ? Colors.blue
+                                : null)
+                            .make()
                       ],
                     ),
                   ),

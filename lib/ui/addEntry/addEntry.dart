@@ -54,7 +54,7 @@ class AddEntry extends ConsumerWidget {
         children: [
           20.heightBox,
           VxTextField(
-            value: vm.amount,
+            value: vm.amount=="0"?null:vm.amount,
             keyboardType: TextInputType.number,
             borderRadius: 8,
             borderType: VxTextFieldBorderType.none,
