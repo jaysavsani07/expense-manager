@@ -55,7 +55,7 @@ jobs:
         with:
           flutter-version: 1.22.6
       - run: flutter pub get
-      - run: flutter build apk --release
+      - run: flutter build apk --release --no-tree-shake-icons
       - name: Run Fastlane
         uses: maierj/fastlane-action@v1.4.0
         with:
