@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:expense_manager/extension/datetime_extension.dart';
 
 part 'app_database.g.dart';
 
@@ -10,8 +9,8 @@ class EntryEntity extends Table {
 
   RealColumn get amount => real()();
 
-  TextColumn get categoryName => text().nullable().customConstraint(
-      'NULL REFERENCES category_entity(name) ON DELETE SET NULL')();
+  IntColumn get categoryName => integer().nullable().customConstraint(
+      'NULL REFERENCES category_entity(id) ON DELETE SET NULL')();
 
   DateTimeColumn get modifiedDate => dateTime()();
 
@@ -19,16 +18,13 @@ class EntryEntity extends Table {
 }
 
 class CategoryEntity extends Table {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
 
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
   TextColumn get icon => text()();
 
   TextColumn get iconColor => text()();
-
-  @override
-  Set<Column> get primaryKey => {name};
 }
 
 class EntryWithCategoryData {
@@ -113,7 +109,7 @@ class AppDatabase extends _$AppDatabase {
     return select(entryEntity).get().asStream();
   }
 
-  Stream<List<EntryEntityData>> getAllEntryByCategory(String categoryName) {
+  Stream<List<EntryEntityData>> getAllEntryByCategory(int categoryName) {
     return (select(entryEntity)
           ..where((row) => row.categoryName.equals(categoryName))
           ..orderBy([
@@ -134,7 +130,7 @@ class AppDatabase extends _$AppDatabase {
           ]))
         .join([
           leftOuterJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryName))
         ])
         .watch()
         .map((List<TypedResult> rows) {
@@ -156,7 +152,7 @@ class AppDatabase extends _$AppDatabase {
           ]))
         .join([
           leftOuterJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryName))
         ])
         .watch()
         .map((List<TypedResult> rows) {
@@ -178,9 +174,10 @@ class AppDatabase extends _$AppDatabase {
               ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           innerJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryName))
         ])
-        .get().asStream()
+        .get()
+        .asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
@@ -197,13 +194,13 @@ class AppDatabase extends _$AppDatabase {
             .join([])
               ..groupBy([entryEntity.categoryName])
               ..addColumns([entryEntity.amount.sum()])
-      ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())])
-    )
+              ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           innerJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryName))
         ])
-        .get().asStream()
+        .get()
+        .asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
@@ -221,9 +218,9 @@ class AppDatabase extends _$AppDatabase {
   Stream<int> addCategory(CategoryEntityCompanion category) =>
       into(categoryEntity).insert(category).asStream();
 
-  Stream<int> addCategory1(CategoryEntityCompanion category) => customInsert(
-      "INSERT INTO category_entity (id, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(id), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
-      updates: {categoryEntity}).asStream();
+  // Stream<int> addCategory1(CategoryEntityCompanion category) => customInsert(
+  //     "INSERT INTO category_entity (id, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(id), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
+  //     updates: {categoryEntity}).asStream();
 
   Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
       update(categoryEntity).replace(entity).asStream();
@@ -251,13 +248,13 @@ class AppDatabase extends _$AppDatabase {
     return (select(entryEntity).join([])
           ..groupBy([entryEntity.categoryName])
           ..addColumns([entryEntity.amount.sum()])
-      ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())])
-    )
+          ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           innerJoin(categoryEntity,
-              categoryEntity.name.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryName))
         ])
-        .get().asStream()
+        .get()
+        .asStream()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
@@ -268,8 +265,11 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future createDefaultCategory() async {
-    AppConstants.defaultCategoryList.forEach((category) async {
-      await addCategory1(category.toCategoryEntityCompanion()).single;
+    return transaction(() async {
+      AppConstants.defaultCategoryList.forEach((category) async {
+        await addCategory(category.toCategoryEntityCompanion()).single;
+      });
+      return true;
     });
   }
 }

@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final categoryListModelProvider = ChangeNotifierProvider<CategoryListViewModel>(
+final categoryListModelProvider =
+    ChangeNotifierProvider.autoDispose<CategoryListViewModel>(
   (ref) =>
       CategoryListViewModel(entryDataSourceImp: ref.read(repositoryProvider)),
 );
@@ -12,9 +15,10 @@ final categoryListModelProvider = ChangeNotifierProvider<CategoryListViewModel>(
 class CategoryListViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
   List<cat.Category> categoryList = [];
+  StreamSubscription _subscription;
 
   CategoryListViewModel({@required this.entryDataSourceImp}) {
-    entryDataSourceImp.getAllCategory().listen((event) {
+    _subscription = entryDataSourceImp.getAllCategory().listen((event) {
       categoryList = event;
       notifyListeners();
     });
@@ -32,6 +36,7 @@ class CategoryListViewModel with ChangeNotifier {
   @override
   void dispose() {
     categoryList = [];
+    _subscription.cancel();
     super.dispose();
   }
 }

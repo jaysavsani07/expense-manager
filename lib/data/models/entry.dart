@@ -6,7 +6,7 @@ import 'package:moor/moor.dart';
 class Entry {
   final double amount;
   final int id;
-  final String categoryName;
+  final int categoryName;
   final DateTime modifiedDate;
   final String description;
 

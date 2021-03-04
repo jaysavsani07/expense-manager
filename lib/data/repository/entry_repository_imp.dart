@@ -50,7 +50,7 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<EntryList>> getAllEntryByCategory(String categoryName) {
+  Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
     return entryDataSourceImp.getAllEntryByCategory(categoryName);
   }
 

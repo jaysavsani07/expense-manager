@@ -17,7 +17,7 @@ abstract class EntryDataSource {
   Stream<bool> updateEntry(Entry entry);
 
   Stream<List<Entry>> getAllEntry();
-  Stream<List<EntryList>> getAllEntryByCategory(String categoryName);
+  Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
 
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end);
   Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end);

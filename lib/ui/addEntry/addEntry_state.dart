@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final addEntryModelProvider =
-    ChangeNotifierProvider.family<AddEntryViewModel, EntryWithCategory>(
+    ChangeNotifierProvider.autoDispose.family<AddEntryViewModel, EntryWithCategory>(
   (ref, entryWithCategory) => AddEntryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
       entryWithCategory: entryWithCategory),
@@ -45,7 +45,7 @@ class AddEntryViewModel with ChangeNotifier {
           .updateEntry(Entry(
               id: entryWithCategory.entry.id,
               amount: double.parse(amount),
-              categoryName: category.name,
+              categoryName: category.id,
               modifiedDate: date,
               description: description))
           .listen((event) {});
@@ -53,7 +53,7 @@ class AddEntryViewModel with ChangeNotifier {
       entryDataSourceImp
           .addEntry(Entry(
               amount: double.parse(amount),
-              categoryName: category?.name,
+              categoryName: category?.id,
               modifiedDate: date,
               description: description))
           .listen((event) {});

@@ -61,7 +61,7 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<EntryList>> getAllEntryByCategory(String categoryName) {
+  Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
     return appDatabase
         .getAllEntryByCategory(categoryName)
         .map((List<EntryEntityData> list) {
@@ -173,7 +173,7 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<int> addCategory(Category category) {
-    return appDatabase.addCategory1(category.toCategoryEntityCompanion());
+    return appDatabase.addCategory(category.toCategoryEntityCompanion());
   }
 
   @override
