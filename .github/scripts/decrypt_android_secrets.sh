@@ -9,4 +9,8 @@ FILE=expensemanager.jks
 if test -f "$FILE"; then
     echo "$FILE exists."
 fi
-echo *****
+echo "echo 1"
+mv expensemanager.jks app
+echo ./
+echo "echo 2"
+
