@@ -36,7 +36,7 @@ dependencies:
   velocity_x: ^1.3.1
   fl_chart: ^0.12.3
   dotted_border: ^1.0.7
-  shared_preferences: 2.0.3
+  shared_preferences: ^0.5.12+4
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git
