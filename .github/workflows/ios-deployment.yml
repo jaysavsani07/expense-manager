@@ -1,9 +1,9 @@
-name: CD
+name: iPhone Deployment
 
 on:
   push:
-    branches:
-      - development
+    tags:
+      - v*
       
 jobs:
  deploy_ios:
