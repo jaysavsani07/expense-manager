@@ -46,6 +46,8 @@ dev_dependencies:
   moor_generator: ^3.4.1
   build_runner:
 
+dependency_overrides:
+  intl: ^0.16.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
