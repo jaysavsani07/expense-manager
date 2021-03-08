@@ -70,7 +70,7 @@ platform :ios do
       configuration: "Release",
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
-      export_method: "app-store",
+      export_method: "development",
       export_options: {
         provisioningProfiles: { 
             DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
