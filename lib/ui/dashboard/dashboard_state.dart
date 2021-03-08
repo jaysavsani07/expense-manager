@@ -84,6 +84,9 @@ final todayLineChartProvider = Provider<LineChartData>((ref) {
 
 final categoryPieChartTeachItemProvider = StateProvider<int>((_) => -1);
 
+final categoryPieChartVisibilityProvider =
+    StateProvider<bool>((ref) => ref.watch(dashboardProvider).list.isEmpty);
+
 final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {
   int touchedIndex = ref.watch(categoryPieChartTeachItemProvider).state;
   double totalAmount = ref.read(totalAmountProvider);

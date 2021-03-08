@@ -6,6 +6,29 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+class CategoryChartView extends ConsumerWidget {
+  const CategoryChartView({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final vm = watch(categoryPieChartVisibilityProvider);
+    return Visibility(
+      visible: !vm.state,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          30.heightBox,
+          "Total Expanse".text.size(18).bold.make().pOnly(left: 24),
+          20.heightBox,
+          const CategoryPieChartView(),
+        ],
+      ),
+    );
+  }
+}
+
 class CategoryPieChartView extends ConsumerWidget {
   const CategoryPieChartView({
     Key key,
@@ -42,7 +65,7 @@ class CategoryPieChartView extends ConsumerWidget {
         24.widthBox,
         CategoryPieChatListView()
       ],
-    ).pSymmetric(h: 16,v: 24).card.roundedSM.make().onInkTap(() {
+    ).pSymmetric(h: 16, v: 24).card.roundedSM.make().onInkTap(() {
       Navigator.pushNamed(context, AppRoutes.categoryDetails);
     }).pSymmetric(h: 24);
   }
