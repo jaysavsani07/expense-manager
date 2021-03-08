@@ -20,7 +20,7 @@ class AddEntryViewModel with ChangeNotifier {
   EntryWithCategory entryWithCategory;
 
   List<cat.Category> categoryList = [];
-  String amount = "0";
+  String amount = "";
   cat.Category category;
   DateTime date = DateTime.now();
   String description = "";
@@ -40,7 +40,6 @@ class AddEntryViewModel with ChangeNotifier {
     }
     entryDataSourceImp.getAllCategory().listen((event) {
       categoryList = event;
-      print(event.length);
       notifyListeners();
     });
   }
@@ -96,7 +95,7 @@ class AddEntryViewModel with ChangeNotifier {
   @override
   void dispose() {
     categoryList = [];
-    amount = "0";
+    amount = "";
     category = null;
     date = DateTime.now();
     description = "";

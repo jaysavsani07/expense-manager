@@ -44,8 +44,14 @@ class AddEntry extends ConsumerWidget {
               .make()
               .p20()
               .onInkTap(() {
-            vm.addEntry();
-            Navigator.pop(context);
+            if (vm.amount.isEmptyOrNull) {
+              VxToast.show(context, msg: "Pls enter amount",bgColor: Colors.redAccent);
+            }else if (double.parse(vm.amount)==0.0) {
+              VxToast.show(context, msg: "Amount is grater then zero",bgColor: Colors.redAccent);
+            } else {
+              vm.addEntry();
+              Navigator.pop(context);
+            }
           })
         ],
       ),
@@ -54,16 +60,15 @@ class AddEntry extends ConsumerWidget {
         children: [
           20.heightBox,
           VxTextField(
-            value: vm.amount=="0"?null:vm.amount,
+            value: vm.amount == "0" ? null : vm.amount,
             keyboardType: TextInputType.number,
-            borderRadius: 8,
             borderType: VxTextFieldBorderType.none,
             fillColor: context.theme.cardTheme.color,
             textInputAction: TextInputAction.done,
             onChanged: (text) {
               vm.amountChange(text);
             },
-            style: TextStyle(fontSize: 32,fontWeight: FontWeight.w700),
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
             height: 80,
             hint: "${NumberFormat.simpleCurrency().currencySymbol} 00.00",
             textAlign: TextAlign.center,

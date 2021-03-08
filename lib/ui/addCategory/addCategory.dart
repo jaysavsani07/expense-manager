@@ -33,9 +33,25 @@ class AddCategory extends ConsumerWidget {
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
-          "Save".text.size(16).bold.color(Colors.blue).make().p20().onInkTap(() {
-            vm.saveCategory();
-            Navigator.pop(context);
+          "Save"
+              .text
+              .size(16)
+              .bold
+              .color(Colors.blue)
+              .make()
+              .p20()
+              .onInkTap(() {
+            if (vm.name.isEmptyOrNull) {
+              VxToast.show(context,
+                  msg: "Pls enter category name", bgColor: Colors.redAccent);
+            } else if (vm.name.length < 3 || vm.name.length > 20) {
+              VxToast.show(context,
+                  msg: "Category name allowed from 3 to 20 characters",
+                  bgColor: Colors.redAccent);
+            } else {
+              vm.saveCategory();
+              Navigator.pop(context);
+            }
           })
         ],
       ),
@@ -57,7 +73,7 @@ class AddCategory extends ConsumerWidget {
                 fillColor: context.theme.cardTheme.color,
                 textInputAction: TextInputAction.done,
                 height: 80,
-                style: TextStyle(fontSize: 24,fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                 hint: "Tea",
                 clear: false,
                 onChanged: (text) {
@@ -70,8 +86,8 @@ class AddCategory extends ConsumerWidget {
           "Icon".text.bold.size(18).start.make(),
           GridView(
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3),
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             scrollDirection: Axis.horizontal,
             children: AppConstants.iconList
                 .map((icon) => Icon(
@@ -86,8 +102,8 @@ class AddCategory extends ConsumerWidget {
           "Color".text.bold.size(18).start.make(),
           GridView(
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3),
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             scrollDirection: Axis.horizontal,
             children: AppConstants.iconColorList
                 .map((color) => Icon(
