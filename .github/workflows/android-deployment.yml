@@ -70,6 +70,6 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions Job Results
-          body: Deployment - Android (Playstore) ${{github.repository}} completed successfully!
+          body: Deployment - Android (Playstore) for job ${{github.job}} has ${{job.status}} !
           to: conv.0asu9evzgxz6tn@fleep.io
           from: Nividata Apps

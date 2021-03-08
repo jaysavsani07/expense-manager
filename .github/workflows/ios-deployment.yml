@@ -46,6 +46,6 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions Job Results
-          body: Deployment - iOS (AppStore) ${{github.repository}} completed successfully!
+          body: Deployment - iOS (AppStore) for job ${{github.job}} has ${{job.status}} !
           to: conv.0asu9evzgxz6tn@fleep.io
           from: Nividata Apps
