@@ -7,7 +7,7 @@ on:
       
 jobs:
  deploy_ios:
-    name: Deploy beta build to TestFlight
+    name: Deploy build to TestFlight
     runs-on: macOS-latest
     steps:
       - name: Checkout code from ref

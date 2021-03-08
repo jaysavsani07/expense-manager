@@ -7,8 +7,8 @@ on:
       - development
 
 jobs:
-  # CI
   build_android:
+    name: Android Build & Upload Artifact
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

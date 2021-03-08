@@ -8,7 +8,7 @@ on:
       
 jobs:
  deploy_ios:
-    name: Deploy beta build to TestFlight
+    name: Build iOS Runner
     runs-on: macOS-latest
     steps:
       - name: Checkout code from ref
