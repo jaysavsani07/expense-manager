@@ -1,4 +1,4 @@
-name: iPhone Deployment
+name: Appstore Deployment
 
 on:
   push:
@@ -39,6 +39,7 @@ jobs:
           TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
           TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
       - name: Fleep Updates
+        if: always()
         uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.gmail.com

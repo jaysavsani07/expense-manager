@@ -1,4 +1,4 @@
-name: android deployment
+name: Playstore deployment
 
 on:
   push:
@@ -63,6 +63,7 @@ jobs:
           lane: closed_beta
           subdirectory: android
       - name: Fleep Updates
+        if: always()
         uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.gmail.com
