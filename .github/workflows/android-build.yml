@@ -43,6 +43,6 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions Job Results
-          body: Build Job of ${{github.repository}} completed successfully!
-          to: jay@nividata.com, conv.0asu9evzgxz6tn@fleep.io
+          body: Build - Android (AppStore) ${{github.repository}} completed successfully!
+          to: conv.0asu9evzgxz6tn@fleep.io
           from: Nividata Apps

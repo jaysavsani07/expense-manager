@@ -62,3 +62,14 @@ jobs:
         with:
           lane: closed_beta
           subdirectory: android
+      - name: Fleep Updates
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions Job Results
+          body: Deployment - Android (Playstore) ${{github.repository}} completed successfully!
+          to: conv.0asu9evzgxz6tn@fleep.io
+          from: Nividata Apps
