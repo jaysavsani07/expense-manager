@@ -1,9 +1,9 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/category_list_view.dart';
 import 'package:expense_manager/ui/dashboard/category_pie_chart_view.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,17 +16,17 @@ class Dashboard extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: DottedBorder(
-            color: Colors.blue,
-            dashPattern: [5, 5],
-            radius: Radius.circular(12),
-            borderType: BorderType.RRect,
-            child: "Dashboard"
-                .text
-                .size(16)
-                .medium
-                .color(Colors.blue)
-                .make()
-                .pSymmetric(h: 8, v: 4))
+                color: Colors.blue,
+                dashPattern: [5, 5],
+                radius: Radius.circular(12),
+                borderType: BorderType.RRect,
+                child: "Dashboard"
+                    .text
+                    .size(16)
+                    .medium
+                    .color(Colors.blue)
+                    .make()
+                    .pSymmetric(h: 8, v: 4))
             .pOnly(left: 24),
         actions: [
           Icon(
@@ -54,7 +54,13 @@ class Dashboard extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 "Quick Add".text.size(18).bold.make(),
-                "Manage Category".text.size(16).color(Colors.blue).bold.make().onInkTap(() {
+                "Manage Category"
+                    .text
+                    .size(16)
+                    .color(Colors.blue)
+                    .bold
+                    .make()
+                    .onInkTap(() {
                   Navigator.pushNamed(
                     context,
                     AppRoutes.categoryList,
@@ -106,7 +112,8 @@ class TodayAmount extends ConsumerWidget {
                 .white
                 .make()
           ],
-        )
+        ).expand(),
+        LineChart(watch(todayLineChartProvider)).h(36).expand()
       ],
     )
         .pSymmetric(v: 24, h: 14)

@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_manager/extension/datetime_extension.dart';
+import 'package:collection/collection.dart';
+import 'package:tuple/tuple.dart';
 
 final totalAmountProvider = Provider<double>((ref) {
   return ref
@@ -27,14 +29,57 @@ final todayAmountProvider = Provider<double>((ref) {
       .fold(0.0, (previousValue, element) => previousValue + element);
 });
 
-final todayLineChartProvider = Provider<double>((ref) {
-  return ref
+final todayLineChartProvider = Provider<LineChartData>((ref) {
+  Map<int, double> list1 = {};
+  for (int i = 0; i < DateTime.now().hour; i++) {
+    list1[i] = 0;
+  }
+  List<Tuple2<int, double>> list = ref
       .watch(dashboardProvider)
       .list
       .expand((element) => element.entry)
       .where((e) => e.modifiedDate.isToday())
-      .map((e) => e.amount)
-      .fold(0.0, (previousValue, element) => previousValue + element);
+      .map((e) => Tuple2(e.modifiedDate.hour, e.amount))
+      .toList();
+
+  groupBy(list, (Tuple2<int, double> e) {
+    return e.item1;
+  })
+      .map((key, value) => MapEntry(
+          key,
+          value.fold(
+              0.0, (previousValue, element) => previousValue + element.item2)))
+      .forEach((key, value) {
+    list1[key] = value;
+  });
+
+  return LineChartData(
+    lineTouchData: LineTouchData(enabled: false),
+    gridData: FlGridData(show: false),
+    titlesData: FlTitlesData(show: false),
+    borderData: FlBorderData(show: false),
+    minX: 0,
+    maxX: 24,
+    minY: 0,
+    maxY: list1.entries.map((e) => e.value).fold(
+        0.0,
+        (previousValue, element) =>
+            previousValue > element ? previousValue : element),
+    lineBarsData: [
+      LineChartBarData(
+        spots: [
+          ...list1.entries
+              .map((e) => FlSpot(e.key.toDouble(), e.value))
+              .toList(),
+        ],
+        isCurved: true,
+        colors: [Colors.white],
+        barWidth: 1,
+        isStrokeCapRound: true,
+        dotData: FlDotData(show: false),
+      ),
+    ],
+  );
 });
 
 final categoryPieChartTeachItemProvider = StateProvider<int>((_) => -1);

@@ -36,7 +36,7 @@ class CategoryDetails extends StatelessWidget {
             30.heightBox,
             const CategoryFilterView(),
             20.heightBox,
-            const CategoryList1()
+            Expanded(child: const CategoryList1())
           ],
         ));
   }
@@ -139,8 +139,6 @@ class CategoryList1 extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final list = watch(categoryDetailsModelProvider).categoryList;
     return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
       children: list
           .map((e) => Row(
                 children: [

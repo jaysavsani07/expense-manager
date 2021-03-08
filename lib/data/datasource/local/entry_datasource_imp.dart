@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/entry_dataSource.dart';
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
@@ -88,40 +89,20 @@ class EntryDataSourceImp extends EntryDataSource {
         .map((event) =>
             event.map((e) => EntryWithCategory.fromEntryWithCategoryEntity(e)))
         .map((event) {
-          Map<String, CategoryWithEntryList> map = Map();
+      Map<String, CategoryWithEntryList> map = Map();
 
-          event.forEach((element) {
-            if (map.containsKey(element.category.name)) {
-              map[element.category.name].entry.add(element.entry);
-            } else {
-              map[element.category.name] = CategoryWithEntryList(
-                  category: element.category,
-                  total: element.entry.amount,
-                  maxY: null,
-                  maxX: null,
-                  entry: [element.entry]);
-            }
-          });
-          return map;
-        })
-        .map((map) => map.values.toList())
-        .map((event) => event
-            .map((e) => e.copyWith(
-                total: e.entry.fold(0.0,
-                    (previousValue, element) => previousValue + element.amount),
-                maxX: e.entry.length.toDouble(),
-                maxY: e.entry.map((e) => e.amount).toList().reduce(
-                    (value, element) => value > element ? value : element)))
-            .toList())
-        .map((event) {
-          return event
-              .map((e) => e.copyWith(
-                  maxX: event.map((e) => e.maxX).toList().reduce(
-                      (value, element) => value > element ? value : element),
-                  maxY: event.map((e) => e.maxY).toList().reduce(
-                      (value, element) => value > element ? value : element)))
-              .toList();
-        });
+      event.forEach((element) {
+        if (map.containsKey(element.category.name)) {
+          map[element.category.name].entry.add(element.entry);
+        } else {
+          map[element.category.name] = CategoryWithEntryList(
+              category: element.category,
+              total: element.entry.amount,
+              entry: [element.entry]);
+        }
+      });
+      return map;
+    }).map((map) => map.values.toList());
   }
 
   @override
@@ -129,46 +110,32 @@ class EntryDataSourceImp extends EntryDataSource {
       DateTime start, DateTime end) {
     return appDatabase
         .getAllEntryWithCategory(start, end)
-        .map((List<EntryWithCategoryData> list) {
-      Map<String, History> map = Map();
-      String title;
-      list.forEach((EntryWithCategoryData data) {
-        title = data.entry.modifiedDate.toTitle();
-        if (map.containsKey(title)) {
-          map[title]
-              .list
-              .add(EntryWithCategory.fromEntryWithCategoryEntity(data));
-        } else {
-          map[title] = History(
-              title: title,
-              list: [EntryWithCategory.fromEntryWithCategoryEntity(data)]);
-        }
-      });
-      return map;
-    }).map((map) => map.values.toList());
+        .map((event) => groupBy(
+            event, (EntryWithCategoryData e) => e.entry.modifiedDate.toTitle()))
+        .map((list) => list.entries
+            .map((e) => History(
+                title: e.key,
+                list: e.value
+                    .map(
+                        (e) => EntryWithCategory.fromEntryWithCategoryEntity(e))
+                    .toList()))
+            .toList());
   }
 
   @override
   Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month) {
     return appDatabase
         .getAllEntryWithCategoryByMonth(month)
-        .map((List<EntryWithCategoryData> list) {
-      Map<String, History> map = Map();
-      String title;
-      list.forEach((EntryWithCategoryData data) {
-        title = data.entry.modifiedDate.toTitle();
-        if (map.containsKey(title)) {
-          map[title]
-              .list
-              .add(EntryWithCategory.fromEntryWithCategoryEntity(data));
-        } else {
-          map[title] = History(
-              title: title,
-              list: [EntryWithCategory.fromEntryWithCategoryEntity(data)]);
-        }
-      });
-      return map;
-    }).map((map) => map.values.toList());
+        .map((event) => groupBy(
+            event, (EntryWithCategoryData e) => e.entry.modifiedDate.toTitle()))
+        .map((list) => list.entries
+            .map((e) => History(
+                title: e.key,
+                list: e.value
+                    .map(
+                        (e) => EntryWithCategory.fromEntryWithCategoryEntity(e))
+                    .toList()))
+            .toList());
   }
 
   @override
@@ -206,17 +173,15 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<CategoryWithSum>> getAllLastMonthCategoryWithSum() {
-    return appDatabase.getAllLastMonthCategoryWithSum().map((event) =>
-        event
-            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-            .toList());
+    return appDatabase.getAllLastMonthCategoryWithSum().map((event) => event
+        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+        .toList());
   }
 
   @override
   Stream<List<CategoryWithSum>> getAllLastYearCategoryWithSum() {
-    return appDatabase.getAllLastYearCategoryWithSum().map((event) =>
-        event
-            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-            .toList());
+    return appDatabase.getAllLastYearCategoryWithSum().map((event) => event
+        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+        .toList());
   }
 }
