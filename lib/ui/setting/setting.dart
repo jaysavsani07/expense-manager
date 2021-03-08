@@ -16,13 +16,13 @@ class Setting extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     "Dark mode".text.bold.xl.make(),
-          //     DarkModeSwitch(),
-          //   ],
-          // ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              "Dark mode".text.bold.xl.make(),
+              DarkModeSwitch(),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -30,10 +30,10 @@ class Setting extends ConsumerWidget {
               MonthStartDate()
             ],
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: ["Language".text.bold.xl.make(), LanguageDropDown()],
-          // )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: ["Language".text.bold.xl.make(), LanguageDropDown()],
+          )
         ],
       ).pSymmetric(h: 16),
     );

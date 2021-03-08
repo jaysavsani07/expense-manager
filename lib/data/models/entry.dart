@@ -6,14 +6,14 @@ import 'package:moor/moor.dart';
 class Entry {
   final double amount;
   final int id;
-  final int categoryName;
+  final int categoryId;
   final DateTime modifiedDate;
   final String description;
 
   Entry(
       {this.id,
       @required this.amount,
-      @required this.categoryName,
+      @required this.categoryId,
       @required this.modifiedDate,
       @required this.description});
 
@@ -24,7 +24,7 @@ class Entry {
       String description}) {
     return Entry(
         amount: amount ?? this.amount,
-        categoryName: categoryName ?? this.categoryName,
+        categoryId: categoryName ?? this.categoryId,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         description: description ?? this.description);
   }
@@ -33,7 +33,7 @@ class Entry {
     return Entry(
         id: entityData.id,
         amount: entityData.amount,
-        categoryName: entityData.categoryName,
+        categoryId: entityData.categoryId,
         modifiedDate: entityData.modifiedDate,
         description: entityData.description);
   }
@@ -42,7 +42,7 @@ class Entry {
     return EntryEntityCompanion(
         id: id == null ? Value.absent() : Value(id),
         amount: Value(amount),
-        categoryName: categoryName == null ? Value.absent() :  Value(categoryName),
+        categoryId: categoryId == null ? Value.absent() :  Value(categoryId),
         modifiedDate: Value(modifiedDate),
         description: Value(description));
   }
@@ -54,7 +54,7 @@ class Entry {
           runtimeType == other.runtimeType &&
           amount == other.amount &&
           id == other.id &&
-          categoryName == other.categoryName &&
+          categoryId == other.categoryId &&
           modifiedDate == other.modifiedDate &&
           description == other.description;
 
@@ -62,12 +62,12 @@ class Entry {
   int get hashCode =>
       amount.hashCode ^
       id.hashCode ^
-      categoryName.hashCode ^
+      categoryId.hashCode ^
       modifiedDate.hashCode ^
       description.hashCode;
 
   @override
   String toString() {
-    return 'Entry{amount: $amount, id: $id, categoryName: $categoryName, modifiedDate: $modifiedDate, description: $description}';
+    return 'Entry{amount: $amount, id: $id, categoryId: $categoryId, modifiedDate: $modifiedDate, description: $description}';
   }
 }

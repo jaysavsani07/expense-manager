@@ -51,7 +51,7 @@ class AddEntryViewModel with ChangeNotifier {
           .updateEntry(Entry(
               id: entryWithCategory.entry.id,
               amount: double.parse(amount),
-              categoryName: category.id,
+              categoryId: category.id,
               modifiedDate: date,
               description: description))
           .listen((event) {});
@@ -59,7 +59,7 @@ class AddEntryViewModel with ChangeNotifier {
       entryDataSourceImp
           .addEntry(Entry(
               amount: double.parse(amount),
-              categoryName: category?.id,
+              categoryId: category?.id,
               modifiedDate: date,
               description: description))
           .listen((event) {});
