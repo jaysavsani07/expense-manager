@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
+import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
@@ -69,66 +70,39 @@ class CategoryFilterView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final filterType = watch(categoryDetailsFilterProvider).state;
-    return Row(
-      children: [
-        "Last Month"
-            .text
-            .color(filterType == filter.lastMonth ? Colors.white : Colors.blue)
-            .size(12)
-            .medium
-            .make()
-            .centered()
-            .pSymmetric(v: 10)
-            .box
-            .color(filterType == filter.lastMonth
-                ? Colors.blue
-                : Color(0xffEEEEEE))
-            .withRounded(value: 20)
-            .make()
-            .onInkTap(() {
-              context.read(categoryDetailsFilterProvider).state =
-                  filter.lastMonth;
-            })
-            .pSymmetric(h: 10)
-            .expand(),
-        "Last Year"
-            .text
-            .color(filterType == filter.lastYear ? Colors.white : Colors.blue)
-            .size(12)
-            .medium
-            .make()
-            .centered()
-            .pSymmetric(v: 10)
-            .box
-            .color(
-                filterType == filter.lastYear ? Colors.blue : Color(0xffEEEEEE))
-            .withRounded(value: 20)
-            .make()
-            .onInkTap(() {
-              context.read(categoryDetailsFilterProvider).state =
-                  filter.lastYear;
-            })
-            .pSymmetric(h: 10)
-            .expand(),
-        "All"
-            .text
-            .color(filterType == filter.all ? Colors.white : Colors.blue)
-            .size(12)
-            .medium
-            .make()
-            .centered()
-            .pSymmetric(v: 10)
-            .box
-            .color(filterType == filter.all ? Colors.blue : Color(0xffEEEEEE))
-            .withRounded(value: 20)
-            .make()
-            .onInkTap(() {
-              context.read(categoryDetailsFilterProvider).state = filter.all;
-            })
-            .pSymmetric(h: 10)
-            .expand(),
-      ],
-    ).pSymmetric(h: 24);
+    final yearList = watch(yearListProvider);
+    return yearList
+        .when(
+            data: (list) => Row(
+                  children: ["This Month", ...list]
+                      .map((e) => e
+                          .toString()
+                          .text
+                          .color(filterType == e
+                      .toString()
+                              ? Colors.white
+                              : Colors.blue)
+                          .size(12)
+                          .medium
+                          .make()
+                          .centered()
+                          .pSymmetric(v: 10,h: 10)
+                          .box
+                          .color(filterType == e
+                      .toString()
+                              ? Colors.blue
+                              : Color(0xffEEEEEE))
+                          .withRounded(value: 20)
+                          .make()
+                          .onInkTap(() {
+                            context.read(categoryDetailsFilterProvider).state = e
+                                .toString();
+                          }).pOnly(right: 10))
+                      .toList(),
+                ),
+            loading: () => SizedBox(),
+            error: (e, str) => SizedBox())
+        .pSymmetric(h: 24);
   }
 }
 

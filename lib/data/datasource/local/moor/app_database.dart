@@ -164,10 +164,9 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<CategoryWithSumData>> getAllLastMonthCategoryWithSum() {
+  Stream<List<CategoryWithSumData>> getAllCategoryWithSumByMonth(int month) {
     return ((select(entryEntity)
-              ..where((tbl) => tbl.modifiedDate.isBiggerThanValue(
-                  DateTime.now().subtract(Duration(days: 30)))))
+              ..where((tbl) => tbl.modifiedDate.month.equals(month)))
             .join([])
               ..groupBy([entryEntity.categoryId])
               ..addColumns([entryEntity.amount.sum()])
@@ -187,10 +186,9 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<CategoryWithSumData>> getAllLastYearCategoryWithSum() {
+  Stream<List<CategoryWithSumData>> getAllCategoryWithSumByYear(int year) {
     return ((select(entryEntity)
-              ..where((tbl) => tbl.modifiedDate.isBiggerThanValue(
-                  DateTime.now().subtract(Duration(days: 365)))))
+              ..where((tbl) => tbl.modifiedDate.year.equals(year)))
             .join([])
               ..groupBy([entryEntity.categoryId])
               ..addColumns([entryEntity.amount.sum()])

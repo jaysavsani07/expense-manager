@@ -25,7 +25,7 @@ abstract class EntryRepository {
   Stream<bool> reorderCategory(int oldIndex,int newIndex);
   Stream<List<Category>> getAllCategory();
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();
-  Stream<List<CategoryWithSum>> getCategoryDetails(filter filterType);
+  Stream<List<CategoryWithSum>> getCategoryDetails(String filterType);
 
 
 

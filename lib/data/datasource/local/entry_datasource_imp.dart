@@ -172,15 +172,15 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<CategoryWithSum>> getAllLastMonthCategoryWithSum() {
-    return appDatabase.getAllLastMonthCategoryWithSum().map((event) => event
+  Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(int month) {
+    return appDatabase.getAllCategoryWithSumByMonth(month).map((event) => event
         .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
         .toList());
   }
 
   @override
-  Stream<List<CategoryWithSum>> getAllLastYearCategoryWithSum() {
-    return appDatabase.getAllLastYearCategoryWithSum().map((event) => event
+  Stream<List<CategoryWithSum>> getAllCategoryWithSumByYear(int year) {
+    return appDatabase.getAllCategoryWithSumByYear(year).map((event) => event
         .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
         .toList());
   }

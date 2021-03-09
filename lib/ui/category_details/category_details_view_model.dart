@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryDetailsModelProvider =
     ChangeNotifierProvider.autoDispose<CategoryDetailsViewModel>((ref) {
-  filter filterType = ref.watch(categoryDetailsFilterProvider).state;
+  String filterType = ref.watch(categoryDetailsFilterProvider).state;
   return CategoryDetailsViewModel(
       entryDataSourceImp: ref.read(repositoryProvider), filterType: filterType);
 });
@@ -23,11 +23,11 @@ final categoryDetailsTotalAmountProvider = Provider.autoDispose<double>((ref) {
 });
 
 final categoryDetailsFilterProvider =
-    StateProvider.autoDispose<filter>((ref) => filter.lastMonth);
+    StateProvider.autoDispose<String>((ref) => "This Month");
 
 class CategoryDetailsViewModel with ChangeNotifier {
   final EntryRepositoryImp entryDataSourceImp;
-  final filter filterType;
+  final String filterType;
   List<CategoryWithSum> categoryList = [];
   StreamSubscription _subscription;
 
