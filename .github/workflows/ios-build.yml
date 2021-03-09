@@ -1,0 +1,36 @@
+name: iOS build
+
+on:
+  push:
+    branches:
+      - master
+      - development
+      
+jobs:
+ deploy_ios:
+    name: Build iOS Runner
+    runs-on: macOS-latest
+    steps:
+      - name: Checkout code from ref
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Run Flutter tasks
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.22.5'
+      - run: flutter clean
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign --no-tree-shake-icons
+      - name: Fleep Updates
+        if: always()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions Job Results
+          body: Build - iOS for job ${{github.job}} has ${{job.status}}!
+          to: conv.0asu9evzgxz6tn@fleep.io
+          from: Nividata Apps
