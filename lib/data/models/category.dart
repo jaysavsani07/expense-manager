@@ -9,26 +9,32 @@ import 'package:moor/moor.dart';
 @immutable
 class Category {
   final int id;
+  final int position;
   final String name;
   final IconData icon;
   final Color iconColor;
-  final bool isSelected;
 
   Category(
       {this.id,
+      this.position,
       @required this.name,
       @required this.icon,
-      @required this.iconColor,
-      this.isSelected});
+      @required this.iconColor});
 
-  Category copyWith({String name, IconData icon, Color iconColor}) {
+  Category copyWith(
+      {int id, int position, String name, IconData icon, Color iconColor}) {
     return Category(
-        name: name, icon: icon, iconColor: iconColor, isSelected: false);
+        id: id ?? this.id,
+        position: position ?? this.position,
+        name: name ?? this.name,
+        icon: icon ?? this.icon,
+        iconColor: iconColor ?? this.iconColor);
   }
 
   factory Category.fromCategoryEntity(CategoryEntityData categoryEntityData) {
     return Category(
         id: categoryEntityData?.id,
+        position: categoryEntityData?.position,
         name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
         icon: categoryEntityData?.icon?.jsonToIconData() ??
             AppConstants.otherCategory.icon,
@@ -40,6 +46,7 @@ class Category {
   CategoryEntityCompanion toCategoryEntityCompanion() {
     return CategoryEntityCompanion(
         id: id == null ? Value.absent() : Value(id),
+        position: position == null ? Value.absent() : Value(position),
         name: Value(name),
         icon: Value(icon.iconDataToJson()),
         iconColor:
@@ -60,6 +67,6 @@ class Category {
 
   @override
   String toString() {
-    return 'Category{name: $name, icon: $icon, iconColor: $iconColor}';
+    return 'Category{id: $id,name: $position,position: $name, icon: $icon, iconColor: $iconColor}';
   }
 }

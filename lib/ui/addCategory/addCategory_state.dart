@@ -55,7 +55,7 @@ class AddCategoryViewModel with ChangeNotifier {
     else
       entryDataSourceImp
           .updateCategory(cat.Category(
-              id: category.id, name: name, icon: iconData, iconColor: color))
+              id: category.id,position: category.position ,name: name, icon: iconData, iconColor: color))
           .listen((event) {});
   }
 

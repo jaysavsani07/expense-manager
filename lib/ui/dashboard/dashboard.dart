@@ -45,10 +45,7 @@ class Dashboard extends ConsumerWidget {
             "Hello, Jay".text.size(34).make().pOnly(left: 24),
             20.heightBox,
             const TodayAmount(),
-            30.heightBox,
-            "Total Expanse".text.size(18).bold.make().pOnly(left: 24),
-            20.heightBox,
-            const CategoryPieChartView(),
+            const CategoryChartView(),
             30.heightBox,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

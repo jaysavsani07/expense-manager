@@ -10,13 +10,13 @@ part of 'app_database.dart';
 class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   final int id;
   final double amount;
-  final int categoryName;
+  final int categoryId;
   final DateTime modifiedDate;
   final String description;
   EntryEntityData(
       {@required this.id,
       @required this.amount,
-      this.categoryName,
+      this.categoryId,
       @required this.modifiedDate,
       @required this.description});
   factory EntryEntityData.fromData(
@@ -31,8 +31,8 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       amount:
           doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
-      categoryName: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}category_name']),
+      categoryId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
       modifiedDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}modified_date']),
       description: stringType
@@ -48,8 +48,8 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     if (!nullToAbsent || amount != null) {
       map['amount'] = Variable<double>(amount);
     }
-    if (!nullToAbsent || categoryName != null) {
-      map['category_name'] = Variable<int>(categoryName);
+    if (!nullToAbsent || categoryId != null) {
+      map['category_id'] = Variable<int>(categoryId);
     }
     if (!nullToAbsent || modifiedDate != null) {
       map['modified_date'] = Variable<DateTime>(modifiedDate);
@@ -65,9 +65,9 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       amount:
           amount == null && nullToAbsent ? const Value.absent() : Value(amount),
-      categoryName: categoryName == null && nullToAbsent
+      categoryId: categoryId == null && nullToAbsent
           ? const Value.absent()
-          : Value(categoryName),
+          : Value(categoryId),
       modifiedDate: modifiedDate == null && nullToAbsent
           ? const Value.absent()
           : Value(modifiedDate),
@@ -83,7 +83,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     return EntryEntityData(
       id: serializer.fromJson<int>(json['id']),
       amount: serializer.fromJson<double>(json['amount']),
-      categoryName: serializer.fromJson<int>(json['categoryName']),
+      categoryId: serializer.fromJson<int>(json['categoryId']),
       modifiedDate: serializer.fromJson<DateTime>(json['modifiedDate']),
       description: serializer.fromJson<String>(json['description']),
     );
@@ -94,7 +94,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'amount': serializer.toJson<double>(amount),
-      'categoryName': serializer.toJson<int>(categoryName),
+      'categoryId': serializer.toJson<int>(categoryId),
       'modifiedDate': serializer.toJson<DateTime>(modifiedDate),
       'description': serializer.toJson<String>(description),
     };
@@ -103,13 +103,13 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   EntryEntityData copyWith(
           {int id,
           double amount,
-          int categoryName,
+          int categoryId,
           DateTime modifiedDate,
           String description}) =>
       EntryEntityData(
         id: id ?? this.id,
         amount: amount ?? this.amount,
-        categoryName: categoryName ?? this.categoryName,
+        categoryId: categoryId ?? this.categoryId,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         description: description ?? this.description,
       );
@@ -118,7 +118,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     return (StringBuffer('EntryEntityData(')
           ..write('id: $id, ')
           ..write('amount: $amount, ')
-          ..write('categoryName: $categoryName, ')
+          ..write('categoryId: $categoryId, ')
           ..write('modifiedDate: $modifiedDate, ')
           ..write('description: $description')
           ..write(')'))
@@ -130,7 +130,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       id.hashCode,
       $mrjc(
           amount.hashCode,
-          $mrjc(categoryName.hashCode,
+          $mrjc(categoryId.hashCode,
               $mrjc(modifiedDate.hashCode, description.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
@@ -138,7 +138,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       (other is EntryEntityData &&
           other.id == this.id &&
           other.amount == this.amount &&
-          other.categoryName == this.categoryName &&
+          other.categoryId == this.categoryId &&
           other.modifiedDate == this.modifiedDate &&
           other.description == this.description);
 }
@@ -146,20 +146,20 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
 class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   final Value<int> id;
   final Value<double> amount;
-  final Value<int> categoryName;
+  final Value<int> categoryId;
   final Value<DateTime> modifiedDate;
   final Value<String> description;
   const EntryEntityCompanion({
     this.id = const Value.absent(),
     this.amount = const Value.absent(),
-    this.categoryName = const Value.absent(),
+    this.categoryId = const Value.absent(),
     this.modifiedDate = const Value.absent(),
     this.description = const Value.absent(),
   });
   EntryEntityCompanion.insert({
     this.id = const Value.absent(),
     @required double amount,
-    this.categoryName = const Value.absent(),
+    this.categoryId = const Value.absent(),
     @required DateTime modifiedDate,
     @required String description,
   })  : amount = Value(amount),
@@ -168,14 +168,14 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   static Insertable<EntryEntityData> custom({
     Expression<int> id,
     Expression<double> amount,
-    Expression<int> categoryName,
+    Expression<int> categoryId,
     Expression<DateTime> modifiedDate,
     Expression<String> description,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (amount != null) 'amount': amount,
-      if (categoryName != null) 'category_name': categoryName,
+      if (categoryId != null) 'category_id': categoryId,
       if (modifiedDate != null) 'modified_date': modifiedDate,
       if (description != null) 'description': description,
     });
@@ -184,13 +184,13 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   EntryEntityCompanion copyWith(
       {Value<int> id,
       Value<double> amount,
-      Value<int> categoryName,
+      Value<int> categoryId,
       Value<DateTime> modifiedDate,
       Value<String> description}) {
     return EntryEntityCompanion(
       id: id ?? this.id,
       amount: amount ?? this.amount,
-      categoryName: categoryName ?? this.categoryName,
+      categoryId: categoryId ?? this.categoryId,
       modifiedDate: modifiedDate ?? this.modifiedDate,
       description: description ?? this.description,
     );
@@ -205,8 +205,8 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
     if (amount.present) {
       map['amount'] = Variable<double>(amount.value);
     }
-    if (categoryName.present) {
-      map['category_name'] = Variable<int>(categoryName.value);
+    if (categoryId.present) {
+      map['category_id'] = Variable<int>(categoryId.value);
     }
     if (modifiedDate.present) {
       map['modified_date'] = Variable<DateTime>(modifiedDate.value);
@@ -222,7 +222,7 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
     return (StringBuffer('EntryEntityCompanion(')
           ..write('id: $id, ')
           ..write('amount: $amount, ')
-          ..write('categoryName: $categoryName, ')
+          ..write('categoryId: $categoryId, ')
           ..write('modifiedDate: $modifiedDate, ')
           ..write('description: $description')
           ..write(')'))
@@ -256,14 +256,12 @@ class $EntryEntityTable extends EntryEntity
     );
   }
 
-  final VerificationMeta _categoryNameMeta =
-      const VerificationMeta('categoryName');
-  GeneratedIntColumn _categoryName;
+  final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
+  GeneratedIntColumn _categoryId;
   @override
-  GeneratedIntColumn get categoryName =>
-      _categoryName ??= _constructCategoryName();
-  GeneratedIntColumn _constructCategoryName() {
-    return GeneratedIntColumn('category_name', $tableName, true,
+  GeneratedIntColumn get categoryId => _categoryId ??= _constructCategoryId();
+  GeneratedIntColumn _constructCategoryId() {
+    return GeneratedIntColumn('category_id', $tableName, true,
         $customConstraints:
             'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
   }
@@ -295,7 +293,7 @@ class $EntryEntityTable extends EntryEntity
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, amount, categoryName, modifiedDate, description];
+      [id, amount, categoryId, modifiedDate, description];
   @override
   $EntryEntityTable get asDslTable => this;
   @override
@@ -316,11 +314,11 @@ class $EntryEntityTable extends EntryEntity
     } else if (isInserting) {
       context.missing(_amountMeta);
     }
-    if (data.containsKey('category_name')) {
+    if (data.containsKey('category_id')) {
       context.handle(
-          _categoryNameMeta,
-          categoryName.isAcceptableOrUnknown(
-              data['category_name'], _categoryNameMeta));
+          _categoryIdMeta,
+          categoryId.isAcceptableOrUnknown(
+              data['category_id'], _categoryIdMeta));
     }
     if (data.containsKey('modified_date')) {
       context.handle(
@@ -358,11 +356,13 @@ class $EntryEntityTable extends EntryEntity
 class CategoryEntityData extends DataClass
     implements Insertable<CategoryEntityData> {
   final int id;
+  final int position;
   final String name;
   final String icon;
   final String iconColor;
   CategoryEntityData(
       {@required this.id,
+      @required this.position,
       @required this.name,
       @required this.icon,
       @required this.iconColor});
@@ -374,6 +374,8 @@ class CategoryEntityData extends DataClass
     final stringType = db.typeSystem.forDartType<String>();
     return CategoryEntityData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      position:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}position']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       icon: stringType.mapFromDatabaseResponse(data['${effectivePrefix}icon']),
       iconColor: stringType
@@ -385,6 +387,9 @@ class CategoryEntityData extends DataClass
     final map = <String, Expression>{};
     if (!nullToAbsent || id != null) {
       map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || position != null) {
+      map['position'] = Variable<int>(position);
     }
     if (!nullToAbsent || name != null) {
       map['name'] = Variable<String>(name);
@@ -401,6 +406,9 @@ class CategoryEntityData extends DataClass
   CategoryEntityCompanion toCompanion(bool nullToAbsent) {
     return CategoryEntityCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      position: position == null && nullToAbsent
+          ? const Value.absent()
+          : Value(position),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
       iconColor: iconColor == null && nullToAbsent
@@ -414,6 +422,7 @@ class CategoryEntityData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return CategoryEntityData(
       id: serializer.fromJson<int>(json['id']),
+      position: serializer.fromJson<int>(json['position']),
       name: serializer.fromJson<String>(json['name']),
       icon: serializer.fromJson<String>(json['icon']),
       iconColor: serializer.fromJson<String>(json['iconColor']),
@@ -424,6 +433,7 @@ class CategoryEntityData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'position': serializer.toJson<int>(position),
       'name': serializer.toJson<String>(name),
       'icon': serializer.toJson<String>(icon),
       'iconColor': serializer.toJson<String>(iconColor),
@@ -431,9 +441,10 @@ class CategoryEntityData extends DataClass
   }
 
   CategoryEntityData copyWith(
-          {int id, String name, String icon, String iconColor}) =>
+          {int id, int position, String name, String icon, String iconColor}) =>
       CategoryEntityData(
         id: id ?? this.id,
+        position: position ?? this.position,
         name: name ?? this.name,
         icon: icon ?? this.icon,
         iconColor: iconColor ?? this.iconColor,
@@ -442,6 +453,7 @@ class CategoryEntityData extends DataClass
   String toString() {
     return (StringBuffer('CategoryEntityData(')
           ..write('id: $id, ')
+          ..write('position: $position, ')
           ..write('name: $name, ')
           ..write('icon: $icon, ')
           ..write('iconColor: $iconColor')
@@ -450,13 +462,16 @@ class CategoryEntityData extends DataClass
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(name.hashCode, $mrjc(icon.hashCode, iconColor.hashCode))));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(position.hashCode,
+          $mrjc(name.hashCode, $mrjc(icon.hashCode, iconColor.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is CategoryEntityData &&
           other.id == this.id &&
+          other.position == this.position &&
           other.name == this.name &&
           other.icon == this.icon &&
           other.iconColor == this.iconColor);
@@ -464,31 +479,37 @@ class CategoryEntityData extends DataClass
 
 class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
   final Value<int> id;
+  final Value<int> position;
   final Value<String> name;
   final Value<String> icon;
   final Value<String> iconColor;
   const CategoryEntityCompanion({
     this.id = const Value.absent(),
+    this.position = const Value.absent(),
     this.name = const Value.absent(),
     this.icon = const Value.absent(),
     this.iconColor = const Value.absent(),
   });
   CategoryEntityCompanion.insert({
     this.id = const Value.absent(),
+    @required int position,
     @required String name,
     @required String icon,
     @required String iconColor,
-  })  : name = Value(name),
+  })  : position = Value(position),
+        name = Value(name),
         icon = Value(icon),
         iconColor = Value(iconColor);
   static Insertable<CategoryEntityData> custom({
     Expression<int> id,
+    Expression<int> position,
     Expression<String> name,
     Expression<String> icon,
     Expression<String> iconColor,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (position != null) 'position': position,
       if (name != null) 'name': name,
       if (icon != null) 'icon': icon,
       if (iconColor != null) 'icon_color': iconColor,
@@ -497,11 +518,13 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
 
   CategoryEntityCompanion copyWith(
       {Value<int> id,
+      Value<int> position,
       Value<String> name,
       Value<String> icon,
       Value<String> iconColor}) {
     return CategoryEntityCompanion(
       id: id ?? this.id,
+      position: position ?? this.position,
       name: name ?? this.name,
       icon: icon ?? this.icon,
       iconColor: iconColor ?? this.iconColor,
@@ -513,6 +536,9 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
+    }
+    if (position.present) {
+      map['position'] = Variable<int>(position.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -530,6 +556,7 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
   String toString() {
     return (StringBuffer('CategoryEntityCompanion(')
           ..write('id: $id, ')
+          ..write('position: $position, ')
           ..write('name: $name, ')
           ..write('icon: $icon, ')
           ..write('iconColor: $iconColor')
@@ -550,6 +577,18 @@ class $CategoryEntityTable extends CategoryEntity
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _positionMeta = const VerificationMeta('position');
+  GeneratedIntColumn _position;
+  @override
+  GeneratedIntColumn get position => _position ??= _constructPosition();
+  GeneratedIntColumn _constructPosition() {
+    return GeneratedIntColumn(
+      'position',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
@@ -586,7 +625,7 @@ class $CategoryEntityTable extends CategoryEntity
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name, icon, iconColor];
+  List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
   @override
   $CategoryEntityTable get asDslTable => this;
   @override
@@ -600,6 +639,12 @@ class $CategoryEntityTable extends CategoryEntity
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('position')) {
+      context.handle(_positionMeta,
+          position.isAcceptableOrUnknown(data['position'], _positionMeta));
+    } else if (isInserting) {
+      context.missing(_positionMeta);
     }
     if (data.containsKey('name')) {
       context.handle(

@@ -1,4 +1,5 @@
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/data/models/category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
@@ -9,7 +10,7 @@ class EntryEntity extends Table {
 
   RealColumn get amount => real()();
 
-  IntColumn get categoryName => integer().nullable().customConstraint(
+  IntColumn get categoryId => integer().nullable().customConstraint(
       'NULL REFERENCES category_entity(id) ON DELETE SET NULL')();
 
   DateTimeColumn get modifiedDate => dateTime()();
@@ -19,6 +20,8 @@ class EntryEntity extends Table {
 
 class CategoryEntity extends Table {
   IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get position => integer()();
 
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
@@ -111,7 +114,7 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<List<EntryEntityData>> getAllEntryByCategory(int categoryName) {
     return (select(entryEntity)
-          ..where((row) => row.categoryName.equals(categoryName))
+          ..where((row) => row.categoryId.equals(categoryName))
           ..orderBy([
             (u) => OrderingTerm(
                 expression: u.modifiedDate, mode: OrderingMode.desc)
@@ -130,7 +133,7 @@ class AppDatabase extends _$AppDatabase {
           ]))
         .join([
           leftOuterJoin(categoryEntity,
-              categoryEntity.id.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .watch()
         .map((List<TypedResult> rows) {
@@ -149,7 +152,7 @@ class AppDatabase extends _$AppDatabase {
           ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
         .join([
           leftOuterJoin(categoryEntity,
-              categoryEntity.id.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .watch()
         .map((List<TypedResult> rows) {
@@ -166,12 +169,12 @@ class AppDatabase extends _$AppDatabase {
               ..where((tbl) => tbl.modifiedDate.isBiggerThanValue(
                   DateTime.now().subtract(Duration(days: 30)))))
             .join([])
-              ..groupBy([entryEntity.categoryName])
+              ..groupBy([entryEntity.categoryId])
               ..addColumns([entryEntity.amount.sum()])
               ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           innerJoin(categoryEntity,
-              categoryEntity.id.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .get()
         .asStream()
@@ -189,12 +192,12 @@ class AppDatabase extends _$AppDatabase {
               ..where((tbl) => tbl.modifiedDate.isBiggerThanValue(
                   DateTime.now().subtract(Duration(days: 365)))))
             .join([])
-              ..groupBy([entryEntity.categoryName])
+              ..groupBy([entryEntity.categoryId])
               ..addColumns([entryEntity.amount.sum()])
               ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           innerJoin(categoryEntity,
-              categoryEntity.id.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .get()
         .asStream()
@@ -209,15 +212,19 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<List<CategoryEntityData>> getAllCategory() => (select(categoryEntity)
         ..orderBy(
-            [(u) => OrderingTerm(expression: u.id, mode: OrderingMode.asc)]))
+            [(u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)]))
       .watch();
+
+  Future<List<CategoryEntityData>> getAllCategory1() =>
+      (select(categoryEntity) ..orderBy(
+          [(u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)])).get();
 
   Stream<int> addCategory(CategoryEntityCompanion category) =>
       into(categoryEntity).insert(category).asStream();
 
-  // Stream<int> addCategory1(CategoryEntityCompanion category) => customInsert(
-  //     "INSERT INTO category_entity (id, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(id), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
-  //     updates: {categoryEntity}).asStream();
+  Stream<int> addCategory1(CategoryEntityCompanion category) => customInsert(
+      "INSERT INTO category_entity (position, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(position), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
+      updates: {categoryEntity}).asStream();
 
   Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
       update(categoryEntity).replace(entity).asStream();
@@ -229,26 +236,54 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<bool> reorderCategory(int oldIndex, int newIndex) {
     return transaction(() async {
-      await (update(categoryEntity)
-            ..where((tbl) => tbl.id.equals(oldIndex + 1)))
-          .write(CategoryEntityCompanion(id: Value(-1)));
-      await (update(categoryEntity)
-            ..where((tbl) => tbl.id.equals(newIndex + 1)))
-          .write(CategoryEntityCompanion(id: Value(oldIndex + 1)));
-      await (update(categoryEntity)..where((tbl) => tbl.id.equals(-1)))
-          .write(CategoryEntityCompanion(id: Value(newIndex + 1)));
+      print("$oldIndex $newIndex");
+      List<Category> categoryList = await getAllCategory1().then(
+          (value) => value.map((e) => Category.fromCategoryEntity(e)).toList());
+      for (int i = 0; i < categoryList.length; i++) {
+        if (categoryList[i].position == oldIndex) {
+          categoryList[i] = categoryList[i].copyWith(position: -1);
+        }
+      }
+      if (oldIndex > newIndex) {
+        for (int i = 0; i < categoryList.length; i++) {
+          if (categoryList[i].position >= newIndex) {
+            categoryList[i] = categoryList[i]
+                .copyWith(position: categoryList[i].position + 1);
+          }
+        }
+      } else {
+        for (int i = 0; i < categoryList.length; i++) {
+          if (categoryList[i].position > oldIndex) {
+            categoryList[i] = categoryList[i]
+                .copyWith(position: categoryList[i].position - 1);
+          }
+        }
+      }
+
+      for (int i = 0; i < categoryList.length; i++) {
+        if (categoryList[i].position == -1) {
+          categoryList[i] = categoryList[i].copyWith(position: newIndex);
+        }
+      }
+
+      print(categoryList);
+      categoryList.forEach((element) async {
+        print(element);
+        await updateCategory(element.toCategoryEntityCompanion()).single;
+      });
+
       return true;
     }).asStream();
   }
 
   Stream<List<CategoryWithSumData>> getAllCategoryWithSum() {
     return (select(entryEntity).join([])
-          ..groupBy([entryEntity.categoryName])
+          ..groupBy([entryEntity.categoryId])
           ..addColumns([entryEntity.amount.sum()])
           ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           innerJoin(categoryEntity,
-              categoryEntity.id.equalsExp(entryEntity.categoryName))
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .get()
         .asStream()
@@ -264,7 +299,7 @@ class AppDatabase extends _$AppDatabase {
   Future createDefaultCategory() async {
     return transaction(() async {
       AppConstants.defaultCategoryList.forEach((category) async {
-        await addCategory(category.toCategoryEntityCompanion()).single;
+        await addCategory1(category.toCategoryEntityCompanion()).single;
       });
       return true;
     });
