@@ -7,7 +7,7 @@ on:
 
 jobs:
   # CI
-  build_android:
+  deploy_android:
     name: Building Android 
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +39,7 @@ jobs:
   deploy_android:
     name: Deploying to playstore
     runs-on: ubuntu-latest
-    needs: [build_android]
+    needs: [deploy_android]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

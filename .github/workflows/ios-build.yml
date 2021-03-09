@@ -7,7 +7,7 @@ on:
       - development
       
 jobs:
- deploy_ios:
+ build_ios:
     name: Build iOS Runner
     runs-on: macOS-latest
     steps:
