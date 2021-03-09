@@ -31,14 +31,6 @@ class MonthStartDateList extends StatelessWidget {
             "18",
             "19",
             "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
           ]
               .map((e) => (vm.date == e ? e.text.bold.xl3 : e.text.xl2)
                       .center
