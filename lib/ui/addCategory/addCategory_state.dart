@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final addCategoryModelProvider =
-    ChangeNotifierProvider.family<AddCategoryViewModel, cat.Category>(
+    ChangeNotifierProvider.autoDispose.family<AddCategoryViewModel, cat.Category>(
   (ref, category) => AddCategoryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider), category: category),
 );

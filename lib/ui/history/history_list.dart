@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HistoryList extends ConsumerWidget {
@@ -20,72 +21,70 @@ class HistoryList extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              history.title.text.light.make(),
-                              8.heightBox,
+                              30.heightBox,
+                              history.title.text.bold.size(18).make(),
+                              14.heightBox,
                               ListView(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 children: history.list
                                     .map((e) => Row(
                                           children: [
-                                            Icon(e.category.icon,
-                                                    color: Vx.white)
-                                                .p8()
-                                                .box
-                                                .color(e.category.iconColor)
-                                                .roundedFull
-                                                .make(),
+                                            Icon(
+                                              e.category.icon,
+                                              color: e.category.iconColor,
+                                              size: 20,
+                                            ),
+                                            16.widthBox,
                                             Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    e.category.name.text.bold
-                                                        .base
-                                                        .make(),
-                                                    "${NumberFormat.simpleCurrency().currencySymbol}${e.entry.amount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-                                                        .text
-                                                        .lg
-                                                        .make()
-                                                  ],
-                                                ),
+                                                e.category.name.text.medium
+                                                    .make(),
                                                 Row(
                                                   children: [
                                                     DateFormat('d MMM')
                                                         .format(e
                                                             .entry.modifiedDate)
                                                         .text
+                                                        .size(12)
+                                                        .color(
+                                                            Color(0xff212121))
                                                         .make(),
-                                                    Icon(
-                                                      Icons.circle,
-                                                      size: 8,
-                                                    ).pSymmetric(h: 4),
+                                                    8.widthBox,
                                                     DateFormat.Hm()
                                                         .format(e
                                                             .entry.modifiedDate)
                                                         .text
+                                                        .size(12)
+                                                        .color(
+                                                            Color(0xff212121))
                                                         .make(),
                                                   ],
                                                 ),
                                               ],
-                                            ).pSymmetric(h: 8, v: 8).expand(),
+                                            ).expand(),
+                                            "${NumberFormat.simpleCurrency().currencySymbol} ${e.entry.amount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                                                .text
+                                                .size(16)
+                                                .bold
+                                                .make()
                                           ],
-                                        ).pSymmetric(v: 4).onInkTap(() {
+                                        ).pSymmetric(v: 8).onInkTap(() {
                                           Navigator.pushNamed(
                                               context, AppRoutes.addEntry,
-                                              arguments: e);
+                                              arguments: Tuple2(e, null));
                                         }))
                                     .toList(),
                               )
                             ],
-                          ).pSymmetric(h: 16, v: 12))
+                          ).pSymmetric(h: 24))
                       .toList(),
                 ),
-            loading: () => CircularProgressIndicator(),
+            loading: () => Center(child: CircularProgressIndicator()),
             error: (e, str) => Text(e.toString()))
         .expand();
   }

@@ -1,43 +1,41 @@
-import 'package:expense_manager/data/models/category.dart' as cat;
-import 'package:expense_manager/data/models/entry_list.dart';
+import 'dart:async';
+
+import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final categoryDetailsModelProvider = StreamProvider.autoDispose
-    .family<List<EntryList>, String>((ref, categoryName) {
-  return ref
-      .read(repositoryProvider)
-      .getAllEntryByCategory(categoryName)
-      .map((event) {
-    print(event
-        .map((e) => e.list
-            .map((e) => e.amount)
-            .reduce((value, element) => value + element))
-        .reduce((value, element) => value > element ? value : element));
-    return event;
-  });
+final categoryDetailsModelProvider =
+    ChangeNotifierProvider.autoDispose<CategoryDetailsViewModel>((ref) {
+  filter filterType = ref.watch(categoryDetailsFilterProvider).state;
+  return CategoryDetailsViewModel(
+      entryDataSourceImp: ref.read(repositoryProvider), filterType: filterType);
 });
 
+final categoryDetailsTotalAmountProvider = Provider.autoDispose<double>((ref) {
+  return ref
+      .watch(categoryDetailsModelProvider)
+      .categoryList
+      .map((e) => e.total)
+      .fold(0.0, (previousValue, element) => previousValue + element);
+});
+
+final categoryDetailsFilterProvider =
+    StateProvider.autoDispose<filter>((ref) => filter.lastMonth);
+
 class CategoryDetailsViewModel with ChangeNotifier {
-  EntryRepositoryImp entryDataSourceImp;
-  final Reader reader;
-  final cat.Category category;
-  List<EntryList> categoryList = [];
+  final EntryRepositoryImp entryDataSourceImp;
+  final filter filterType;
+  List<CategoryWithSum> categoryList = [];
+  StreamSubscription _subscription;
 
-  CategoryDetailsViewModel({@required this.reader, @required this.category}) {
-    entryDataSourceImp.getAllEntryByCategory("").listen((event) {
+  CategoryDetailsViewModel(
+      {@required this.entryDataSourceImp, @required this.filterType}) {
+    _subscription =
+        entryDataSourceImp.getCategoryDetails(filterType).listen((event) {
       categoryList = event;
-      notifyListeners();
-    });
-  }
-
-  void reorder(int oldIndex, int newIndex) {
-    if (newIndex > oldIndex) {
-      newIndex -= 1;
-    }
-    entryDataSourceImp.reorderCategory(oldIndex, newIndex).listen((event) {
       notifyListeners();
     });
   }
@@ -45,6 +43,7 @@ class CategoryDetailsViewModel with ChangeNotifier {
   @override
   void dispose() {
     categoryList = [];
+    _subscription.cancel();
     super.dispose();
   }
 }

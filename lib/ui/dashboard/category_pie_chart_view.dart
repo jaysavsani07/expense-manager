@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,9 @@ class CategoryPieChartView extends ConsumerWidget {
         24.widthBox,
         CategoryPieChatListView()
       ],
-    ).pSymmetric(h: 16,v: 24).card.roundedSM.make().pSymmetric(h: 24);
+    ).pSymmetric(h: 16,v: 24).card.roundedSM.make().onInkTap(() {
+      Navigator.pushNamed(context, AppRoutes.categoryDetails);
+    }).pSymmetric(h: 24);
   }
 }
 
@@ -66,10 +69,10 @@ class CategoryPieChatListView extends ConsumerWidget {
                     color: list.iconColor,
                   ),
                   4.widthBox,
-                  list.name.text.sm.ellipsis.make()
+                  list.name.text.size(14).ellipsis.make()
                 ],
               ).pOnly(bottom: 24))
           .toList(),
-    ).expand();
+    ).h(140).expand();
   }
 }

@@ -10,7 +10,7 @@ part of 'app_database.dart';
 class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   final int id;
   final double amount;
-  final String categoryName;
+  final int categoryName;
   final DateTime modifiedDate;
   final String description;
   EntryEntityData(
@@ -25,13 +25,13 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final doubleType = db.typeSystem.forDartType<double>();
-    final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
     return EntryEntityData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       amount:
           doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
-      categoryName: stringType
+      categoryName: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}category_name']),
       modifiedDate: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}modified_date']),
@@ -49,7 +49,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       map['amount'] = Variable<double>(amount);
     }
     if (!nullToAbsent || categoryName != null) {
-      map['category_name'] = Variable<String>(categoryName);
+      map['category_name'] = Variable<int>(categoryName);
     }
     if (!nullToAbsent || modifiedDate != null) {
       map['modified_date'] = Variable<DateTime>(modifiedDate);
@@ -83,7 +83,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     return EntryEntityData(
       id: serializer.fromJson<int>(json['id']),
       amount: serializer.fromJson<double>(json['amount']),
-      categoryName: serializer.fromJson<String>(json['categoryName']),
+      categoryName: serializer.fromJson<int>(json['categoryName']),
       modifiedDate: serializer.fromJson<DateTime>(json['modifiedDate']),
       description: serializer.fromJson<String>(json['description']),
     );
@@ -94,7 +94,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'amount': serializer.toJson<double>(amount),
-      'categoryName': serializer.toJson<String>(categoryName),
+      'categoryName': serializer.toJson<int>(categoryName),
       'modifiedDate': serializer.toJson<DateTime>(modifiedDate),
       'description': serializer.toJson<String>(description),
     };
@@ -103,7 +103,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   EntryEntityData copyWith(
           {int id,
           double amount,
-          String categoryName,
+          int categoryName,
           DateTime modifiedDate,
           String description}) =>
       EntryEntityData(
@@ -146,7 +146,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
 class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   final Value<int> id;
   final Value<double> amount;
-  final Value<String> categoryName;
+  final Value<int> categoryName;
   final Value<DateTime> modifiedDate;
   final Value<String> description;
   const EntryEntityCompanion({
@@ -168,7 +168,7 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   static Insertable<EntryEntityData> custom({
     Expression<int> id,
     Expression<double> amount,
-    Expression<String> categoryName,
+    Expression<int> categoryName,
     Expression<DateTime> modifiedDate,
     Expression<String> description,
   }) {
@@ -184,7 +184,7 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   EntryEntityCompanion copyWith(
       {Value<int> id,
       Value<double> amount,
-      Value<String> categoryName,
+      Value<int> categoryName,
       Value<DateTime> modifiedDate,
       Value<String> description}) {
     return EntryEntityCompanion(
@@ -206,7 +206,7 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
       map['amount'] = Variable<double>(amount.value);
     }
     if (categoryName.present) {
-      map['category_name'] = Variable<String>(categoryName.value);
+      map['category_name'] = Variable<int>(categoryName.value);
     }
     if (modifiedDate.present) {
       map['modified_date'] = Variable<DateTime>(modifiedDate.value);
@@ -258,14 +258,14 @@ class $EntryEntityTable extends EntryEntity
 
   final VerificationMeta _categoryNameMeta =
       const VerificationMeta('categoryName');
-  GeneratedTextColumn _categoryName;
+  GeneratedIntColumn _categoryName;
   @override
-  GeneratedTextColumn get categoryName =>
+  GeneratedIntColumn get categoryName =>
       _categoryName ??= _constructCategoryName();
-  GeneratedTextColumn _constructCategoryName() {
-    return GeneratedTextColumn('category_name', $tableName, true,
+  GeneratedIntColumn _constructCategoryName() {
+    return GeneratedIntColumn('category_name', $tableName, true,
         $customConstraints:
-            'NULL REFERENCES category_entity(name) ON DELETE SET NULL');
+            'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
   }
 
   final VerificationMeta _modifiedDateMeta =
@@ -474,12 +474,11 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
     this.iconColor = const Value.absent(),
   });
   CategoryEntityCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String name,
     @required String icon,
     @required String iconColor,
-  })  : id = Value(id),
-        name = Value(name),
+  })  : name = Value(name),
         icon = Value(icon),
         iconColor = Value(iconColor);
   static Insertable<CategoryEntityData> custom({
@@ -549,11 +548,8 @@ class $CategoryEntityTable extends CategoryEntity
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
@@ -604,8 +600,6 @@ class $CategoryEntityTable extends CategoryEntity
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -629,7 +623,7 @@ class $CategoryEntityTable extends CategoryEntity
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {name};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   CategoryEntityData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;

@@ -1,7 +1,15 @@
 import 'package:expense_manager/data/models/category.dart';
 import 'package:flutter/material.dart';
 
+enum filter {
+  lastMonth,
+  lastYear,
+  all
+}
+
 class AppConstants {
+
+
   static final defaultCategoryList = [
     Category(
         name: "Food ans Drinks",

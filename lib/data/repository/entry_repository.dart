@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
@@ -13,7 +14,7 @@ abstract class EntryRepository {
   Stream<int> addEntry(Entry entry);
   Stream<bool> updateEntry(Entry entry);
   Stream<List<Entry>> getAllEntry();
-  Stream<List<EntryList>> getAllEntryByCategory(String categoryName);
+  Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end);
   Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end);
   Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month);
@@ -24,6 +25,7 @@ abstract class EntryRepository {
   Stream<bool> reorderCategory(int oldIndex,int newIndex);
   Stream<List<Category>> getAllCategory();
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();
+  Stream<List<CategoryWithSum>> getCategoryDetails(filter filterType);
 
 
 

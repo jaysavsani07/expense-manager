@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/category_list/category_list_state.dart';
 import 'package:flutter/material.dart';
@@ -14,72 +15,73 @@ class CategoryList extends ConsumerWidget {
         onChange: (context, model) async {},
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Category list"),
-            leading: Icon(Icons.close).onInkTap(() {
+            leading: Icon(Icons.arrow_back_ios_rounded).onInkTap(() {
               Navigator.pop(context);
             }),
+            title: DottedBorder(
+                color: Colors.blue,
+                dashPattern: [5, 5],
+                radius: Radius.circular(12),
+                borderType: BorderType.RRect,
+                child: "Category list"
+                    .text
+                    .size(16)
+                    .medium
+                    .color(Colors.blue)
+                    .make()
+                    .pSymmetric(h: 8, v: 4)),
+            actions: [
+              "Add New"
+                  .text
+                  .size(16)
+                  .bold
+                  .color(Colors.blue)
+                  .make()
+                  .p20()
+                  .onInkTap(() {
+                Navigator.pushNamed(context, AppRoutes.addCategory,
+                    arguments: null);
+              })
+            ],
           ),
           body: ReorderableListView(
             onReorder: vm.reorder,
             children: vm.categoryList
-                .map((e) => Padding(
-                      key: ValueKey(e),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 4),
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              color: e.iconColor,
-                            ),
-                            height: 36,
-                            width: 36,
-                            child: Icon(
+                .map((e) => InkWell(
+                      key: ValueKey(e.id),
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.addCategory,
+                            arguments: e);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 14),
+                        child: Row(
+                          children: [
+                            Icon(
                               e.icon,
                               size: 20,
+                              color: e.iconColor,
                             ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8, right: 8, bottom: 4, top: 4),
+                            Expanded(
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    e.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  e.name.text.make().pSymmetric(h: 16),
                                   Icon(
-                                    Icons.reorder_outlined,
+                                    Icons.drag_handle_outlined,
                                     size: 20,
                                   )
                                 ],
                               ),
                             ),
-                          ),
-                        ],
-                      ).onInkTap(() {
-                        Navigator.pushNamed(context, AppRoutes.addCategory,
-                            arguments: e);
-                      }),
+                          ],
+                        ),
+                      ),
                     ))
                 .toList(),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.pushNamed(context, AppRoutes.addCategory,
-                  arguments: null);
-            },
-            backgroundColor: Vx.black,
-
-            child: Icon(Icons.add,color: Vx.white,),
-          ),
+          ).pOnly(top: 20),
         ));
   }
 }

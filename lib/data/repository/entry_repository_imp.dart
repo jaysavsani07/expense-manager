@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
@@ -9,7 +10,7 @@ import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor/moor.dart';
-
+import 'package:rxdart/rxdart.dart';
 final repositoryProvider = Provider((ref) =>
     EntryRepositoryImp(entryDataSourceImp: ref.read(dataSourceProvider)));
 
@@ -49,7 +50,7 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<EntryList>> getAllEntryByCategory(String categoryName) {
+  Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
     return entryDataSourceImp.getAllEntryByCategory(categoryName);
   }
 
@@ -98,5 +99,15 @@ class EntryRepositoryImp extends EntryRepository {
   @override
   Stream<List<CategoryWithSum>> getAllCategoryWithSum() {
     return entryDataSourceImp.getAllCategoryWithSum();
+  }
+
+  @override
+  Stream<List<CategoryWithSum>> getCategoryDetails(filter filterType) {
+    if (filterType == filter.lastMonth)
+      return entryDataSourceImp.getAllLastMonthCategoryWithSum();
+    else if (filterType == filter.lastYear)
+      return entryDataSourceImp.getAllLastYearCategoryWithSum();
+    else
+      return entryDataSourceImp.getAllCategoryWithSum();
   }
 }

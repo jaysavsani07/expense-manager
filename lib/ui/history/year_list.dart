@@ -24,7 +24,7 @@ class YearList extends StatelessWidget {
                     Navigator.pop(context);
                   })),
           loading: () => CircularProgressIndicator(),
-          error: (e, str) => Text(e.toString()));
+          error: (e, str) => Text(e.toString())).h(200);
     });
   }
 }

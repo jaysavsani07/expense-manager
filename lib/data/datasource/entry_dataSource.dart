@@ -17,7 +17,7 @@ abstract class EntryDataSource {
   Stream<bool> updateEntry(Entry entry);
 
   Stream<List<Entry>> getAllEntry();
-  Stream<List<EntryList>> getAllEntryByCategory(String categoryName);
+  Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
 
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end);
   Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end);
@@ -35,4 +35,6 @@ abstract class EntryDataSource {
   Stream<List<Category>> getAllCategory();
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();
+  Stream<List<CategoryWithSum>> getAllLastMonthCategoryWithSum();
+  Stream<List<CategoryWithSum>> getAllLastYearCategoryWithSum();
 }
