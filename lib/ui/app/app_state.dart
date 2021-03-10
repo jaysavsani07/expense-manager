@@ -14,27 +14,27 @@ class AppThemeState extends ChangeNotifier {
   var currentLocale = Locale('en', 'US');
 
   AppThemeState(this.reader) {
-    _loadFromPrefs();
-  }
-
-  void changeTheme(ThemeMode themeMode) {
-    this.themeMode = themeMode;
-    _saveToPrefs();
-    notifyListeners();
-  }
-
-  void changeLocale({Locale switchToLocale}) {
-    currentLocale = switchToLocale;
-    notifyListeners();
-  }
-
-  _loadFromPrefs() async {
     themeMode = ThemeMode.values[
-        reader(sharedPreferencesProvider).getInt(Preferences.IS_DARK_MODE)??0];
+        reader(sharedPreferencesProvider).getInt(Preferences.IS_DARK_MODE) ??
+            0];
+    currentLocale = reader(sharedPreferencesProvider).getObj(
+        Preferences.DEFAULT_LANGUAGE, (v) => Locale(v["lc"], v["cc"]),
+        defValue: Locale('en', 'US'));
   }
 
-  _saveToPrefs() async {
+  void changeTheme(ThemeMode themeMode) async {
+    this.themeMode = themeMode;
+    notifyListeners();
     await reader(sharedPreferencesProvider)
         .putInt(Preferences.IS_DARK_MODE, themeMode.index);
+  }
+
+  void changeLocale({Locale switchToLocale}) async {
+    currentLocale = switchToLocale;
+    notifyListeners();
+    await reader(sharedPreferencesProvider)
+        .putObjectNew(Preferences.DEFAULT_LANGUAGE, () {
+      return "{\"lc\" : \"${currentLocale.languageCode}\" , \"cc\" : \"${currentLocale.countryCode}\"}";
+    });
   }
 }
