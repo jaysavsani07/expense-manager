@@ -104,7 +104,10 @@ class EntryRepositoryImp extends EntryRepository {
   @override
   Stream<List<CategoryWithSum>> getCategoryDetails(String filterType) {
     if (filterType == "This Month")
-      return entryDataSourceImp.getAllCategoryWithSumByMonth(DateTime.now().month);
+      return entryDataSourceImp.getAllCategoryWithSumByMonth(DateTime.now().month).map((event) {
+        print(event);
+        return event;
+      });
   /*  else if (filterType == filter.lastYear)
       return entryDataSourceImp.getAllLastYearCategoryWithSum();
     else*/

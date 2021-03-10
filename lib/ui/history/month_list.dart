@@ -17,7 +17,8 @@ class MonthList extends ConsumerWidget {
                     padding: EdgeInsets.only(left: 24),
                     scrollDirection: Axis.horizontal,
                     children: monthList
-                        .map((e) => AppLocalization.of(context)
+                        .map((e) =>
+                        AppLocalization.of(context)
                                 .getTranslatedVal(e)
                                 .text
                                 .color(watch(monthProvider).state == e

@@ -65,7 +65,7 @@ class CategoryPieChartView extends ConsumerWidget {
         24.widthBox,
         CategoryPieChatListView()
       ],
-    ).pSymmetric(h: 16, v: 24).card.roundedSM.make().onInkTap(() {
+    ).pSymmetric(h: 16, v: 24).card.withRounded(value: 6).make().onInkTap(() {
       Navigator.pushNamed(context, AppRoutes.categoryDetails);
     }).pSymmetric(h: 24);
   }

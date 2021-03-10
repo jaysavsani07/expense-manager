@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final addCategoryModelProvider =
-    ChangeNotifierProvider.autoDispose.family<AddCategoryViewModel, cat.Category>(
+final addCategoryModelProvider = ChangeNotifierProvider.autoDispose
+    .family<AddCategoryViewModel, cat.Category>(
   (ref, category) => AddCategoryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider), category: category),
 );
@@ -55,7 +55,11 @@ class AddCategoryViewModel with ChangeNotifier {
     else
       entryDataSourceImp
           .updateCategory(cat.Category(
-              id: category.id,position: category.position ,name: name, icon: iconData, iconColor: color))
+              id: category.id,
+              position: category.position,
+              name: name,
+              icon: iconData,
+              iconColor: color))
           .listen((event) {});
   }
 

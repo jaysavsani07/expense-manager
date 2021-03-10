@@ -17,23 +17,19 @@ class Dashboard extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: DottedBorder(
-                color: Colors.blue,
+                color: Theme.of(context).appBarTheme.textTheme.headline6.color,
                 dashPattern: [5, 5],
                 radius: Radius.circular(12),
                 borderType: BorderType.RRect,
                 child: AppLocalization.of(context)
                     .getTranslatedVal("dashboard")
                     .text
-                    .size(16)
-                    .medium
-                    .color(Colors.blue)
                     .make()
                     .pSymmetric(h: 8, v: 4))
             .pOnly(left: 24),
         actions: [
           Icon(
             Icons.settings,
-            size: 24,
           ).p24().onInkTap(() {
             Navigator.pushNamed(context, AppRoutes.setting);
           })
@@ -67,7 +63,7 @@ class Dashboard extends ConsumerWidget {
                     .getTranslatedVal("manage_category")
                     .text
                     .size(16)
-                    .color(Colors.blue)
+                    .color(Color(0xff2196F3))
                     .bold
                     .make()
                     .onInkTap(() {
@@ -114,7 +110,8 @@ class TodayAmount extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppLocalization.of(context)
-                .getTranslatedVal("today_expanse").text.size(12).bold.white.make(),
+                .getTranslatedVal("today_expanse")
+                .text.size(12).bold.white.make(),
             6.heightBox,
             "${NumberFormat.simpleCurrency().currencySymbol} ${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                 .text
@@ -130,7 +127,7 @@ class TodayAmount extends ConsumerWidget {
         .pSymmetric(v: 24, h: 14)
         .card
         .withRounded(value: 8)
-        .color(Colors.blue)
+        .color(Theme.of(context).primaryColor)
         .elevation(1)
         .make()
         .pSymmetric(h: 24);

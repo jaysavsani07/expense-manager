@@ -20,16 +20,13 @@ class Setting extends ConsumerWidget {
           Navigator.pop(context);
         }),
         title: DottedBorder(
-            color: Colors.blue,
+            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
             child: AppLocalization.of(context)
                 .getTranslatedVal("settings")
                 .text
-                .size(16)
-                .medium
-                .color(Colors.blue)
                 .make()
                 .pSymmetric(h: 8, v: 4)),
       ),
@@ -52,9 +49,9 @@ class Setting extends ConsumerWidget {
                           "choose_your_light_or_dark_theme_preference")
                       : (appState.themeMode == ThemeMode.dark
                           ? AppLocalization.of(context)
-                              .getTranslatedVal("light_theme")
+                              .getTranslatedVal("dark_theme")
                           : AppLocalization.of(context)
-                              .getTranslatedVal("dark_theme")))
+                              .getTranslatedVal("light_theme")))
                   .text
                   .size(14)
                   .color(Color(0xff616161))

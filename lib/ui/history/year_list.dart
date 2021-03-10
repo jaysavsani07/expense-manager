@@ -9,20 +9,21 @@ class YearList extends StatelessWidget {
     return Consumer(builder: (context, watch, child) {
       final vm = watch(yearListProvider);
       return vm.when(
-          data: (yearList) => ListView.builder(
-              shrinkWrap: true,
-              itemCount: yearList.length,
-              itemBuilder: (context, index) => yearList[index]
-                      .toString()
-                      .text
-                      .xl2
-                      .center
-                      .make()
-                      .p8()
-                      .onInkTap(() {
-                    context.read(yearProvider).state = yearList[index];
-                    Navigator.pop(context);
-                  })),
+          data: (yearList) =>
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: yearList.length,
+                  itemBuilder: (context, index) => yearList[index]
+                          .toString()
+                          .text
+                          .xl2
+                          .center
+                          .make()
+                          .p8()
+                          .onInkTap(() {
+                        context.read(yearProvider).state = yearList[index];
+                        Navigator.pop(context);
+                      })),
           loading: () => CircularProgressIndicator(),
           error: (e, str) => Text(e.toString())).h(200);
     });

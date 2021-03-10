@@ -16,7 +16,7 @@ class MonthStartDateState extends ChangeNotifier {
 
   _loadFromPrefs() async {
     date = reader(sharedPreferencesProvider)
-        .getString(Preferences.MONTH_CYCLE_DATE,defValue: "1");
+        .getString(Preferences.MONTH_CYCLE_DATE, defValue: "1");
     notifyListeners();
   }
 

@@ -14,23 +14,19 @@ class History extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: DottedBorder(
-                color: Colors.blue,
+                color: Theme.of(context).appBarTheme.textTheme.headline6.color,
                 dashPattern: [5, 5],
                 radius: Radius.circular(12),
                 borderType: BorderType.RRect,
                 child: AppLocalization.of(context)
                     .getTranslatedVal("history")
                     .text
-                    .size(16)
-                    .medium
-                    .color(Colors.blue)
                     .make()
                     .pSymmetric(h: 8, v: 4))
             .pOnly(left: 24),
         actions: [
           Icon(
             Icons.calendar_today_rounded,
-            size: 24,
           ).p24().onInkTap(() {
             showModalBottomSheet(
                 context: context,

@@ -25,16 +25,13 @@ class AddEntry extends ConsumerWidget {
           Navigator.pop(context);
         }),
         title: DottedBorder(
-            color: Colors.blue,
+            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
             child: AppLocalization.of(context)
                 .getTranslatedVal("add_expense")
                 .text
-                .size(16)
-                .medium
-                .color(Colors.blue)
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
@@ -43,7 +40,7 @@ class AddEntry extends ConsumerWidget {
               .text
               .size(16)
               .bold
-              .color(Colors.blue)
+              .color(Color(0xff2196F3))
               .make()
               .p20()
               .onInkTap(() {
@@ -96,9 +93,9 @@ class AddEntry extends ConsumerWidget {
               AppLocalization.of(context)
                   .getTranslatedVal("edit")
                   .text
-                  .size(18)
+                  .size(16)
                   .bold
-                  .color(Colors.blue)
+                  .color(Color(0xff2196F3))
                   .start
                   .make()
                   .onInkTap(() {
@@ -126,7 +123,11 @@ class AddEntry extends ConsumerWidget {
                             size: 20,
                           ),
                           4.heightBox,
-                          category.name.text.size(12).ellipsis.make().p4()
+                          category.name.text
+                              .textStyle(Theme.of(context).textTheme.caption)
+                              .ellipsis
+                              .make()
+                              .p4()
                         ],
                       )
                           .centered()

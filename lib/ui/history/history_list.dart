@@ -50,18 +50,20 @@ class HistoryList extends ConsumerWidget {
                                                         .format(e
                                                             .entry.modifiedDate)
                                                         .text
-                                                        .size(12)
-                                                        .color(
-                                                            Color(0xff212121))
+                                                        .textStyle(
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .caption)
                                                         .make(),
                                                     8.widthBox,
                                                     DateFormat.Hm()
                                                         .format(e
                                                             .entry.modifiedDate)
                                                         .text
-                                                        .size(12)
-                                                        .color(
-                                                            Color(0xff212121))
+                                                        .textStyle(
+                                                            Theme.of(context)
+                                                                .textTheme
+                                                                .caption)
                                                         .make(),
                                                   ],
                                                 ),

@@ -25,85 +25,79 @@ class HomeScreen extends ConsumerWidget {
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-        child: BottomAppBar(
-          notchMargin: 8,
-          shape: CircularNotchedRectangle(),
-          child: Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 60,
-                  child: InkWell(
-                    onTap: () => homeViewModel.changeTab(0),
-                    borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(24)),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.dashboard,
-                          size: 20,
-                          color: homeViewModel.activeTab == HomeTab.dashboard
-                              ? Colors.blue
-                              : null,
-                        ),
-                        8.widthBox,
-                        AppLocalization.of(context)
-                            .getTranslatedVal("dashboard")
-                            .text
-                            .size(12)
-                            .medium
-                            .color(homeViewModel.activeTab == HomeTab.dashboard
-                                ? Colors.blue
-                                : null)
-                            .make(),
-                      ],
-                    ),
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 8,
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 60,
+                child: InkWell(
+                  onTap: () => homeViewModel.changeTab(0),
+                  borderRadius:
+                      BorderRadius.only(topRight: Radius.circular(24)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.dashboard,
+                        size: 20,
+                        color: homeViewModel.activeTab == HomeTab.dashboard
+                            ? Color(0xff2196F3)
+                            : null,
+                      ),
+                      8.widthBox,
+                      AppLocalization.of(context)
+                          .getTranslatedVal("dashboard")
+                          .text
+                          .size(12)
+                          .medium
+                          .color(homeViewModel.activeTab == HomeTab.dashboard
+                              ? Color(0xff2196F3)
+                              : null)
+                          .make(),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(width: 60),
-              Expanded(
-                child: SizedBox(
-                  height: 60,
-                  child: InkWell(
-                    borderRadius:
-                        BorderRadius.only(topLeft: Radius.circular(24)),
-                    onTap: () => homeViewModel.changeTab(1),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.history,
-                          size: 20,
-                          color: homeViewModel.activeTab == HomeTab.history
-                              ? Colors.blue
-                              : null,
-                        ),
-                        8.widthBox,
-                        AppLocalization.of(context)
-                            .getTranslatedVal("history")
-                            .text
-                            .size(12)
-                            .medium
-                            .color(homeViewModel.activeTab == HomeTab.history
-                                ? Colors.blue
-                                : null)
-                            .make()
-                      ],
-                    ),
+            ),
+            SizedBox(width: 60),
+            Expanded(
+              child: SizedBox(
+                height: 60,
+                child: InkWell(
+                  borderRadius:
+                      BorderRadius.only(topLeft: Radius.circular(24)),
+                  onTap: () => homeViewModel.changeTab(1),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.history,
+                        size: 20,
+                        color: homeViewModel.activeTab == HomeTab.history
+                            ? Color(0xff2196F3)
+                            : null,
+                      ),
+                      8.widthBox,
+                      AppLocalization.of(context)
+                          .getTranslatedVal("history")
+                          .text
+                          .size(12)
+                          .medium
+                          .color(homeViewModel.activeTab == HomeTab.history
+                              ? Color(0xff2196F3)
+                              : null)
+                          .make()
+                    ],
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

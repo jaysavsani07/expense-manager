@@ -20,16 +20,13 @@ class CategoryList extends ConsumerWidget {
               Navigator.pop(context);
             }),
             title: DottedBorder(
-                color: Colors.blue,
+                color: Theme.of(context).appBarTheme.textTheme.headline6.color,
                 dashPattern: [5, 5],
                 radius: Radius.circular(12),
                 borderType: BorderType.RRect,
                 child: AppLocalization.of(context)
                     .getTranslatedVal("category_list")
                     .text
-                    .size(16)
-                    .medium
-                    .color(Colors.blue)
                     .make()
                     .pSymmetric(h: 8, v: 4)),
             actions: [
@@ -38,7 +35,7 @@ class CategoryList extends ConsumerWidget {
                   .text
                   .size(16)
                   .bold
-                  .color(Colors.blue)
+                  .color(Color(0xff2196F3))
                   .make()
                   .p20()
                   .onInkTap(() {

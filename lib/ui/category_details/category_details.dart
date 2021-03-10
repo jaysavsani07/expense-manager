@@ -1,5 +1,4 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
@@ -19,15 +18,13 @@ class CategoryDetails extends StatelessWidget {
             Navigator.pop(context);
           }),
           title: DottedBorder(
-                  color: Colors.blue,
+                  color: Theme.of(context).appBarTheme.textTheme.headline6.color,
                   dashPattern: [5, 5],
                   radius: Radius.circular(12),
                   borderType: BorderType.RRect,
-                  child:AppLocalization.of(context).getTranslatedVal("total_expense")
+                  child: AppLocalization.of(context)
+                      .getTranslatedVal("total_expense")
                       .text
-                      .size(16)
-                      .bold
-                      .color(Colors.blue)
                       .make()
                       .pSymmetric(h: 8, v: 4))
               .pOnly(left: 24),
@@ -75,29 +72,30 @@ class CategoryFilterView extends ConsumerWidget {
     return yearList
         .when(
             data: (list) => Row(
-                  children: [AppLocalization.of(context).getTranslatedVal("this_month"), ...list]
+                  children: [
+                    AppLocalization.of(context).getTranslatedVal("this_month"),
+                    ...list
+                  ]
                       .map((e) => e
-                          .toString()
-                          .text
-                          .color(filterType == e
-                      .toString()
-                              ? Colors.white
-                              : Colors.blue)
-                          .size(12)
-                          .medium
-                          .make()
-                          .centered()
-                          .pSymmetric(v: 10,h: 10)
-                          .box
-                          .color(filterType == e
-                      .toString()
-                              ? Colors.blue
-                              : Color(0xffEEEEEE))
-                          .withRounded(value: 20)
-                          .make()
-                          .onInkTap(() {
-                            context.read(categoryDetailsFilterProvider).state = e
-                                .toString();
+                              .toString()
+                              .text
+                              .color(filterType == e.toString()
+                                  ? Colors.white
+                                  : Color(0xff2196F3))
+                              .size(12)
+                              .medium
+                              .make()
+                              .centered()
+                              .pSymmetric(v: 10, h: 10)
+                              .box
+                              .color(filterType == e.toString()
+                                  ? Color(0xff2196F3)
+                                  : Color(0xffEEEEEE))
+                              .withRounded(value: 20)
+                              .make()
+                              .onInkTap(() {
+                            context.read(categoryDetailsFilterProvider).state =
+                                e.toString();
                           }).pOnly(right: 10))
                       .toList(),
                 ),

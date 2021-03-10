@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/foundation.dart';

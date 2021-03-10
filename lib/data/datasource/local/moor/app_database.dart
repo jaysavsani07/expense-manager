@@ -161,6 +161,10 @@ class AppDatabase extends _$AppDatabase {
                 entry: row.readTable(entryEntity),
                 category: row.readTable(categoryEntity));
           }).toList();
+        })
+        .map((event) {
+          print(event);
+          return event;
         });
   }
 
@@ -172,7 +176,7 @@ class AppDatabase extends _$AppDatabase {
               ..addColumns([entryEntity.amount.sum()])
               ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
-          innerJoin(categoryEntity,
+          leftOuterJoin(categoryEntity,
               categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .get()
@@ -194,7 +198,7 @@ class AppDatabase extends _$AppDatabase {
               ..addColumns([entryEntity.amount.sum()])
               ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
-          innerJoin(categoryEntity,
+          leftOuterJoin(categoryEntity,
               categoryEntity.id.equalsExp(entryEntity.categoryId))
         ])
         .get()
@@ -209,13 +213,16 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Stream<List<CategoryEntityData>> getAllCategory() => (select(categoryEntity)
-        ..orderBy(
-            [(u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)]))
+        ..orderBy([
+          (u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)
+        ]))
       .watch();
 
-  Future<List<CategoryEntityData>> getAllCategory1() =>
-      (select(categoryEntity) ..orderBy(
-          [(u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)])).get();
+  Future<List<CategoryEntityData>> getAllCategory1() => (select(categoryEntity)
+        ..orderBy([
+          (u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)
+        ]))
+      .get();
 
   Stream<int> addCategory(CategoryEntityCompanion category) =>
       into(categoryEntity).insert(category).asStream();

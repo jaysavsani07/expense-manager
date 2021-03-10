@@ -1,6 +1,7 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:tuple/tuple.dart';
@@ -47,15 +48,20 @@ class CategoryItem extends ConsumerWidget {
           size: 20,
         ),
         4.heightBox,
-        category.name.text.size(12).ellipsis.make().p4()
+        category.name.text
+            .textStyle(Theme.of(context).textTheme.caption)
+            .ellipsis
+            .make()
+            .p4()
       ],
     )
         .onInkTap(() {
-          Navigator.pushNamed(context, AppRoutes.addEntry, arguments: Tuple2(null, category));
+          Navigator.pushNamed(context, AppRoutes.addEntry,
+              arguments: Tuple2(null, category));
         })
         .centered()
         .card
-        .roundedSM
+        .withRounded(value: 6)
         .make();
   }
 }

@@ -32,7 +32,9 @@ class CategoryListViewModel with ChangeNotifier {
     categoryList.removeAt(oldIndex);
     categoryList.insert(newIndex, x);
     notifyListeners();
-    entryDataSourceImp.reorderCategory(oldIndex+1, newIndex+1).listen((event) {});
+    entryDataSourceImp
+        .reorderCategory(oldIndex + 1, newIndex + 1)
+        .listen((event) {});
   }
 
   @override
