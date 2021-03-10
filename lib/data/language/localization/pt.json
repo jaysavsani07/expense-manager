@@ -35,5 +35,17 @@
   "month_cycle_date": "Data do ciclo do mês",
   "language": "Língua",
   "expense_manager_by_nividata": "Gerente de despesas por Nividata",
-  "app_version": "Versão do aplicativo: 0.0.1"
+  "app_version": "Versão do aplicativo: 0.0.1",
+  "jan": "Jan",
+  "feb": "Feb",
+  "mar": "Mar",
+  "apr": "Apr",
+  "may": "May",
+  "jun": "Jun",
+  "jul": "Jul",
+  "aug": "Aug",
+  "sep": "Sep",
+  "oct": "Oct",
+  "nov": "Nov",
+  "dec": "Dec"
 }

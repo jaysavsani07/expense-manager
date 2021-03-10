@@ -1,3 +1,4 @@
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +17,9 @@ class MonthList extends ConsumerWidget {
                     padding: EdgeInsets.only(left: 24),
                     scrollDirection: Axis.horizontal,
                     children: monthList
-                        .map((e) => e.text
+                        .map((e) => AppLocalization.of(context)
+                                .getTranslatedVal(e)
+                                .text
                                 .color(watch(monthProvider).state == e
                                     ? Colors.white
                                     : Colors.blue)
@@ -32,7 +35,7 @@ class MonthList extends ConsumerWidget {
                                 .make()
                                 .onInkTap(() {
                               context.read(monthProvider).state = e;
-                            }).pSymmetric(v: 8,h: 4))
+                            }).pSymmetric(v: 8, h: 4))
                         .toList(),
                   ),
               loading: () => SizedBox(),

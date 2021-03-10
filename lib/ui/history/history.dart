@@ -18,7 +18,8 @@ class History extends ConsumerWidget {
                 dashPattern: [5, 5],
                 radius: Radius.circular(12),
                 borderType: BorderType.RRect,
-                child:AppLocalization.of(context).getTranslatedVal("history")
+                child: AppLocalization.of(context)
+                    .getTranslatedVal("history")
                     .text
                     .size(16)
                     .medium
