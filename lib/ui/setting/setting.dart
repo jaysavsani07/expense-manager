@@ -1,6 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/data/datasource/language_data.dart';
-import 'package:expense_manager/ui/setting/month_start_date_list.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,8 @@ import 'package:expense_manager/ui/app/app_state.dart';
 class Setting extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
+    var appState = watch(appStateNotifier);
+    var monthStartDate = watch(monthStartDateStateNotifier);
     return Scaffold(
       appBar: AppBar(
         leading: Icon(Icons.arrow_back_ios_rounded).onInkTap(() {
@@ -39,7 +40,11 @@ class Setting extends ConsumerWidget {
             children: [
               "Appearance".text.size(16).medium.make(),
               4.heightBox,
-              "Choose your light or dark theme preference"
+              ((appState.themeMode == ThemeMode.system)
+                      ? "Choose your light or dark theme preference"
+                      : (appState.themeMode == ThemeMode.dark
+                          ? "Light Theme"
+                          : "Dark Theme"))
                   .text
                   .size(14)
                   .color(Color(0xff616161))
@@ -55,19 +60,38 @@ class Setting extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              "Month Start Date".text.size(16).medium.make(),
+              "Month Cycle Date".text.size(16).medium.make(),
               4.heightBox,
-              "1".text.size(14).color(Color(0xff616161)).make(),
+              monthStartDate.date.text.size(14).color(Color(0xff616161)).make(),
             ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {}),
+          ).pSymmetric(h: 24, v: 12).onInkTap(() {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return MonthCycleDialog();
+                });
+          }),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               "Language".text.size(16).medium.make(),
               4.heightBox,
-              "English".text.size(14).color(Color(0xff616161)).make(),
+              Language.languageList()
+                  .firstWhere(
+                      (element) => element.locale == appState.currentLocale)
+                  .name
+                  .text
+                  .size(14)
+                  .color(Color(0xff616161))
+                  .make(),
             ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {}),
+          ).pSymmetric(h: 24, v: 12).onInkTap(() {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return LanguageDialog();
+                });
+          }),
           Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -107,7 +131,7 @@ class ThemeDialog extends AlertDialog {
                   value: e.item1,
                   onChanged: (val) {
                     context.read(appStateNotifier).changeTheme(e.item1);
-                    // Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   title: e.item2.text.size(14).medium.make(),
                 ))
@@ -122,54 +146,91 @@ class ThemeDialog extends AlertDialog {
   }
 }
 
-class MonthStartDate extends StatelessWidget {
+class MonthCycleDialog extends AlertDialog {
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, watch, child) {
-      final vm = watch(monthStartDateStateNotifier);
-      return vm.date.text.xl
-          .make()
-          .box
-          .alignCenter
-          .height(48)
-          .width(60)
-          .make()
-          .pSymmetric(h: 8)
-          .card
-          .zero
-          .rounded
-          .make()
-          .onInkTap(() {
-        showModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            builder: (builder) => MonthStartDateList());
-      }).p8();
-    });
+    String selected = context.read(monthStartDateStateNotifier).date;
+    return AlertDialog(
+      contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
+      title: "Month Cycle Date".text.size(16).medium.make(),
+      content: ListView(
+              shrinkWrap: true,
+              children: [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "20",
+              ]
+                  .map((e) => e.text
+                          .size(e == selected ? 18 : 14)
+                          .medium
+                          .center
+                          .make()
+                          .p8()
+                          .onInkTap(() {
+                        context.read(monthStartDateStateNotifier).setDate(e);
+                        Navigator.pop(context);
+                      }))
+                  .toList())
+          .h(250),
+      actions: [
+        "Cancel".text.size(14).medium.make().p24().onInkTap(() {
+          Navigator.of(context).pop();
+        })
+      ],
+    );
   }
 }
 
-class LanguageDropDown extends StatelessWidget {
+class LanguageDialog extends AlertDialog {
   @override
   Widget build(BuildContext context) {
-    final appState = context.read(appStateNotifier);
-    return DropdownButton(
-      onChanged: (Language language) {
-        Locale _tempLocale = Locale(language.languageCode, 'BR');
-        appState.changeLocale(switchToLocale: _tempLocale);
-      },
-      icon: Icon(
-        Icons.language_outlined,
+    Locale selected = context.read(appStateNotifier).currentLocale;
+    return AlertDialog(
+      contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
+      title: "Appearance".text.size(16).medium.make(),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: Language.languageList()
+            .map((e) => RadioListTile(
+                  groupValue: selected,
+                  value: e.locale,
+                  onChanged: (val) {
+                    context
+                        .read(appStateNotifier)
+                        .changeLocale(switchToLocale: e.locale);
+                    Navigator.of(context).pop();
+                  },
+                  title: Row(
+                    children: [
+                      e.flag.text.make(),
+                      e.name.text.size(14).medium.make()
+                    ],
+                  ),
+                ))
+            .toList(),
       ),
-      items: Language.languageList()
-          .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
-              value: lang,
-              child: Row(
-                children: <Widget>[Text(lang.flag), Text(lang.languageCode)],
-              )))
-          .toList(),
+      actions: [
+        "Cancel".text.size(14).medium.make().p24().onInkTap(() {
+          Navigator.of(context).pop();
+        })
+      ],
     );
   }
 }
