@@ -42,7 +42,7 @@ class MyApp extends ConsumerWidget {
         return supportedLocales.first;
       },
       locale: appState.currentLocale,
-      themeMode: appState.isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
+      themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
       routes: {
         AppRoutes.home: (context) => HomeScreen(),

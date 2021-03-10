@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:expense_manager/data/datasource/sharedpref/preferences.dart';
 import 'package:expense_manager/data/datasource/sharedpref/shared_preference_helper.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appStateNotifier =
@@ -9,21 +10,15 @@ final appStateNotifier =
 
 class AppThemeState extends ChangeNotifier {
   Reader reader;
-  var isDarkModeEnabled = false;
+  ThemeMode themeMode = ThemeMode.system;
   var currentLocale = Locale('en', 'US');
 
   AppThemeState(this.reader) {
     _loadFromPrefs();
   }
 
-  void setLightTheme() {
-    isDarkModeEnabled = false;
-    _saveToPrefs();
-    notifyListeners();
-  }
-
-  void setDarkTheme() {
-    isDarkModeEnabled = true;
+  void changeTheme(ThemeMode themeMode) {
+    this.themeMode = themeMode;
     _saveToPrefs();
     notifyListeners();
   }
@@ -34,11 +29,12 @@ class AppThemeState extends ChangeNotifier {
   }
 
   _loadFromPrefs() async {
-    isDarkModeEnabled =
-        reader(sharedPreferencesProvider).getBool(Preferences.IS_DARK_MODE);
+    themeMode = ThemeMode.values[
+        reader(sharedPreferencesProvider).getInt(Preferences.IS_DARK_MODE)??0];
   }
 
   _saveToPrefs() async {
-    await reader(sharedPreferencesProvider).putBool(Preferences.IS_DARK_MODE, isDarkModeEnabled);
+    await reader(sharedPreferencesProvider)
+        .putInt(Preferences.IS_DARK_MODE, themeMode.index);
   }
 }
