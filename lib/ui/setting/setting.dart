@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/data/datasource/language_data.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,8 @@ class Setting extends ConsumerWidget {
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
-            child: "Settings"
+            child: AppLocalization.of(context)
+                .getTranslatedVal("settings")
                 .text
                 .size(16)
                 .medium
@@ -38,13 +40,21 @@ class Setting extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              "Appearance".text.size(16).medium.make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("appearance")
+                  .text
+                  .size(16)
+                  .medium
+                  .make(),
               4.heightBox,
               ((appState.themeMode == ThemeMode.system)
-                      ? "Choose your light or dark theme preference"
+                      ? AppLocalization.of(context).getTranslatedVal(
+                          "choose_your_light_or_dark_theme_preference")
                       : (appState.themeMode == ThemeMode.dark
-                          ? "Light Theme"
-                          : "Dark Theme"))
+                          ? AppLocalization.of(context)
+                              .getTranslatedVal("light_theme")
+                          : AppLocalization.of(context)
+                              .getTranslatedVal("dark_theme")))
                   .text
                   .size(14)
                   .color(Color(0xff616161))
@@ -60,7 +70,12 @@ class Setting extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              "Month Cycle Date".text.size(16).medium.make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("month_cycle_date")
+                  .text
+                  .size(16)
+                  .medium
+                  .make(),
               4.heightBox,
               monthStartDate.date.text.size(14).color(Color(0xff616161)).make(),
             ],
@@ -74,7 +89,12 @@ class Setting extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              "Language".text.size(16).medium.make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("language")
+                  .text
+                  .size(16)
+                  .medium
+                  .make(),
               4.heightBox,
               Language.languageList()
                   .firstWhere(
@@ -96,8 +116,14 @@ class Setting extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              "Expense Manager by Nividata".text.size(14).center.make(),
-              "App version: 0.0.1"
+              AppLocalization.of(context)
+                  .getTranslatedVal("expense_manager_by_nividata")
+                  .text
+                  .size(14)
+                  .center
+                  .make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("app_version")
                   .text
                   .size(14)
                   .color(Color(0xff616161))
@@ -118,13 +144,21 @@ class ThemeDialog extends AlertDialog {
     ThemeMode selected = context.read(appStateNotifier).themeMode;
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
-      title: "Appearance".text.size(16).medium.make(),
+      title: AppLocalization.of(context)
+          .getTranslatedVal("language")
+          .text
+          .size(16)
+          .medium
+          .make(),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Tuple2(ThemeMode.system, "Use Device Theme"),
-          Tuple2(ThemeMode.light, "Light Theme"),
-          Tuple2(ThemeMode.dark, "Dark Theme")
+          Tuple2(ThemeMode.system,
+              AppLocalization.of(context).getTranslatedVal("use_device_theme")),
+          Tuple2(ThemeMode.light,
+              AppLocalization.of(context).getTranslatedVal("light_theme")),
+          Tuple2(ThemeMode.dark,
+              AppLocalization.of(context).getTranslatedVal("dark_theme"))
         ]
             .map((e) => RadioListTile(
                   groupValue: selected,
@@ -138,7 +172,14 @@ class ThemeDialog extends AlertDialog {
             .toList(),
       ),
       actions: [
-        "Cancel".text.size(14).medium.make().p24().onInkTap(() {
+        AppLocalization.of(context)
+            .getTranslatedVal("cancel")
+            .text
+            .size(14)
+            .medium
+            .make()
+            .p24()
+            .onInkTap(() {
           Navigator.of(context).pop();
         })
       ],
@@ -152,7 +193,12 @@ class MonthCycleDialog extends AlertDialog {
     String selected = context.read(monthStartDateStateNotifier).date;
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
-      title: "Month Cycle Date".text.size(16).medium.make(),
+      title: AppLocalization.of(context)
+          .getTranslatedVal("month_cycle_date")
+          .text
+          .size(16)
+          .medium
+          .make(),
       content: ListView(
               shrinkWrap: true,
               children: [
@@ -190,7 +236,14 @@ class MonthCycleDialog extends AlertDialog {
                   .toList())
           .h(250),
       actions: [
-        "Cancel".text.size(14).medium.make().p24().onInkTap(() {
+        AppLocalization.of(context)
+            .getTranslatedVal("cancel")
+            .text
+            .size(14)
+            .medium
+            .make()
+            .p24()
+            .onInkTap(() {
           Navigator.of(context).pop();
         })
       ],
@@ -204,7 +257,12 @@ class LanguageDialog extends AlertDialog {
     Locale selected = context.read(appStateNotifier).currentLocale;
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
-      title: "Appearance".text.size(16).medium.make(),
+      title: AppLocalization.of(context)
+          .getTranslatedVal("language")
+          .text
+          .size(16)
+          .medium
+          .make(),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: Language.languageList()
@@ -227,7 +285,14 @@ class LanguageDialog extends AlertDialog {
             .toList(),
       ),
       actions: [
-        "Cancel".text.size(14).medium.make().p24().onInkTap(() {
+        AppLocalization.of(context)
+            .getTranslatedVal("cancel")
+            .text
+            .size(14)
+            .medium
+            .make()
+            .p24()
+            .onInkTap(() {
           Navigator.of(context).pop();
         })
       ],

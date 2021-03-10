@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/dashboard/category_list_view.dart';
 import 'package:expense_manager/ui/dashboard/category_pie_chart_view.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
@@ -20,7 +21,8 @@ class Dashboard extends ConsumerWidget {
                 dashPattern: [5, 5],
                 radius: Radius.circular(12),
                 borderType: BorderType.RRect,
-                child: "Dashboard"
+                child: AppLocalization.of(context)
+                    .getTranslatedVal("dashboard")
                     .text
                     .size(16)
                     .medium
@@ -42,7 +44,12 @@ class Dashboard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             10.heightBox,
-            "Hello, Jay".text.size(34).make().pOnly(left: 24),
+            AppLocalization.of(context)
+                .getTranslatedVal("hello")
+                .text
+                .size(34)
+                .make()
+                .pOnly(left: 24),
             20.heightBox,
             const TodayAmount(),
             const CategoryChartView(),
@@ -50,8 +57,14 @@ class Dashboard extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                "Quick Add".text.size(18).bold.make(),
-                "Manage Category"
+                AppLocalization.of(context)
+                    .getTranslatedVal("quick_add")
+                    .text
+                    .size(18)
+                    .bold
+                    .make(),
+                AppLocalization.of(context)
+                    .getTranslatedVal("manage_category")
                     .text
                     .size(16)
                     .color(Colors.blue)
@@ -100,7 +113,8 @@ class TodayAmount extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            "TODAY'S EXPANSE".text.size(12).bold.white.make(),
+            AppLocalization.of(context)
+                .getTranslatedVal("today_expanse").text.size(12).bold.white.make(),
             6.heightBox,
             "${NumberFormat.simpleCurrency().currencySymbol} ${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                 .text

@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/category_list/category_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,7 +24,8 @@ class CategoryList extends ConsumerWidget {
                 dashPattern: [5, 5],
                 radius: Radius.circular(12),
                 borderType: BorderType.RRect,
-                child: "Category list"
+                child: AppLocalization.of(context)
+                    .getTranslatedVal("category_list")
                     .text
                     .size(16)
                     .medium
@@ -31,7 +33,8 @@ class CategoryList extends ConsumerWidget {
                     .make()
                     .pSymmetric(h: 8, v: 4)),
             actions: [
-              "Add New"
+              AppLocalization.of(context)
+                  .getTranslatedVal("add_new")
                   .text
                   .size(16)
                   .bold

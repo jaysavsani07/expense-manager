@@ -1,15 +1,7 @@
 import 'package:expense_manager/data/models/category.dart';
 import 'package:flutter/material.dart';
 
-enum filter {
-  lastMonth,
-  lastYear,
-  all
-}
-
 class AppConstants {
-
-
   static final defaultCategoryList = [
     Category(
         name: "Food ans Drinks",
@@ -34,9 +26,7 @@ class AppConstants {
   ];
 
   static final otherCategory = Category(
-      name: "Other",
-      icon: Icons.ac_unit_rounded,
-      iconColor: Color(0xFF798897));
+      name: "Other", icon: Icons.ac_unit_rounded, iconColor: Color(0xFF798897));
 
   static final keyboard = [
     ["1", "2", "3"],

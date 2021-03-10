@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/addCategory/addCategory_state.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,8 @@ class AddCategory extends ConsumerWidget {
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
-            child: "New Category"
+            child: AppLocalization.of(context)
+                .getTranslatedVal("new_category")
                 .text
                 .size(16)
                 .medium
@@ -33,7 +35,8 @@ class AddCategory extends ConsumerWidget {
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
-          "Save"
+          AppLocalization.of(context)
+              .getTranslatedVal("save")
               .text
               .size(16)
               .bold
@@ -43,10 +46,13 @@ class AddCategory extends ConsumerWidget {
               .onInkTap(() {
             if (vm.name.isEmptyOrNull) {
               VxToast.show(context,
-                  msg: "Pls enter category name", bgColor: Colors.redAccent);
+                  msg: AppLocalization.of(context)
+                      .getTranslatedVal("pls_enter_category_name"),
+                  bgColor: Colors.redAccent);
             } else if (vm.name.length < 3 || vm.name.length > 20) {
               VxToast.show(context,
-                  msg: "Category name allowed from 3 to 20 characters",
+                  msg: AppLocalization.of(context).getTranslatedVal(
+                      "category_name_allowed_from_3_to_20_characters"),
                   bgColor: Colors.redAccent);
             } else {
               vm.saveCategory();
@@ -74,7 +80,7 @@ class AddCategory extends ConsumerWidget {
                 textInputAction: TextInputAction.done,
                 height: 80,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-                hint: "Tea",
+                hint: AppLocalization.of(context).getTranslatedVal("tea"),
                 clear: false,
                 onChanged: (text) {
                   vm.changeName(text);
@@ -83,7 +89,13 @@ class AddCategory extends ConsumerWidget {
             ],
           ).card.withRounded(value: 6).make(),
           30.heightBox,
-          "Icon".text.bold.size(18).start.make(),
+          AppLocalization.of(context)
+              .getTranslatedVal("icon")
+              .text
+              .bold
+              .size(18)
+              .start
+              .make(),
           GridView(
             shrinkWrap: true,
             gridDelegate:
@@ -99,7 +111,13 @@ class AddCategory extends ConsumerWidget {
                 .toList(),
           ).box.height(150).make(),
           30.heightBox,
-          "Color".text.bold.size(18).start.make(),
+          AppLocalization.of(context)
+              .getTranslatedVal("color")
+              .text
+              .bold
+              .size(18)
+              .start
+              .make(),
           GridView(
             shrinkWrap: true,
             gridDelegate:

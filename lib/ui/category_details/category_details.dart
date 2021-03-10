@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class CategoryDetails extends StatelessWidget {
                   dashPattern: [5, 5],
                   radius: Radius.circular(12),
                   borderType: BorderType.RRect,
-                  child: "Total Expense"
+                  child:AppLocalization.of(context).getTranslatedVal("total_expense")
                       .text
                       .size(16)
                       .bold
@@ -74,7 +75,7 @@ class CategoryFilterView extends ConsumerWidget {
     return yearList
         .when(
             data: (list) => Row(
-                  children: ["This Month", ...list]
+                  children: [AppLocalization.of(context).getTranslatedVal("this_month"), ...list]
                       .map((e) => e
                           .toString()
                           .text

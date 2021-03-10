@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
@@ -28,7 +29,8 @@ class AddEntry extends ConsumerWidget {
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
-            child: "Add Expense"
+            child: AppLocalization.of(context)
+                .getTranslatedVal("add_expense")
                 .text
                 .size(16)
                 .medium
@@ -36,7 +38,8 @@ class AddEntry extends ConsumerWidget {
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
-          "Save"
+          AppLocalization.of(context)
+              .getTranslatedVal("save")
               .text
               .size(16)
               .bold
@@ -45,9 +48,15 @@ class AddEntry extends ConsumerWidget {
               .p20()
               .onInkTap(() {
             if (vm.amount.isEmptyOrNull) {
-              VxToast.show(context, msg: "Pls enter amount",bgColor: Colors.redAccent);
-            }else if (double.parse(vm.amount)==0.0) {
-              VxToast.show(context, msg: "Amount is grater then zero",bgColor: Colors.redAccent);
+              VxToast.show(context,
+                  msg: AppLocalization.of(context)
+                      .getTranslatedVal("pls_enter_amount"),
+                  bgColor: Colors.redAccent);
+            } else if (double.parse(vm.amount) == 0.0) {
+              VxToast.show(context,
+                  msg: AppLocalization.of(context)
+                      .getTranslatedVal("amount_should_grater_then_zero"),
+                  bgColor: Colors.redAccent);
             } else {
               vm.addEntry();
               Navigator.pop(context);
@@ -78,8 +87,14 @@ class AddEntry extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              "Category".text.size(18).bold.make(),
-              "Edit"
+              AppLocalization.of(context)
+                  .getTranslatedVal("category")
+                  .text
+                  .size(18)
+                  .bold
+                  .make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("edit")
                   .text
                   .size(18)
                   .bold
@@ -134,7 +149,12 @@ class AddEntry extends ConsumerWidget {
           30.heightBox,
           Row(children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              "Date".text.size(18).bold.make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("date")
+                  .text
+                  .size(18)
+                  .bold
+                  .make(),
               8.heightBox,
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -159,7 +179,12 @@ class AddEntry extends ConsumerWidget {
             ]).expand(),
             8.widthBox,
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              "Time".text.size(18).bold.make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("time")
+                  .text
+                  .size(18)
+                  .bold
+                  .make(),
               8.heightBox,
               Row(
                       mainAxisSize: MainAxisSize.max,
@@ -183,13 +208,20 @@ class AddEntry extends ConsumerWidget {
             ]).expand(),
           ]),
           30.heightBox,
-          "Note".text.size(18).bold.start.make(),
+          AppLocalization.of(context)
+              .getTranslatedVal("note")
+              .text
+              .size(18)
+              .bold
+              .start
+              .make(),
           8.heightBox,
           VxTextField(
             value: vm.description,
             keyboardType: TextInputType.text,
             borderRadius: 6,
-            hint: "Enter note here",
+            hint:
+                AppLocalization.of(context).getTranslatedVal("enter_note_here"),
             borderType: VxTextFieldBorderType.roundLine,
             borderColor: Color(0xffE0E0E0),
             fillColor: context.theme.cardTheme.color,

@@ -1,5 +1,5 @@
-import 'package:expense_manager/core/localization.dart';
 import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
 import 'package:expense_manager/ui/dashboard/dashboard.dart';
 import 'package:expense_manager/ui/history/history.dart';
@@ -54,7 +54,9 @@ class HomeScreen extends ConsumerWidget {
                               : null,
                         ),
                         8.widthBox,
-                        AppLocalizations.dashboard.text
+                        AppLocalization.of(context)
+                            .getTranslatedVal("dashboard")
+                            .text
                             .size(12)
                             .medium
                             .color(homeViewModel.activeTab == HomeTab.dashboard
@@ -86,7 +88,9 @@ class HomeScreen extends ConsumerWidget {
                               : null,
                         ),
                         8.widthBox,
-                        AppLocalizations.history.text
+                        AppLocalization.of(context)
+                            .getTranslatedVal("history")
+                            .text
                             .size(12)
                             .medium
                             .color(homeViewModel.activeTab == HomeTab.history
