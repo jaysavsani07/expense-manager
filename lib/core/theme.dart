@@ -8,6 +8,7 @@ class AppTheme {
       backgroundColor: Colors.white,
       cursorColor: Colors.black,
       primaryColor: Color(0xff2196F3),
+      dividerColor: Color(0xffeeeeee),
       appBarTheme: AppBarTheme(
           color: Colors.white,
           elevation: 0,
@@ -56,6 +57,7 @@ class AppTheme {
       cursorColor: Colors.white,
       backgroundColor: Colors.black,
       primaryColor: Color(0xff212121),
+      dividerColor: Color(0xff121212),
       appBarTheme: AppBarTheme(
           color: Colors.black,
           elevation: 0,

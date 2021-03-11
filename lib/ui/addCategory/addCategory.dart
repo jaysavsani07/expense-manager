@@ -67,6 +67,7 @@ class AddCategory extends ConsumerWidget {
               Icon(
                 vm.iconData,
                 color: vm.color,
+                size: 30,
               ).pSymmetric(h: 24),
               VxTextField(
                 value: vm.name,
@@ -101,7 +102,6 @@ class AddCategory extends ConsumerWidget {
             children: AppConstants.iconList
                 .map((icon) => Icon(
                       icon,
-                      color: Vx.black,
                     ).onInkTap(() {
                       vm.changeIcon(icon);
                     }))

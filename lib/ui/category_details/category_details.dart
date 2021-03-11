@@ -18,7 +18,8 @@ class CategoryDetails extends StatelessWidget {
             Navigator.pop(context);
           }),
           title: DottedBorder(
-                  color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+                  color:
+                      Theme.of(context).appBarTheme.textTheme.headline6.color,
                   dashPattern: [5, 5],
                   radius: Radius.circular(12),
                   borderType: BorderType.RRect,
@@ -90,7 +91,7 @@ class CategoryFilterView extends ConsumerWidget {
                               .box
                               .color(filterType == e.toString()
                                   ? Color(0xff2196F3)
-                                  : Color(0xffEEEEEE))
+                                  : Theme.of(context).dividerColor)
                               .withRounded(value: 20)
                               .make()
                               .onInkTap(() {
@@ -142,7 +143,7 @@ class CategoryList1 extends ConsumerWidget {
                         lineHeight: 6,
                         percent: e.total / list.first.total,
                         padding: EdgeInsets.symmetric(horizontal: 4),
-                        backgroundColor: Color(0xffEEEEEE),
+                        backgroundColor: Theme.of(context).dividerColor,
                         progressColor: e.category.iconColor,
                       )
                     ],

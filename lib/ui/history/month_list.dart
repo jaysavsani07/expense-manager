@@ -23,15 +23,15 @@ class MonthList extends ConsumerWidget {
                                 .text
                                 .color(watch(monthProvider).state == e
                                     ? Colors.white
-                                    : Colors.blue)
+                                    :Color(0xff2196F3))
                                 .size(12)
                                 .medium
                                 .make()
                                 .pSymmetric(h: 14, v: 9)
                                 .box
                                 .color(watch(monthProvider).state == e
-                                    ? Colors.blue
-                                    : Color(0xffEEEEEE))
+                                    ? Color(0xff2196F3)
+                                    :Theme.of(context).dividerColor)
                                 .rounded
                                 .make()
                                 .onInkTap(() {

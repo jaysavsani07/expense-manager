@@ -135,11 +135,8 @@ class AddEntry extends ConsumerWidget {
                           .shape(RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(6)),
-                              side: BorderSide(
-                                  width: 1,
-                                  color: vm.category == category
-                                      ? category.iconColor
-                                      : Colors.white)))
+                              side: vm.category == category?BorderSide(
+                                  width: 1, color: category.iconColor):BorderSide.none))
                           .make()
                           .onInkTap(() {
                         vm.categoryChange(category);
@@ -171,7 +168,7 @@ class AddEntry extends ConsumerWidget {
                 ],
               )
                   .box
-                  .border(color: Color(0xffE0E0E0))
+                  .border(color: Theme.of(context).dividerColor)
                   .withRounded(value: 6)
                   .make()
                   .onInkTap(() {
@@ -200,7 +197,7 @@ class AddEntry extends ConsumerWidget {
                     Icon(Icons.arrow_drop_down)
                   ])
                   .box
-                  .border(color: Color(0xffE0E0E0))
+                  .border(color: Theme.of(context).dividerColor)
                   .withRounded(value: 6)
                   .make()
                   .onInkTap(() {
@@ -224,8 +221,8 @@ class AddEntry extends ConsumerWidget {
             hint:
                 AppLocalization.of(context).getTranslatedVal("enter_note_here"),
             borderType: VxTextFieldBorderType.roundLine,
-            borderColor: Color(0xffE0E0E0),
-            fillColor: context.theme.cardTheme.color,
+            borderColor: Theme.of(context).dividerColor,
+            fillColor: context.theme.backgroundColor,
             maxLine: 2,
             textInputAction: TextInputAction.done,
             maxLength: 100,

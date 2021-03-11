@@ -55,8 +55,7 @@ class Setting extends ConsumerWidget {
                           : AppLocalization.of(context)
                               .getTranslatedVal("light_theme")))
                   .text
-                  .size(14)
-                  .color(Color(0xff616161))
+                  .size(12)
                   .make(),
             ],
           ).pSymmetric(h: 24, v: 12).onInkTap(() {
@@ -76,7 +75,7 @@ class Setting extends ConsumerWidget {
                   .medium
                   .make(),
               4.heightBox,
-              monthStartDate.date.text.size(14).color(Color(0xff616161)).make(),
+              monthStartDate.date.text.size(12).make(),
             ],
           ).pSymmetric(h: 24, v: 12).onInkTap(() {
             showDialog(
@@ -100,8 +99,7 @@ class Setting extends ConsumerWidget {
                       (element) => element.locale == appState.currentLocale)
                   .name
                   .text
-                  .size(14)
-                  .color(Color(0xff616161))
+                  .size(12)
                   .make(),
             ],
           ).pSymmetric(h: 24, v: 12).onInkTap(() {
@@ -125,7 +123,6 @@ class Setting extends ConsumerWidget {
                   .getTranslatedVal("app_version")
                   .text
                   .size(14)
-                  .color(Color(0xff616161))
                   .center
                   .make(),
               34.heightBox

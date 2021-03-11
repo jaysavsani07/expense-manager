@@ -42,28 +42,20 @@ class HistoryList extends ConsumerWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                e.category.name.text.medium
+                                                e.category.name.text.size(14).medium
                                                     .make(),
                                                 Row(
                                                   children: [
                                                     DateFormat('d MMM')
                                                         .format(e
                                                             .entry.modifiedDate)
-                                                        .text
-                                                        .textStyle(
-                                                            Theme.of(context)
-                                                                .textTheme
-                                                                .caption)
+                                                        .text.size(12)
                                                         .make(),
                                                     8.widthBox,
                                                     DateFormat.Hm()
                                                         .format(e
                                                             .entry.modifiedDate)
-                                                        .text
-                                                        .textStyle(
-                                                            Theme.of(context)
-                                                                .textTheme
-                                                                .caption)
+                                                        .text.size(12)
                                                         .make(),
                                                   ],
                                                 ),
