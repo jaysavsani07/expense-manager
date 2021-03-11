@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/category_list_view.dart';
 import 'package:expense_manager/ui/dashboard/category_pie_chart_view.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
@@ -40,12 +41,16 @@ class Dashboard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             10.heightBox,
-            AppLocalization.of(context)
-                .getTranslatedVal("hello")
-                .text
-                .size(34)
-                .make()
-                .pOnly(left: 24),
+            Row(
+              children: [
+                AppLocalization.of(context)
+                    .getTranslatedVal("hello")
+                    .text
+                    .size(34)
+                    .make(),
+                const UserName()
+              ],
+            ).pSymmetric(h: 24),
             20.heightBox,
             const TodayAmount(),
             const CategoryChartView(),
@@ -83,6 +88,16 @@ class Dashboard extends ConsumerWidget {
   }
 }
 
+class UserName extends ConsumerWidget {
+  const UserName({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final appState = watch(appStateNotifier);
+    return appState.userName.text.size(34).light.make();
+  }
+}
+
 class TotalAmount extends ConsumerWidget {
   const TotalAmount({Key key}) : super(key: key);
 
@@ -111,7 +126,11 @@ class TodayAmount extends ConsumerWidget {
           children: [
             AppLocalization.of(context)
                 .getTranslatedVal("today_expanse")
-                .text.size(12).bold.white.make(),
+                .text
+                .size(12)
+                .bold
+                .white
+                .make(),
             6.heightBox,
             "${NumberFormat.simpleCurrency().currencySymbol} ${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
                 .text

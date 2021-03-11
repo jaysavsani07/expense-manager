@@ -4,22 +4,31 @@ import 'package:expense_manager/data/datasource/sharedpref/shared_preference_hel
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 final appStateNotifier =
     ChangeNotifierProvider((ref) => AppThemeState(ref.read));
 
 class AppThemeState extends ChangeNotifier {
   Reader reader;
   ThemeMode themeMode = ThemeMode.system;
-  var currentLocale = Locale('en', 'US');
+  Locale currentLocale = Locale('en', 'US');
+  String userName;
 
   AppThemeState(this.reader) {
+    userName = reader(sharedPreferencesProvider)
+        .getString(Preferences.USER_NAME, defValue: null);
     themeMode = ThemeMode.values[
         reader(sharedPreferencesProvider).getInt(Preferences.IS_DARK_MODE) ??
             0];
     currentLocale = reader(sharedPreferencesProvider).getObj(
         Preferences.DEFAULT_LANGUAGE, (v) => Locale(v["lc"], v["cc"]),
         defValue: Locale('en', 'US'));
+  }
+
+  void changeUserName(String name) async {
+    this.userName = name;
+    notifyListeners();
+    await reader(sharedPreferencesProvider)
+        .putString(Preferences.USER_NAME, name);
   }
 
   void changeTheme(ThemeMode themeMode) async {

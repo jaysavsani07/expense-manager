@@ -14,7 +14,7 @@ class AppTheme {
           iconTheme: IconThemeData(color: Colors.black, size: 20),
           textTheme: TextTheme(
             headline6: TextStyle(
-              color: Colors.blue,
+              color: Color(0xff2196F3),
               fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
@@ -28,6 +28,17 @@ class AppTheme {
       ),
       cardTheme: CardTheme(
         color: Colors.white,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: Colors.black,
+        labelStyle: TextStyle(
+            color: Color(0xff2196F3),
+            fontSize: 16,
+            fontWeight: FontWeight.normal),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff2196F3))),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff2196F3))),
       ),
       textTheme: TextTheme(
         caption: TextStyle(
@@ -66,6 +77,19 @@ class AppTheme {
       cardTheme: CardTheme(
         color: Color(0xff212121),
         shadowColor: Color(0x000000DE),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        fillColor: Colors.black,
+        labelStyle: TextStyle(
+            color: Color(0xff2196F3),
+            fontSize: 16,
+            fontWeight: FontWeight.normal),
+        enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff2196F3))),
+        focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff2196F3))),
+        disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff2196F3))),
       ),
       textTheme: TextTheme(
         caption: TextStyle(

@@ -7,10 +7,12 @@ import 'package:expense_manager/ui/category_details/category_details.dart';
 import 'package:expense_manager/ui/category_list/category_list.dart';
 import 'package:expense_manager/ui/home/home.dart';
 import 'package:expense_manager/ui/setting/setting.dart';
+import 'package:expense_manager/ui/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_state.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key key}) : super(key: key);
@@ -44,7 +46,11 @@ class MyApp extends ConsumerWidget {
       locale: appState.currentLocale,
       themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
+      initialRoute: (context.read(appStateNotifier)).userName.isEmptyOrNull
+          ? AppRoutes.welcome
+          : AppRoutes.home,
       routes: {
+        AppRoutes.welcome: (context) => Welcome(),
         AppRoutes.home: (context) => HomeScreen(),
         AppRoutes.addEntry: (context) => AddEntry(
             entryWithCategory: ModalRoute.of(context).settings.arguments),

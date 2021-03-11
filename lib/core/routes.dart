@@ -1,5 +1,6 @@
 class AppRoutes {
-  static final home = '/';
+  static final welcome = '/';
+  static final home = '/home';
   static final addEntry = '/addEntry';
   static final categoryList = '/categoryList';
   static final addCategory = '/addCategory';
