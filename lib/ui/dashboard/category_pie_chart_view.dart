@@ -1,9 +1,11 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:expense_manager/ui/dashboard/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:intl/intl.dart';
+import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CategoryChartView extends ConsumerWidget {
@@ -46,20 +48,18 @@ class CategoryPieChartView extends ConsumerWidget {
                 height: 140,
                 width: 140,
                 child: PieChart(
-                  PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (pieTouchResponse) {
-                        context.read(categoryPieChartTeachItemProvider).state =
-                            (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                    pieTouchResponse.touchInput is FlPanEnd)
-                                ? -1
-                                : pieTouchResponse.touchedSectionIndex;
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 8,
-                      sections: vm),
+                  dataMap: [
+                    ...vm.map((e) => Tuple2(e.value, e.color)).toList()
+                  ],
+                  animationDuration: Duration(milliseconds: 800),
+                  chartLegendSpacing: 16,
+                  chartRadius: MediaQuery.of(context).size.width / 3.2 > 300
+                      ? 300
+                      : MediaQuery.of(context).size.width / 3.2,
+                  initialAngleInDegree: 0,
+                  centerText: const TotalAmount(),
+                  ringStrokeWidth: 12,
+                  emptyColor: Colors.grey,
                 ),
               ).expand(),
         24.widthBox,
@@ -97,5 +97,25 @@ class CategoryPieChatListView extends ConsumerWidget {
               ).pOnly(bottom: 24))
           .toList(),
     ).h(140).expand();
+  }
+}
+
+class TotalAmount extends ConsumerWidget {
+  const TotalAmount({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final totalAmount = watch(totalAmountProvider);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        "Last Week".text.textStyle(Theme.of(context).textTheme.caption).make(),
+        "${NumberFormat.simpleCurrency().currencySymbol}${totalAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+            .text
+            .size(20)
+            .bold
+            .make()
+      ],
+    );
   }
 }

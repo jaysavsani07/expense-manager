@@ -98,21 +98,6 @@ class UserName extends ConsumerWidget {
   }
 }
 
-class TotalAmount extends ConsumerWidget {
-  const TotalAmount({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final totalAmount = watch(totalAmountProvider);
-    return "${NumberFormat.simpleCurrency().currencySymbol}${totalAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
-        .text
-        .bold
-        .xl5
-        .make()
-        .pSymmetric(h: 16);
-  }
-}
-
 class TodayAmount extends ConsumerWidget {
   const TodayAmount({Key key}) : super(key: key);
 
