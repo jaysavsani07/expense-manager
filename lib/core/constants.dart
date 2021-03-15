@@ -64,17 +64,6 @@ class AppConstants {
     Icons.school_rounded,
     Icons.smoking_rooms_rounded,
     Icons.lunch_dining,
-    Icons.movie_creation_rounded,
-    Icons.directions_car_rounded,
-    Icons.shopping_cart_rounded,
-    Icons.train_rounded,
-    Icons.laptop_chromebook_rounded,
-    Icons.local_hospital_rounded,
-    Icons.home_rounded,
-    Icons.flight_rounded,
-    Icons.phone_android_rounded,
-    Icons.school_rounded,
-    Icons.smoking_rooms_rounded,
   ];
 
   static final iconColorList = [

@@ -5,6 +5,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:intl/intl.dart';
@@ -44,6 +45,7 @@ class AddEntry extends ConsumerWidget {
               .make()
               .p20()
               .onInkTap(() {
+            FocusScope.of(context).unfocus();
             if (vm.amount.isEmptyOrNull) {
               VxToast.show(context,
                   msg: AppLocalization.of(context)
@@ -56,7 +58,7 @@ class AddEntry extends ConsumerWidget {
                   bgColor: Colors.redAccent);
             } else {
               vm.addEntry();
-              Navigator.pop(context);
+              // Navigator.pop(context);
             }
           })
         ],
@@ -71,8 +73,14 @@ class AddEntry extends ConsumerWidget {
             borderType: VxTextFieldBorderType.none,
             fillColor: context.theme.cardTheme.color,
             textInputAction: TextInputAction.done,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(6),
+            ],
             onChanged: (text) {
               vm.amountChange(text);
+            },
+            onSubmitted: (text) {
+              FocusScope.of(context).unfocus();
             },
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
             height: 80,
@@ -135,8 +143,10 @@ class AddEntry extends ConsumerWidget {
                           .shape(RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(6)),
-                              side: vm.category == category?BorderSide(
-                                  width: 1, color: category.iconColor):BorderSide.none))
+                              side: vm.category == category
+                                  ? BorderSide(
+                                      width: 1, color: category.iconColor)
+                                  : BorderSide.none))
                           .make()
                           .onInkTap(() {
                         vm.categoryChange(category);
@@ -228,6 +238,9 @@ class AddEntry extends ConsumerWidget {
             maxLength: 100,
             onChanged: (text) {
               vm.changeDescription(text);
+            },
+            onSubmitted: (text) {
+              FocusScope.of(context).unfocus();
             },
           ),
         ],

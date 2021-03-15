@@ -117,7 +117,7 @@ class TodayAmount extends ConsumerWidget {
                 .white
                 .make(),
             6.heightBox,
-            "${NumberFormat.simpleCurrency().currencySymbol} ${todayAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+            "${NumberFormat.simpleCurrency(decimalDigits: 0).format(todayAmount)}"
                 .text
                 .size(28)
                 .medium

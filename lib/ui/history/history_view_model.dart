@@ -5,7 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final yearListProvider = StreamProvider<List<int>>((ref) {
   return ref.read(repositoryProvider).getYearList().map((event) {
-    ref.read(yearProvider).state = event.first;
+    if (event.isNotEmpty) {
+      ref.read(yearProvider).state = event.first;
+    }
     return event;
   });
 });

@@ -22,17 +22,24 @@ class AddCategory extends ConsumerWidget {
           Navigator.pop(context);
         }),
         title: DottedBorder(
-            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+            color: Theme
+                .of(context)
+                .appBarTheme
+                .textTheme
+                .headline6
+                .color,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
-            child: AppLocalization.of(context)
+            child: AppLocalization
+                .of(context)
                 .getTranslatedVal("new_category")
                 .text
                 .make()
                 .pSymmetric(h: 8, v: 4)),
         actions: [
-          AppLocalization.of(context)
+          AppLocalization
+              .of(context)
               .getTranslatedVal("save")
               .text
               .size(16)
@@ -41,6 +48,7 @@ class AddCategory extends ConsumerWidget {
               .make()
               .p20()
               .onInkTap(() {
+            FocusScope.of(context).unfocus();
             if (vm.name.isEmptyOrNull) {
               VxToast.show(context,
                   msg: AppLocalization.of(context)
@@ -83,11 +91,15 @@ class AddCategory extends ConsumerWidget {
                 onChanged: (text) {
                   vm.changeName(text);
                 },
+                onSubmitted: (text) {
+                  FocusScope.of(context).unfocus();
+                },
               ).pOnly(right: 24).expand(),
             ],
           ).card.withRounded(value: 6).make(),
           30.heightBox,
-          AppLocalization.of(context)
+          AppLocalization
+              .of(context)
               .getTranslatedVal("icon")
               .text
               .bold
@@ -97,18 +109,20 @@ class AddCategory extends ConsumerWidget {
           GridView(
             shrinkWrap: true,
             gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             scrollDirection: Axis.horizontal,
             children: AppConstants.iconList
-                .map((icon) => Icon(
-                      icon,
-                    ).onInkTap(() {
-                      vm.changeIcon(icon);
-                    }))
+                .map((icon) =>
+                Icon(
+                  icon,
+                ).onInkTap(() {
+                  vm.changeIcon(icon);
+                }))
                 .toList(),
           ).box.height(150).make(),
           30.heightBox,
-          AppLocalization.of(context)
+          AppLocalization
+              .of(context)
               .getTranslatedVal("color")
               .text
               .bold
@@ -118,16 +132,17 @@ class AddCategory extends ConsumerWidget {
           GridView(
             shrinkWrap: true,
             gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             scrollDirection: Axis.horizontal,
             children: AppConstants.iconColorList
-                .map((color) => Icon(
-                      Icons.circle,
-                      size: 36,
-                      color: color,
-                    ).onInkTap(() {
-                      vm.changeColor(color);
-                    }))
+                .map((color) =>
+                Icon(
+                  Icons.circle,
+                  size: 36,
+                  color: color,
+                ).onInkTap(() {
+                  vm.changeColor(color);
+                }))
                 .toList(),
           ).box.height(170).make(),
           24.heightBox,

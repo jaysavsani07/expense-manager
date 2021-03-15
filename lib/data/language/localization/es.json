@@ -7,6 +7,8 @@
   "next": "Next",
   "dashboard": "tablero",
   "history": "historia",
+  "no_entry_added": "No Entry added",
+
   "hello": "Hola, ",
   "today_expanse": "gasto de hoy",
   "quick_add": "adición rápida",
@@ -53,5 +55,7 @@
   "sep": "septiembre",
   "oct": "octubre",
   "nov": "noviembre",
-  "dec": "diciembre"
+  "dec": "diciembre",
+  "recent_expanse": "Recent Expanse",
+  "yesterday": "Yesterday"
 }

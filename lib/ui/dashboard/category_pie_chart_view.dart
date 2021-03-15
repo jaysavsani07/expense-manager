@@ -1,4 +1,5 @@
 import 'package:expense_manager/core/routes.dart';
+import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:expense_manager/ui/dashboard/pie_chart.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class CategoryChartView extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           30.heightBox,
-          "Total Expanse".text.size(18).bold.make().pOnly(left: 24),
+          AppLocalization.of(context)
+              .getTranslatedVal("total_expense").text.size(18).bold.make().pOnly(left: 24),
           20.heightBox,
           const CategoryPieChartView(),
         ],
@@ -110,7 +112,7 @@ class TotalAmount extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         "Last Week".text.textStyle(Theme.of(context).textTheme.caption).make(),
-        "${NumberFormat.simpleCurrency().currencySymbol}${totalAmount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+        "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
             .text
             .size(20)
             .bold

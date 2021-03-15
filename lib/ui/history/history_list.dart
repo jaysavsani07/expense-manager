@@ -61,7 +61,7 @@ class HistoryList extends ConsumerWidget {
                                                 ),
                                               ],
                                             ).expand(),
-                                            "${NumberFormat.simpleCurrency().currencySymbol} ${e.entry.amount.toString().replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "")}"
+                                            "${NumberFormat.simpleCurrency(decimalDigits: 2).format(e.entry.amount)}"
                                                 .text
                                                 .size(16)
                                                 .bold
