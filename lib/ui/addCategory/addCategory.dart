@@ -96,7 +96,7 @@ class AddCategory extends ConsumerWidget {
                 },
               ).pOnly(right: 24).expand(),
             ],
-          ).card.withRounded(value: 6).make(),
+          ).card.withRounded(value: 6).make().pSymmetric(h: 24),
           30.heightBox,
           AppLocalization
               .of(context)
@@ -105,9 +105,10 @@ class AddCategory extends ConsumerWidget {
               .bold
               .size(18)
               .start
-              .make(),
+              .make().pSymmetric(h: 24),
           GridView(
             shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24),
             gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             scrollDirection: Axis.horizontal,
@@ -128,9 +129,10 @@ class AddCategory extends ConsumerWidget {
               .bold
               .size(18)
               .start
-              .make(),
+              .make().pSymmetric(h: 24),
           GridView(
             shrinkWrap: true,
+            padding: EdgeInsets.only(left: 24),
             gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             scrollDirection: Axis.horizontal,
@@ -147,7 +149,7 @@ class AddCategory extends ConsumerWidget {
           ).box.height(170).make(),
           24.heightBox,
         ],
-      ).scrollVertical().pSymmetric(h: 24),
+      ).scrollVertical(),
     );
   }
 }

@@ -41,6 +41,7 @@ dependencies:
   rxdart: ^0.25.0
   tuple: ^1.0.3
   collection: ^1.14.13
+  package_info: ^0.4.3+4
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git

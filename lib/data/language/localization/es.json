@@ -7,8 +7,7 @@
   "next": "Next",
   "dashboard": "tablero",
   "history": "historia",
-  "no_entry_added": "No Entry added",
-
+  "no_entry_added": "No se agregó ninguna entrada",
   "hello": "Hola, ",
   "today_expanse": "gasto de hoy",
   "quick_add": "adición rápida",
@@ -43,7 +42,7 @@
   "month_cycle_date": "Mes Fecha del ciclo",
   "language": "Idioma",
   "expense_manager_by_nividata": "Gestora de gastos por nividata",
-  "app_version": "Version de aplicacion: 0.0.1",
+  "app_version": "Version de aplicacion:",
   "jan": "enero",
   "feb": "febrero",
   "mar": "marzo",
@@ -56,6 +55,6 @@
   "oct": "octubre",
   "nov": "noviembre",
   "dec": "diciembre",
-  "recent_expanse": "Recent Expanse",
-  "yesterday": "Yesterday"
+  "recent_expanse": "Expansión reciente",
+  "yesterday": "Ayer"
 }

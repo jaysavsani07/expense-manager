@@ -45,25 +45,24 @@ class AddEntryViewModel with ChangeNotifier {
   }
 
   void addEntry() {
-    print(description.length);
-    // if (entryWithCategory != null) {
-    //   entryDataSourceImp
-    //       .updateEntry(Entry(
-    //           id: entryWithCategory.entry.id,
-    //           amount: double.parse(amount),
-    //           categoryId: category.id,
-    //           modifiedDate: date,
-    //           description: description))
-    //       .listen((event) {});
-    // } else {
-    //   entryDataSourceImp
-    //       .addEntry(Entry(
-    //           amount: double.parse(amount),
-    //           categoryId: category?.id,
-    //           modifiedDate: date,
-    //           description: description))
-    //       .listen((event) {});
-    // }
+    if (entryWithCategory != null) {
+      entryDataSourceImp
+          .updateEntry(Entry(
+              id: entryWithCategory.entry.id,
+              amount: double.parse(amount),
+              categoryId: category.id,
+              modifiedDate: date,
+              description: description))
+          .listen((event) {});
+    } else {
+      entryDataSourceImp
+          .addEntry(Entry(
+              amount: double.parse(amount),
+              categoryId: category?.id,
+              modifiedDate: date,
+              description: description))
+          .listen((event) {});
+    }
   }
 
   void categoryChange(cat.Category category) {

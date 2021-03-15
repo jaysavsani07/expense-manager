@@ -8,6 +8,7 @@ import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
+import 'package:package_info/package_info.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 
@@ -119,8 +120,7 @@ class Setting extends ConsumerWidget {
                   .size(14)
                   .center
                   .make(),
-              AppLocalization.of(context)
-                  .getTranslatedVal("app_version")
+              "${AppLocalization.of(context).getTranslatedVal("app_version")}${appState.appVersion}"
                   .text
                   .size(14)
                   .center
@@ -133,6 +133,3 @@ class Setting extends ConsumerWidget {
     );
   }
 }
-
-
-

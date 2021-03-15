@@ -58,7 +58,7 @@ class AddEntry extends ConsumerWidget {
                   bgColor: Colors.redAccent);
             } else {
               vm.addEntry();
-              // Navigator.pop(context);
+              Navigator.pop(context);
             }
           })
         ],
@@ -87,8 +87,8 @@ class AddEntry extends ConsumerWidget {
             hint: "${NumberFormat.simpleCurrency().currencySymbol} 00.00",
             textAlign: TextAlign.center,
             clear: false,
-          ).card.withRounded(value: 6).make(),
-          30.heightBox,
+          ).card.withRounded(value: 6).make().pSymmetric(h: 24),
+          20.heightBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -106,6 +106,7 @@ class AddEntry extends ConsumerWidget {
                   .color(Color(0xff2196F3))
                   .start
                   .make()
+                  .p(10)
                   .onInkTap(() {
                 Navigator.pushNamed(
                   context,
@@ -113,9 +114,10 @@ class AddEntry extends ConsumerWidget {
                 );
               })
             ],
-          ),
-          20.heightBox,
+          ).pSymmetric(h: 24),
+          10.heightBox,
           GridView(
+            padding: EdgeInsets.only(left: 24),
             shrinkWrap: true,
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
@@ -214,7 +216,7 @@ class AddEntry extends ConsumerWidget {
                 _selectTime(context, vm);
               })
             ]).expand(),
-          ]),
+          ]).pSymmetric(h: 24),
           30.heightBox,
           AppLocalization.of(context)
               .getTranslatedVal("note")
@@ -222,7 +224,8 @@ class AddEntry extends ConsumerWidget {
               .size(18)
               .bold
               .start
-              .make(),
+              .make()
+              .pSymmetric(h: 24),
           8.heightBox,
           VxTextField(
             value: vm.description,
@@ -242,9 +245,9 @@ class AddEntry extends ConsumerWidget {
             onSubmitted: (text) {
               FocusScope.of(context).unfocus();
             },
-          ),
+          ).pSymmetric(h: 24),
         ],
-      ).scrollVertical().pSymmetric(h: 24),
+      ).scrollVertical(),
     );
   }
 

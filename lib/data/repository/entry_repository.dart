@@ -13,6 +13,7 @@ abstract class EntryRepository {
   
   Stream<int> addEntry(Entry entry);
   Stream<bool> updateEntry(Entry entry);
+  Stream<int> deleteEntry(int id);
   Stream<List<Entry>> getAllEntry();
   Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end);

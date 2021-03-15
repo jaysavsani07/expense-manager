@@ -15,6 +15,7 @@ abstract class EntryDataSource {
   Stream<int> addEntry(Entry entry);
 
   Stream<bool> updateEntry(Entry entry);
+  Stream<int> deleteEntry(int id);
 
   Stream<List<Entry>> getAllEntry();
   Stream<List<EntryList>> getAllEntryByCategory(int categoryName);

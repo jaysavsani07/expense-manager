@@ -35,3 +35,8 @@ final historyListProvider = StreamProvider<List<History>>((ref) {
       AppConstants.monthList.keys
           .firstWhere((element) => AppConstants.monthList[element] == month));
 });
+
+final deleteItemProvider = Provider.family<int, int>((ref, id) {
+  ref.read(repositoryProvider).deleteEntry(id).listen((event) {});
+  return 0;
+});

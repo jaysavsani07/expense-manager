@@ -52,6 +52,11 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<int> deleteEntry(int id) {
+    return appDatabase.deleteEntry(id);
+  }
+
+  @override
   Stream<List<Entry>> getAllEntry() {
     return appDatabase
         .getAllEntry()

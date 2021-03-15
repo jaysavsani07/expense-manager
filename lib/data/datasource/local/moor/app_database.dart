@@ -108,6 +108,9 @@ class AppDatabase extends _$AppDatabase {
   Stream<bool> updateEntry(EntryEntityCompanion entity) =>
       update(entryEntity).replace(entity).asStream();
 
+  Stream<int> deleteEntry(int id) =>
+      (delete(entryEntity)..where((tbl) => tbl.id.equals(id))).go().asStream();
+
   Stream<List<EntryEntityData>> getAllEntry() {
     return select(entryEntity).get().asStream();
   }

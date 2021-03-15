@@ -45,6 +45,11 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<int> deleteEntry(int id) {
+    return entryDataSourceImp.deleteEntry(id);
+  }
+
+  @override
   Stream<List<Entry>> getAllEntry() {
     return entryDataSourceImp.getAllEntry();
   }

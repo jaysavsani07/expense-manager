@@ -54,7 +54,7 @@ class Dashboard extends ConsumerWidget {
             20.heightBox,
             const TodayAmount(),
             const CategoryChartView(),
-            30.heightBox,
+            20.heightBox,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -71,6 +71,7 @@ class Dashboard extends ConsumerWidget {
                     .color(Color(0xff2196F3))
                     .bold
                     .make()
+                    .p(10)
                     .onInkTap(() {
                   Navigator.pushNamed(
                     context,
@@ -79,7 +80,7 @@ class Dashboard extends ConsumerWidget {
                 }),
               ],
             ).pSymmetric(h: 24),
-            20.heightBox,
+            10.heightBox,
             const CategoryListView()
           ],
         ),
