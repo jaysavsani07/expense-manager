@@ -9,6 +9,7 @@ echo $PWD
 echo "********1"
 ls -d $PWD/android/*
 mv ./android/expensemanager.jks ./android/app
+mv ./android/google-services.json ./android/app
 echo ./
 echo "********2"
 FILE=./android/app/expensemanager.jks
