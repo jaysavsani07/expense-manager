@@ -49,12 +49,12 @@ class AddCategory extends ConsumerWidget {
               .p20()
               .onInkTap(() {
             FocusScope.of(context).unfocus();
-            if (vm.name.isEmptyOrNull) {
+            if (vm.name.trim().isEmptyOrNull) {
               VxToast.show(context,
                   msg: AppLocalization.of(context)
                       .getTranslatedVal("pls_enter_category_name"),
                   bgColor: Colors.redAccent);
-            } else if (vm.name.length < 3 || vm.name.length > 20) {
+            } else if (vm.name.trim().length < 3 || vm.name.trim().length > 20) {
               VxToast.show(context,
                   msg: AppLocalization.of(context).getTranslatedVal(
                       "category_name_allowed_from_3_to_20_characters"),

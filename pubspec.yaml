@@ -42,6 +42,8 @@ dependencies:
   tuple: ^1.0.3
   collection: ^1.14.13
   package_info: ^0.4.3+4
+  firebase_core: ^0.7.0
+  firebase_crashlytics: ^0.4.0+1
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git

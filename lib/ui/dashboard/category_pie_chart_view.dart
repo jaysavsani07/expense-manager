@@ -111,7 +111,8 @@ class TotalAmount extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        "Last Week".text.textStyle(Theme.of(context).textTheme.caption).make(),
+        AppLocalization.of(context)
+            .getTranslatedVal("last_month").text.textStyle(Theme.of(context).textTheme.caption).make(),
         "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
             .text
             .size(20)
