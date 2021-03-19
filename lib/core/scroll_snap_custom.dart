@@ -178,14 +178,13 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     });
   }
 
-  ///Scroll list to an offset
   void _animateScroll(double location) {
-    // print("location $location");
     isCardMovable = false;
     int page = 0;
-    if (location >= 0 && location <= 379) {
+    if (location >= 0 && location < widget.itemSize) {
       page = 0;
-    } else if (location >= 380 && location <= 759) {
+    } else if (location >= widget.itemSize &&
+        location <= (widget.itemSize * 2) - 2) {
       page = 1;
     } else {
       page = 2;
@@ -203,29 +202,18 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     });
   }
 
-  ///Calculate scale transformation for dynamic item size
   double calculateScale(int index) {
-    //scroll-pixel position for index to be at the center of ScrollSnapList
     double intendedPixel = index * widget.itemSize;
     double difference = intendedPixel - currentPixel;
 
     if (widget.dynamicSizeEquation != null) {
-      //force to be >= 0
       double scale = widget.dynamicSizeEquation(difference);
       return scale < 0 ? 0 : scale;
     }
-
-    // print(1 - min(difference.abs() / 100, 0.4));
-    //default equation
-    double scale = 1 - min(difference.abs() / widget.itemSize, 0.5);
-    // print("scale of $index is $scale");
-
     return 1 - min(difference.abs() / widget.itemSize * 0.5, 0.5);
   }
 
-  ///Calculate opacity transformation for dynamic item opacity
   double calculateOpacity(int index) {
-    //scroll-pixel position for index to be at the center of ScrollSnapList
     double intendedPixel = index * widget.itemSize;
     double difference = intendedPixel - currentPixel;
 
@@ -242,16 +230,15 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
       } else {
         dx = dx;
       }
-      // print("value $currentPixel");
       return Alignment(-1.6 + dx, -1.7);
     } else {
-      return Alignment(-1.6, -1.75);
+      double intendedPixel = index * widget.itemSize;
+      double dx = intendedPixel * 0.0002;
+      return Alignment(-1.9 + dx, -1.75);
     }
   }
 
   Offset calculateOffset(int index) {
-    // double dx = currentPixel;
-    // return Offset(-dx, 0.0);
     if (index == 0) {
       double dx = currentPixel;
       return Offset(-dx, 0.0);
@@ -260,44 +247,18 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
       return Offset(-dx * 2, 0.0);
     } else {
       double dx = currentPixel / 2;
-      // print("dx index 3 $dx");
       return Offset(-dx * 2, 0.0);
     }
   }
 
-  List<Widget> _buildListChild() {
-    // print("build list child");
-    return [
-      Container(
-        width: 50,
-        height: 50,
-        key: ValueKey("first"),
-      ),
-      Container(
-        width: 80,
-        height: 80,
-        key: ValueKey("second"),
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        key: ValueKey("third"),
-      ),
-    ];
-  }
-
   Widget _buildListItem(BuildContext context, int index) {
     Widget child;
-    // print("build list item $index");
     if (widget.dynamicItemSize) {
       child = Transform.scale(
         scale: calculateScale(index),
         alignment: calculateAlignment(index),
         child: widget.itemBuilder(context, index),
       );
-      // child = Transform.translate(
-      //     offset: calculateOffSet(index),
-      //     child: widget.itemBuilder(context, index));
     } else {
       child = widget.itemBuilder(context, index);
     }
@@ -311,67 +272,38 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
         onTap: () => focusToItem(index),
         child: child,
       );
-    // print("child $child");
     return child;
   }
 
   Widget _buildTextItem(BuildContext context, int index) {
     Widget child;
-    // print("build text item $index");
     child = widget.textItemBuilder(context, index);
-    /* if (widget.dynamicItemSize) {
-      child = Transform.translate(
-        offset: calculateOffset(index),
-        child: widget.textItemBuilder(context, index),
-      );
-    } else {}
-
-    if (widget.dynamicItemOpacity != null) {
-      double opacity = calculateOpacity(index);
-      print("opacity ${opacity}");
-      child = Opacity(child: child, opacity: calculateOpacity(index));
-    } */
     return child;
   }
 
-  ///Calculates target pixel for scroll animation
-  ///
   ///Then trigger `onItemFocus`
   double _calcCardLocation(
       {double pixel, @required double itemSize, int index}) {
-    //current pixel: pixel
-    //listPadding is not considered as moving pixel by scroll (0.0 is after padding)
-    //substracted by itemSize/2 (to center the item)
-    //divided by pixels taken by each item
     int cardIndex =
         index != null ? index : ((pixel - itemSize / 2) / itemSize).ceil();
 
-    //trigger onItemFocus
     if (widget.onItemFocus != null && cardIndex != previousIndex) {
       previousIndex = cardIndex;
       widget.onItemFocus(cardIndex);
     }
-    // print("card index");
-    // print(cardIndex * itemSize);
-    //target position
     return (cardIndex * itemSize);
   }
 
-  /// Trigger focus to an item inside the list
-  /// Will trigger scoll animation to focused item
   void focusToItem(int index) {
-    // print("focus to item called");
     double targetLoc =
         _calcCardLocation(index: index, itemSize: widget.itemSize);
     _animateScroll(targetLoc);
   }
 
-  ///Determine location if initialIndex is set
   void focusToInitialPosition() {
     widget.listController.jumpTo((widget.initialIndex * widget.itemSize));
   }
 
-  ///Trigger callback on reach end-of-list
   void _onReachEnd() {
     if (widget.onReachEnd != null) widget.onReachEnd();
   }
@@ -429,22 +361,16 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                       _onReachEnd();
                     }
 
-                    //snap the selection
                     double offset = _calcCardLocation(
                       pixel: scrollInfo.metrics.pixels,
                       itemSize: widget.itemSize,
                     );
-                    // print(" offset $offset");
                     if ((scrollInfo.metrics.pixels - offset).abs() > 0.01 ||
                         offset == 0) {
-                      double scrollVal =
-                          (scrollInfo.metrics.pixels - offset).abs();
-
                       _animateScroll(offset);
                     }
                   } else if (scrollInfo is ScrollUpdateNotification &&
                       isCardMovable) {
-                    //save pixel position for scale-effect
                     if (widget.dynamicItemSize ||
                         widget.dynamicItemOpacity != null) {
                       setState(() {
@@ -453,7 +379,6 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                     }
 
                     if (widget.updateOnScroll == true) {
-                      // dont snap until after first drag
                       if (isInit) {
                         return true;
                       }
@@ -468,22 +393,6 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                   }
                   return true;
                 },
-                /*
-              child: ListView.builder(
-                key: widget.listViewKey,
-                controller: widget.listController,
-                padding: widget.scrollDirection == Axis.horizontal
-                    ? EdgeInsets.symmetric(horizontal: _listPadding)
-                    : EdgeInsets.symmetric(
-                        vertical: _listPadding,
-                      ),
-                reverse: widget.reverse,
-                scrollDirection: widget.scrollDirection,
-                itemBuilder: _buildListItem,
-                itemCount: widget.itemCount,
-                shrinkWrap: true,
-                // physics: PageScrollPhysics(),
-              ),*/
                 child: Column(
                   children: [
                     Expanded(
@@ -527,18 +436,6 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                             activeDotColor: Color(0xFF2196F3)),
                       ),
                     ),
-
-                    /*
-                    Expanded(
-                        flex: 20,
-                        child: ListView.builder(
-                          key: widget.listViewKey,
-                          controller: widget.listController,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: _buildTextItem,
-                          itemCount: widget.itemCount,
-                          // physics: PageScrollPhysics(),
-                        )),*/
                     Expanded(
                       flex: 5,
                       child: Container(

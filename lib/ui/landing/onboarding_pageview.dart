@@ -17,9 +17,13 @@ class CustomScrollOnboarding extends StatefulWidget {
 class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   List<int> data = [];
   int _focusedIndex = -1;
-  double cardSize = 380;
+  double cardSize;
   double heightFromTop = 0;
-  double listViewTopPadding = 100;
+  double listViewTopPadding;
+  double deviceHeight;
+  double deviceWidth;
+  double marginFromTop;
+  double cardIconSize;
 
   @override
   void initState() {
@@ -31,33 +35,12 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   }
 
   void _onItemFocus(int index) {
-    // print("********");
     setState(() {
       _focusedIndex = index;
     });
   }
 
-  Widget _buildItemDetail() {
-    if (_focusedIndex < 0)
-      return Container(
-        height: 250,
-        child: Text("Nothing selected"),
-      );
-
-    if (data.length > _focusedIndex)
-      return Container(
-        height: 250,
-        child: Text("index $_focusedIndex: ${data[_focusedIndex]}"),
-      );
-
-    return Container(
-      height: 250,
-      child: Text("No Data"),
-    );
-  }
-
   Widget _buildTextItem(BuildContext context, int index) {
-    print("_focusedIndex $_focusedIndex");
     if (index == 0) {
       return Container(
         width: cardSize,
@@ -136,7 +119,6 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    // print("index asdf $index");
     if (index == data.length)
       return Center(
         child: CircularProgressIndicator(),
@@ -147,9 +129,8 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
         padding: EdgeInsets.only(
             top: listViewTopPadding, bottom: listViewTopPadding / 2),
         width: cardSize,
-        color: Colors.transparent,
         child: Container(
-            padding: EdgeInsets.only(top: 100),
+            padding: EdgeInsets.only(top: marginFromTop),
             child: Card(
               elevation: 4,
               child: Row(
@@ -166,9 +147,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                       ],
                       animationDuration: Duration(milliseconds: 800),
                       chartLegendSpacing: 16,
-                      chartRadius: MediaQuery.of(context).size.width / 3.2 > 300
-                          ? 300
-                          : MediaQuery.of(context).size.width / 2.5,
+                      chartRadius: deviceHeight * 0.16,
                       initialAngleInDegree: -80,
                       centerText: Container(),
                       ringStrokeWidth: 20,
@@ -278,7 +257,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
         width: cardSize,
         alignment: Alignment.center,
         child: Container(
-            padding: EdgeInsets.only(top: 100),
+            padding: EdgeInsets.only(top: marginFromTop),
             child: Card(
               elevation: 4,
               shadowColor: Colors.grey,
@@ -287,7 +266,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                   Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     margin: EdgeInsets.all(10),
-                    height: 212,
+                    height: deviceHeight * 0.229,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -440,152 +419,152 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
       );
     } else {
       return Container(
-          padding: EdgeInsets.only(top: listViewTopPadding - 10),
+          padding: EdgeInsets.only(top: listViewTopPadding - 15, bottom: 0),
           width: cardSize,
           child: Stack(
             children: [
               Container(
-                  padding: EdgeInsets.only(top: 0),
                   child: Container(
-                    padding: EdgeInsets.only(left: 35, right: 35),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                padding: EdgeInsets.only(
+                    left: deviceWidth * 0.08, right: deviceWidth * 0.07),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.school_rounded,
-                                    size: 45,
-                                    color: Color(0xFF673AB7),
-                                  )),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.movie_creation_rounded,
-                                    size: 45,
-                                    color: Color(0xFFFFC107),
-                                  )),
-                            ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.restaurant,
-                                    size: 45,
-                                    color: Color(0xFFCDDC39),
-                                  )),
-                            ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.medical_services,
-                                    size: 45,
-                                    color: Color(0xFF2196F3),
-                                  )),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.shopping_basket,
-                                    size: 45,
-                                    color: Color(0xFF00BCD4),
-                                  )),
-                            ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.more_rounded,
-                                    size: 45,
-                                    color: Color(0xFFE91E63),
-                                  )),
-                            ),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.train,
-                                    size: 45,
-                                    color: Color(0xFFFF5722),
-                                  )),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              elevation: 4,
-                              shadowColor: Colors.grey,
-                              child: Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Icon(
-                                    Icons.local_cafe,
-                                    size: 45,
-                                    color: Color(0xFF795548),
-                                  )),
-                            ),
-                          ],
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.school_rounded,
+                                size: cardIconSize / 2,
+                                color: Color(0xFF673AB7),
+                              )),
                         )
                       ],
                     ),
-                  )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.movie_creation_rounded,
+                                size: cardIconSize / 2,
+                                color: Color(0xFFFFC107),
+                              )),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.restaurant,
+                                size: cardIconSize / 2,
+                                color: Color(0xFFCDDC39),
+                              )),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.medical_services,
+                                size: cardIconSize / 2,
+                                color: Color(0xFF2196F3),
+                              )),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.shopping_basket,
+                                size: cardIconSize / 2,
+                                color: Color(0xFF00BCD4),
+                              )),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.more_rounded,
+                                size: cardIconSize / 2,
+                                color: Color(0xFFE91E63),
+                              )),
+                        ),
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.train,
+                                size: cardIconSize / 2,
+                                color: Color(0xFFFF5722),
+                              )),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4,
+                          shadowColor: Colors.grey,
+                          child: Container(
+                              width: cardIconSize,
+                              height: cardIconSize,
+                              child: Icon(
+                                Icons.local_cafe,
+                                size: cardIconSize / 2,
+                                color: Color(0xFF795548),
+                              )),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )),
             ],
           ));
     }
@@ -623,6 +602,14 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
 
   @override
   Widget build(BuildContext context) {
+    deviceHeight = MediaQuery.of(context).size.height;
+    deviceWidth = MediaQuery.of(context).size.width;
+
+    marginFromTop = deviceHeight * 0.1079;
+    listViewTopPadding = deviceHeight * 0.1029;
+    cardIconSize = deviceHeight * 0.1;
+    cardSize = deviceWidth * 0.89;
+
     return MaterialApp(
       title: 'Onboarding screen',
       home: Scaffold(
@@ -659,10 +646,6 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                     // dynamicSizeEquation: customEquation, //optional
                   ),
                 ),
-                SizedBox(
-                  height: 00,
-                )
-                // _buildItemDetail(),
               ],
             ),
           ),
