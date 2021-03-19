@@ -16,8 +16,6 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  // await Firebase.initializeApp();
-  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(ProviderScope(
