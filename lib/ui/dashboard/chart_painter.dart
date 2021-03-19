@@ -47,6 +47,14 @@ class PieChartPainter extends CustomPainter {
         false,
         paint,
       );
+    } else if (_subParts.length == 1) {
+      canvas.drawArc(
+        new Rect.fromLTWH(0.0, 0.0, side, size.height),
+        _prevAngle,
+        360,
+        false,
+        _paintList[0],
+      );
     } else {
       _prevAngle = this.initialAngle * math.pi / 180;
       for (int i = 0; i < _subParts.length; i++) {

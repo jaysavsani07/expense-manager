@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:expense_manager/core/currency_text_input_formatter.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/data/models/category.dart';
@@ -51,7 +52,7 @@ class AddEntry extends ConsumerWidget {
                   msg: AppLocalization.of(context)
                       .getTranslatedVal("pls_enter_amount"),
                   bgColor: Colors.redAccent);
-            } else if (double.parse(vm.amount) == 0.0) {
+            } else if (double.parse(vm.amount) <= 0.0) {
               VxToast.show(context,
                   msg: AppLocalization.of(context)
                       .getTranslatedVal("amount_should_grater_then_zero"),
@@ -69,12 +70,13 @@ class AddEntry extends ConsumerWidget {
           20.heightBox,
           VxTextField(
             value: vm.amount == "0" ? null : vm.amount,
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.phone,
             borderType: VxTextFieldBorderType.none,
             fillColor: context.theme.cardTheme.color,
             textInputAction: TextInputAction.done,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(6),
+              CurrencyTextInputFormatter(),
+              LengthLimitingTextInputFormatter(7),
             ],
             onChanged: (text) {
               vm.amountChange(text);
@@ -273,31 +275,3 @@ class AddEntry extends ConsumerWidget {
     }
   }
 }
-
-// Expanded(child: Column(
-// mainAxisAlignment: MainAxisAlignment.end,
-// children: AppConstants.keyboard
-//     .map((e) => Flexible(
-// flex: 1,
-// child: Row(
-// mainAxisSize: MainAxisSize.max,
-// mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// children: e
-//     .map((e) => Flexible(
-// flex: 1,
-// child: e.text.xl3
-//     .color(Colors.blue)
-// .make()
-//     .objectCenter()
-//     .box
-//     .height(100)
-// .width(context.screenWidth / 3)
-// .make()
-//     .onInkTap(() {
-// vm.textChange(e);
-// })))
-// .toList(),
-// ),
-// ))
-// .toList(),
-// )),

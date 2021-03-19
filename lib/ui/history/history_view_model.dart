@@ -16,12 +16,10 @@ final yearProvider = StateProvider<int>((ref) => DateTime.now().year);
 
 final monthListProvider = StreamProvider<List<String>>((ref) {
   int year = ref.watch(yearProvider).state;
-  return ref
-      .read(repositoryProvider)
-      .getMonthListByYear(year)
-      .where((event) => event.isNotEmpty)
-      .map((event) {
-    ref.read(monthProvider).state = event.first;
+  return ref.read(repositoryProvider).getMonthListByYear(year).map((event) {
+    if (event.isNotEmpty) {
+      ref.read(monthProvider).state = event.first;
+    }
     return event;
   });
 });

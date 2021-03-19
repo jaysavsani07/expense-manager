@@ -44,14 +44,22 @@ dependencies:
   package_info: ^0.4.3+4
   firebase_core: ^0.7.0
   firebase_crashlytics: ^0.4.0+1
+  firebase_analytics: ^7.0.0
+  fimber: ^0.4.4
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  moor_generator: ^3.4.1
+  moor_generator: ^3.4.0
   build_runner:
+  flutter_launcher_icons: ^0.8.0
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/images/expense_manage.png"
 
 dependency_overrides:
   intl: ^0.16.1
@@ -72,7 +80,8 @@ flutter:
     - lib/data/language/localization/en.json
     - lib/data/language/localization/es.json
     - lib/data/language/localization/pt.json
-  #   - images/a_dot_burr.jpeg
+    - assets/images/add_expense_arrow.png
+    - assets/images/expense_manage.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

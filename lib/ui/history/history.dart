@@ -48,3 +48,4 @@ class History extends ConsumerWidget {
     );
   }
 }
+
