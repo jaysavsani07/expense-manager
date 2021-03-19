@@ -49,8 +49,8 @@ class MyApp extends ConsumerWidget {
       themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
       initialRoute: (context.read(appStateNotifier)).userName.isEmptyOrNull
-          ? AppRoutes.welcome
-          : AppRoutes.home,
+          ? AppRoutes.landing
+          : AppRoutes.landing,
       routes: {
         AppRoutes.welcome: (context) => Welcome(),
         AppRoutes.landing: (context) => DynamicHorizontalDemo(),

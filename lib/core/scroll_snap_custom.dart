@@ -2,8 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:worm_indicator/shape.dart';
-import 'package:worm_indicator/worm_indicator.dart';
 
 import 'custom_scroll_physics.dart';
 
@@ -15,7 +13,7 @@ enum SelectedItemAnchor { START, MIDDLE, END }
 ///Allows unrestricted scroll speed. Snap/focus event done on every `ScrollEndNotification`.
 ///
 ///Contains `ScrollNotification` widget, so might be incompatible with other scroll notification.
-class ScrollSnapListCustom extends StatefulWidget {
+class ScrollSnapPageCustom extends StatefulWidget {
   ///List background
   final Color background;
 
@@ -110,7 +108,7 @@ class ScrollSnapListCustom extends StatefulWidget {
   ///Anchor location for selected item in the list
   final SelectedItemAnchor selectedItemAnchor;
 
-  ScrollSnapListCustom(
+  ScrollSnapPageCustom(
       {this.background,
       @required this.itemBuilder,
       @required this.listBuilder,
@@ -143,10 +141,10 @@ class ScrollSnapListCustom extends StatefulWidget {
         super(key: key);
 
   @override
-  ScrollSnapListCustomState createState() => ScrollSnapListCustomState();
+  ScrollSnapPageCustomState createState() => ScrollSnapPageCustomState();
 }
 
-class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
+class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   //true if initialIndex exists and first drag hasn't occurred
   bool isInit = true;
   //to avoid multiple onItemFocus when using updateOnScroll
@@ -182,7 +180,7 @@ class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
 
   ///Scroll list to an offset
   void _animateScroll(double location) {
-    print("location $location");
+    // print("location $location");
     isCardMovable = false;
     int page = 0;
     if (location >= 0 && location <= 379) {
@@ -196,7 +194,7 @@ class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
     Future.delayed(Duration.zero, () {
       secondPageController
           .animateToPage(page,
-              duration: Duration(milliseconds: 350), curve: widget.curve)
+              duration: Duration(milliseconds: 400), curve: widget.curve)
           .then((value) {
         Future.delayed(Duration(milliseconds: 100), () {
           isCardMovable = true;
@@ -262,13 +260,13 @@ class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
       return Offset(-dx * 2, 0.0);
     } else {
       double dx = currentPixel / 2;
-      print("dx index 3 $dx");
+      // print("dx index 3 $dx");
       return Offset(-dx * 2, 0.0);
     }
   }
 
   List<Widget> _buildListChild() {
-    print("build list child");
+    // print("build list child");
     return [
       Container(
         width: 50,
@@ -436,7 +434,7 @@ class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
                       pixel: scrollInfo.metrics.pixels,
                       itemSize: widget.itemSize,
                     );
-                    print(" offset $offset");
+                    // print(" offset $offset");
                     if ((scrollInfo.metrics.pixels - offset).abs() > 0.01 ||
                         offset == 0) {
                       double scrollVal =
@@ -505,9 +503,9 @@ class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
                           itemBuilder: _buildListItem,
                           itemCount: widget.itemCount,
                         ),
-                        flex: 58),
+                        flex: 65),
                     Expanded(
-                      flex: 12,
+                      flex: 5,
                       child: Container(),
                     ),
                     Expanded(
@@ -524,7 +522,9 @@ class ScrollSnapListCustomState extends State<ScrollSnapListCustom> {
                       child: SmoothPageIndicator(
                         controller: widget.pageController,
                         count: widget.itemCount,
-                        effect: WormEffect(),
+                        effect: WormEffect(
+                            dotColor: Color(0xFFEEEEEE),
+                            activeDotColor: Color(0xFF2196F3)),
                       ),
                     ),
 
