@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tuple/tuple.dart';
 
-void main() => runApp(DynamicHorizontalDemo());
+void main() => runApp(CustomScrollOnboarding());
 
-class DynamicHorizontalDemo extends StatefulWidget {
+class CustomScrollOnboarding extends StatefulWidget {
   @override
-  _DynamicHorizontalDemoState createState() => _DynamicHorizontalDemoState();
+  _CustomScrollOnboardingState createState() => _CustomScrollOnboardingState();
 }
 
-class _DynamicHorizontalDemoState extends State<DynamicHorizontalDemo> {
+class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   List<int> data = [];
   int _focusedIndex = -1;
   double cardSize = 380;
