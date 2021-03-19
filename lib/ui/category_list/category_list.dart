@@ -44,8 +44,8 @@ class CategoryList extends ConsumerWidget {
               })
             ],
           ),
-          body: ReorderableListView(
-            onReorder: vm.reorder,
+          body: /*Reorderable*/ListView(
+            // onReorder: vm.reorder,
             children: vm.categoryList
                 .map((e) => InkWell(
                       key: ValueKey(e.id),
@@ -69,10 +69,10 @@ class CategoryList extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   e.name.text.make().pSymmetric(h: 16),
-                                  Icon(
+                                  /*Icon(
                                     Icons.drag_handle_outlined,
                                     size: 20,
-                                  )
+                                  )*/
                                 ],
                               ),
                             ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,13 +29,15 @@ class CategoryListViewModel with ChangeNotifier {
     if (newIndex > oldIndex) {
       newIndex -= 1;
     }
-    var x = categoryList[oldIndex];
-    categoryList.removeAt(oldIndex);
-    categoryList.insert(newIndex, x);
-    notifyListeners();
-    entryDataSourceImp
-        .reorderCategory(oldIndex + 1, newIndex + 1)
-        .listen((event) {});
+    if (oldIndex != newIndex) {
+      var x = categoryList[oldIndex];
+      categoryList.removeAt(oldIndex);
+      categoryList.insert(newIndex, x);
+      notifyListeners();
+      entryDataSourceImp
+          .reorderCategory(oldIndex + 1, newIndex + 1)
+          .listen((event) {});
+    }
   }
 
   @override

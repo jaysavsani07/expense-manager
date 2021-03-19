@@ -53,6 +53,15 @@ class Category {
             Value("0x${iconColor.value.toRadixString(16).padLeft(8, '0')}"));
   }
 
+  CategoryEntityData toCategoryEntityData() {
+    return CategoryEntityData(
+        id: id,
+        position: position,
+        name: name,
+        icon: icon.iconDataToJson(),
+        iconColor: "0x${iconColor.value.toRadixString(16).padLeft(8, '0')}");
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

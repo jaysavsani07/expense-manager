@@ -1,7 +1,9 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'app_database.g.dart';
 
@@ -243,15 +245,66 @@ class AppDatabase extends _$AppDatabase {
           .asStream();
 
   Stream<bool> reorderCategory(int oldIndex, int newIndex) {
+    /*getAllCategory1()
+        .then((value) =>
+            value.map((e) => Category.fromCategoryEntity(e)).toList())
+        .asStream()
+        .map((event) {
+          List<Category> categoryList = event;
+          Fimber.e(
+              "Pre ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
+          for (int i = 0; i < categoryList.length; i++) {
+            if (categoryList[i].position == oldIndex) {
+              categoryList[i] = categoryList[i].copyWith(position: -1);
+            }
+          }
+          Fimber.e(
+              "Old ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
+          if (oldIndex > newIndex) {
+            for (int i = 0; i < categoryList.length; i++) {
+              if (categoryList[i].position >= newIndex) {
+                categoryList[i] = categoryList[i]
+                    .copyWith(position: categoryList[i].position + 1);
+              }
+            }
+          } else {
+            for (int i = 0; i < categoryList.length; i++) {
+              if (categoryList[i].position > oldIndex &&
+                  categoryList[i].position <= newIndex) {
+                categoryList[i] = categoryList[i]
+                    .copyWith(position: categoryList[i].position - 1);
+              }
+            }
+          }
+          Fimber.e(
+              "New ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
+          for (int i = 0; i < categoryList.length; i++) {
+            if (categoryList[i].position == -1) {
+              categoryList[i] = categoryList[i].copyWith(position: newIndex);
+            }
+          }
+          Fimber.e(
+              "Old2 ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
+          return categoryList;
+        })
+        .map(
+            (event) => event.map((e) => e.toCategoryEntityCompanion()).toList())
+        .flatMap((value) => batch((b) {
+              b.update(categoryEntity, value);
+            }).asStream());*/
     return transaction(() async {
-      print("$oldIndex $newIndex");
+      Fimber.e("$oldIndex $newIndex");
       List<Category> categoryList = await getAllCategory1().then(
           (value) => value.map((e) => Category.fromCategoryEntity(e)).toList());
+      Fimber.e(
+          "Pre ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
       for (int i = 0; i < categoryList.length; i++) {
         if (categoryList[i].position == oldIndex) {
           categoryList[i] = categoryList[i].copyWith(position: -1);
         }
       }
+      Fimber.e(
+          "Old ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
       if (oldIndex > newIndex) {
         for (int i = 0; i < categoryList.length; i++) {
           if (categoryList[i].position >= newIndex) {
@@ -261,23 +314,26 @@ class AppDatabase extends _$AppDatabase {
         }
       } else {
         for (int i = 0; i < categoryList.length; i++) {
-          if (categoryList[i].position > oldIndex) {
+          if (categoryList[i].position > oldIndex &&
+              categoryList[i].position <= newIndex) {
             categoryList[i] = categoryList[i]
                 .copyWith(position: categoryList[i].position - 1);
           }
         }
       }
-
+      Fimber.e(
+          "New ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
       for (int i = 0; i < categoryList.length; i++) {
         if (categoryList[i].position == -1) {
           categoryList[i] = categoryList[i].copyWith(position: newIndex);
         }
       }
-
-      print(categoryList);
+      Fimber.e(
+          "Old2 ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
       categoryList.forEach((element) async {
-        print(element);
-        await updateCategory(element.toCategoryEntityCompanion()).single;
+        await update(categoryEntity)
+            .replace(element.toCategoryEntityCompanion());
+        // await updateCategory(element.toCategoryEntityCompanion()).single;
       });
 
       return true;
