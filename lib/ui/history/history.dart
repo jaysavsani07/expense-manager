@@ -1,5 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/history/history_list.dart';
 import 'package:expense_manager/ui/history/month_list.dart';
 import 'package:expense_manager/ui/history/year_list.dart';

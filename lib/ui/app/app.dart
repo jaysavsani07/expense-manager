@@ -1,6 +1,6 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/theme.dart';
-import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/addCategory/addCategory.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
 import 'package:expense_manager/ui/category_details/category_details.dart';

@@ -1,4 +1,4 @@
-import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';

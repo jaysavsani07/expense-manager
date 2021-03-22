@@ -1,6 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/data/datasource/language_data.dart';
-import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/dialog/language.dart';
 import 'package:expense_manager/ui/dialog/month_cycle.dart';
 import 'package:expense_manager/ui/dialog/theme.dart';

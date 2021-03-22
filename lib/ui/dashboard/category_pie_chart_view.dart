@@ -1,5 +1,5 @@
 import 'package:expense_manager/core/routes.dart';
-import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:expense_manager/ui/dashboard/pie_chart.dart';
 import 'package:flutter/material.dart';

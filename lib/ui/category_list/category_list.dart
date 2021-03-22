@@ -1,6 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/routes.dart';
-import 'package:expense_manager/data/language/app_localization.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/category_list/category_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
