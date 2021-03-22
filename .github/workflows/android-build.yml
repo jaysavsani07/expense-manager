@@ -46,4 +46,4 @@ jobs:
           subject: Github Actions Job Results
           body: Build - Android (AppStore) for job ${{github.job}} has ${{job.status}} !
           to: conv.0asu9evzgxz6tn@fleep.io
-          from: Nividata Apps
+          from: alert@mynividata.in
