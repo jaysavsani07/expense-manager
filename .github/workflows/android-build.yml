@@ -39,11 +39,11 @@ jobs:
         if: always()
         uses: dawidd6/action-send-mail@v2
         with:
-          server_address: email-smtp.ap-south-1.amazonaws.com
-          server_port: 587
+          server_address: smtp.gmail.com
+          server_port: 465
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions Job Results
           body: Build - Android (AppStore) for job ${{github.job}} has ${{job.status}} !
           to: conv.0asu9evzgxz6tn@fleep.io
-          from: alert@mynividata.in
+          from: Nividata Apps
