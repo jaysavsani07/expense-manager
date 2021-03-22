@@ -39,8 +39,8 @@ jobs:
         if: always()
         uses: dawidd6/action-send-mail@v2
         with:
-          server_address: smtppro.zoho.in
-          server_port: 465
+          server_address: email-smtp.ap-south-1.amazonaws.com
+          server_port: 587
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: Github Actions Job Results
