@@ -81,7 +81,6 @@ flutter:
     - lib/data/language/localization/en.json
     - lib/data/language/localization/es.json
     - lib/data/language/localization/pt.json
-    - lib/images/
     - assets/images/
   #   - images/a_dot_ham.jpeg
 

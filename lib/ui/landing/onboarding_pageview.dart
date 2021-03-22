@@ -23,6 +23,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   double deviceWidth;
   double marginFromTop;
   double cardIconSize;
+  double backgroundImageHeight;
 
   @override
   void initState() {
@@ -33,6 +34,31 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     setState(() {
       _focusedIndex = index;
     });
+  }
+
+  Widget _buildBackgroundItem(BuildContext context, int index) {
+    if (index == 0) {
+      return Container(
+        width: cardSize,
+        child: Image.asset(
+          "assets/images/page_1.png",
+        ),
+      );
+    } else if (index == 1) {
+      return Container(
+        width: cardSize,
+        child: Image.asset(
+          "assets/images/page_2.png",
+        ),
+      );
+    } else {
+      return Container(
+        width: cardSize,
+        child: Image.asset(
+          "assets/images/page_3.png",
+        ),
+      );
+    }
   }
 
   Widget _buildTextItem(BuildContext context, int index) {
@@ -565,29 +591,6 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     //horizontal
   }
 
-  List<Widget> _buildListChild(BuildContext context, int index) {
-    return [
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.black,
-        key: ValueKey("first"),
-      ),
-      Container(
-        width: 80,
-        height: 80,
-        color: Colors.blue,
-        key: ValueKey("second"),
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.green,
-        key: ValueKey("third"),
-      ),
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     deviceHeight = MediaQuery.of(context).size.height;
@@ -597,6 +600,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     listViewTopPadding = deviceHeight * 0.1029;
     cardIconSize = deviceHeight * 0.1;
     cardSize = deviceWidth * 0.89;
+    backgroundImageHeight = deviceHeight * 0.6;
 
     return MaterialApp(
       title: 'Onboarding screen',
@@ -628,7 +632,9 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                     padding: EdgeInsets.zero,
                     itemBuilder: _buildListItem,
                     textItemBuilder: _buildTextItem,
+                    backgroundItemBuilder: _buildBackgroundItem,
                     itemCount: 3,
+                    backgroundImgHeight: backgroundImageHeight,
                     dynamicItemSize: true,
                   ),
                 ),

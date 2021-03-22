@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'custom_scroll_physics.dart';
@@ -21,6 +22,8 @@ class ScrollSnapPageCustom extends StatefulWidget {
   final Widget Function(BuildContext, int) itemBuilder;
 
   final Widget Function(BuildContext, int) textItemBuilder;
+
+  final Widget Function(BuildContext, int) backgroundItemBuilder;
 
   ///Animation curve
   final Curve curve;
@@ -43,6 +46,8 @@ class ScrollSnapPageCustom extends StatefulWidget {
 
   ///Number of item in this list
   final int itemCount;
+
+  final double backgroundImgHeight;
 
   ///Composed of the size of each item + its margin/padding.
   ///Size used is width if `scrollDirection` is `Axis.horizontal`, height if `Axis.vertical`.
@@ -110,6 +115,7 @@ class ScrollSnapPageCustom extends StatefulWidget {
       {this.background,
       @required this.itemBuilder,
       @required this.textItemBuilder,
+      @required this.backgroundItemBuilder,
       ScrollController listController,
       PageController pageController,
       this.curve = Curves.ease,
@@ -119,6 +125,7 @@ class ScrollSnapPageCustom extends StatefulWidget {
       this.focusToItem,
       this.itemCount,
       @required this.itemSize,
+      @required this.backgroundImgHeight,
       this.key,
       this.listViewKey,
       this.margin,
@@ -152,10 +159,13 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   bool isCardMovable = true;
 
   PageController secondPageController;
+  PageController backgroundPageController;
 
   void initState() {
     super.initState();
     secondPageController = new PageController(viewportFraction: 0.9);
+    backgroundPageController = new PageController(viewportFraction: 0.99);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialIndex != null) {
         //set list's initial position
@@ -197,6 +207,35 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
         });
       });
     });
+  }
+
+  double calculateBackgroundScale(int index) {
+    double intendedPixel = index * widget.itemSize;
+    double difference = intendedPixel - currentPixel;
+
+    if (widget.dynamicSizeEquation != null) {
+      double scale = widget.dynamicSizeEquation(difference);
+      return scale < 0 ? 0 : scale;
+    }
+    return 1 - min(difference.abs() / widget.itemSize * 0.5, 0.5);
+  }
+
+  Alignment calculateBackgroundAlignment(int index) {
+    if (index == 0) {
+      return Alignment(-1.6, 0.0);
+    } else if (index == 1) {
+      double dx = 0;
+      if (dx >= 0 || dx <= 2.4) {
+        dx = currentPixel / (15.83 * 15);
+      } else {
+        dx = dx;
+      }
+      return Alignment(-1.6 + dx, -1.5);
+    } else {
+      double intendedPixel = index * widget.itemSize;
+      double dx = intendedPixel * 0.0002;
+      return Alignment(-1.9 + dx, -1.55);
+    }
   }
 
   double calculateScale(int index) {
@@ -278,6 +317,16 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     return child;
   }
 
+  Widget _buildBackgroundItem(BuildContext context, int index) {
+    Widget child;
+    child = Transform.translate(
+      offset: calculateOffset(index),
+      child: widget.backgroundItemBuilder(context, index),
+    );
+
+    return child;
+  }
+
   ///Then trigger `onItemFocus`
   double _calcCardLocation(
       {double pixel, @required double itemSize, int index}) {
@@ -294,6 +343,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   void focusToItem(int index) {
     double targetLoc =
         _calcCardLocation(index: index, itemSize: widget.itemSize);
+    // print("focuse to item");
     _animateScroll(targetLoc);
   }
 
@@ -364,6 +414,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                     );
                     if ((scrollInfo.metrics.pixels - offset).abs() > 0.01 ||
                         offset == 0) {
+                      print("_animate to scroll");
                       _animateScroll(offset);
                     }
                   } else if (scrollInfo is ScrollUpdateNotification &&
@@ -392,6 +443,19 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                 },
                 child: Stack(
                   children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 50,
+                      ),
+                      height: widget.backgroundImgHeight,
+                      child: PageView.builder(
+                        itemBuilder: _buildBackgroundItem,
+                        controller: backgroundPageController,
+                        itemCount: widget.itemCount,
+                        key: widget.listViewKey,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                    ),
                     Container(
                       child: Column(
                         children: [
