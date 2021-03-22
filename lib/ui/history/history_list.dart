@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
@@ -306,10 +307,11 @@ class HistoryEmpty extends StatelessWidget {
                 ],
               ).p8().card.withRounded(value: 8).elevation(1).make(),
               24.heightBox,
-              "No expense yet".text.center.bold.size(28).make(),
+              AppLocalization.of(context)
+                  .getTranslatedVal("no_expense_yet").text.center.bold.size(28).make(),
               6.heightBox,
-              "After your first expense\nyou will be able to view it here"
-                  .text.center
+              AppLocalization.of(context)
+                  .getTranslatedVal("no_expense_yet_2").text.center
                   .size(14)
                   .make(),
             ],
