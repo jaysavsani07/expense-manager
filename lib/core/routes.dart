@@ -1,6 +1,6 @@
 class AppRoutes {
   static final welcome = '/welcome';
-  static final landing = '/';
+  static final onboarding = '/';
   static final home = '/home';
   static final addEntry = '/addEntry';
   static final categoryList = '/categoryList';

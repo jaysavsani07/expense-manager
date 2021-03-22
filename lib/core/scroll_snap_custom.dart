@@ -17,8 +17,6 @@ class ScrollSnapPageCustom extends StatefulWidget {
   ///List background
   final Color background;
 
-  final List<Widget> Function(BuildContext, int) listBuilder;
-
   ///Widget builder.
   final Widget Function(BuildContext, int) itemBuilder;
 
@@ -111,7 +109,6 @@ class ScrollSnapPageCustom extends StatefulWidget {
   ScrollSnapPageCustom(
       {this.background,
       @required this.itemBuilder,
-      @required this.listBuilder,
       @required this.textItemBuilder,
       ScrollController listController,
       PageController pageController,
@@ -222,7 +219,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
 
   Alignment calculateAlignment(int index) {
     if (index == 0) {
-      return Alignment(1.6, -1.7);
+      return Alignment(1.6, -1.5);
     } else if (index == 1) {
       double dx = 0;
       if (dx >= 0 || dx <= 2.4) {
@@ -230,11 +227,11 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
       } else {
         dx = dx;
       }
-      return Alignment(-1.6 + dx, -1.7);
+      return Alignment(-1.6 + dx, -1.5);
     } else {
       double intendedPixel = index * widget.itemSize;
       double dx = intendedPixel * 0.0002;
-      return Alignment(-1.9 + dx, -1.75);
+      return Alignment(-1.9 + dx, -1.55);
     }
   }
 
@@ -393,53 +390,60 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                   }
                   return true;
                 },
-                child: Column(
+                child: Stack(
                   children: [
-                    Expanded(
-                      flex: 5,
-                      child: Container(
-                        color: Colors.transparent,
+                    Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 75,
+                            child: Container(),
+                          ),
+                          Expanded(
+                              flex: 15,
+                              child: PageView.builder(
+                                itemBuilder: _buildTextItem,
+                                controller: secondPageController,
+                                itemCount: widget.itemCount,
+                                key: widget.listViewKey,
+                                scrollDirection: Axis.horizontal,
+                              )),
+                          Expanded(
+                            child: Container(),
+                            flex: 10,
+                          )
+                        ],
                       ),
                     ),
-                    Expanded(
-                        child: PageView.builder(
-                          key: widget.listViewKey,
-                          physics: CustomScrollPhysics(),
-                          clipBehavior: Clip.antiAlias,
-                          controller: widget.pageController,
-                          reverse: widget.reverse,
-                          scrollDirection: widget.scrollDirection,
-                          itemBuilder: _buildListItem,
-                          itemCount: widget.itemCount,
-                        ),
-                        flex: 65),
-                    Expanded(
-                      flex: 5,
-                      child: Container(),
-                    ),
-                    Expanded(
-                        flex: 20,
-                        child: PageView.builder(
-                          itemBuilder: _buildTextItem,
-                          controller: secondPageController,
-                          itemCount: widget.itemCount,
-                          key: widget.listViewKey,
-                          scrollDirection: Axis.horizontal,
-                        )),
-                    Expanded(
-                      flex: 5,
-                      child: SmoothPageIndicator(
-                        controller: widget.pageController,
-                        count: widget.itemCount,
-                        effect: WormEffect(
-                            dotColor: Color(0xFFEEEEEE),
-                            activeDotColor: Color(0xFF2196F3)),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: Container(
-                        color: Colors.transparent,
+                    Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: PageView.builder(
+                                  key: widget.listViewKey,
+                                  physics: CustomScrollPhysics(),
+                                  clipBehavior: Clip.antiAlias,
+                                  controller: widget.pageController,
+                                  reverse: widget.reverse,
+                                  scrollDirection: widget.scrollDirection,
+                                  itemBuilder: _buildListItem,
+                                  itemCount: widget.itemCount,
+                                ),
+                              ),
+                              flex: 65),
+                          Expanded(
+                            flex: 1,
+                            child: SmoothPageIndicator(
+                              controller: widget.pageController,
+                              count: widget.itemCount,
+                              effect: WormEffect(
+                                  dotColor: Color(0xFFEEEEEE),
+                                  activeDotColor: Color(0xFF2196F3)),
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],

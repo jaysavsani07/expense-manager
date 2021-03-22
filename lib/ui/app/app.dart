@@ -6,7 +6,6 @@ import 'package:expense_manager/ui/addEntry/addEntry.dart';
 import 'package:expense_manager/ui/category_details/category_details.dart';
 import 'package:expense_manager/ui/category_list/category_list.dart';
 import 'package:expense_manager/ui/home/home.dart';
-import 'package:expense_manager/ui/landing/landing.dart';
 import 'package:expense_manager/ui/landing/onboarding_pageview.dart';
 import 'package:expense_manager/ui/setting/setting.dart';
 import 'package:expense_manager/ui/welcome/welcome.dart';
@@ -49,11 +48,11 @@ class MyApp extends ConsumerWidget {
       themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
       initialRoute: (context.read(appStateNotifier)).userName.isEmptyOrNull
-          ? AppRoutes.welcome
+          ? AppRoutes.onboarding
           : AppRoutes.home,
       routes: {
         AppRoutes.welcome: (context) => Welcome(),
-        AppRoutes.landing: (context) => CustomScrollOnboarding(),
+        AppRoutes.onboarding: (context) => CustomScrollOnboarding(),
         AppRoutes.home: (context) => HomeScreen(),
         AppRoutes.addEntry: (context) => AddEntry(
             entryWithCategory: ModalRoute.of(context).settings.arguments),

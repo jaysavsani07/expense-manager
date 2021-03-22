@@ -15,7 +15,6 @@ class CustomScrollOnboarding extends StatefulWidget {
 }
 
 class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
-  List<int> data = [];
   int _focusedIndex = -1;
   double cardSize;
   double heightFromTop = 0;
@@ -28,10 +27,6 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   @override
   void initState() {
     super.initState();
-
-    for (int i = 0; i < 3; i++) {
-      data.add(Random().nextInt(100) + 1);
-    }
   }
 
   void _onItemFocus(int index) {
@@ -119,18 +114,14 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    if (index == data.length)
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-
     if (index == 0) {
       return Container(
         padding: EdgeInsets.only(
-            top: listViewTopPadding, bottom: listViewTopPadding / 2),
+            top: listViewTopPadding * 1.6, bottom: listViewTopPadding / 2),
         width: cardSize,
         child: Container(
-            padding: EdgeInsets.only(top: marginFromTop),
+            padding: EdgeInsets.only(
+                top: marginFromTop * 1.2, bottom: marginFromTop * 2),
             child: Card(
               elevation: 4,
               child: Row(
@@ -253,20 +244,22 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     } else if (index == 1) {
       return Container(
         padding: EdgeInsets.only(
-            top: listViewTopPadding, bottom: listViewTopPadding / 2),
+            top: listViewTopPadding * 1.6, bottom: listViewTopPadding / 2),
         width: cardSize,
         alignment: Alignment.center,
         child: Container(
-            padding: EdgeInsets.only(top: marginFromTop),
+            padding:
+                EdgeInsets.only(top: marginFromTop, bottom: marginFromTop * 2),
             child: Card(
               elevation: 4,
               shadowColor: Colors.grey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     margin: EdgeInsets.all(10),
-                    height: deviceHeight * 0.229,
+                    height: deviceHeight * 0.249,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -419,7 +412,8 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
       );
     } else {
       return Container(
-          padding: EdgeInsets.only(top: listViewTopPadding - 15, bottom: 0),
+          padding: EdgeInsets.only(
+              top: (listViewTopPadding * 1.6) - 15, bottom: marginFromTop * 2),
           width: cardSize,
           child: Stack(
             children: [
@@ -594,12 +588,6 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     ];
   }
 
-  ///Override default dynamicItemSize calculation
-  double customEquation(double distance) {
-    // return 1-min(distance.abs()/500, 0.2);
-    return 1 - (distance / cardSize);
-  }
-
   @override
   Widget build(BuildContext context) {
     deviceHeight = MediaQuery.of(context).size.height;
@@ -620,7 +608,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                 Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
-                    child: Text("Skip"),
+                    child: Text(_focusedIndex == 2 ? "Next" : "Skip"),
                     onPressed: () {
                       Navigator.popAndPushNamed(
                         context,
@@ -639,11 +627,9 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                     margin: EdgeInsets.zero,
                     padding: EdgeInsets.zero,
                     itemBuilder: _buildListItem,
-                    listBuilder: _buildListChild,
                     textItemBuilder: _buildTextItem,
-                    itemCount: data.length,
+                    itemCount: 3,
                     dynamicItemSize: true,
-                    // dynamicSizeEquation: customEquation, //optional
                   ),
                 ),
               ],

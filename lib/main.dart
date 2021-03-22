@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  /* 
   if (kDebugMode) {
     Fimber.plantTree(DebugTree(useColors: true));
   } else {
@@ -18,6 +19,12 @@ Future<void> main() async {
   }
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+ */
+  // Fimber.plantTree(DebugTree(useColors: true));
+  // Fimber.plantTree(CrashReportingTree());
+  Fimber.e("test");
+  // await Firebase.initializeApp();
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(ProviderScope(
