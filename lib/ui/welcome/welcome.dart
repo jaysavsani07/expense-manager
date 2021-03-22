@@ -4,6 +4,7 @@ import 'package:expense_manager/data/language/app_localization.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dialog/language.dart';
 import 'package:expense_manager/ui/dialog/month_cycle.dart';
+import 'package:expense_manager/ui/dialog/theme.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -48,6 +49,36 @@ class Welcome extends ConsumerWidget {
             },
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
           ).pSymmetric(h: 24),
+          20.heightBox,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppLocalization.of(context)
+                  .getTranslatedVal("appearance")
+                  .text
+                  .size(16)
+                  .medium
+                  .make(),
+              4.heightBox,
+              ((appState.themeMode == ThemeMode.system)
+                  ? AppLocalization.of(context).getTranslatedVal(
+                  "choose_your_light_or_dark_theme_preference")
+                  : (appState.themeMode == ThemeMode.dark
+                  ? AppLocalization.of(context)
+                  .getTranslatedVal("dark_theme")
+                  : AppLocalization.of(context)
+                  .getTranslatedVal("light_theme")))
+                  .text
+                  .size(12)
+                  .make(),
+            ],
+          ).pSymmetric(h: 24, v: 12).onInkTap(() {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return ThemeDialog();
+                });
+          }),
           20.heightBox,
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
