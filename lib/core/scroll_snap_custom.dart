@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -17,12 +16,12 @@ class ScrollSnapPageCustom extends StatefulWidget {
   ///List background
   final Color background;
 
-  final List<Widget> Function(BuildContext, int) listBuilder;
-
   ///Widget builder.
   final Widget Function(BuildContext, int) itemBuilder;
 
   final Widget Function(BuildContext, int) textItemBuilder;
+
+  final Widget Function(BuildContext, int) backgroundItemBuilder;
 
   ///Animation curve
   final Curve curve;
@@ -45,6 +44,8 @@ class ScrollSnapPageCustom extends StatefulWidget {
 
   ///Number of item in this list
   final int itemCount;
+
+  final double backgroundImgHeight;
 
   ///Composed of the size of each item + its margin/padding.
   ///Size used is width if `scrollDirection` is `Axis.horizontal`, height if `Axis.vertical`.
@@ -111,8 +112,8 @@ class ScrollSnapPageCustom extends StatefulWidget {
   ScrollSnapPageCustom(
       {this.background,
       @required this.itemBuilder,
-      @required this.listBuilder,
       @required this.textItemBuilder,
+      @required this.backgroundItemBuilder,
       ScrollController listController,
       PageController pageController,
       this.curve = Curves.ease,
@@ -122,6 +123,7 @@ class ScrollSnapPageCustom extends StatefulWidget {
       this.focusToItem,
       this.itemCount,
       @required this.itemSize,
+      @required this.backgroundImgHeight,
       this.key,
       this.listViewKey,
       this.margin,
@@ -155,10 +157,13 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   bool isCardMovable = true;
 
   PageController secondPageController;
+  PageController backgroundPageController;
 
   void initState() {
     super.initState();
     secondPageController = new PageController(viewportFraction: 0.9);
+    backgroundPageController = new PageController(viewportFraction: 0.99);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialIndex != null) {
         //set list's initial position
@@ -202,6 +207,35 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     });
   }
 
+  double calculateBackgroundScale(int index) {
+    double intendedPixel = index * widget.itemSize;
+    double difference = intendedPixel - currentPixel;
+
+    if (widget.dynamicSizeEquation != null) {
+      double scale = widget.dynamicSizeEquation(difference);
+      return scale < 0 ? 0 : scale;
+    }
+    return 1 - min(difference.abs() / widget.itemSize * 0.5, 0.5);
+  }
+
+  Alignment calculateBackgroundAlignment(int index) {
+    if (index == 0) {
+      return Alignment(-1.6, 0.0);
+    } else if (index == 1) {
+      double dx = 0;
+      if (dx >= 0 || dx <= 2.4) {
+        dx = currentPixel / (15.83 * 15);
+      } else {
+        dx = dx;
+      }
+      return Alignment(-1.6 + dx, -1.5);
+    } else {
+      double intendedPixel = index * widget.itemSize;
+      double dx = intendedPixel * 0.0002;
+      return Alignment(-1.9 + dx, -1.55);
+    }
+  }
+
   double calculateScale(int index) {
     double intendedPixel = index * widget.itemSize;
     double difference = intendedPixel - currentPixel;
@@ -222,7 +256,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
 
   Alignment calculateAlignment(int index) {
     if (index == 0) {
-      return Alignment(1.6, -1.7);
+      return Alignment(1.6, -1.5);
     } else if (index == 1) {
       double dx = 0;
       if (dx >= 0 || dx <= 2.4) {
@@ -230,11 +264,11 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
       } else {
         dx = dx;
       }
-      return Alignment(-1.6 + dx, -1.7);
+      return Alignment(-1.6 + dx, -1.5);
     } else {
       double intendedPixel = index * widget.itemSize;
       double dx = intendedPixel * 0.0002;
-      return Alignment(-1.9 + dx, -1.75);
+      return Alignment(-1.9 + dx, -1.55);
     }
   }
 
@@ -281,6 +315,16 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     return child;
   }
 
+  Widget _buildBackgroundItem(BuildContext context, int index) {
+    Widget child;
+    child = Transform.translate(
+      offset: calculateOffset(index),
+      child: widget.backgroundItemBuilder(context, index),
+    );
+
+    return child;
+  }
+
   ///Then trigger `onItemFocus`
   double _calcCardLocation(
       {double pixel, @required double itemSize, int index}) {
@@ -297,6 +341,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   void focusToItem(int index) {
     double targetLoc =
         _calcCardLocation(index: index, itemSize: widget.itemSize);
+    // print("focuse to item");
     _animateScroll(targetLoc);
   }
 
@@ -367,6 +412,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                     );
                     if ((scrollInfo.metrics.pixels - offset).abs() > 0.01 ||
                         offset == 0) {
+                      print("_animate to scroll");
                       _animateScroll(offset);
                     }
                   } else if (scrollInfo is ScrollUpdateNotification &&
@@ -393,53 +439,73 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                   }
                   return true;
                 },
-                child: Column(
+                child: Stack(
                   children: [
-                    Expanded(
-                      flex: 5,
-                      child: Container(
-                        color: Colors.transparent,
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 50,
+                      ),
+                      height: widget.backgroundImgHeight,
+                      child: PageView.builder(
+                        itemBuilder: _buildBackgroundItem,
+                        controller: backgroundPageController,
+                        itemCount: widget.itemCount,
+                        key: widget.listViewKey,
+                        scrollDirection: Axis.horizontal,
                       ),
                     ),
-                    Expanded(
-                        child: PageView.builder(
-                          key: widget.listViewKey,
-                          physics: CustomScrollPhysics(),
-                          clipBehavior: Clip.antiAlias,
-                          controller: widget.pageController,
-                          reverse: widget.reverse,
-                          scrollDirection: widget.scrollDirection,
-                          itemBuilder: _buildListItem,
-                          itemCount: widget.itemCount,
-                        ),
-                        flex: 65),
-                    Expanded(
-                      flex: 5,
-                      child: Container(),
-                    ),
-                    Expanded(
-                        flex: 20,
-                        child: PageView.builder(
-                          itemBuilder: _buildTextItem,
-                          controller: secondPageController,
-                          itemCount: widget.itemCount,
-                          key: widget.listViewKey,
-                          scrollDirection: Axis.horizontal,
-                        )),
-                    Expanded(
-                      flex: 5,
-                      child: SmoothPageIndicator(
-                        controller: widget.pageController,
-                        count: widget.itemCount,
-                        effect: WormEffect(
-                            dotColor: Color(0xFFEEEEEE),
-                            activeDotColor: Color(0xFF2196F3)),
+                    Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            flex: 75,
+                            child: Container(),
+                          ),
+                          Expanded(
+                              flex: 15,
+                              child: PageView.builder(
+                                itemBuilder: _buildTextItem,
+                                controller: secondPageController,
+                                itemCount: widget.itemCount,
+                                key: widget.listViewKey,
+                                scrollDirection: Axis.horizontal,
+                              )),
+                          Expanded(
+                            child: Container(),
+                            flex: 10,
+                          )
+                        ],
                       ),
                     ),
-                    Expanded(
-                      flex: 5,
-                      child: Container(
-                        color: Colors.transparent,
+                    Container(
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: PageView.builder(
+                                  key: widget.listViewKey,
+                                  physics: CustomScrollPhysics(),
+                                  clipBehavior: Clip.antiAlias,
+                                  controller: widget.pageController,
+                                  reverse: widget.reverse,
+                                  scrollDirection: widget.scrollDirection,
+                                  itemBuilder: _buildListItem,
+                                  itemCount: widget.itemCount,
+                                ),
+                              ),
+                              flex: 65),
+                          Expanded(
+                            flex: 1,
+                            child: SmoothPageIndicator(
+                              controller: widget.pageController,
+                              count: widget.itemCount,
+                              effect: WormEffect(
+                                  dotColor: Color(0xFFEEEEEE),
+                                  activeDotColor: Color(0xFF2196F3)),
+                            ),
+                          )
+                        ],
                       ),
                     )
                   ],

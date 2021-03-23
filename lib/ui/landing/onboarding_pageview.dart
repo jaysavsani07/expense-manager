@@ -7,15 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:tuple/tuple.dart';
 
-void main() => runApp(CustomScrollOnboarding());
-
 class CustomScrollOnboarding extends StatefulWidget {
   @override
   _CustomScrollOnboardingState createState() => _CustomScrollOnboardingState();
 }
 
 class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
-  List<int> data = [];
   int _focusedIndex = -1;
   double cardSize;
   double heightFromTop = 0;
@@ -24,20 +21,42 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   double deviceWidth;
   double marginFromTop;
   double cardIconSize;
+  double backgroundImageHeight;
 
   @override
   void initState() {
     super.initState();
-
-    for (int i = 0; i < 3; i++) {
-      data.add(Random().nextInt(100) + 1);
-    }
   }
 
   void _onItemFocus(int index) {
     setState(() {
       _focusedIndex = index;
     });
+  }
+
+  Widget _buildBackgroundItem(BuildContext context, int index) {
+    if (index == 0) {
+      return Container(
+        width: cardSize,
+        child: Image.asset(
+          "assets/images/page_1.png",
+        ),
+      );
+    } else if (index == 1) {
+      return Container(
+        width: cardSize,
+        child: Image.asset(
+          "assets/images/page_2.png",
+        ),
+      );
+    } else {
+      return Container(
+        width: cardSize,
+        child: Image.asset(
+          "assets/images/page_3.png",
+        ),
+      );
+    }
   }
 
   Widget _buildTextItem(BuildContext context, int index) {
@@ -119,18 +138,14 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    if (index == data.length)
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-
     if (index == 0) {
       return Container(
         padding: EdgeInsets.only(
-            top: listViewTopPadding, bottom: listViewTopPadding / 2),
+            top: listViewTopPadding * 1.6, bottom: listViewTopPadding / 2),
         width: cardSize,
         child: Container(
-            padding: EdgeInsets.only(top: marginFromTop),
+            padding: EdgeInsets.only(
+                top: marginFromTop * 1.2, bottom: marginFromTop * 2),
             child: Card(
               elevation: 4,
               child: Row(
@@ -253,20 +268,22 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     } else if (index == 1) {
       return Container(
         padding: EdgeInsets.only(
-            top: listViewTopPadding, bottom: listViewTopPadding / 2),
+            top: listViewTopPadding * 1.6, bottom: listViewTopPadding / 2),
         width: cardSize,
         alignment: Alignment.center,
         child: Container(
-            padding: EdgeInsets.only(top: marginFromTop),
+            padding:
+                EdgeInsets.only(top: marginFromTop, bottom: marginFromTop * 2),
             child: Card(
               elevation: 4,
               shadowColor: Colors.grey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width / 1.2,
                     margin: EdgeInsets.all(10),
-                    height: deviceHeight * 0.229,
+                    height: deviceHeight * 0.249,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -419,7 +436,8 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
       );
     } else {
       return Container(
-          padding: EdgeInsets.only(top: listViewTopPadding - 15, bottom: 0),
+          padding: EdgeInsets.only(
+              top: (listViewTopPadding * 1.6) - 15, bottom: marginFromTop * 2),
           width: cardSize,
           child: Stack(
             children: [
@@ -571,35 +589,6 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     //horizontal
   }
 
-  List<Widget> _buildListChild(BuildContext context, int index) {
-    return [
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.black,
-        key: ValueKey("first"),
-      ),
-      Container(
-        width: 80,
-        height: 80,
-        color: Colors.blue,
-        key: ValueKey("second"),
-      ),
-      Container(
-        width: 100,
-        height: 100,
-        color: Colors.green,
-        key: ValueKey("third"),
-      ),
-    ];
-  }
-
-  ///Override default dynamicItemSize calculation
-  double customEquation(double distance) {
-    // return 1-min(distance.abs()/500, 0.2);
-    return 1 - (distance / cardSize);
-  }
-
   @override
   Widget build(BuildContext context) {
     deviceHeight = MediaQuery.of(context).size.height;
@@ -609,6 +598,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     listViewTopPadding = deviceHeight * 0.1029;
     cardIconSize = deviceHeight * 0.1;
     cardSize = deviceWidth * 0.89;
+    backgroundImageHeight = deviceHeight * 0.6;
 
     return MaterialApp(
       title: 'Onboarding screen',
@@ -620,7 +610,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                 Align(
                   alignment: Alignment.topRight,
                   child: TextButton(
-                    child: Text("Skip"),
+                    child: Text(_focusedIndex == 2 ? "Next" : "Skip"),
                     onPressed: () {
                       Navigator.popAndPushNamed(
                         context,
@@ -639,11 +629,11 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                     margin: EdgeInsets.zero,
                     padding: EdgeInsets.zero,
                     itemBuilder: _buildListItem,
-                    listBuilder: _buildListChild,
                     textItemBuilder: _buildTextItem,
-                    itemCount: data.length,
+                    backgroundItemBuilder: _buildBackgroundItem,
+                    itemCount: 3,
+                    backgroundImgHeight: backgroundImageHeight,
                     dynamicItemSize: true,
-                    // dynamicSizeEquation: customEquation, //optional
                   ),
                 ),
               ],
