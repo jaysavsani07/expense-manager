@@ -54,7 +54,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: 1.22.6
+          flutter-version: 2.0.1
       - run: flutter pub get
       - run: flutter build apk --release --no-tree-shake-icons
       - name: Run Fastlane
