@@ -1,10 +1,10 @@
-import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/history.dart';
+import 'package:tuple/tuple.dart';
 
 abstract class EntryRepository {
   Stream<List<String>> getMonthList();
@@ -26,7 +26,7 @@ abstract class EntryRepository {
   Stream<bool> reorderCategory(int oldIndex,int newIndex);
   Stream<List<Category>> getAllCategory();
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();
-  Stream<List<CategoryWithSum>> getCategoryDetails(String filterType);
+  Stream<List<CategoryWithSum>> getCategoryDetails(Tuple2<String, int> filterType);
 
 
 

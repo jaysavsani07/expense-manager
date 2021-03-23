@@ -1,4 +1,5 @@
 import 'package:expense_manager/core/CrashReportingTree.dart';
+import 'package:expense_manager/core/Logger.dart';
 import 'package:expense_manager/data/datasource/sharedpref/shared_preference_helper.dart';
 import 'package:expense_manager/ui/app/app.dart';
 import 'package:fimber/fimber.dart';
@@ -21,7 +22,7 @@ Future<void> main() async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(ProviderScope(
-    // observers: [Logger()],
+    observers: [Logger()],
     overrides: [
       sharedPreferencesProvider
           .overrideWithValue(SharedPreferencesHelper(sharedPreferences))

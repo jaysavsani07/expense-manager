@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
+import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 final categoryDetailsModelProvider =
     ChangeNotifierProvider.autoDispose<CategoryDetailsViewModel>((ref) {
-  String filterType = ref.watch(categoryDetailsFilterProvider).state;
+  Tuple2<String, int> filterType =
+      ref.watch(categoryDetailsFilterProvider).state;
   return CategoryDetailsViewModel(
       entryDataSourceImp: ref.read(repositoryProvider), filterType: filterType);
 });
@@ -22,11 +25,20 @@ final categoryDetailsTotalAmountProvider = Provider.autoDispose<double>((ref) {
 });
 
 final categoryDetailsFilterProvider =
-    StateProvider.autoDispose<String>((ref) => "This Month");
+    StateProvider.autoDispose<Tuple2<String, int>>(
+        (ref) => Tuple2("Month", DateTime.now().month));
+
+final categoryDetailsYearListProvider =
+    StreamProvider<List<Tuple2<String, int>>>((ref) {
+  return ref
+      .read(yearListProvider.stream)
+      .map((event) => event.map((e) => Tuple2("Year", e)))
+      .map((event) => [Tuple2("Month", DateTime.now().month), ...event]);
+});
 
 class CategoryDetailsViewModel with ChangeNotifier {
   final EntryRepositoryImp entryDataSourceImp;
-  final String filterType;
+  final Tuple2<String, int> filterType;
   List<CategoryWithSum> categoryList = [];
   StreamSubscription _subscription;
 

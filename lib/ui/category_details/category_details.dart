@@ -1,7 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
-import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
@@ -69,18 +69,19 @@ class CategoryFilterView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final filterType = watch(categoryDetailsFilterProvider).state;
-    final yearList = watch(yearListProvider);
+    final yearList = watch(categoryDetailsYearListProvider);
     return yearList
         .when(
             data: (list) => Row(
-                  children: [
-                    AppLocalization.of(context).getTranslatedVal("this_month"),
-                    ...list
-                  ]
-                      .map((e) => e
+                  children: [...list]
+                      .map((e) => (e.item1 == "Month"
+                                  ? AppLocalization.of(context)
+                                      .getTranslatedVal(
+                                          AppConstants.monthList[e.item2])
+                                  : e.item2)
                               .toString()
                               .text
-                              .color(filterType == e.toString()
+                              .color(filterType == e
                                   ? Colors.white
                                   : Color(0xff2196F3))
                               .size(12)
@@ -89,14 +90,14 @@ class CategoryFilterView extends ConsumerWidget {
                               .centered()
                               .pSymmetric(v: 10, h: 10)
                               .box
-                              .color(filterType == e.toString()
+                              .color(filterType == e
                                   ? Color(0xff2196F3)
                                   : Theme.of(context).dividerColor)
                               .withRounded(value: 20)
                               .make()
                               .onInkTap(() {
                             context.read(categoryDetailsFilterProvider).state =
-                                e.toString();
+                                e;
                           }).pOnly(right: 10))
                       .toList(),
                 ),
