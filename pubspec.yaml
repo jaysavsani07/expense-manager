@@ -29,23 +29,23 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
-  intl: ^0.16.1
-  moor_flutter: ^3.1.0
-  flutter_riverpod: ^0.12.3+1
-  velocity_x: ^1.4.0
-  fl_chart: ^0.12.3
+  cupertino_icons: ^1.0.2
+  intl: ^0.17.0
+  moor_flutter: ^4.0.0-nullsafety
+  flutter_riverpod: ^0.13.0
+  velocity_x: ^2.5.0
+  fl_chart: ^0.30.0
   dotted_border: ^1.0.7
   percent_indicator: "^2.1.7+2"
-  shared_preferences: ^0.5.12+4
-  rxdart: ^0.25.0
-  tuple: ^1.0.3
+  shared_preferences: ^2.0.5
+  rxdart: ^0.26.0
+  tuple: ^2.0.0
   collection: ^1.14.13
-  package_info: ^0.4.3+4
-  firebase_core: ^0.7.0
-  firebase_crashlytics: ^0.4.0+1
+  package_info: ^2.0.0
+  firebase_core: ^1.0.2
+  firebase_crashlytics: ^1.0.0
   firebase_analytics: ^7.0.0
-  fimber: ^0.4.4
+  fimber: ^0.6.1
   smooth_page_indicator: ^0.2.1
 
   flutter_cupertino_date_picker:
@@ -53,9 +53,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  moor_generator: ^3.4.0
+  moor_generator: ^4.2.0
   build_runner:
-  flutter_launcher_icons: ^0.8.0
+  flutter_launcher_icons: ^0.9.0
 
 flutter_icons:
   android: "ic_launcher"

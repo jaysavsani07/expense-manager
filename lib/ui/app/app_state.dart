@@ -13,12 +13,12 @@ class AppThemeState extends ChangeNotifier {
   Reader reader;
   ThemeMode themeMode = ThemeMode.system;
   Locale currentLocale = Locale('en', 'US');
-  String userName;
-  String appVersion="";
+  String userName = "";
+  String appVersion = "";
 
   AppThemeState(this.reader) {
     userName = reader(sharedPreferencesProvider)
-        .getString(Preferences.USER_NAME, defValue: null);
+        .getString(Preferences.USER_NAME, defValue: "");
     themeMode = ThemeMode.values[
         reader(sharedPreferencesProvider).getInt(Preferences.IS_DARK_MODE) ??
             0];

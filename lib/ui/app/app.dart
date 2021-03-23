@@ -47,8 +47,13 @@ class MyApp extends ConsumerWidget {
       locale: appState.currentLocale,
       themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
+<<<<<<< HEAD
       initialRoute: (context.read(appStateNotifier)).userName.isEmptyOrNull
           ? AppRoutes.onBoarding
+=======
+      initialRoute: (context.read(appStateNotifier)).userName.isEmpty
+          ? AppRoutes.onboarding
+>>>>>>> c2aab0c (flutter upgrade with pub upgrade)
           : AppRoutes.home,
       routes: {
         AppRoutes.welcome: (context) => Welcome(),

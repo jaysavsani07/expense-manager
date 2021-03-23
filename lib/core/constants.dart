@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 class AppConstants {
   static final defaultCategoryList = [
     Category(
-        name: "Food ans Drinks",
-        icon: Icons.fastfood_rounded,
-        iconColor: Color(0xFFc03c42)),
+        name: "Food", icon: Icons.restaurant, iconColor: Color(0xFFc03c42)),
     Category(
         name: "Health",
         icon: Icons.local_hospital_rounded,
@@ -58,14 +56,12 @@ class AppConstants {
     Icons.local_bar_rounded,
     Icons.lunch_dining,
     Icons.cake_rounded,
-
     Icons.directions_bus_rounded,
     Icons.directions_car_rounded,
     Icons.local_shipping_rounded,
     Icons.two_wheeler_rounded,
     Icons.train_rounded,
     Icons.agriculture_rounded,
-
     Icons.build_rounded,
     Icons.local_movies_rounded,
     Icons.audiotrack_rounded,
@@ -77,11 +73,8 @@ class AppConstants {
     Icons.phone_android_rounded,
     Icons.school_rounded,
     Icons.smoking_rooms_rounded,
-
     Icons.add_circle_rounded,
-
     Icons.receipt_long_rounded,
-
     Icons.payment_rounded,
     Icons.attach_money_rounded,
     Icons.trending_up_rounded,

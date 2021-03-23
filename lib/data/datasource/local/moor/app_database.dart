@@ -144,8 +144,8 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return EntryWithCategoryData(
-                entry: row.readTable(entryEntity),
-                category: row.readTable(categoryEntity));
+                entry: row.readTableOrNull(entryEntity),
+                category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
   }
@@ -163,8 +163,8 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return EntryWithCategoryData(
-                entry: row.readTable(entryEntity),
-                category: row.readTable(categoryEntity));
+                entry: row.readTableOrNull(entryEntity),
+                category: row.readTableOrNull(categoryEntity));
           }).toList();
         })
         .map((event) {
@@ -190,7 +190,7 @@ class AppDatabase extends _$AppDatabase {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
                 total: row.read(entryEntity.amount.sum()),
-                category: row.readTable(categoryEntity));
+                category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
   }
@@ -212,7 +212,7 @@ class AppDatabase extends _$AppDatabase {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
                 total: row.read(entryEntity.amount.sum()),
-                category: row.readTable(categoryEntity));
+                category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
   }
@@ -355,7 +355,7 @@ class AppDatabase extends _$AppDatabase {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
                 total: row.read(entryEntity.amount.sum()),
-                category: row.readTable(categoryEntity));
+                category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
   }
