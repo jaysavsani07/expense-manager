@@ -24,7 +24,12 @@ class CategoryChartView extends ConsumerWidget {
         children: [
           30.heightBox,
           AppLocalization.of(context)
-              .getTranslatedVal("total_expense").text.size(18).bold.make().pOnly(left: 24),
+              .getTranslatedVal("total_expense")
+              .text
+              .size(18)
+              .bold
+              .make()
+              .pOnly(left: 24),
           20.heightBox,
           const CategoryPieChartView(),
         ],
@@ -112,12 +117,19 @@ class TotalAmount extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         AppLocalization.of(context)
-            .getTranslatedVal("last_month").text.textStyle(Theme.of(context).textTheme.caption).make(),
-        "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
+            .getTranslatedVal("last_month")
             .text
-            .size(20)
-            .bold
-            .make()
+            .textStyle(Theme.of(context).textTheme.caption)
+            .make(),
+        FittedBox(
+          child:
+              "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
+                  .text
+                  .size(20)
+                  .bold
+                  .make()
+                  .pSymmetric(h: 12),
+        )
       ],
     );
   }

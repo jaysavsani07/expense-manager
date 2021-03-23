@@ -119,14 +119,18 @@ class TodayAmount extends ConsumerWidget {
                 .white
                 .make(),
             6.heightBox,
-            "${NumberFormat.simpleCurrency(decimalDigits: 0).format(todayAmount)}"
-                .text
-                .size(28)
-                .medium
-                .white
-                .make()
+            FittedBox(
+              child:
+                  "${NumberFormat.simpleCurrency(decimalDigits: 0).format(todayAmount)}"
+                      .text
+                      .size(28)
+                      .medium
+                      .white
+                      .make(),
+            )
           ],
         ).expand(),
+        12.widthBox,
         LineChart(watch(todayLineChartProvider)).h(36).expand()
       ],
     )
