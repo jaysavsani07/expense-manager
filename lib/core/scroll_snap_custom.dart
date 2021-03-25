@@ -494,9 +494,9 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                                   itemCount: widget.itemCount,
                                 ),
                               ),
-                              flex: 65),
+                              flex: 90),
                           Expanded(
-                            flex: 1,
+                            flex: 5,
                             child: SmoothPageIndicator(
                               controller: widget.pageController,
                               count: widget.itemCount,

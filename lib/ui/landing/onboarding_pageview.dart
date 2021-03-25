@@ -144,8 +144,8 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
             top: listViewTopPadding * 1.6, bottom: listViewTopPadding / 2),
         width: cardSize,
         child: Container(
-            padding: EdgeInsets.only(
-                top: marginFromTop * 1.2, bottom: marginFromTop * 2),
+            padding:
+                EdgeInsets.only(top: marginFromTop, bottom: marginFromTop * 2),
             child: Card(
               elevation: 4,
               child: Row(
@@ -437,14 +437,14 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     } else {
       return Container(
           padding: EdgeInsets.only(
-              top: (listViewTopPadding * 1.6) - 15, bottom: marginFromTop * 2),
+              top: (listViewTopPadding * 1.6), bottom: marginFromTop * 2),
           width: cardSize,
           child: Stack(
             children: [
               Container(
                   child: Container(
                 padding: EdgeInsets.only(
-                    left: deviceWidth * 0.08, right: deviceWidth * 0.07),
+                    left: deviceWidth * 0.09, right: deviceWidth * 0.08),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -595,7 +595,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     deviceWidth = MediaQuery.of(context).size.width;
 
     marginFromTop = deviceHeight * 0.1079;
-    listViewTopPadding = deviceHeight * 0.1029;
+    listViewTopPadding = deviceHeight * 0.0929;
     cardIconSize = deviceHeight * 0.1;
     cardSize = deviceWidth * 0.89;
     backgroundImageHeight = deviceHeight * 0.6;
