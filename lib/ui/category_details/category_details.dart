@@ -1,10 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -48,7 +49,8 @@ class TotalAmount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final totalAmount = watch(categoryDetailsTotalAmountProvider);
-    return "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
+    var currency = watch(appStateNotifier).currency.item1;
+    return "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}"
         .text
         .size(32)
         .bold
@@ -113,6 +115,7 @@ class CategoryList1 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final list = watch(categoryDetailsModelProvider).categoryList;
+    var currency = watch(appStateNotifier).currency.item1;
     return ListView(
       children: list
           .map((e) => Row(
@@ -132,7 +135,7 @@ class CategoryList1 extends ConsumerWidget {
                         children: [
                           e.category.name.text.size(14).medium.make(),
                           8.widthBox,
-                          "${NumberFormat.simpleCurrency(decimalDigits: 0).format(e.total)}"
+                          "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}"
                               .text
                               .bold
                               .size(16)

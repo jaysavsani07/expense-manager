@@ -1,16 +1,17 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/data/datasource/language_data.dart';
 import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/ui/dialog/currency.dart';
 import 'package:expense_manager/ui/dialog/language.dart';
 import 'package:expense_manager/ui/dialog/month_cycle.dart';
 import 'package:expense_manager/ui/dialog/theme.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
-import 'package:package_info/package_info.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
+import 'package:intl/intl.dart';
 
 class Setting extends ConsumerWidget {
   @override
@@ -108,6 +109,28 @@ class Setting extends ConsumerWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return LanguageDialog();
+                });
+          }),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppLocalization.of(context)
+                  .getTranslatedVal("currency")
+                  .text
+                  .size(16)
+                  .medium
+                  .make(),
+              4.heightBox,
+              "${NumberFormat.simpleCurrency(locale: appState.currency.item1).currencySymbol} ${appState.currency.item2}"
+                  .text
+                  .size(12)
+                  .make(),
+            ],
+          ).pSymmetric(h: 24, v: 12).onInkTap(() {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CurrencyDialog();
                 });
           }),
           Spacer(),

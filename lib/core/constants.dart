@@ -1,5 +1,6 @@
 import 'package:expense_manager/data/models/category.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class AppConstants {
   static final defaultCategoryList = [
@@ -47,6 +48,14 @@ class AppConstants {
     11: "nov",
     12: "dec"
   };
+
+  static final currencyList = [
+    Tuple2("en", "Dollar"),
+    Tuple2("eu", "Euro"),
+    Tuple2("cy", "Pound"),
+    Tuple2("ja", "Yen"),
+    Tuple2("en_IN", "Ruppe"),
+  ];
 
   static final iconList = [
     Icons.fastfood_rounded,
