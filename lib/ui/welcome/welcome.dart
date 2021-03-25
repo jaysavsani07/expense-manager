@@ -8,7 +8,7 @@ import 'package:expense_manager/ui/dialog/theme.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class Welcome extends ConsumerWidget {
@@ -42,8 +42,8 @@ class Welcome extends ConsumerWidget {
             // borderType: VxTextFieldBorderType.underLine,
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
-              labelText:AppLocalization.of(context).getTranslatedVal("enter_your_name")
-            ),
+                labelText: AppLocalization.of(context)
+                    .getTranslatedVal("enter_your_name")),
             onChanged: (text) {
               name = text;
             },
@@ -61,13 +61,13 @@ class Welcome extends ConsumerWidget {
                   .make(),
               4.heightBox,
               ((appState.themeMode == ThemeMode.system)
-                  ? AppLocalization.of(context).getTranslatedVal(
-                  "choose_your_light_or_dark_theme_preference")
-                  : (appState.themeMode == ThemeMode.dark
-                  ? AppLocalization.of(context)
-                  .getTranslatedVal("dark_theme")
-                  : AppLocalization.of(context)
-                  .getTranslatedVal("light_theme")))
+                      ? AppLocalization.of(context).getTranslatedVal(
+                          "choose_your_light_or_dark_theme_preference")
+                      : (appState.themeMode == ThemeMode.dark
+                          ? AppLocalization.of(context)
+                              .getTranslatedVal("dark_theme")
+                          : AppLocalization.of(context)
+                              .getTranslatedVal("light_theme")))
                   .text
                   .size(12)
                   .make(),
@@ -141,7 +141,7 @@ class Welcome extends ConsumerWidget {
               .elevation(1)
               .make()
               .onInkTap(() {
-            if (name.isEmptyOrNull) {
+            if (name.isEmpty) {
               VxToast.show(context,
                   msg: AppLocalization.of(context)
                       .getTranslatedVal("pls_enter_user_name"),

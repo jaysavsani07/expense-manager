@@ -15,100 +15,111 @@ class HistoryList extends ConsumerWidget {
     final vm = watch(historyListProvider);
     return vm
         .when(
-            data: (list) => list.isEmpty
-                ? HistoryEmpty()
-                : ListView(
+        data: (list) =>
+        list.isEmpty
+            ? HistoryEmpty()
+            : ListView(
+          shrinkWrap: true,
+          children: list
+              .map((History history) =>
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  30.heightBox,
+                  ((history.title == "recent_expanse" || history.title == "yesterday") ? AppLocalization
+                      .of(context)
+                      .getTranslatedVal(history.title) : history.title)
+                      .text
+                      .bold
+                      .size(18)
+                      .make()
+                      .pSymmetric(h: 24),
+                  14.heightBox,
+                  ListView(
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    children: list
-                        .map((History history) => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    children: history.list
+                        .map((e) =>
+                        Dismissible(
+                            key: Key(e.entry.id.toString()),
+                            direction:
+                            DismissDirection.endToStart,
+                            background: Container(
+                              color: Theme
+                                  .of(context)
+                                  .errorColor,
+                              child: Align(
+                                  alignment:
+                                  Alignment.centerRight,
+                                  child: Icon(Icons.delete)
+                                      .pOnly(right: 24)),
+                            ),
+                            onDismissed: (direction) {
+                              context.read(
+                                  deleteItemProvider(e.entry.id));
+                            },
+                            child: Row(
                               children: [
-                                30.heightBox,
-                                history.title.text.bold
-                                    .size(18)
+                                Icon(
+                                  e.category.icon,
+                                  color: e.category.iconColor,
+                                  size: 20,
+                                ),
+                                16.widthBox,
+                                Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment
+                                      .spaceAround,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    e.category.name.text
+                                        .size(14)
+                                        .medium
+                                        .make(),
+                                    Row(
+                                      children: [
+                                        DateFormat('d MMM')
+                                            .format(e.entry
+                                            .modifiedDate)
+                                            .text
+                                            .size(12)
+                                            .make(),
+                                        8.widthBox,
+                                        DateFormat
+                                            .Hm()
+                                            .format(e.entry
+                                            .modifiedDate)
+                                            .text
+                                            .size(12)
+                                            .make(),
+                                      ],
+                                    ),
+                                  ],
+                                ).expand(),
+                                "${NumberFormat.simpleCurrency(decimalDigits: 2)
+                                    .format(e.entry.amount)}"
+                                    .text
+                                    .size(16)
+                                    .bold
                                     .make()
-                                    .pSymmetric(h: 24),
-                                14.heightBox,
-                                ListView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  children: history.list
-                                      .map((e) => Dismissible(
-                                          key: Key(e.entry.id.toString()),
-                                          direction:
-                                              DismissDirection.endToStart,
-                                          background: Container(
-                                            color: Theme.of(context).errorColor,
-                                            child: Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Icon(Icons.delete)
-                                                    .pOnly(right: 24)),
-                                          ),
-                                          onDismissed: (direction) {
-                                            context.read(
-                                                deleteItemProvider(e.entry.id));
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Icon(
-                                                e.category.icon,
-                                                color: e.category.iconColor,
-                                                size: 20,
-                                              ),
-                                              16.widthBox,
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  e.category.name.text
-                                                      .size(14)
-                                                      .medium
-                                                      .make(),
-                                                  Row(
-                                                    children: [
-                                                      DateFormat('d MMM')
-                                                          .format(e.entry
-                                                              .modifiedDate)
-                                                          .text
-                                                          .size(12)
-                                                          .make(),
-                                                      8.widthBox,
-                                                      DateFormat.Hm()
-                                                          .format(e.entry
-                                                              .modifiedDate)
-                                                          .text
-                                                          .size(12)
-                                                          .make(),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ).expand(),
-                                              "${NumberFormat.simpleCurrency(decimalDigits: 2).format(e.entry.amount)}"
-                                                  .text
-                                                  .size(16)
-                                                  .bold
-                                                  .make()
-                                            ],
-                                          )
-                                              .pSymmetric(v: 8, h: 24)
-                                              .onInkTap(() {
-                                            Navigator.pushNamed(
-                                                context, AppRoutes.addEntry,
-                                                arguments: Tuple2(e, null));
-                                          })))
-                                      .toList(),
-                                )
                               ],
-                            ))
+                            )
+                                .pSymmetric(v: 8, h: 24)
+                                .onInkTap(() {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.addEntry,
+                                  arguments: Tuple2(e, null));
+                            })))
                         .toList(),
-                  ),
-            loading: () => Center(child: CircularProgressIndicator()),
-            error: (e, str) => Text(e.toString()))
+                  )
+                ],
+              ))
+              .toList(),
+        ),
+        loading: () => Center(child: CircularProgressIndicator()),
+        error: (e, str) => Text(e.toString()))
         .expand();
   }
 }
@@ -148,9 +159,11 @@ class HistoryEmpty extends StatelessWidget {
                             width: 55,
                             margin: EdgeInsets.only(bottom: 4),
                             decoration: BoxDecoration(
-                                color: Theme.of(context).dividerColor,
+                                color: Theme
+                                    .of(context)
+                                    .dividerColor,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                                BorderRadius.all(Radius.circular(2))),
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
@@ -160,17 +173,21 @@ class HistoryEmpty extends StatelessWidget {
                                 width: 40,
                                 margin: EdgeInsets.only(right: 8),
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme
+                                        .of(context)
+                                        .dividerColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
+                                    BorderRadius.all(Radius.circular(2))),
                               ),
                               Container(
                                 height: 12,
                                 width: 40,
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme
+                                        .of(context)
+                                        .dividerColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
+                                    BorderRadius.all(Radius.circular(2))),
                               )
                             ],
                           )
@@ -179,9 +196,12 @@ class HistoryEmpty extends StatelessWidget {
                       Container(
                         height: 15,
                         width: 40,
-                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8,top: 8),
+                        margin: EdgeInsets.only(
+                            left: 16, right: 8, bottom: 8, top: 8),
                         decoration: BoxDecoration(
-                            color: Theme.of(context).dividerColor,
+                            color: Theme
+                                .of(context)
+                                .dividerColor,
                             borderRadius: BorderRadius.all(Radius.circular(2))),
                       )
                     ],
@@ -207,9 +227,11 @@ class HistoryEmpty extends StatelessWidget {
                             width: 55,
                             margin: EdgeInsets.only(bottom: 4),
                             decoration: BoxDecoration(
-                                color: Theme.of(context).dividerColor,
+                                color: Theme
+                                    .of(context)
+                                    .dividerColor,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                                BorderRadius.all(Radius.circular(2))),
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
@@ -219,17 +241,21 @@ class HistoryEmpty extends StatelessWidget {
                                 width: 40,
                                 margin: EdgeInsets.only(right: 8),
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme
+                                        .of(context)
+                                        .dividerColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
+                                    BorderRadius.all(Radius.circular(2))),
                               ),
                               Container(
                                 height: 12,
                                 width: 40,
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme
+                                        .of(context)
+                                        .dividerColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
+                                    BorderRadius.all(Radius.circular(2))),
                               )
                             ],
                           )
@@ -238,9 +264,12 @@ class HistoryEmpty extends StatelessWidget {
                       Container(
                         height: 15,
                         width: 40,
-                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8,top: 8),
+                        margin: EdgeInsets.only(
+                            left: 16, right: 8, bottom: 8, top: 8),
                         decoration: BoxDecoration(
-                            color: Theme.of(context).dividerColor,
+                            color: Theme
+                                .of(context)
+                                .dividerColor,
                             borderRadius: BorderRadius.all(Radius.circular(2))),
                       )
                     ],
@@ -266,9 +295,11 @@ class HistoryEmpty extends StatelessWidget {
                             width: 55,
                             margin: EdgeInsets.only(bottom: 4),
                             decoration: BoxDecoration(
-                                color: Theme.of(context).dividerColor,
+                                color: Theme
+                                    .of(context)
+                                    .dividerColor,
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(2))),
+                                BorderRadius.all(Radius.circular(2))),
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
@@ -278,17 +309,21 @@ class HistoryEmpty extends StatelessWidget {
                                 width: 40,
                                 margin: EdgeInsets.only(right: 8),
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme
+                                        .of(context)
+                                        .dividerColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
+                                    BorderRadius.all(Radius.circular(2))),
                               ),
                               Container(
                                 height: 12,
                                 width: 40,
                                 decoration: BoxDecoration(
-                                    color: Theme.of(context).dividerColor,
+                                    color: Theme
+                                        .of(context)
+                                        .dividerColor,
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
+                                    BorderRadius.all(Radius.circular(2))),
                               )
                             ],
                           )
@@ -297,21 +332,38 @@ class HistoryEmpty extends StatelessWidget {
                       Container(
                         height: 15,
                         width: 40,
-                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8,top: 8),
+                        margin: EdgeInsets.only(
+                            left: 16, right: 8, bottom: 8, top: 8),
                         decoration: BoxDecoration(
-                            color: Theme.of(context).dividerColor,
+                            color: Theme
+                                .of(context)
+                                .dividerColor,
                             borderRadius: BorderRadius.all(Radius.circular(2))),
                       )
                     ],
                   ),
                 ],
-              ).p8().card.withRounded(value: 8).elevation(1).make(),
+              )
+                  .p8()
+                  .card
+                  .withRounded(value: 8)
+                  .elevation(1)
+                  .make(),
               24.heightBox,
-              AppLocalization.of(context)
-                  .getTranslatedVal("no_expense_yet").text.center.bold.size(28).make(),
+              AppLocalization
+                  .of(context)
+                  .getTranslatedVal("no_expense_yet")
+                  .text
+                  .center
+                  .bold
+                  .size(28)
+                  .make(),
               6.heightBox,
-              AppLocalization.of(context)
-                  .getTranslatedVal("no_expense_yet_2").text.center
+              AppLocalization
+                  .of(context)
+                  .getTranslatedVal("no_expense_yet_2")
+                  .text
+                  .center
                   .size(14)
                   .make(),
             ],

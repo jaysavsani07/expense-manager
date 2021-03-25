@@ -95,7 +95,6 @@ class UserName extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final appState = watch(appStateNotifier);
-    // int x =int.parse(appState.userName);
     return appState.userName.text.size(34).light.make();
   }
 }

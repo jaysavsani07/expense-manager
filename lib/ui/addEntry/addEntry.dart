@@ -8,7 +8,7 @@ import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -47,7 +47,7 @@ class AddEntry extends ConsumerWidget {
               .p20()
               .onInkTap(() {
             FocusScope.of(context).unfocus();
-            if (vm.amount.isEmptyOrNull) {
+            if (vm.amount.isEmpty) {
               VxToast.show(context,
                   msg: AppLocalization.of(context)
                       .getTranslatedVal("pls_enter_amount"),
@@ -76,7 +76,6 @@ class AddEntry extends ConsumerWidget {
             textInputAction: TextInputAction.done,
             inputFormatters: [
               CurrencyTextInputFormatter(),
-              LengthLimitingTextInputFormatter(7),
             ],
             onChanged: (text) {
               vm.amountChange(text);

@@ -113,18 +113,11 @@ class AppConstants {
     Color(0xFFFFEB3B),
     Color(0xFFFFC107),
     Color(0xFFFF9800),
-    Color(0xFFFF5722),
     Color(0xFF9E9E9E),
     Color(0xFF607D8B),
-    Color(0xFFfdbe0d),
-    Color(0xFF188976),
     Color(0xFF86447C),
     Color(0xFF5B4C7E),
-    Color(0xFF5B4C7E),
     Color(0xFF2F4858),
-    Color(0xFF008FC7),
-    Color(0xFF2B81CF),
-    Color(0xFF567600),
     Color(0xFFB9538E),
   ];
 }

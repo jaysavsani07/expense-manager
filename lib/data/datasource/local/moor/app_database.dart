@@ -151,9 +151,11 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Stream<List<EntryWithCategoryData>> getAllEntryWithCategoryByMonth(
-      int month) {
+      int month, int year) {
     return (select(entryEntity)
-          ..where((tbl) => tbl.modifiedDate.month.equals(month))
+          ..where((tbl) =>
+              tbl.modifiedDate.month.equals(month) &
+              tbl.modifiedDate.year.equals(year))
           ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
         .join([
           leftOuterJoin(categoryEntity,
@@ -173,9 +175,11 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<CategoryWithSumData>> getAllCategoryWithSumByMonth(int month) {
+  Stream<List<CategoryWithSumData>> getAllCategoryWithSumByMonth(int month, int year) {
     return ((select(entryEntity)
-              ..where((tbl) => tbl.modifiedDate.month.equals(month)))
+              ..where((tbl) =>
+                  tbl.modifiedDate.month.equals(month) &
+                  tbl.modifiedDate.year.equals(year)))
             .join([])
               ..groupBy([entryEntity.categoryId])
               ..addColumns([entryEntity.amount.sum()])

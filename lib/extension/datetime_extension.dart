@@ -24,9 +24,9 @@ extension DateTimeExtension on DateTime {
 
   String toTitle() {
     if (this.isToday()) {
-      return "Recent Expanse";
+      return "recent_expanse";
     } else if (this.isYesterday()) {
-      return "Yesterday";
+      return "yesterday";
     } else {
       return DateFormat.yMd().format(this);
     }

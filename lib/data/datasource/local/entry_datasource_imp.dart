@@ -70,20 +70,11 @@ class EntryDataSourceImp extends EntryDataSource {
   Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
     return appDatabase
         .getAllEntryByCategory(categoryName)
-        .map((List<EntryEntityData> list) {
-      Map<String, EntryList> map = Map();
-      String title;
-      list.forEach((EntryEntityData data) {
-        title = data.modifiedDate.toTitle();
-        if (map.containsKey(title)) {
-          map[title].list.add(Entry.fromEntryEntity(data));
-        } else {
-          map[title] =
-              EntryList(title: title, list: [Entry.fromEntryEntity(data)]);
-        }
-      });
-      return map;
-    }).map((map) => map.values.toList());
+        .map((event) => event.map((e) => Entry.fromEntryEntity(e)))
+        .map((event) => groupBy(event, (Entry e) => e.modifiedDate.toTitle()))
+        .map((list) => list.entries
+            .map((e) => EntryList(title: e.key, list: e.value))
+            .toList());
   }
 
   @override
@@ -93,21 +84,14 @@ class EntryDataSourceImp extends EntryDataSource {
         .getAllEntryWithCategory(start, end)
         .map((event) =>
             event.map((e) => EntryWithCategory.fromEntryWithCategoryEntity(e)))
-        .map((event) {
-      Map<String, CategoryWithEntryList> map = Map();
-
-      event.forEach((element) {
-        if (map.containsKey(element.category.name)) {
-          map[element.category.name].entry.add(element.entry);
-        } else {
-          map[element.category.name] = CategoryWithEntryList(
-              category: element.category,
-              total: element.entry.amount,
-              entry: [element.entry]);
-        }
-      });
-      return map;
-    }).map((map) => map.values.toList());
+        .map((event) => groupBy(event, (EntryWithCategory e) => e.category))
+        .map((list) => list.entries
+            .map((e) => CategoryWithEntryList(
+                category: e.key,
+                total: e.value.map((e) => e.entry.amount).fold(
+                    0, (previousValue, element) => previousValue + element),
+                entry: e.value.map((e) => e.entry).toList()))
+            .toList());
   }
 
   @override
@@ -128,9 +112,10 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month) {
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
+      int month, int year) {
     return appDatabase
-        .getAllEntryWithCategoryByMonth(month)
+        .getAllEntryWithCategoryByMonth(month, year)
         .map((event) => groupBy(
             event, (EntryWithCategoryData e) => e.entry.modifiedDate.toTitle()))
         .map((list) => list.entries
@@ -177,10 +162,12 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(int month) {
-    return appDatabase.getAllCategoryWithSumByMonth(month).map((event) => event
-        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-        .toList());
+  Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(
+      int month, int year) {
+    return appDatabase.getAllCategoryWithSumByMonth(month, year).map((event) =>
+        event
+            .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
+            .toList());
   }
 
   @override
