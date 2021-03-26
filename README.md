@@ -57,6 +57,8 @@ You can instantly see your expense by category and how it changes between each m
 - firebase_core
 - smooth_page_indicator
 
+# Contribution
+This is just a basic version of expense manager that we've developed. We were basically exploring riverpod and intetintentionally made this app for a showcase in our portfolio. There are limitless features that we can add in expense manager, so if you're just like us exploring various libraries of flutter then feel free to fork and create pull request for new features.
 
 # License
 This code is distributed under the terms and conditions of the [MIT](LICENSE).
