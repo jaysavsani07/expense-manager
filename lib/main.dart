@@ -29,7 +29,7 @@ Future<void> main() async {
 
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(ProviderScope(
-    observers: [Logger()],
+    // observers: [Logger()],
     overrides: [
       sharedPreferencesProvider
           .overrideWithValue(SharedPreferencesHelper(sharedPreferences))

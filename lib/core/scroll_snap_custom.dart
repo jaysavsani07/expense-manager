@@ -494,9 +494,9 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                                   itemCount: widget.itemCount,
                                 ),
                               ),
-                              flex: 90),
+                              flex: 94),
                           Expanded(
-                            flex: 5,
+                            flex: 1,
                             child: SmoothPageIndicator(
                               controller: widget.pageController,
                               count: widget.itemCount,
@@ -504,6 +504,10 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
                                   dotColor: Color(0xFFEEEEEE),
                                   activeDotColor: Color(0xFF2196F3)),
                             ),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Container(),
                           )
                         ],
                       ),

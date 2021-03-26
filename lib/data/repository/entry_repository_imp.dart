@@ -72,8 +72,10 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month) {
-    return entryDataSourceImp.getAllEntryWithCategoryDateWiseByMonth(month);
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
+      int month, int year) {
+    return entryDataSourceImp.getAllEntryWithCategoryDateWiseByMonth(
+        month, year);
   }
 
   @override
@@ -110,7 +112,8 @@ class EntryRepositoryImp extends EntryRepository {
   Stream<List<CategoryWithSum>> getCategoryDetails(
       Tuple2<String, int> filterType) {
     if (filterType.item1 == "Month")
-      return entryDataSourceImp.getAllCategoryWithSumByMonth(filterType.item2);
+      return entryDataSourceImp.getAllCategoryWithSumByMonth(
+          filterType.item2, DateTime.now().year);
     return entryDataSourceImp.getAllCategoryWithSumByYear(filterType.item2);
   }
 }

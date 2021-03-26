@@ -54,14 +54,9 @@ class CategoryItem extends ConsumerWidget {
             .make()
             .p4()
       ],
-    )
-        .onInkTap(() {
-          Navigator.pushNamed(context, AppRoutes.addEntry,
-              arguments: Tuple2(null, category));
-        })
-        .centered()
-        .card
-        .withRounded(value: 6)
-        .make();
+    ).centered().card.withRounded(value: 6).make().onInkTap(() {
+      Navigator.pushNamed(context, AppRoutes.addEntry,
+          arguments: Tuple2(null, category));
+    });
   }
 }

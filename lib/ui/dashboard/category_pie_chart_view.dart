@@ -1,10 +1,11 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
 import 'package:expense_manager/ui/dashboard/pie_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -113,6 +114,7 @@ class TotalAmount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final totalAmount = watch(totalAmountProvider);
+    String currency = watch(appStateNotifier).currency.item1;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -123,7 +125,7 @@ class TotalAmount extends ConsumerWidget {
             .make(),
         FittedBox(
           child:
-              "${NumberFormat.simpleCurrency(decimalDigits: 0).format(totalAmount)}"
+              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}"
                   .text
                   .size(20)
                   .bold

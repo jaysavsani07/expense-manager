@@ -42,8 +42,9 @@
   "light_theme": "Light Theme",
   "dark_theme": "Dark Theme",
   "cancel": "Cancel",
-  "month_cycle_date": "Month Cycle Date",
+  "month_cycle_date": "Month Start Date",
   "language": "Language",
+  "currency": "Currency",
   "expense_manager_by_nividata": "Expense Manager by Nividata",
   "app_version": "App version:",
   "jan": "Jan",
@@ -58,6 +59,6 @@
   "oct": "Oct",
   "nov": "Nov",
   "dec": "Dec",
-  "recent_expanse": "Recent Expanse",
+  "recent_expanse": "Recent Expense",
   "yesterday": "Yesterday"
 }

@@ -8,27 +8,42 @@ import 'package:tuple/tuple.dart';
 
 abstract class EntryRepository {
   Stream<List<String>> getMonthList();
+
   Stream<List<String>> getMonthListByYear(int year);
+
   Stream<List<int>> getYearList();
-  
+
   Stream<int> addEntry(Entry entry);
+
   Stream<bool> updateEntry(Entry entry);
+
   Stream<int> deleteEntry(int id);
+
   Stream<List<Entry>> getAllEntry();
+
   Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory( DateTime start, DateTime end);
-  Stream<List<History>> getAllEntryWithCategoryDateWise( DateTime start, DateTime end);
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(int month);
+
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
+      DateTime start, DateTime end);
+
+  Stream<List<History>> getAllEntryWithCategoryDateWise(
+      DateTime start, DateTime end);
+
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
+      int month, int year);
 
   Stream<int> addCategory(Category category);
+
   Stream<bool> updateCategory(Category category);
+
   Stream<int> deleteCategory(int id);
-  Stream<bool> reorderCategory(int oldIndex,int newIndex);
+
+  Stream<bool> reorderCategory(int oldIndex, int newIndex);
+
   Stream<List<Category>> getAllCategory();
+
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();
-  Stream<List<CategoryWithSum>> getCategoryDetails(Tuple2<String, int> filterType);
 
-
-
-
+  Stream<List<CategoryWithSum>> getCategoryDetails(
+      Tuple2<String, int> filterType);
 }

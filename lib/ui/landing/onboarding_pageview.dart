@@ -148,6 +148,8 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                 EdgeInsets.only(top: marginFromTop, bottom: marginFromTop * 2),
             child: Card(
               elevation: 4,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -277,6 +279,8 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
             child: Card(
               elevation: 4,
               shadowColor: Colors.grey,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -303,11 +307,29 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 100,
-                                    height: 13,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: Color(0xFFEEEEEE)),
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.4,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 120,
+                                          height: 13,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: Color(0xFFEEEEEE)),
+                                        ),
+                                        Container(
+                                            width: 75,
+                                            height: 17,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: Color(0xFFEEEEEE)))
+                                      ],
+                                    ),
                                   ),
                                   LinearPercentIndicator(
                                       width: MediaQuery.of(context).size.width /
@@ -338,11 +360,29 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 100,
-                                    height: 13,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: Color(0xFFEEEEEE)),
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.4,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 80,
+                                          height: 13,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: Color(0xFFEEEEEE)),
+                                        ),
+                                        Container(
+                                            width: 40,
+                                            height: 17,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: Color(0xFFEEEEEE)))
+                                      ],
+                                    ),
                                   ),
                                   LinearPercentIndicator(
                                       width: MediaQuery.of(context).size.width /
@@ -373,11 +413,29 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 100,
-                                    height: 13,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: Color(0xFFEEEEEE)),
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.4,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 90,
+                                          height: 13,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: Color(0xFFEEEEEE)),
+                                        ),
+                                        Container(
+                                            width: 75,
+                                            height: 17,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: Color(0xFFEEEEEE)))
+                                      ],
+                                    ),
                                   ),
                                   LinearPercentIndicator(
                                       width: MediaQuery.of(context).size.width /
@@ -408,11 +466,29 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 100,
-                                    height: 13,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        color: Color(0xFFEEEEEE)),
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.4,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          width: 60,
+                                          height: 13,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(3),
+                                              color: Color(0xFFEEEEEE)),
+                                        ),
+                                        Container(
+                                            width: 50,
+                                            height: 17,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: Color(0xFFEEEEEE)))
+                                      ],
+                                    ),
                                   ),
                                   LinearPercentIndicator(
                                       width: MediaQuery.of(context).size.width /
@@ -437,154 +513,150 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     } else {
       return Container(
           padding: EdgeInsets.only(
-              top: (listViewTopPadding * 1.6), bottom: marginFromTop * 2),
+              top: (listViewTopPadding * 1.5), bottom: marginFromTop * 2),
           width: cardSize,
-          child: Stack(
-            children: [
-              Container(
-                  child: Container(
-                padding: EdgeInsets.only(
-                    left: deviceWidth * 0.09, right: deviceWidth * 0.08),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Container(
+              child: Container(
+            padding: EdgeInsets.only(
+                left: deviceWidth * 0.09, right: deviceWidth * 0.08),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.school_rounded,
-                                size: cardIconSize / 2,
-                                color: Color(0xFF673AB7),
-                              )),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.movie_creation_rounded,
-                                size: cardIconSize / 2,
-                                color: Color(0xFFFFC107),
-                              )),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.restaurant,
-                                size: cardIconSize / 2,
-                                color: Color(0xFFCDDC39),
-                              )),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.medical_services,
-                                size: cardIconSize / 2,
-                                color: Color(0xFF2196F3),
-                              )),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.shopping_basket,
-                                size: cardIconSize / 2,
-                                color: Color(0xFF00BCD4),
-                              )),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.more_rounded,
-                                size: cardIconSize / 2,
-                                color: Color(0xFFE91E63),
-                              )),
-                        ),
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.train,
-                                size: cardIconSize / 2,
-                                color: Color(0xFFFF5722),
-                              )),
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          elevation: 4,
-                          shadowColor: Colors.grey,
-                          child: Container(
-                              width: cardIconSize,
-                              height: cardIconSize,
-                              child: Icon(
-                                Icons.local_cafe,
-                                size: cardIconSize / 2,
-                                color: Color(0xFF795548),
-                              )),
-                        ),
-                      ],
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.school_rounded,
+                            size: cardIconSize / 2,
+                            color: Color(0xFF673AB7),
+                          )),
                     )
                   ],
                 ),
-              )),
-            ],
-          ));
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.movie_creation_rounded,
+                            size: cardIconSize / 2,
+                            color: Color(0xFFFFC107),
+                          )),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.restaurant,
+                            size: cardIconSize / 2,
+                            color: Color(0xFFCDDC39),
+                          )),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.medical_services,
+                            size: cardIconSize / 2,
+                            color: Color(0xFF2196F3),
+                          )),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.shopping_basket,
+                            size: cardIconSize / 2,
+                            color: Color(0xFF00BCD4),
+                          )),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.more_rounded,
+                            size: cardIconSize / 2,
+                            color: Color(0xFFE91E63),
+                          )),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.train,
+                            size: cardIconSize / 2,
+                            color: Color(0xFFFF5722),
+                          )),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      elevation: 4,
+                      shadowColor: Colors.grey,
+                      child: Container(
+                          width: cardIconSize,
+                          height: cardIconSize,
+                          child: Icon(
+                            Icons.local_cafe,
+                            size: cardIconSize / 2,
+                            color: Color(0xFF795548),
+                          )),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )));
     }
     //horizontal
   }
@@ -600,44 +672,41 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     cardSize = deviceWidth * 0.89;
     backgroundImageHeight = deviceHeight * 0.6;
 
-    return MaterialApp(
-      title: 'Onboarding screen',
-      home: Scaffold(
-        body: SafeArea(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    child: Text(_focusedIndex == 2 ? "Next" : "Skip"),
-                    onPressed: () {
-                      Navigator.popAndPushNamed(
-                        context,
-                        AppRoutes.welcome,
-                      );
-                    },
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  child: Text(_focusedIndex == 2 ? "Next" : "Skip"),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(
+                      context,
+                      AppRoutes.welcome,
+                    );
+                  },
                 ),
-                SizedBox(
-                  height: heightFromTop,
+              ),
+              SizedBox(
+                height: heightFromTop,
+              ),
+              Expanded(
+                child: ScrollSnapPageCustom(
+                  onItemFocus: _onItemFocus,
+                  itemSize: cardSize,
+                  margin: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: _buildListItem,
+                  textItemBuilder: _buildTextItem,
+                  backgroundItemBuilder: _buildBackgroundItem,
+                  itemCount: 3,
+                  backgroundImgHeight: backgroundImageHeight,
+                  dynamicItemSize: true,
                 ),
-                Expanded(
-                  child: ScrollSnapPageCustom(
-                    onItemFocus: _onItemFocus,
-                    itemSize: cardSize,
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: _buildListItem,
-                    textItemBuilder: _buildTextItem,
-                    backgroundItemBuilder: _buildBackgroundItem,
-                    itemCount: 3,
-                    backgroundImgHeight: backgroundImageHeight,
-                    dynamicItemSize: true,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

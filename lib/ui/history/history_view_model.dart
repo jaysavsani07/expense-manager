@@ -29,9 +29,11 @@ final monthProvider = StateProvider<String>(
 
 final historyListProvider = StreamProvider<List<History>>((ref) {
   String month = ref.watch(monthProvider).state;
+  int year = ref.watch(yearProvider).state;
   return ref.read(repositoryProvider).getAllEntryWithCategoryDateWiseByMonth(
       AppConstants.monthList.keys
-          .firstWhere((element) => AppConstants.monthList[element] == month));
+          .firstWhere((element) => AppConstants.monthList[element] == month),
+      year);
 });
 
 final deleteItemProvider = Provider.family<int, int>((ref, id) {

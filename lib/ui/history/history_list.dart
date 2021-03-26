@@ -1,10 +1,11 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/history.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -13,6 +14,7 @@ class HistoryList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final vm = watch(historyListProvider);
+    String currency = watch(appStateNotifier).currency.item1;
     return vm
         .when(
             data: (list) => list.isEmpty
@@ -25,7 +27,13 @@ class HistoryList extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 30.heightBox,
-                                history.title.text.bold
+                                ((history.title == "recent_expanse" ||
+                                            history.title == "yesterday")
+                                        ? AppLocalization.of(context)
+                                            .getTranslatedVal(history.title)
+                                        : history.title)
+                                    .text
+                                    .bold
                                     .size(18)
                                     .make()
                                     .pSymmetric(h: 24),
@@ -88,7 +96,7 @@ class HistoryList extends ConsumerWidget {
                                                   ),
                                                 ],
                                               ).expand(),
-                                              "${NumberFormat.simpleCurrency(decimalDigits: 2).format(e.entry.amount)}"
+                                              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 2).format(e.entry.amount)}"
                                                   .text
                                                   .size(16)
                                                   .bold
@@ -179,7 +187,8 @@ class HistoryEmpty extends StatelessWidget {
                       Container(
                         height: 15,
                         width: 40,
-                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8,top: 8),
+                        margin: EdgeInsets.only(
+                            left: 16, right: 8, bottom: 8, top: 8),
                         decoration: BoxDecoration(
                             color: Theme.of(context).dividerColor,
                             borderRadius: BorderRadius.all(Radius.circular(2))),
@@ -238,7 +247,8 @@ class HistoryEmpty extends StatelessWidget {
                       Container(
                         height: 15,
                         width: 40,
-                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8,top: 8),
+                        margin: EdgeInsets.only(
+                            left: 16, right: 8, bottom: 8, top: 8),
                         decoration: BoxDecoration(
                             color: Theme.of(context).dividerColor,
                             borderRadius: BorderRadius.all(Radius.circular(2))),
@@ -297,7 +307,8 @@ class HistoryEmpty extends StatelessWidget {
                       Container(
                         height: 15,
                         width: 40,
-                        margin: EdgeInsets.only(left: 16,right: 8,bottom: 8,top: 8),
+                        margin: EdgeInsets.only(
+                            left: 16, right: 8, bottom: 8, top: 8),
                         decoration: BoxDecoration(
                             color: Theme.of(context).dividerColor,
                             borderRadius: BorderRadius.all(Radius.circular(2))),
@@ -308,10 +319,17 @@ class HistoryEmpty extends StatelessWidget {
               ).p8().card.withRounded(value: 8).elevation(1).make(),
               24.heightBox,
               AppLocalization.of(context)
-                  .getTranslatedVal("no_expense_yet").text.center.bold.size(28).make(),
+                  .getTranslatedVal("no_expense_yet")
+                  .text
+                  .center
+                  .bold
+                  .size(28)
+                  .make(),
               6.heightBox,
               AppLocalization.of(context)
-                  .getTranslatedVal("no_expense_yet_2").text.center
+                  .getTranslatedVal("no_expense_yet_2")
+                  .text
+                  .center
                   .size(14)
                   .make(),
             ],
