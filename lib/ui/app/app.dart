@@ -49,7 +49,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: (context.read(appStateNotifier)).userName.isEmpty
           ? AppRoutes.onBoarding
-          : AppRoutes.welcome,
+          : AppRoutes.home,
       routes: {
         AppRoutes.welcome: (context) => Welcome(),
         AppRoutes.onBoarding: (context) => CustomScrollOnboarding(),
