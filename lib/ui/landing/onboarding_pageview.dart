@@ -672,44 +672,41 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
     cardSize = deviceWidth * 0.89;
     backgroundImageHeight = deviceHeight * 0.6;
 
-    return MaterialApp(
-      title: 'Onboarding screen',
-      home: Scaffold(
-        body: SafeArea(
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    child: Text(_focusedIndex == 2 ? "Next" : "Skip"),
-                    onPressed: () {
-                      Navigator.popAndPushNamed(
-                        context,
-                        AppRoutes.welcome,
-                      );
-                    },
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  child: Text(_focusedIndex == 2 ? "Next" : "Skip"),
+                  onPressed: () {
+                    Navigator.popAndPushNamed(
+                      context,
+                      AppRoutes.welcome,
+                    );
+                  },
                 ),
-                SizedBox(
-                  height: heightFromTop,
+              ),
+              SizedBox(
+                height: heightFromTop,
+              ),
+              Expanded(
+                child: ScrollSnapPageCustom(
+                  onItemFocus: _onItemFocus,
+                  itemSize: cardSize,
+                  margin: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  itemBuilder: _buildListItem,
+                  textItemBuilder: _buildTextItem,
+                  backgroundItemBuilder: _buildBackgroundItem,
+                  itemCount: 3,
+                  backgroundImgHeight: backgroundImageHeight,
+                  dynamicItemSize: true,
                 ),
-                Expanded(
-                  child: ScrollSnapPageCustom(
-                    onItemFocus: _onItemFocus,
-                    itemSize: cardSize,
-                    margin: EdgeInsets.zero,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: _buildListItem,
-                    textItemBuilder: _buildTextItem,
-                    backgroundItemBuilder: _buildBackgroundItem,
-                    itemCount: 3,
-                    backgroundImgHeight: backgroundImageHeight,
-                    dynamicItemSize: true,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

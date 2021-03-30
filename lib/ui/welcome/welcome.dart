@@ -6,17 +6,18 @@ import 'package:expense_manager/ui/dialog/language.dart';
 import 'package:expense_manager/ui/dialog/month_cycle.dart';
 import 'package:expense_manager/ui/dialog/theme.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class Welcome extends ConsumerWidget {
+class Welcome extends StatelessWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    var appState = watch(appStateNotifier);
-    var monthStartDate = watch(monthStartDateStateNotifier);
+  Widget build(BuildContext context) {
     String name = "";
+    Fimber.e(" welcome name $name");
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,81 +51,7 @@ class Welcome extends ConsumerWidget {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
           ).pSymmetric(h: 24),
           20.heightBox,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("appearance")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              ((appState.themeMode == ThemeMode.system)
-                      ? AppLocalization.of(context).getTranslatedVal(
-                          "choose_your_light_or_dark_theme_preference")
-                      : (appState.themeMode == ThemeMode.dark
-                          ? AppLocalization.of(context)
-                              .getTranslatedVal("dark_theme")
-                          : AppLocalization.of(context)
-                              .getTranslatedVal("light_theme")))
-                  .text
-                  .size(12)
-                  .make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ThemeDialog();
-                });
-          }),
-          20.heightBox,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("month_cycle_date")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              monthStartDate.date.text.size(14).color(Color(0xff616161)).make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return MonthCycleDialog();
-                });
-          }),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("language")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              Language.languageList()
-                  .firstWhere(
-                      (element) => element.locale == appState.currentLocale)
-                  .name
-                  .text
-                  .size(14)
-                  .color(Color(0xff616161))
-                  .make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return LanguageDialog();
-                });
-          }),
+          const OptionSelection(),
           30.heightBox,
           AppLocalization.of(context)
               .getTranslatedVal("next")
@@ -155,9 +82,119 @@ class Welcome extends ConsumerWidget {
               context.read(appStateNotifier).changeUserName(name);
               Navigator.popAndPushNamed(context, AppRoutes.home);
             }
+          }).pSymmetric(h: 22),
+          ("GOGO")
+              .text
+              .size(16)
+              .medium
+              .white
+              .make()
+              .centered()
+              .pSymmetric(v: 20)
+              .card
+              .withRounded(value: 6)
+              .color(Theme.of(context).primaryColor)
+              .elevation(1)
+              .make()
+              .onInkTap(() {
+            context
+                .read(appStateNotifier)
+                .changeLocale(switchToLocale: Locale('en', 'US'));
           }).pSymmetric(h: 22)
         ],
       ).scrollVertical(),
+    );
+  }
+}
+
+class OptionSelection extends ConsumerWidget {
+  const OptionSelection({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    Fimber.e("option selection");
+
+    var appState = watch(appStateNotifier);
+    var monthStartDate = watch(monthStartDateStateNotifier);
+
+    return Column(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppLocalization.of(context)
+                .getTranslatedVal("appearance")
+                .text
+                .size(16)
+                .medium
+                .make(),
+            4.heightBox,
+            ((appState.themeMode == ThemeMode.system)
+                    ? AppLocalization.of(context).getTranslatedVal(
+                        "choose_your_light_or_dark_theme_preference")
+                    : (appState.themeMode == ThemeMode.dark
+                        ? AppLocalization.of(context)
+                            .getTranslatedVal("dark_theme")
+                        : AppLocalization.of(context)
+                            .getTranslatedVal("light_theme")))
+                .text
+                .size(12)
+                .make(),
+          ],
+        ).pSymmetric(h: 24, v: 12).onInkTap(() {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return ThemeDialog();
+              });
+        }),
+        20.heightBox,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppLocalization.of(context)
+                .getTranslatedVal("month_cycle_date")
+                .text
+                .size(16)
+                .medium
+                .make(),
+            4.heightBox,
+            monthStartDate.date.text.size(14).color(Color(0xff616161)).make(),
+          ],
+        ).pSymmetric(h: 24, v: 12).onInkTap(() {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return MonthCycleDialog();
+              });
+        }),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppLocalization.of(context)
+                .getTranslatedVal("language")
+                .text
+                .size(16)
+                .medium
+                .make(),
+            4.heightBox,
+            Language.languageList()
+                .firstWhere(
+                    (element) => element.locale == appState.currentLocale)
+                .name
+                .text
+                .size(14)
+                .color(Color(0xff616161))
+                .make(),
+          ],
+        ).pSymmetric(h: 24, v: 12).onInkTap(() {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return LanguageDialog();
+              });
+        }),
+      ],
     );
   }
 }
