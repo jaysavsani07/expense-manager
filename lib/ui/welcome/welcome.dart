@@ -12,6 +12,105 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+class Welcome extends StatefulWidget {
+  @override
+  _WelcomeState createState() => _WelcomeState();
+}
+
+class _WelcomeState extends State<Welcome> {
+  String name = "";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          100.heightBox,
+          AppLocalization.of(context)
+              .getTranslatedVal("welcome_to")
+              .text
+              .size(38)
+              .light
+              .make()
+              .pSymmetric(h: 24),
+          AppLocalization.of(context)
+              .getTranslatedVal("expense_manager")
+              .text
+              .size(38)
+              .bold
+              .make()
+              .pSymmetric(h: 24),
+          60.heightBox,
+          TextFormField(
+            keyboardType: TextInputType.text,
+            // borderType: VxTextFieldBorderType.underLine,
+            textInputAction: TextInputAction.done,
+            decoration: InputDecoration(
+                labelText: AppLocalization.of(context)
+                    .getTranslatedVal("enter_your_name")),
+            onChanged: (text) {
+              name = text;
+            },
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+          ).pSymmetric(h: 24),
+          20.heightBox,
+          const OptionSelection(),
+          30.heightBox,
+          AppLocalization.of(context)
+              .getTranslatedVal("next")
+              .text
+              .size(16)
+              .medium
+              .white
+              .make()
+              .centered()
+              .pSymmetric(v: 20)
+              .card
+              .withRounded(value: 6)
+              .color(Theme.of(context).primaryColor)
+              .elevation(1)
+              .make()
+              .onInkTap(() {
+            if (name.isEmpty) {
+              VxToast.show(context,
+                  msg: AppLocalization.of(context)
+                      .getTranslatedVal("pls_enter_user_name"),
+                  bgColor: Colors.redAccent);
+            } else if (name.length < 3 || name.length > 10) {
+              VxToast.show(context,
+                  msg: AppLocalization.of(context).getTranslatedVal(
+                      "user_name_allowed_from_3_to_20_characters"),
+                  bgColor: Colors.redAccent);
+            } else {
+              context.read(appStateNotifier).changeUserName(name);
+              Navigator.popAndPushNamed(context, AppRoutes.home);
+            }
+          }).pSymmetric(h: 22),
+          ("GOGO")
+              .text
+              .size(16)
+              .medium
+              .white
+              .make()
+              .centered()
+              .pSymmetric(v: 20)
+              .card
+              .withRounded(value: 6)
+              .color(Theme.of(context).primaryColor)
+              .elevation(1)
+              .make()
+              .onInkTap(() {
+            context
+                .read(appStateNotifier)
+                .changeLocale(switchToLocale: Locale('en', 'US'));
+          }).pSymmetric(h: 22)
+        ],
+      ).scrollVertical(),
+    );
+  }
+}
+
+/*
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -105,7 +204,7 @@ class Welcome extends StatelessWidget {
       ).scrollVertical(),
     );
   }
-}
+}*/
 
 class OptionSelection extends ConsumerWidget {
   const OptionSelection({Key key}) : super(key: key);
