@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Fimber.plantTree(DebugTree(useColors: true));
   /* 
   if (kDebugMode) {
     Fimber.plantTree(DebugTree(useColors: true));
