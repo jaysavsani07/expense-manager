@@ -54,7 +54,7 @@ class AppConstants {
     Tuple2("eu", "Euro"),
     Tuple2("cy", "Pound"),
     Tuple2("ja", "Yen"),
-    Tuple2("en_IN", "Ruppe"),
+    Tuple2("en_IN", "Rupee"),
   ];
 
   static final iconList = [
