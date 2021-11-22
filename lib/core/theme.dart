@@ -100,6 +100,12 @@ class AppTheme {
           fontWeight: FontWeight.normal,
         ),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateColor.resolveWith((states) => Color(0xff212121)),
+        ),
+      ),
     );
   }
 }

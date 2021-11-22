@@ -5,7 +5,6 @@ import 'package:expense_manager/ui/category_list/category_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class CategoryList extends ConsumerWidget {
   @override
@@ -16,36 +15,43 @@ class CategoryList extends ConsumerWidget {
         onChange: (context, model) async {},
         child: Scaffold(
           appBar: AppBar(
-            leading: Icon(Icons.arrow_back_ios_rounded).onInkTap(() {
-              Navigator.pop(context);
-            }),
+            leading: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.arrow_back_ios_rounded)),
             title: DottedBorder(
-                color: Theme.of(context).appBarTheme.textTheme.headline6.color,
-                dashPattern: [5, 5],
-                radius: Radius.circular(12),
-                borderType: BorderType.RRect,
-                child: AppLocalization.of(context)
-                    .getTranslatedVal("category_list")
-                    .text
-                    .make()
-                    .pSymmetric(h: 8, v: 4)),
+              color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+              dashPattern: [5, 5],
+              radius: Radius.circular(12),
+              borderType: BorderType.RRect,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Text(AppLocalization.of(context)
+                    .getTranslatedVal("category_list")),
+              ),
+            ),
             actions: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("add_new")
-                  .text
-                  .size(16)
-                  .bold
-                  .color(Color(0xff2196F3))
-                  .make()
-                  .p20()
-                  .onInkTap(() {
-                Navigator.pushNamed(context, AppRoutes.addCategory,
-                    arguments: null);
-              })
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.addCategory,
+                      arguments: null);
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Text(
+                    AppLocalization.of(context).getTranslatedVal("add_new"),
+                    style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        fontWeight: FontWeight.bold, color: Color(0xff2196F3)),
+                  ),
+                ),
+              ),
             ],
           ),
-          body: /*Reorderable*/ListView(
+          body: /*Reorderable*/ ListView(
             // onReorder: vm.reorder,
+            padding: const EdgeInsets.only(top: 20),
             children: vm.categoryList
                 .map((e) => InkWell(
                       key: ValueKey(e.id),
@@ -68,7 +74,15 @@ class CategoryList extends ConsumerWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  e.name.text.make().pSymmetric(h: 16),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text(
+                                      e.name,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle2,
+                                    ),
+                                  ),
                                   /*Icon(
                                     Icons.drag_handle_outlined,
                                     size: 20,
@@ -81,7 +95,7 @@ class CategoryList extends ConsumerWidget {
                       ),
                     ))
                 .toList(),
-          ).pOnly(top: 20),
+          ),
         ));
   }
 }

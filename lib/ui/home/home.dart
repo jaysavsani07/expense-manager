@@ -7,7 +7,6 @@ import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:tuple/tuple.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends ConsumerWidget {
   @override
@@ -48,16 +47,16 @@ class HomeScreen extends ConsumerWidget {
                             ? Color(0xff2196F3)
                             : null,
                       ),
-                      8.widthBox,
-                      AppLocalization.of(context)
-                          .getTranslatedVal("dashboard")
-                          .text
-                          .size(12)
-                          .medium
-                          .color(homeViewModel.activeTab == HomeTab.dashboard
-                              ? Color(0xff2196F3)
-                              : null)
-                          .make(),
+                      SizedBox(width: 8),
+                      Text(
+                        AppLocalization.of(context)
+                            .getTranslatedVal("dashboard"),
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 12,
+                            color: homeViewModel.activeTab == HomeTab.dashboard
+                                ? Color(0xff2196F3)
+                                : null),
+                      ),
                     ],
                   ),
                 ),
@@ -68,8 +67,7 @@ class HomeScreen extends ConsumerWidget {
               child: SizedBox(
                 height: 60,
                 child: InkWell(
-                  borderRadius:
-                      BorderRadius.only(topLeft: Radius.circular(24)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(24)),
                   onTap: () => homeViewModel.changeTab(1),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -82,16 +80,16 @@ class HomeScreen extends ConsumerWidget {
                             ? Color(0xff2196F3)
                             : null,
                       ),
-                      8.widthBox,
-                      AppLocalization.of(context)
-                          .getTranslatedVal("history")
-                          .text
-                          .size(12)
-                          .medium
-                          .color(homeViewModel.activeTab == HomeTab.history
-                              ? Color(0xff2196F3)
-                              : null)
-                          .make()
+                      SizedBox(width: 8),
+                      Text(
+                        AppLocalization.of(context)
+                            .getTranslatedVal("history"),
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 12,
+                            color: homeViewModel.activeTab == HomeTab.history
+                                ? Color(0xff2196F3)
+                                : null),
+                      ),
                     ],
                   ),
                 ),

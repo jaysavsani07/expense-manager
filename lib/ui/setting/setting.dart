@@ -9,7 +9,6 @@ import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:intl/intl.dart';
 
@@ -20,135 +19,189 @@ class Setting extends ConsumerWidget {
     var monthStartDate = watch(monthStartDateStateNotifier);
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios_rounded).onInkTap(() {
-          Navigator.pop(context);
-        }),
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_rounded)),
         title: DottedBorder(
-            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
-            dashPattern: [5, 5],
-            radius: Radius.circular(12),
-            borderType: BorderType.RRect,
-            child: AppLocalization.of(context)
-                .getTranslatedVal("settings")
-                .text
-                .make()
-                .pSymmetric(h: 8, v: 4)),
+          color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+          dashPattern: [5, 5],
+          radius: Radius.circular(12),
+          borderType: BorderType.RRect,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child:
+                Text(AppLocalization.of(context).getTranslatedVal("settings")),
+          ),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          20.heightBox,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("appearance")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              ((appState.themeMode == ThemeMode.system)
-                      ? AppLocalization.of(context).getTranslatedVal(
-                          "choose_your_light_or_dark_theme_preference")
-                      : (appState.themeMode == ThemeMode.dark
-                          ? AppLocalization.of(context)
-                              .getTranslatedVal("dark_theme")
-                          : AppLocalization.of(context)
-                              .getTranslatedVal("light_theme")))
-                  .text
-                  .size(12)
-                  .make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ThemeDialog();
-                });
-          }),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("month_cycle_date")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              monthStartDate.date.text.size(12).make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return MonthCycleDialog();
-                });
-          }),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("language")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              Language.languageList()
-                  .firstWhere(
-                      (element) => element.locale == appState.currentLocale)
-                  .name
-                  .text
-                  .size(12)
-                  .make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return LanguageDialog();
-                });
-          }),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("currency")
-                  .text
-                  .size(16)
-                  .medium
-                  .make(),
-              4.heightBox,
-              "${NumberFormat.simpleCurrency(locale: appState.currency.item1).currencySymbol} ${appState.currency.item2}"
-                  .text
-                  .size(12)
-                  .make(),
-            ],
-          ).pSymmetric(h: 24, v: 12).onInkTap(() {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return CurrencyDialog();
-                });
-          }),
+          SizedBox(height: 20),
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ThemeDialog();
+                  });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("appearance"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    ((appState.themeMode == ThemeMode.system)
+                        ? AppLocalization.of(context).getTranslatedVal(
+                            "choose_your_light_or_dark_theme_preference")
+                        : (appState.themeMode == ThemeMode.dark
+                            ? AppLocalization.of(context)
+                                .getTranslatedVal("dark_theme")
+                            : AppLocalization.of(context)
+                                .getTranslatedVal("light_theme"))),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MonthCycleDialog();
+                  });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    AppLocalization.of(context)
+                        .getTranslatedVal("month_cycle_date"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    monthStartDate.date,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LanguageDialog();
+                  });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("language"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    Language.languageList()
+                        .firstWhere((element) =>
+                            element.locale == appState.currentLocale)
+                        .name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CurrencyDialog();
+                  });
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("currency"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 16),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    "${NumberFormat.simpleCurrency(locale: appState.currency.item1).currencySymbol} ${appState.currency.item2}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Spacer(),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              AppLocalization.of(context)
-                  .getTranslatedVal("expense_manager_by_nividata")
-                  .text
-                  .size(14)
-                  .center
-                  .make(),
-              "${AppLocalization.of(context).getTranslatedVal("app_version")}${appState.appVersion}"
-                  .text
-                  .size(14)
-                  .center
-                  .make(),
-              34.heightBox
+              Center(
+                child: Text(
+                  AppLocalization.of(context)
+                      .getTranslatedVal("expense_manager_by_nividata"),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(fontSize: 14),
+                ),
+              ),
+              Center(
+                child: Text(
+                  "${AppLocalization.of(context).getTranslatedVal("app_version")}${appState.appVersion}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(fontSize: 14),
+                ),
+              ),
+              SizedBox(height: 34),
             ],
           )
         ],

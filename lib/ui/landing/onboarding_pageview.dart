@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/scroll_snap_custom.dart';
 import 'package:expense_manager/ui/dashboard/pie_chart.dart';

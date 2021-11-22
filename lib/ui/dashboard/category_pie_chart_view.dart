@@ -8,7 +8,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class CategoryChartView extends ConsumerWidget {
   const CategoryChartView({
@@ -23,15 +22,16 @@ class CategoryChartView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          30.heightBox,
-          AppLocalization.of(context)
-              .getTranslatedVal("total_expense")
-              .text
-              .size(18)
-              .bold
-              .make()
-              .pOnly(left: 24),
-          20.heightBox,
+          Padding(
+            padding: const EdgeInsets.only(left: 24, top: 30, bottom: 20),
+            child: Text(
+              AppLocalization.of(context).getTranslatedVal("total_expense"),
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
           const CategoryPieChartView(),
         ],
       ),
@@ -47,35 +47,52 @@ class CategoryPieChartView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final vm = watch(categoryPieChartProvider);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        vm.isEmpty
-            ? SizedBox()
-            : SizedBox(
-                height: 140,
-                width: 140,
-                child: PieChart(
-                  dataMap: [
-                    ...vm.map((e) => Tuple2(e.value, e.color)).toList()
-                  ],
-                  animationDuration: Duration(milliseconds: 800),
-                  chartLegendSpacing: 16,
-                  chartRadius: MediaQuery.of(context).size.width / 3.2 > 300
-                      ? 300
-                      : MediaQuery.of(context).size.width / 3.2,
-                  initialAngleInDegree: 0,
-                  centerText: const TotalAmount(),
-                  ringStrokeWidth: 12,
-                  emptyColor: Colors.grey,
-                ),
-              ).expand(),
-        24.widthBox,
-        CategoryPieChatListView()
-      ],
-    ).pSymmetric(h: 16, v: 24).card.withRounded(value: 6).make().onInkTap(() {
-      Navigator.pushNamed(context, AppRoutes.categoryDetails);
-    }).pSymmetric(h: 24);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, AppRoutes.categoryDetails);
+        },
+        borderRadius: BorderRadius.circular(6),
+        child: Card(
+          color: Theme.of(context).primaryColor,
+          elevation: 1,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 14),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                vm.isEmpty
+                    ? SizedBox()
+                    : Expanded(
+                        child: SizedBox(
+                        height: 140,
+                        width: 140,
+                        child: PieChart(
+                          dataMap: [
+                            ...vm.map((e) => Tuple2(e.value, e.color)).toList()
+                          ],
+                          animationDuration: Duration(milliseconds: 800),
+                          chartLegendSpacing: 16,
+                          chartRadius:
+                              MediaQuery.of(context).size.width / 3.2 > 300
+                                  ? 300
+                                  : MediaQuery.of(context).size.width / 3.2,
+                          initialAngleInDegree: 0,
+                          centerText: const TotalAmount(),
+                          ringStrokeWidth: 12,
+                          emptyColor: Colors.grey,
+                        ),
+                      )),
+                SizedBox(width: 24),
+                CategoryPieChatListView()
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -87,24 +104,37 @@ class CategoryPieChatListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final vm = watch(categoryPieChartListProvider);
-    return ListView(
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      children: vm
-          .map((list) => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.circle,
-                    size: 10,
-                    color: list.iconColor,
-                  ),
-                  4.widthBox,
-                  list.name.text.size(14).ellipsis.make()
-                ],
-              ).pOnly(bottom: 24))
-          .toList(),
-    ).h(140).expand();
+    return Expanded(
+      child: SizedBox(
+          height: 140,
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: vm
+                .map((list) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 10,
+                            color: list.iconColor,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            list.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(overflow: TextOverflow.ellipsis),
+                          ),
+                        ],
+                      ),
+                    ))
+                .toList(),
+          )),
+    );
   }
 }
 
@@ -118,19 +148,21 @@ class TotalAmount extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AppLocalization.of(context)
-            .getTranslatedVal("last_month")
-            .text
-            .textStyle(Theme.of(context).textTheme.caption)
-            .make(),
+        Text(
+          AppLocalization.of(context).getTranslatedVal("last_month"),
+          style: Theme.of(context).textTheme.caption,
+        ),
         FittedBox(
-          child:
-              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}"
-                  .text
-                  .size(20)
-                  .bold
-                  .make()
-                  .pSymmetric(h: 12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
         )
       ],
     );

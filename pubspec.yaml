@@ -33,7 +33,6 @@ dependencies:
   intl: ^0.17.0
   moor_flutter: ^4.0.0-nullsafety
   flutter_riverpod: ^0.13.0
-  velocity_x: ^2.5.0
   fl_chart: ^0.30.0
   dotted_border: ^1.0.7
   percent_indicator: "^2.1.7+2"

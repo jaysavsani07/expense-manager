@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_state.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key key}) : super(key: key);

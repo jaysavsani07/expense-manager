@@ -10,77 +10,99 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
       appBar: AppBar(
-        title: DottedBorder(
-                color: Theme.of(context).appBarTheme.textTheme.headline6.color,
-                dashPattern: [5, 5],
-                radius: Radius.circular(12),
-                borderType: BorderType.RRect,
-                child: AppLocalization.of(context)
-                    .getTranslatedVal("dashboard")
-                    .text
-                    .make()
-                    .pSymmetric(h: 8, v: 4))
-            .pOnly(left: 24),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 24),
+          child: DottedBorder(
+            color: Theme.of(context).textTheme.subtitle2.color,
+            dashPattern: [5, 5],
+            radius: Radius.circular(12),
+            borderType: BorderType.RRect,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text(
+                  AppLocalization.of(context).getTranslatedVal("dashboard")),
+            ),
+          ),
+        ),
         actions: [
-          Icon(
-            Icons.settings,
-          ).p24().onInkTap(() {
-            Navigator.pushNamed(context, AppRoutes.setting);
-          })
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, AppRoutes.setting);
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Icon(
+                Icons.settings,
+              ),
+            ),
+          )
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            10.heightBox,
-            Row(
-              children: [
-                AppLocalization.of(context)
-                    .getTranslatedVal("hello")
-                    .text
-                    .size(34)
-                    .make(),
-                const UserName()
-              ],
-            ).pSymmetric(h: 24),
-            20.heightBox,
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("hello"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 34),
+                  ),
+                  const UserName()
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
             const TodayAmount(),
             const CategoryChartView(),
-            20.heightBox,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppLocalization.of(context)
-                    .getTranslatedVal("quick_add")
-                    .text
-                    .size(18)
-                    .bold
-                    .make(),
-                AppLocalization.of(context)
-                    .getTranslatedVal("manage_category")
-                    .text
-                    .size(16)
-                    .color(Color(0xff2196F3))
-                    .bold
-                    .make()
-                    .p(10)
-                    .onInkTap(() {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.categoryList,
-                  );
-                }),
-              ],
-            ).pSymmetric(h: 24),
-            10.heightBox,
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("quick_add"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.categoryList,
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        AppLocalization.of(context)
+                            .getTranslatedVal("manage_category"),
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff2196F3)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
             const CategoryListView()
           ],
         ),
@@ -95,7 +117,13 @@ class UserName extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final appState = watch(appStateNotifier);
-    return appState.userName.text.size(34).light.make();
+    return Text(
+      appState.userName,
+      style: Theme.of(context)
+          .textTheme
+          .subtitle2
+          .copyWith(fontSize: 34, fontWeight: FontWeight.w300),
+    );
   }
 }
 
@@ -106,40 +134,48 @@ class TodayAmount extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final todayAmount = watch(todayAmountProvider);
     String currency = watch(appStateNotifier).currency.item1;
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppLocalization.of(context)
-                .getTranslatedVal("today_expanse")
-                .text
-                .size(12)
-                .bold
-                .white
-                .make(),
-            6.heightBox,
-            FittedBox(
-              child:
-                  "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayAmount)}"
-                      .text
-                      .size(28)
-                      .medium
-                      .white
-                      .make(),
-            )
-          ],
-        ).expand(),
-        12.widthBox,
-        LineChart(watch(todayLineChartProvider)).h(36).expand()
-      ],
-    )
-        .pSymmetric(v: 24, h: 14)
-        .card
-        .withRounded(value: 8)
-        .color(Theme.of(context).primaryColor)
-        .elevation(1)
-        .make()
-        .pSymmetric(h: 24);
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 14),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppLocalization.of(context)
+                          .getTranslatedVal("today_expanse"),
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 6),
+                    FittedBox(
+                      child: Text(
+                        "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayAmount)}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            .copyWith(fontSize: 28),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                child: SizedBox(
+                  height: 36,
+                  child: LineChart(watch(todayLineChartProvider)),
+                ),
+              )
+            ],
+          )),
+    );
   }
 }

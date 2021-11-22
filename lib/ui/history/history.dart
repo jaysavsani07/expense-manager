@@ -6,41 +6,49 @@ import 'package:expense_manager/ui/history/year_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/all.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class History extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return Scaffold(
       appBar: AppBar(
-        title: DottedBorder(
-                color: Theme.of(context).appBarTheme.textTheme.headline6.color,
-                dashPattern: [5, 5],
-                radius: Radius.circular(12),
-                borderType: BorderType.RRect,
-                child: AppLocalization.of(context)
-                    .getTranslatedVal("history")
-                    .text
-                    .make()
-                    .pSymmetric(h: 8, v: 4))
-            .pOnly(left: 24),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 24),
+          child: DottedBorder(
+            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+            dashPattern: [5, 5],
+            radius: Radius.circular(12),
+            borderType: BorderType.RRect,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child:
+                  Text(AppLocalization.of(context).getTranslatedVal("history")),
+            ),
+          ),
+        ),
         actions: [
-          Icon(
-            Icons.calendar_today_rounded,
-          ).p24().onInkTap(() {
-            showModalBottomSheet(
-                context: context,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                builder: (builder) => YearList());
-          })
+          InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  builder: (builder) => YearList());
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Icon(
+                Icons.calendar_today_rounded,
+              ),
+            ),
+          )
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          10.heightBox,
+          SizedBox(height: 10),
           MonthList(),
           HistoryList(),
         ],
@@ -48,4 +56,3 @@ class History extends ConsumerWidget {
     );
   }
 }
-

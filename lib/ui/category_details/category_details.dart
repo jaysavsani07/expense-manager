@@ -8,35 +8,36 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class CategoryDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.arrow_back_ios_rounded).onInkTap(() {
-            Navigator.pop(context);
-          }),
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios_rounded),
+          ),
           title: DottedBorder(
-                  color:
-                      Theme.of(context).appBarTheme.textTheme.headline6.color,
-                  dashPattern: [5, 5],
-                  radius: Radius.circular(12),
-                  borderType: BorderType.RRect,
-                  child: AppLocalization.of(context)
-                      .getTranslatedVal("total_expense")
-                      .text
-                      .make()
-                      .pSymmetric(h: 8, v: 4))
-              .pOnly(left: 24),
+            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+            dashPattern: [5, 5],
+            radius: Radius.circular(12),
+            borderType: BorderType.RRect,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Text(AppLocalization.of(context)
+                  .getTranslatedVal("total_expense")),
+            ),
+          ),
         ),
         body: Column(
           children: [
             const TotalAmount(),
-            30.heightBox,
+            SizedBox(height: 30),
             const CategoryFilterView(),
-            20.heightBox,
+            SizedBox(height: 20),
             Expanded(child: const CategoryList1())
           ],
         ));
@@ -50,18 +51,25 @@ class TotalAmount extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final totalAmount = watch(categoryDetailsTotalAmountProvider);
     var currency = watch(appStateNotifier).currency.item1;
-    return "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}"
-        .text
-        .size(32)
-        .bold
-        .make()
-        .pSymmetric(v: 20)
-        .centered()
-        .card
-        .withRounded(value: 6)
-        .elevation(1)
-        .make()
-        .pSymmetric(h: 24);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        elevation: 1,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Center(
+            child: Text(
+              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .copyWith(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -74,38 +82,54 @@ class CategoryFilterView extends ConsumerWidget {
     final yearList = watch(categoryDetailsYearListProvider);
     return yearList
         .when(
-            data: (list) => Row(
-                  children: [...list]
-                      .map((e) => (e.item1 == "Month"
-                                  ? AppLocalization.of(context)
-                                      .getTranslatedVal(
-                                          AppConstants.monthList[e.item2])
-                                  : e.item2)
-                              .toString()
-                              .text
-                              .color(filterType == e
-                                  ? Colors.white
-                                  : Color(0xff2196F3))
-                              .size(12)
-                              .medium
-                              .make()
-                              .centered()
-                              .pSymmetric(v: 10, h: 10)
-                              .box
-                              .color(filterType == e
-                                  ? Color(0xff2196F3)
-                                  : Theme.of(context).dividerColor)
-                              .withRounded(value: 20)
-                              .make()
-                              .onInkTap(() {
-                            context.read(categoryDetailsFilterProvider).state =
-                                e;
-                          }).pOnly(right: 10))
-                      .toList(),
-                ),
+            data: (list) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                    children: [...list]
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 4),
+                              child: InkWell(
+                                onTap: () {
+                                  context
+                                      .read(categoryDetailsFilterProvider)
+                                      .state = e;
+                                },
+                                borderRadius: BorderRadius.circular(15),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 9, horizontal: 14),
+                                  decoration: BoxDecoration(
+                                    color: filterType == e
+                                        ? Color(0xff2196F3)
+                                        : Theme.of(context).dividerColor,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Text(
+                                    (e.item1 == "Month"
+                                            ? AppLocalization.of(context)
+                                                .getTranslatedVal(AppConstants
+                                                    .monthList[e.item2])
+                                            : e.item2)
+                                        .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .copyWith(
+                                          fontSize: 12,
+                                          color: filterType == e
+                                              ? Colors.white
+                                              : Color(0xff2196F3),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+            ),
             loading: () => SizedBox(),
-            error: (e, str) => SizedBox())
-        .pSymmetric(h: 24);
+            error: (e, str) => SizedBox());
   }
 }
 
@@ -118,42 +142,58 @@ class CategoryList1 extends ConsumerWidget {
     var currency = watch(appStateNotifier).currency.item1;
     return ListView(
       children: list
-          .map((e) => Row(
-                children: [
-                  Icon(
-                    e.category.icon,
-                    color: e.category.iconColor,
-                    size: 20,
-                  ),
-                  16.widthBox,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          .map((e) => Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                child: Row(
+                  children: [
+                    Icon(
+                      e.category.icon,
+                      color: e.category.iconColor,
+                      size: 20,
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          e.category.name.text.size(14).medium.make(),
-                          8.widthBox,
-                          "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}"
-                              .text
-                              .bold
-                              .size(16)
-                              .make(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                e.category.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    .copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 8),
+                          LinearPercentIndicator(
+                            lineHeight: 6,
+                            percent: e.total / list.first.total,
+                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            backgroundColor: Theme.of(context).dividerColor,
+                            progressColor: e.category.iconColor,
+                          )
                         ],
                       ),
-                      8.heightBox,
-                      LinearPercentIndicator(
-                        lineHeight: 6,
-                        percent: e.total / list.first.total,
-                        padding: EdgeInsets.symmetric(horizontal: 4),
-                        backgroundColor: Theme.of(context).dividerColor,
-                        progressColor: e.category.iconColor,
-                      )
-                    ],
-                  ).expand(),
-                ],
-              ).pSymmetric(v: 8, h: 24))
+                    ),
+                  ],
+                ),
+              ))
           .toList(),
     );
   }

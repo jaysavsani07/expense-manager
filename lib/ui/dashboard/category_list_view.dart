@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:tuple/tuple.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 final _currentCategory = ScopedProvider<Category>(null);
 
@@ -17,6 +16,7 @@ class CategoryListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return GridView(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       shrinkWrap: true,
       gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
@@ -29,7 +29,7 @@ class CategoryListView extends ConsumerWidget {
                 child: const CategoryItem()))
             .toList()
       ],
-    ).pSymmetric(h: 24);
+    );
   }
 }
 
@@ -39,24 +39,35 @@ class CategoryItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final category = watch(_currentCategory);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          category.icon,
-          color: category.iconColor,
-          size: 20,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, AppRoutes.addEntry,
+            arguments: Tuple2(null, category));
+      },
+      borderRadius: BorderRadius.circular(6),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              category.icon,
+              color: category.iconColor,
+              size: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 4,right: 4,bottom: 4,top: 8),
+              child: Text(
+                category.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .copyWith(overflow: TextOverflow.ellipsis),
+              ),
+            ),
+          ],
         ),
-        4.heightBox,
-        category.name.text
-            .textStyle(Theme.of(context).textTheme.caption)
-            .ellipsis
-            .make()
-            .p4()
-      ],
-    ).centered().card.withRounded(value: 6).make().onInkTap(() {
-      Navigator.pushNamed(context, AppRoutes.addEntry,
-          arguments: Tuple2(null, category));
-    });
+      ),
+    );
   }
 }
