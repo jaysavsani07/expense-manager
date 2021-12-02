@@ -9,32 +9,39 @@ import 'package:intl/intl.dart';
 class CurrencyDialog extends AlertDialog {
   @override
   Widget build(BuildContext context) {
-    Tuple2<String, String> selected = context.read(appStateNotifier).currency;
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0),
       title: Text(
         AppLocalization.of(context).getTranslatedVal("currency"),
         style: Theme.of(context).textTheme.subtitle1,
       ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: AppConstants.currencyList
-            .map((e) => RadioListTile(
-                  groupValue: selected,
-                  value: e,
-                  onChanged: (val) {
-                    context.read(appStateNotifier).changeCurrency(currency: e);
-                    Navigator.of(context).pop();
-                  },
-                  title: Text(
-                    "${NumberFormat.simpleCurrency(locale: e.item1).currencySymbol} ${e.item2}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2
-                        .copyWith(fontSize: 14),
-                  ),
-                ))
-            .toList(),
+      content: Consumer(
+        builder: (context, ref, child) {
+          Tuple2<String, String> selected =
+              ref.watch(appStateNotifier.notifier).currency;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: AppConstants.currencyList
+                .map((e) => RadioListTile(
+                      groupValue: selected,
+                      value: e,
+                      onChanged: (val) {
+                        ref
+                            .watch(appStateNotifier.notifier)
+                            .changeCurrency(currency: e);
+                        Navigator.of(context).pop();
+                      },
+                      title: Text(
+                        "${NumberFormat.simpleCurrency(locale: e.item1).currencySymbol} ${e.item2}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            .copyWith(fontSize: 14),
+                      ),
+                    ))
+                .toList(),
+          );
+        },
       ),
       actions: [
         InkWell(

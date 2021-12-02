@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      - development
+#      - development
 
 jobs:
   build_android:
@@ -24,7 +24,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: 2.0.1
+          flutter-version: 2.5.3
       - name: Install Flutter dependencies
         run: flutter pub get
         # Add build runner commands here if you have any

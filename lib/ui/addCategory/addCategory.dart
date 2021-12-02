@@ -5,7 +5,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/addCategory/addCategory_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddCategory extends ConsumerWidget {
   final Category category;
@@ -13,8 +13,8 @@ class AddCategory extends ConsumerWidget {
   AddCategory({@required this.category}) : super();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(addCategoryModelProvider(category));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(addCategoryModelProvider(category));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(

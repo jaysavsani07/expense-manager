@@ -1,8 +1,13 @@
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Logger extends ProviderObserver {
   @override
-  void didUpdateProvider(ProviderBase provider, Object newValue) {
+  void didUpdateProvider(
+    ProviderBase provider,
+    Object previousValue,
+    Object newValue,
+    ProviderContainer container,
+  ) {
     print('''
 {
   "provider": "${provider.name ?? provider.runtimeType}",

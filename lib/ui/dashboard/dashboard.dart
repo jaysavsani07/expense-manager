@@ -13,7 +13,7 @@ import 'package:intl/intl.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -115,8 +115,8 @@ class UserName extends ConsumerWidget {
   const UserName({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final appState = watch(appStateNotifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appState = ref.watch(appStateNotifier);
     return Text(
       appState.userName,
       style: Theme.of(context)
@@ -131,9 +131,9 @@ class TodayAmount extends ConsumerWidget {
   const TodayAmount({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final todayAmount = watch(todayAmountProvider);
-    String currency = watch(appStateNotifier).currency.item1;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todayAmount = ref.watch(todayAmountProvider);
+    String currency = ref.watch(appStateNotifier).currency.item1;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       elevation: 1,
@@ -171,7 +171,7 @@ class TodayAmount extends ConsumerWidget {
               Expanded(
                 child: SizedBox(
                   height: 36,
-                  child: LineChart(watch(todayLineChartProvider)),
+                  child: LineChart(ref.watch(todayLineChartProvider)),
                 ),
               )
             ],

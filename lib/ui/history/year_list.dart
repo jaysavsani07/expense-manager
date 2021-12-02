@@ -1,13 +1,13 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class YearList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, watch, child) {
-      final vm = watch(yearListProvider);
+    return Consumer(builder: (context, ref, child) {
+      final vm = ref.watch(yearListProvider);
       return SizedBox(
         height: 200,
         child: vm.when(
@@ -24,7 +24,7 @@ class YearList extends StatelessWidget {
                   itemCount: yearList.length,
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
-                      context.read(yearProvider).state = yearList[index];
+                      ref.read(yearProvider.state).state = yearList[index];
                       Navigator.pop(context);
                     },
                     child: Padding(

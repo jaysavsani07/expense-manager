@@ -89,7 +89,7 @@ final categoryPieChartVisibilityProvider =
     StateProvider<bool>((ref) => ref.watch(dashboardProvider).list.isEmpty);
 
 final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {
-  int touchedIndex = ref.watch(categoryPieChartTeachItemProvider).state;
+  int touchedIndex = ref.watch(categoryPieChartTeachItemProvider.state).state;
   double totalAmount = ref.read(totalAmountProvider);
   return ref.watch(dashboardProvider).list.asMap().entries.map((e) {
     return PieChartSectionData(
@@ -143,6 +143,7 @@ class CategoryModel with ChangeNotifier {
   CategoryModel({@required this.entryDataSourceImp}) {
     entryDataSourceImp.getAllCategory().listen((event) {
       list = event;
+      Fimber.e("${list.length}");
       notifyListeners();
     });
   }

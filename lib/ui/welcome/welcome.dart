@@ -11,12 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Welcome extends StatefulWidget {
+class Welcome extends ConsumerStatefulWidget {
   @override
   _WelcomeState createState() => _WelcomeState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _WelcomeState extends ConsumerState<Welcome> {
   String name = "";
 
   @override
@@ -96,7 +96,7 @@ class _WelcomeState extends State<Welcome> {
                       ),
                     );
                   } else {
-                    context.read(appStateNotifier).changeUserName(name);
+                    ref.watch(appStateNotifier.notifier).changeUserName(name);
                     Navigator.popAndPushNamed(context, AppRoutes.home);
                   }
                 },
@@ -125,9 +125,9 @@ class OptionSelection extends ConsumerWidget {
   const OptionSelection({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    var appState = watch(appStateNotifier);
-    var monthStartDate = watch(monthStartDateStateNotifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    var appState = ref.watch(appStateNotifier);
+    var monthStartDate = ref.watch(monthStartDateStateNotifier);
 
     return Column(
       children: [

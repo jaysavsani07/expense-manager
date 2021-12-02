@@ -14,9 +14,9 @@ import 'package:intl/intl.dart';
 
 class Setting extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    var appState = watch(appStateNotifier);
-    var monthStartDate = watch(monthStartDateStateNotifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    var appState = ref.watch(appStateNotifier);
+    var monthStartDate = ref.watch(monthStartDateStateNotifier);
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(

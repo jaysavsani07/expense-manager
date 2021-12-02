@@ -11,9 +11,9 @@ import 'package:tuple/tuple.dart';
 
 class HistoryList extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(historyListProvider);
-    String currency = watch(appStateNotifier).currency.item1;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(historyListProvider);
+    String currency = ref.watch(appStateNotifier).currency.item1;
     return Expanded(
       child: vm.when(
           data: (list) => list.isEmpty
@@ -62,7 +62,7 @@ class HistoryList extends ConsumerWidget {
                                               )),
                                         ),
                                         onDismissed: (direction) {
-                                          context.read(
+                                          ref.read(
                                               deleteItemProvider(e.entry.id));
                                         },
                                         child: InkWell(

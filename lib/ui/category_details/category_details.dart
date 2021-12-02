@@ -48,9 +48,9 @@ class TotalAmount extends ConsumerWidget {
   const TotalAmount({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final totalAmount = watch(categoryDetailsTotalAmountProvider);
-    var currency = watch(appStateNotifier).currency.item1;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final totalAmount = ref.watch(categoryDetailsTotalAmountProvider);
+    var currency = ref.watch(appStateNotifier).currency.item1;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Card(
@@ -77,59 +77,58 @@ class CategoryFilterView extends ConsumerWidget {
   const CategoryFilterView({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final filterType = watch(categoryDetailsFilterProvider).state;
-    final yearList = watch(categoryDetailsYearListProvider);
-    return yearList
-        .when(
-            data: (list) => Padding(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final filterType = ref.watch(categoryDetailsFilterProvider.state);
+    final yearList = ref.watch(categoryDetailsYearListProvider);
+    return yearList.when(
+        data: (list) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
-                    children: [...list]
-                        .map((e) => Padding(
+                children: [...list]
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 4),
+                          child: InkWell(
+                            onTap: () {
+                              ref
+                                  .read(categoryDetailsFilterProvider.state)
+                                  .state = e;
+                            },
+                            borderRadius: BorderRadius.circular(15),
+                            child: Container(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 4),
-                              child: InkWell(
-                                onTap: () {
-                                  context
-                                      .read(categoryDetailsFilterProvider)
-                                      .state = e;
-                                },
+                                  vertical: 9, horizontal: 14),
+                              decoration: BoxDecoration(
+                                color: filterType == e
+                                    ? Color(0xff2196F3)
+                                    : Theme.of(context).dividerColor,
                                 borderRadius: BorderRadius.circular(15),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 9, horizontal: 14),
-                                  decoration: BoxDecoration(
-                                    color: filterType == e
-                                        ? Color(0xff2196F3)
-                                        : Theme.of(context).dividerColor,
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Text(
-                                    (e.item1 == "Month"
-                                            ? AppLocalization.of(context)
-                                                .getTranslatedVal(AppConstants
-                                                    .monthList[e.item2])
-                                            : e.item2)
-                                        .toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle2
-                                        .copyWith(
-                                          fontSize: 12,
-                                          color: filterType == e
-                                              ? Colors.white
-                                              : Color(0xff2196F3),
-                                        ),
-                                  ),
-                                ),
                               ),
-                            ))
-                        .toList(),
-                  ),
+                              child: Text(
+                                (e.item1 == "Month"
+                                        ? AppLocalization.of(context)
+                                            .getTranslatedVal(
+                                                AppConstants.monthList[e.item2])
+                                        : e.item2)
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    .copyWith(
+                                      fontSize: 12,
+                                      color: filterType == e
+                                          ? Colors.white
+                                          : Color(0xff2196F3),
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ),
             ),
-            loading: () => SizedBox(),
-            error: (e, str) => SizedBox());
+        loading: () => SizedBox(),
+        error: (e, str) => SizedBox());
   }
 }
 
@@ -137,9 +136,9 @@ class CategoryList1 extends ConsumerWidget {
   const CategoryList1({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final list = watch(categoryDetailsModelProvider).categoryList;
-    var currency = watch(appStateNotifier).currency.item1;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final list = ref.watch(categoryDetailsModelProvider).categoryList;
+    var currency = ref.watch(appStateNotifier).currency.item1;
     return ListView(
       children: list
           .map((e) => Padding(

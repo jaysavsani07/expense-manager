@@ -11,7 +11,7 @@ import 'package:tuple/tuple.dart';
 final categoryDetailsModelProvider =
     ChangeNotifierProvider.autoDispose<CategoryDetailsViewModel>((ref) {
   Tuple2<String, int> filterType =
-      ref.watch(categoryDetailsFilterProvider).state;
+      ref.watch(categoryDetailsFilterProvider);
   return CategoryDetailsViewModel(
       entryDataSourceImp: ref.read(repositoryProvider), filterType: filterType);
 });

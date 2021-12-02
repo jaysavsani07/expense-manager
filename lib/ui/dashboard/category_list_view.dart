@@ -1,12 +1,13 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
-final _currentCategory = ScopedProvider<Category>(null);
+final _currentCategory = Provider<Category>((ref) => throw UnimplementedError());
 
 class CategoryListView extends ConsumerWidget {
   const CategoryListView({
@@ -14,7 +15,9 @@ class CategoryListView extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Fimber.e("${ref
+        .watch(categoryListProvider).list.length}");
     return GridView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       shrinkWrap: true,
@@ -22,7 +25,8 @@ class CategoryListView extends ConsumerWidget {
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
       physics: NeverScrollableScrollPhysics(),
       children: [
-        ...watch(categoryListProvider)
+        ...ref
+            .watch(categoryListProvider)
             .list
             .map((category) => ProviderScope(
                 overrides: [_currentCategory.overrideWithValue(category)],
@@ -37,8 +41,8 @@ class CategoryItem extends ConsumerWidget {
   const CategoryItem({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final category = watch(_currentCategory);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final category = ref.watch(_currentCategory);
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, AppRoutes.addEntry,
@@ -56,7 +60,8 @@ class CategoryItem extends ConsumerWidget {
               size: 20,
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 4,right: 4,bottom: 4,top: 8),
+              padding:
+                  const EdgeInsets.only(left: 4, right: 4, bottom: 4, top: 8),
               child: Text(
                 category.name,
                 style: Theme.of(context)

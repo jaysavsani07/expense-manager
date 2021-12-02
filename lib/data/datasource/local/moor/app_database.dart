@@ -73,7 +73,10 @@ class AppDatabase extends _$AppDatabase {
   MigrationStrategy get migration {
     return MigrationStrategy(onCreate: (Migrator m) async {
       await m.createAll();
-      await createDefaultCategory();
+      // await createDefaultCategory();
+      AppConstants.defaultCategoryList.forEach((category) async {
+        await addCategory1(category.toCategoryEntityCompanion()).single;
+      });
     }, beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
     });
@@ -175,15 +178,16 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<CategoryWithSumData>> getAllCategoryWithSumByMonth(int month, int year) {
+  Stream<List<CategoryWithSumData>> getAllCategoryWithSumByMonth(
+      int month, int year) {
     return ((select(entryEntity)
               ..where((tbl) =>
                   tbl.modifiedDate.month.equals(month) &
                   tbl.modifiedDate.year.equals(year)))
             .join([])
-              ..groupBy([entryEntity.categoryId])
-              ..addColumns([entryEntity.amount.sum()])
-              ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
+          ..groupBy([entryEntity.categoryId])
+          ..addColumns([entryEntity.amount.sum()])
+          ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           leftOuterJoin(categoryEntity,
               categoryEntity.id.equalsExp(entryEntity.categoryId))
@@ -203,9 +207,9 @@ class AppDatabase extends _$AppDatabase {
     return ((select(entryEntity)
               ..where((tbl) => tbl.modifiedDate.year.equals(year)))
             .join([])
-              ..groupBy([entryEntity.categoryId])
-              ..addColumns([entryEntity.amount.sum()])
-              ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
+          ..groupBy([entryEntity.categoryId])
+          ..addColumns([entryEntity.amount.sum()])
+          ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
         .join([
           leftOuterJoin(categoryEntity,
               categoryEntity.id.equalsExp(entryEntity.categoryId))
@@ -369,7 +373,6 @@ class AppDatabase extends _$AppDatabase {
       AppConstants.defaultCategoryList.forEach((category) async {
         await addCategory1(category.toCategoryEntityCompanion()).single;
       });
-      return true;
     });
   }
 }

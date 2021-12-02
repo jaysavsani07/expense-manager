@@ -18,8 +18,8 @@ class MyApp extends ConsumerWidget {
   const MyApp({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final appState = watch(appStateNotifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appState = ref.watch(appStateNotifier);
     return MaterialApp(
       theme: AppTheme.theme,
       darkTheme: AppTheme.darkTheme,
@@ -46,7 +46,7 @@ class MyApp extends ConsumerWidget {
       locale: appState.currentLocale,
       themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
-      initialRoute: (context.read(appStateNotifier)).userName.isEmpty
+      initialRoute: (ref.read(appStateNotifier)).userName.isEmpty
           ? AppRoutes.onBoarding
           : AppRoutes.home,
       routes: {

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final yearListProvider = StreamProvider<List<int>>((ref) {
   return ref.read(repositoryProvider).getYearList().map((event) {
     if (event.isNotEmpty) {
-      ref.read(yearProvider).state = event.first;
+      ref.read(yearProvider.state).state = event.first;
     }
     return event;
   });
@@ -15,10 +15,10 @@ final yearListProvider = StreamProvider<List<int>>((ref) {
 final yearProvider = StateProvider<int>((ref) => DateTime.now().year);
 
 final monthListProvider = StreamProvider<List<String>>((ref) {
-  int year = ref.watch(yearProvider).state;
+  int year = ref.watch(yearProvider.state).state;
   return ref.read(repositoryProvider).getMonthListByYear(year).map((event) {
     if (event.isNotEmpty) {
-      ref.read(monthProvider).state = event.first;
+      ref.read(monthProvider.state).state = event.first;
     }
     return event;
   });
@@ -28,8 +28,8 @@ final monthProvider = StateProvider<String>(
     (ref) => AppConstants.monthList[DateTime.now().month]);
 
 final historyListProvider = StreamProvider<List<History>>((ref) {
-  String month = ref.watch(monthProvider).state;
-  int year = ref.watch(yearProvider).state;
+  String month = ref.watch(monthProvider.state).state;
+  int year = ref.watch(yearProvider.state).state;
   return ref.read(repositoryProvider).getAllEntryWithCategoryDateWiseByMonth(
       AppConstants.monthList.keys
           .firstWhere((element) => AppConstants.monthList[element] == month),

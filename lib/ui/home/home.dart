@@ -5,13 +5,13 @@ import 'package:expense_manager/ui/dashboard/dashboard.dart';
 import 'package:expense_manager/ui/history/history.dart';
 import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
 class HomeScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final homeViewModel = watch(signInModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeViewModel = ref.watch(signInModelProvider);
     return Scaffold(
       body: homeViewModel.activeTab == HomeTab.dashboard
           ? Dashboard()

@@ -23,19 +23,15 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final doubleType = db.typeSystem.forDartType<double>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final stringType = db.typeSystem.forDartType<String>();
     return EntryEntityData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      amount:
-          doubleType.mapFromDatabaseResponse(data['${effectivePrefix}amount']),
-      categoryId: intType
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      amount: const RealType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}amount']),
+      categoryId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
-      modifiedDate: dateTimeType
+      modifiedDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}modified_date']),
-      description: stringType
+      description: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
     );
   }
@@ -126,14 +122,10 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          amount.hashCode,
-          $mrjc(categoryId.hashCode,
-              $mrjc(modifiedDate.hashCode, description.hashCode)))));
+  int get hashCode =>
+      Object.hash(id, amount, categoryId, modifiedDate, description);
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other is EntryEntityData &&
           other.id == this.id &&
@@ -236,70 +228,51 @@ class $EntryEntityTable extends EntryEntity
   final String _alias;
   $EntryEntityTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedColumn<int> _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
+  GeneratedColumn<int> get id =>
+      _id ??= GeneratedColumn<int>('id', aliasedName, false,
+          typeName: 'INTEGER',
+          requiredDuringInsert: false,
+          defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _amountMeta = const VerificationMeta('amount');
-  GeneratedRealColumn _amount;
+  GeneratedColumn<double> _amount;
   @override
-  GeneratedRealColumn get amount => _amount ??= _constructAmount();
-  GeneratedRealColumn _constructAmount() {
-    return GeneratedRealColumn(
-      'amount',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<double> get amount =>
+      _amount ??= GeneratedColumn<double>('amount', aliasedName, false,
+          typeName: 'REAL', requiredDuringInsert: true);
   final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
-  GeneratedIntColumn _categoryId;
+  GeneratedColumn<int> _categoryId;
   @override
-  GeneratedIntColumn get categoryId => _categoryId ??= _constructCategoryId();
-  GeneratedIntColumn _constructCategoryId() {
-    return GeneratedIntColumn('category_id', $tableName, true,
-        $customConstraints:
-            'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
-  }
-
+  GeneratedColumn<int> get categoryId =>
+      _categoryId ??= GeneratedColumn<int>('category_id', aliasedName, true,
+          typeName: 'INTEGER',
+          requiredDuringInsert: false,
+          $customConstraints:
+              'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
   final VerificationMeta _modifiedDateMeta =
       const VerificationMeta('modifiedDate');
-  GeneratedDateTimeColumn _modifiedDate;
+  GeneratedColumn<DateTime> _modifiedDate;
   @override
-  GeneratedDateTimeColumn get modifiedDate =>
-      _modifiedDate ??= _constructModifiedDate();
-  GeneratedDateTimeColumn _constructModifiedDate() {
-    return GeneratedDateTimeColumn(
-      'modified_date',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<DateTime> get modifiedDate => _modifiedDate ??=
+      GeneratedColumn<DateTime>('modified_date', aliasedName, false,
+          typeName: 'INTEGER', requiredDuringInsert: true);
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
-  GeneratedTextColumn _description;
+  GeneratedColumn<String> _description;
   @override
-  GeneratedTextColumn get description =>
-      _description ??= _constructDescription();
-  GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn('description', $tableName, false,
-        maxTextLength: 100);
-  }
-
+  GeneratedColumn<String> get description => _description ??=
+      GeneratedColumn<String>('description', aliasedName, false,
+          additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
+          typeName: 'TEXT',
+          requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
       [id, amount, categoryId, modifiedDate, description];
   @override
-  $EntryEntityTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'entry_entity';
   @override
-  String get $tableName => _alias ?? 'entry_entity';
-  @override
-  final String actualTableName = 'entry_entity';
+  String get actualTableName => 'entry_entity';
   @override
   VerificationContext validateIntegrity(Insertable<EntryEntityData> instance,
       {bool isInserting = false}) {
@@ -343,8 +316,8 @@ class $EntryEntityTable extends EntryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   EntryEntityData map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return EntryEntityData.fromData(data, _db, prefix: effectivePrefix);
+    return EntryEntityData.fromData(data, _db,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
@@ -370,15 +343,15 @@ class CategoryEntityData extends DataClass
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final stringType = db.typeSystem.forDartType<String>();
     return CategoryEntityData(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      position:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}position']),
-      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
-      icon: stringType.mapFromDatabaseResponse(data['${effectivePrefix}icon']),
-      iconColor: stringType
+      id: const IntType().mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      position: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}position']),
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      icon: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon']),
+      iconColor: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}icon_color']),
     );
   }
@@ -462,12 +435,9 @@ class CategoryEntityData extends DataClass
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(position.hashCode,
-          $mrjc(name.hashCode, $mrjc(icon.hashCode, iconColor.hashCode)))));
+  int get hashCode => Object.hash(id, position, name, icon, iconColor);
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CategoryEntityData &&
           other.id == this.id &&
@@ -571,67 +541,46 @@ class $CategoryEntityTable extends CategoryEntity
   final String _alias;
   $CategoryEntityTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
+  GeneratedColumn<int> _id;
   @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
+  GeneratedColumn<int> get id =>
+      _id ??= GeneratedColumn<int>('id', aliasedName, false,
+          typeName: 'INTEGER',
+          requiredDuringInsert: false,
+          defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _positionMeta = const VerificationMeta('position');
-  GeneratedIntColumn _position;
+  GeneratedColumn<int> _position;
   @override
-  GeneratedIntColumn get position => _position ??= _constructPosition();
-  GeneratedIntColumn _constructPosition() {
-    return GeneratedIntColumn(
-      'position',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<int> get position =>
+      _position ??= GeneratedColumn<int>('position', aliasedName, false,
+          typeName: 'INTEGER', requiredDuringInsert: true);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
-  GeneratedTextColumn _name;
+  GeneratedColumn<String> _name;
   @override
-  GeneratedTextColumn get name => _name ??= _constructName();
-  GeneratedTextColumn _constructName() {
-    return GeneratedTextColumn('name', $tableName, false,
-        minTextLength: 3, maxTextLength: 20);
-  }
-
+  GeneratedColumn<String> get name => _name ??= GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
   final VerificationMeta _iconMeta = const VerificationMeta('icon');
-  GeneratedTextColumn _icon;
+  GeneratedColumn<String> _icon;
   @override
-  GeneratedTextColumn get icon => _icon ??= _constructIcon();
-  GeneratedTextColumn _constructIcon() {
-    return GeneratedTextColumn(
-      'icon',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get icon =>
+      _icon ??= GeneratedColumn<String>('icon', aliasedName, false,
+          typeName: 'TEXT', requiredDuringInsert: true);
   final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
-  GeneratedTextColumn _iconColor;
+  GeneratedColumn<String> _iconColor;
   @override
-  GeneratedTextColumn get iconColor => _iconColor ??= _constructIconColor();
-  GeneratedTextColumn _constructIconColor() {
-    return GeneratedTextColumn(
-      'icon_color',
-      $tableName,
-      false,
-    );
-  }
-
+  GeneratedColumn<String> get iconColor =>
+      _iconColor ??= GeneratedColumn<String>('icon_color', aliasedName, false,
+          typeName: 'TEXT', requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
   @override
-  $CategoryEntityTable get asDslTable => this;
+  String get aliasedName => _alias ?? 'category_entity';
   @override
-  String get $tableName => _alias ?? 'category_entity';
-  @override
-  final String actualTableName = 'category_entity';
+  String get actualTableName => 'category_entity';
   @override
   VerificationContext validateIntegrity(Insertable<CategoryEntityData> instance,
       {bool isInserting = false}) {
@@ -671,8 +620,8 @@ class $CategoryEntityTable extends CategoryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   CategoryEntityData map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return CategoryEntityData.fromData(data, _db, prefix: effectivePrefix);
+    return CategoryEntityData.fromData(data, _db,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override

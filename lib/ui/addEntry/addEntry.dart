@@ -19,8 +19,8 @@ class AddEntry extends ConsumerWidget {
   AddEntry({@required this.entryWithCategory}) : super();
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(addEntryModelProvider(entryWithCategory));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(addEntryModelProvider(entryWithCategory));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -112,7 +112,7 @@ class AddEntry extends ConsumerWidget {
                     fillColor: Theme.of(context).cardTheme.color,
                     filled: true,
                     hintText:
-                        "${NumberFormat.simpleCurrency(locale: context.read(appStateNotifier).currency.item1).currencySymbol} 00.00",
+                        "${NumberFormat.simpleCurrency(locale: ref.read(appStateNotifier).currency.item1).currencySymbol} 00.00",
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     contentPadding: EdgeInsets.only(

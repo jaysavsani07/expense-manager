@@ -15,8 +15,8 @@ class CategoryChartView extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(categoryPieChartVisibilityProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(categoryPieChartVisibilityProvider.state);
     return Visibility(
       visible: !vm.state,
       child: Column(
@@ -45,8 +45,8 @@ class CategoryPieChartView extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(categoryPieChartProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(categoryPieChartProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: InkWell(
@@ -102,8 +102,8 @@ class CategoryPieChatListView extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final vm = watch(categoryPieChartListProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(categoryPieChartListProvider);
     return Expanded(
       child: SizedBox(
           height: 140,
@@ -142,9 +142,9 @@ class TotalAmount extends ConsumerWidget {
   const TotalAmount({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final totalAmount = watch(totalAmountProvider);
-    String currency = watch(appStateNotifier).currency.item1;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final totalAmount = ref.watch(totalAmountProvider);
+    String currency = ref.watch(appStateNotifier).currency.item1;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
