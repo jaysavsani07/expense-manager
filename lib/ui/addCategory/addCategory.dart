@@ -154,7 +154,9 @@ class AddCategory extends ConsumerWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 scrollDirection: Axis.horizontal,
-                children: AppConstants.expenseIconList
+                children: (vm.entryType == EntryType.expense
+                        ? AppConstants.expenseIconList
+                        : AppConstants.incomeIconList)
                     .map((icon) => InkWell(
                           onTap: () {
                             vm.changeIcon(icon);
@@ -185,7 +187,9 @@ class AddCategory extends ConsumerWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 scrollDirection: Axis.horizontal,
-                children: AppConstants.expenseIconColorList
+                children: (vm.entryType == EntryType.expense
+                        ? AppConstants.expenseIconColorList
+                        : AppConstants.incomeIconColorList)
                     .map((color) => InkWell(
                           onTap: () {
                             vm.changeColor(color);
