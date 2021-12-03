@@ -4,12 +4,15 @@ import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 final addCategoryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddCategoryViewModel, cat.Category>(
-  (ref, category) => AddCategoryViewModel(
-      entryDataSourceImp: ref.read(repositoryProvider), category: category),
-);
+    .family<AddCategoryViewModel, Tuple2<EntryType, cat.Category>>(
+        (ref, tuple2) => AddCategoryViewModel(
+              entryDataSourceImp: ref.read(repositoryProvider),
+              entryType: tuple2.item1,
+              category: tuple2.item2,
+            ));
 
 class AddCategoryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
@@ -17,9 +20,13 @@ class AddCategoryViewModel with ChangeNotifier {
   String name;
   IconData iconData;
   Color color;
+  EntryType entryType;
 
-  AddCategoryViewModel(
-      {@required this.entryDataSourceImp, @required this.category}) {
+  AddCategoryViewModel({
+    @required this.entryDataSourceImp,
+    @required this.category,
+    @required this.entryType,
+  }) {
     if (category == null) {
       name = "";
       iconData = AppConstants.otherCategory.icon;
@@ -46,13 +53,21 @@ class AddCategoryViewModel with ChangeNotifier {
     this.name = name;
   }
 
-  void saveCategory() {
-    if (category == null)
+  void addUpdate() {
+    if (entryType == EntryType.expense) {
+      addUpdateExpenseCategory();
+    } else {
+      addUpdateIncomeCategory();
+    }
+  }
+
+  void addUpdateExpenseCategory() {
+    if (category == null) {
       entryDataSourceImp
           .addCategory(
               cat.Category(name: name.trim(), icon: iconData, iconColor: color))
           .listen((event) {});
-    else
+    } else {
       entryDataSourceImp
           .updateCategory(cat.Category(
               id: category.id,
@@ -61,10 +76,41 @@ class AddCategoryViewModel with ChangeNotifier {
               icon: iconData,
               iconColor: color))
           .listen((event) {});
+    }
   }
 
-  void deleteCategory() {
+  void addUpdateIncomeCategory() {
+    if (category == null) {
+      entryDataSourceImp
+          .addIncomeCategory(
+              cat.Category(name: name.trim(), icon: iconData, iconColor: color))
+          .listen((event) {});
+    } else {
+      entryDataSourceImp
+          .updateIncomeCategory(cat.Category(
+              id: category.id,
+              position: category.position,
+              name: name,
+              icon: iconData,
+              iconColor: color))
+          .listen((event) {});
+    }
+  }
+
+  void delete() {
+    if (entryType == EntryType.income) {
+      deleteIncomeCategory();
+    } else {
+      deleteExpenseCategory();
+    }
+  }
+
+  void deleteExpenseCategory() {
     entryDataSourceImp.deleteCategory(category.id).listen((event) {});
+  }
+
+  void deleteIncomeCategory() {
+    entryDataSourceImp.deleteIncomeCategory(category.id).listen((event) {});
   }
 
   @override

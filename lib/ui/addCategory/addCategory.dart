@@ -6,15 +6,16 @@ import 'package:expense_manager/ui/addCategory/addCategory_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 class AddCategory extends ConsumerWidget {
-  final Category category;
+  final Tuple2<EntryType, Category> tuple2;
 
-  AddCategory({@required this.category}) : super();
+  AddCategory({@required this.tuple2}) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.watch(addCategoryModelProvider(category));
+    final vm = ref.watch(addCategoryModelProvider(tuple2));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -62,7 +63,7 @@ class AddCategory extends ConsumerWidget {
                   ),
                 );
               } else {
-                vm.saveCategory();
+                vm.addUpdate();
                 Navigator.pop(context);
               }
             },
@@ -153,7 +154,7 @@ class AddCategory extends ConsumerWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 scrollDirection: Axis.horizontal,
-                children: AppConstants.iconList
+                children: AppConstants.expenseIconList
                     .map((icon) => InkWell(
                           onTap: () {
                             vm.changeIcon(icon);
@@ -184,7 +185,7 @@ class AddCategory extends ConsumerWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),
                 scrollDirection: Axis.horizontal,
-                children: AppConstants.iconColorList
+                children: AppConstants.expenseIconColorList
                     .map((color) => InkWell(
                           onTap: () {
                             vm.changeColor(color);

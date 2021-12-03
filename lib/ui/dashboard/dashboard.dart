@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
@@ -85,6 +86,7 @@ class Dashboard extends ConsumerWidget {
                       Navigator.pushNamed(
                         context,
                         AppRoutes.categoryList,
+                        arguments: EntryType.expense,
                       );
                     },
                     child: Padding(

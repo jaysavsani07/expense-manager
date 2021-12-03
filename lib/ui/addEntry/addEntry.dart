@@ -221,6 +221,7 @@ class AddEntry extends ConsumerWidget {
                       Navigator.pushNamed(
                         context,
                         AppRoutes.categoryList,
+                        arguments: vm.entryType,
                       );
                     },
                     child: Padding(

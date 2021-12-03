@@ -1,15 +1,21 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/category_list/category_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 class CategoryList extends ConsumerWidget {
+  final EntryType entryType;
+
+  CategoryList({@required this.entryType}) : super();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.watch(categoryListModelProvider);
+    final vm = ref.watch(categoryListModelProvider(entryType));
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -24,15 +30,18 @@ class CategoryList extends ConsumerWidget {
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Text(AppLocalization.of(context)
-                .getTranslatedVal("category_list")),
+            child: Text(
+                AppLocalization.of(context).getTranslatedVal("category_list")),
           ),
         ),
         actions: [
           InkWell(
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.addCategory,
-                  arguments: null);
+              Navigator.pushNamed(
+                context,
+                AppRoutes.addCategory,
+                arguments: Tuple2(vm.entryType, null),
+              );
             },
             borderRadius: BorderRadius.circular(20),
             child: Padding(
@@ -46,52 +55,124 @@ class CategoryList extends ConsumerWidget {
           ),
         ],
       ),
-      body: /*Reorderable*/ ListView(
-        // onReorder: vm.reorder,
-        padding: const EdgeInsets.only(top: 20),
-        children: vm.categoryList
-            .map((e) => InkWell(
-          key: ValueKey(e.id),
-          onTap: () {
-            Navigator.pushNamed(context, AppRoutes.addCategory,
-                arguments: e);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 24, vertical: 14),
+      body: Column(
+        children: [
+          SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Row(
               children: [
-                Icon(
-                  e.icon,
-                  size: 20,
-                  color: e.iconColor,
-                ),
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16),
+                  child: InkWell(
+                    onTap: () {
+                      vm.entryTypeChange(EntryType.expense);
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        side: vm.entryType == EntryType.expense
+                            ? BorderSide(
+                                width: 1,
+                                color: Color(0xff2196F3),
+                              )
+                            : BorderSide.none,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
                         child: Text(
-                          e.name,
-                          style:
-                          Theme.of(context).textTheme.subtitle2,
+                          AppLocalization.of(context)
+                              .getTranslatedVal("expense"),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.caption,
                         ),
                       ),
-                      /*Icon(
-                                    Icons.drag_handle_outlined,
-                                    size: 20,
-                                  )*/
-                    ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      vm.entryTypeChange(EntryType.income);
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        side: vm.entryType == EntryType.income
+                            ? BorderSide(
+                                width: 1,
+                                color: Color(0xff2196F3),
+                              )
+                            : BorderSide.none,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Text(
+                          AppLocalization.of(context)
+                              .getTranslatedVal("income"),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ))
-            .toList(),
+          Expanded(
+              child: /*Reorderable*/ ListView(
+            // onReorder: vm.reorder,
+            padding: const EdgeInsets.only(top: 16),
+            children: (vm.entryType == EntryType.expense
+                    ? vm.expenseCategoryList
+                    : vm.incomeCategoryList)
+                .map((e) => InkWell(
+                      key: ValueKey(e.id),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.addCategory,
+                          arguments: Tuple2(vm.entryType, e),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 14),
+                        child: Row(
+                          children: [
+                            Icon(
+                              e.icon,
+                              size: 20,
+                              color: e.iconColor,
+                            ),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    child: Text(
+                                      e.name,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle2,
+                                    ),
+                                  ),
+                                  /*Icon(
+                                    Icons.drag_handle_outlined,
+                                    size: 20,
+                                  )*/
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ))
+                .toList(),
+          ))
+        ],
       ),
     );
   }

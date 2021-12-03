@@ -36,7 +36,6 @@ class AddEntryViewModel with ChangeNotifier {
     this.entryWithCategory = entryWithCategory;
     if (category != null) {
     } else if (entryWithCategory != null) {
-      print(entryWithCategory);
       amount = entryWithCategory.entry.amount.toString();
       date = entryWithCategory.entry.modifiedDate;
       category = entryWithCategory.category;
