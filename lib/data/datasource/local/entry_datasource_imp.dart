@@ -47,8 +47,18 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<int> addIncomeEntry(Entry entry) {
+    return appDatabase.addIncomeEntry(entry.toIncomeEntryEntityCompanion());
+  }
+
+  @override
   Stream<bool> updateEntry(Entry entry) {
     return appDatabase.updateEntry(entry.toEntryEntityCompanion());
+  }
+
+  @override
+  Stream<bool> updateIncomeEntry(Entry entry) {
+    return appDatabase.updateIncomeEntry(entry.toIncomeEntryEntityCompanion());
   }
 
   @override
@@ -57,11 +67,26 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<int> deleteIncomeEntry(int id) {
+    return appDatabase.deleteIncomeEntry(id);
+  }
+
+  @override
   Stream<List<Entry>> getAllEntry() {
     return appDatabase
         .getAllEntry()
         .expand((element) => element)
         .map((event) => Entry.fromEntryEntity(event))
+        .toList()
+        .asStream();
+  }
+
+  @override
+  Stream<List<Entry>> getAllIncomeEntry() {
+    return appDatabase
+        .getAllIncomeEntry()
+        .expand((element) => element)
+        .map((event) => Entry.fromIncomeEntryEntity(event))
         .toList()
         .asStream();
   }
@@ -130,7 +155,13 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<int> addCategory(Category category) {
-    return appDatabase.addCategory1(category.toCategoryEntityCompanion());
+    return appDatabase.addCategory(category.toCategoryEntityCompanion());
+  }
+
+  @override
+  Stream<int> addIncomeCategory(Category category) {
+    return appDatabase
+        .addIncomeCategory(category.toIncomeCategoryEntityCompanion());
   }
 
   @override
@@ -139,8 +170,19 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<bool> updateIncomeCategory(Category category) {
+    return appDatabase
+        .updateIncomeCategory(category.toIncomeCategoryEntityCompanion());
+  }
+
+  @override
   Stream<int> deleteCategory(int id) {
     return appDatabase.deleteCategory(id);
+  }
+
+  @override
+  Stream<int> deleteIncomeCategory(int id) {
+    return appDatabase.deleteIncomeCategory(id);
   }
 
   @override
@@ -152,6 +194,12 @@ class EntryDataSourceImp extends EntryDataSource {
   Stream<List<Category>> getAllCategory() {
     return appDatabase.getAllCategory().map(
         (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
+  }
+
+  @override
+  Stream<List<Category>> getAllIncomeCategory() {
+    return appDatabase.getAllIncomeCategory().map((event) =>
+        event.map((e) => Category.fromIncomeCategoryEntity(e)).toList());
   }
 
   @override

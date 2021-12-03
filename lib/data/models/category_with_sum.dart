@@ -32,10 +32,22 @@ class CategoryWithSum {
         category: Category.fromCategoryEntity(entityData.category));
   }
 
-  /*EntryEntityCompanion toEntryEntityCompanion() {
+/*EntryEntityCompanion toEntryEntityCompanion() {
     return EntryEntityCompanion(
         amount: Value(amount),
         categoryName: Value(categoryName),
         modifiedDate: Value(modifiedDate));
   }*/
+}
+
+class CategoryWithSumData {
+  final double total;
+  final CategoryEntityData category;
+
+  CategoryWithSumData({@required this.total, @required this.category});
+
+  @override
+  String toString() {
+    return 'CategoryWithSumData{total: $total, category: $category}';
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/currency_text_input_formatter.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
@@ -6,6 +7,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -66,7 +68,7 @@ class AddEntry extends ConsumerWidget {
                   ),
                 );
               } else {
-                vm.addEntry();
+                vm.addUpdate();
                 Navigator.pop(context);
               }
             },
@@ -125,7 +127,83 @@ class AddEntry extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                AppLocalization.of(context).getTranslatedVal("type"),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        vm.entryTypeChange(EntryType.expense);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          side: vm.entryType == EntryType.expense
+                              ? BorderSide(
+                                  width: 1,
+                                  color: Color(0xff2196F3),
+                                )
+                              : BorderSide.none,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Text(
+                            AppLocalization.of(context)
+                                .getTranslatedVal("expense"),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        vm.entryTypeChange(EntryType.income);
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          side: vm.entryType == EntryType.income
+                              ? BorderSide(
+                                  width: 1,
+                                  color: Color(0xff2196F3),
+                                )
+                              : BorderSide.none,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Text(
+                            AppLocalization.of(context)
+                                .getTranslatedVal("income"),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.caption,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
@@ -146,7 +224,8 @@ class AddEntry extends ConsumerWidget {
                       );
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
                       child: Text(
                         AppLocalization.of(context).getTranslatedVal("edit"),
                         style: Theme.of(context).textTheme.subtitle2.copyWith(
@@ -159,7 +238,6 @@ class AddEntry extends ConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(height: 10),
             SizedBox(
               height: 180,
               child: GridView(
@@ -169,7 +247,9 @@ class AddEntry extends ConsumerWidget {
                     crossAxisCount: 2),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  ...vm.categoryList
+                  ...(vm.entryType == EntryType.expense
+                          ? vm.expenseCategoryList
+                          : vm.incomeCategoryList)
                       .map((category) => InkWell(
                             onTap: () {
                               vm.categoryChange(category);
@@ -211,7 +291,7 @@ class AddEntry extends ConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
@@ -310,7 +390,7 @@ class AddEntry extends ConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.only(left: 24),
               child: Text(

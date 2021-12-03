@@ -60,5 +60,9 @@
   "nov": "Nov",
   "dec": "Dec",
   "recent_expanse": "Recent Expense",
-  "yesterday": "Yesterday"
+  "yesterday": "Yesterday",
+
+  "type": "Type",
+  "expense": "Expense",
+  "income": "Income"
 }

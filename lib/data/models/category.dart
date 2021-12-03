@@ -14,12 +14,13 @@ class Category {
   final IconData icon;
   final Color iconColor;
 
-  Category(
-      {this.id,
-      this.position,
-      @required this.name,
-      @required this.icon,
-      @required this.iconColor});
+  Category({
+    this.id,
+    this.position,
+    @required this.name,
+    @required this.icon,
+    @required this.iconColor,
+  });
 
   Category copyWith(
       {int id, int position, String name, IconData icon, Color iconColor}) {
@@ -42,6 +43,18 @@ class Category {
             ? Color(int.parse(categoryEntityData?.iconColor))
             : AppConstants.otherCategory.iconColor);
   }
+  
+  factory Category.fromIncomeCategoryEntity(IncomeCategoryEntityData incomeCategoryEntityData) {
+    return Category(
+        id: incomeCategoryEntityData?.id,
+        position: incomeCategoryEntityData?.position,
+        name: incomeCategoryEntityData?.name ?? AppConstants.otherCategory.name,
+        icon: incomeCategoryEntityData?.icon?.jsonToIconData() ??
+            AppConstants.otherCategory.icon,
+        iconColor: incomeCategoryEntityData?.iconColor != null
+            ? Color(int.parse(incomeCategoryEntityData?.iconColor))
+            : AppConstants.otherCategory.iconColor);
+  }
 
   CategoryEntityCompanion toCategoryEntityCompanion() {
     return CategoryEntityCompanion(
@@ -50,7 +63,17 @@ class Category {
         name: Value(name),
         icon: Value(icon.iconDataToJson()),
         iconColor:
-            Value("0x${iconColor.value.toRadixString(16).padLeft(8, '0')}"));
+        Value("0x${iconColor.value.toRadixString(16).padLeft(8, '0')}"));
+  }
+
+  IncomeCategoryEntityCompanion toIncomeCategoryEntityCompanion() {
+    return IncomeCategoryEntityCompanion(
+        id: id == null ? Value.absent() : Value(id),
+        position: position == null ? Value.absent() : Value(position),
+        name: Value(name),
+        icon: Value(icon.iconDataToJson()),
+        iconColor:
+        Value("0x${iconColor.value.toRadixString(16).padLeft(8, '0')}"));
   }
 
   CategoryEntityData toCategoryEntityData() {
@@ -65,11 +88,11 @@ class Category {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Category &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          icon == other.icon &&
-          iconColor == other.iconColor;
+          other is Category &&
+              runtimeType == other.runtimeType &&
+              name == other.name &&
+              icon == other.icon &&
+              iconColor == other.iconColor;
 
   @override
   int get hashCode => name.hashCode ^ icon.hashCode ^ iconColor.hashCode;

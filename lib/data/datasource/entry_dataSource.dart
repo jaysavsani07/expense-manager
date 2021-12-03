@@ -13,12 +13,16 @@ abstract class EntryDataSource {
   Stream<List<int>> getYearList();
 
   Stream<int> addEntry(Entry entry);
+  Stream<int> addIncomeEntry(Entry entry);
 
   Stream<bool> updateEntry(Entry entry);
+  Stream<bool> updateIncomeEntry(Entry entry);
 
   Stream<int> deleteEntry(int id);
+  Stream<int> deleteIncomeEntry(int id);
 
   Stream<List<Entry>> getAllEntry();
+  Stream<List<Entry>> getAllIncomeEntry();
 
   Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
 
@@ -32,14 +36,18 @@ abstract class EntryDataSource {
       int month, int year);
 
   Stream<int> addCategory(Category category);
+  Stream<int> addIncomeCategory(Category category);
 
   Stream<bool> updateCategory(Category category);
+  Stream<bool> updateIncomeCategory(Category category);
 
   Stream<int> deleteCategory(int id);
+  Stream<int> deleteIncomeCategory(int id);
 
   Stream<bool> reorderCategory(int oldIndex, int newIndex);
 
   Stream<List<Category>> getAllCategory();
+  Stream<List<Category>> getAllIncomeCategory();
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();
 

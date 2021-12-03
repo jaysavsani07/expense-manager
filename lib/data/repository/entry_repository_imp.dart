@@ -40,8 +40,18 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<int> addIncomeEntry(Entry entry) {
+    return entryDataSourceImp.addIncomeEntry(entry);
+  }
+
+  @override
   Stream<bool> updateEntry(Entry entry) {
     return entryDataSourceImp.updateEntry(entry);
+  }
+
+  @override
+  Stream<bool> updateIncomeEntry(Entry entry) {
+    return entryDataSourceImp.updateIncomeEntry(entry);
   }
 
   @override
@@ -50,8 +60,18 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<int> deleteIncomeEntry(int id) {
+    return entryDataSourceImp.deleteIncomeEntry(id);
+  }
+
+  @override
   Stream<List<Entry>> getAllEntry() {
     return entryDataSourceImp.getAllEntry();
+  }
+
+  @override
+  Stream<List<Entry>> getAllIncomeEntry() {
+    return entryDataSourceImp.getAllIncomeEntry();
   }
 
   @override
@@ -84,13 +104,28 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
+  Stream<int> addIncomeCategory(Category category) {
+    return entryDataSourceImp.addIncomeCategory(category);
+  }
+
+  @override
   Stream<bool> updateCategory(Category category) {
     return entryDataSourceImp.updateCategory(category);
   }
 
   @override
+  Stream<bool> updateIncomeCategory(Category category) {
+    return entryDataSourceImp.updateIncomeCategory(category);
+  }
+
+  @override
   Stream<int> deleteCategory(int id) {
     return entryDataSourceImp.deleteCategory(id);
+  }
+
+  @override
+  Stream<int> deleteIncomeCategory(int id) {
+    return entryDataSourceImp.deleteIncomeCategory(id);
   }
 
   @override
@@ -101,6 +136,11 @@ class EntryRepositoryImp extends EntryRepository {
   @override
   Stream<List<Category>> getAllCategory() {
     return entryDataSourceImp.getAllCategory();
+  }
+
+  @override
+  Stream<List<Category>> getAllIncomeCategory() {
+    return entryDataSourceImp.getAllIncomeCategory();
   }
 
   @override

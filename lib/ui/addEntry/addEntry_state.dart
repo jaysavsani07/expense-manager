@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
@@ -19,16 +20,19 @@ class AddEntryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
   EntryWithCategory entryWithCategory;
 
-  List<cat.Category> categoryList = [];
+  List<cat.Category> expenseCategoryList = [];
+  List<cat.Category> incomeCategoryList = [];
   String amount = "";
   cat.Category category;
   DateTime date = DateTime.now();
   String description = "";
+  EntryType entryType = EntryType.expense;
 
-  AddEntryViewModel(
-      {@required this.entryDataSourceImp,
-      @required this.entryWithCategory,
-      @required this.category}) {
+  AddEntryViewModel({
+    @required this.entryDataSourceImp,
+    @required this.entryWithCategory,
+    @required this.category,
+  }) {
     this.entryWithCategory = entryWithCategory;
     if (category != null) {
     } else if (entryWithCategory != null) {
@@ -38,13 +42,27 @@ class AddEntryViewModel with ChangeNotifier {
       category = entryWithCategory.category;
       description = entryWithCategory.entry.description;
     }
+
     entryDataSourceImp.getAllCategory().listen((event) {
-      categoryList = event;
+      expenseCategoryList = event;
+      notifyListeners();
+    });
+
+    entryDataSourceImp.getAllIncomeCategory().listen((event) {
+      incomeCategoryList = event;
       notifyListeners();
     });
   }
 
-  void addEntry() {
+  void addUpdate() {
+    if (entryType == EntryType.income) {
+      addUpdateIncomeEntry();
+    } else {
+      addUpdateEntry();
+    }
+  }
+
+  void addUpdateEntry() {
     if (entryWithCategory != null) {
       entryDataSourceImp
           .updateEntry(Entry(
@@ -65,6 +83,27 @@ class AddEntryViewModel with ChangeNotifier {
     }
   }
 
+  void addUpdateIncomeEntry() {
+    if (entryWithCategory != null) {
+      entryDataSourceImp
+          .updateIncomeEntry(Entry(
+              id: entryWithCategory.entry.id,
+              amount: double.parse(amount),
+              categoryId: category.id,
+              modifiedDate: date,
+              description: description))
+          .listen((event) {});
+    } else {
+      entryDataSourceImp
+          .addIncomeEntry(Entry(
+              amount: double.parse(amount),
+              categoryId: category?.id,
+              modifiedDate: date,
+              description: description))
+          .listen((event) {});
+    }
+  }
+
   void categoryChange(cat.Category category) {
     this.category = category;
     notifyListeners();
@@ -72,6 +111,11 @@ class AddEntryViewModel with ChangeNotifier {
 
   void amountChange(String amount) {
     this.amount = amount;
+    notifyListeners();
+  }
+
+  void entryTypeChange(EntryType entryType) {
+    this.entryType = entryType;
     notifyListeners();
   }
 
@@ -94,7 +138,7 @@ class AddEntryViewModel with ChangeNotifier {
 
   @override
   void dispose() {
-    categoryList = [];
+    expenseCategoryList = [];
     amount = "";
     category = null;
     date = DateTime.now();

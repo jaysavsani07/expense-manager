@@ -2,6 +2,8 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
+enum EntryType { expense, income }
+
 class AppConstants {
   static final defaultCategoryList = [
     Category(
@@ -22,6 +24,25 @@ class AppConstants {
         name: "Utilities",
         icon: Icons.build_rounded,
         iconColor: Color(0xFFAB3A66)),
+  ];
+
+  static final defaultIncomeCategoryList = [
+    Category(
+        name: "Salary",
+        icon: Icons.attach_money_outlined,
+        iconColor: Color(0xFFc03c42)),
+    Category(
+        name: "Allowance",
+        icon: Icons.security_outlined,
+        iconColor: Color(0xFF84C03C)),
+    Category(
+        name: "Bonus",
+        icon: Icons.sentiment_very_satisfied_outlined,
+        iconColor: Color(0xFF3CC0BA)),
+    Category(
+        name: "Petty Cash",
+        icon: Icons.money_outlined,
+        iconColor: Color(0xFF783CC0)),
   ];
 
   static final otherCategory = Category(

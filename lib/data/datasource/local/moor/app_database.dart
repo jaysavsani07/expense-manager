@@ -1,9 +1,10 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
+import 'package:expense_manager/data/models/category_with_sum.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor_flutter/moor_flutter.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'app_database.g.dart';
 
@@ -32,33 +33,39 @@ class CategoryEntity extends Table {
   TextColumn get iconColor => text()();
 }
 
-class EntryWithCategoryData {
-  final EntryEntityData entry;
-  final CategoryEntityData category;
+class IncomeEntryEntity extends Table {
+  IntColumn get id => integer().autoIncrement()();
 
-  EntryWithCategoryData({@required this.entry, @required this.category});
+  RealColumn get amount => real()();
 
-  @override
-  String toString() {
-    return 'EntryWithCategoryData{entry: ${entry.toString()}, category: ${category.toString()}';
-  }
+  IntColumn get categoryId => integer().nullable().customConstraint(
+      'NULL REFERENCES income_category_entity(id) ON DELETE SET NULL')();
+
+  DateTimeColumn get modifiedDate => dateTime()();
+
+  TextColumn get description => text().withLength(max: 100)();
 }
 
-class CategoryWithSumData {
-  final double total;
-  final CategoryEntityData category;
+class IncomeCategoryEntity extends Table {
+  IntColumn get id => integer().autoIncrement()();
 
-  CategoryWithSumData({@required this.total, @required this.category});
+  IntColumn get position => integer()();
 
-  @override
-  String toString() {
-    return 'CategoryWithSumData{total: $total, category: $category}';
-  }
+  TextColumn get name => text().withLength(min: 3, max: 20)();
+
+  TextColumn get icon => text()();
+
+  TextColumn get iconColor => text()();
 }
 
 final appDatabaseProvider = Provider((ref) => AppDatabase());
 
-@UseMoor(tables: [EntryEntity, CategoryEntity])
+@UseMoor(tables: [
+  EntryEntity,
+  CategoryEntity,
+  IncomeCategoryEntity,
+  IncomeEntryEntity
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super((FlutterQueryExecutor.inDatabaseFolder(
@@ -67,18 +74,26 @@ class AppDatabase extends _$AppDatabase {
         )));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration {
     return MigrationStrategy(onCreate: (Migrator m) async {
       await m.createAll();
-      // await createDefaultCategory();
       AppConstants.defaultCategoryList.forEach((category) async {
-        await addCategory1(category.toCategoryEntityCompanion()).single;
+        await addCategory(category.toCategoryEntityCompanion()).single;
       });
     }, beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
+    }, onUpgrade: (Migrator m, int from, int to) async {
+      if (from == 1) {
+        await m.createTable(incomeCategoryEntity);
+        await m.createTable(incomeEntryEntity);
+        AppConstants.defaultIncomeCategoryList.forEach((category) async {
+          await addIncomeCategory(category.toIncomeCategoryEntityCompanion())
+              .single;
+        });
+      }
     });
   }
 
@@ -97,7 +112,7 @@ class AppDatabase extends _$AppDatabase {
         },
         variables: [
           Variable.withInt(year)
-        ]).map((QueryRow row) => row.readInt("c1")).watch();
+        ]).map((QueryRow row) => row.read<int>("c1")).watch();
   }
 
   Stream<List<int>> getYearList() {
@@ -110,14 +125,29 @@ class AppDatabase extends _$AppDatabase {
   Stream<int> addEntry(EntryEntityCompanion entity) =>
       into(entryEntity).insert(entity).asStream();
 
+  Stream<int> addIncomeEntry(IncomeEntryEntityCompanion entity) =>
+      into(incomeEntryEntity).insert(entity).asStream();
+
   Stream<bool> updateEntry(EntryEntityCompanion entity) =>
       update(entryEntity).replace(entity).asStream();
+
+  Stream<bool> updateIncomeEntry(IncomeEntryEntityCompanion entity) =>
+      update(incomeEntryEntity).replace(entity).asStream();
 
   Stream<int> deleteEntry(int id) =>
       (delete(entryEntity)..where((tbl) => tbl.id.equals(id))).go().asStream();
 
+  Stream<int> deleteIncomeEntry(int id) =>
+      (delete(incomeEntryEntity)..where((tbl) => tbl.id.equals(id)))
+          .go()
+          .asStream();
+
   Stream<List<EntryEntityData>> getAllEntry() {
     return select(entryEntity).get().asStream();
+  }
+
+  Stream<List<IncomeEntryEntityData>> getAllIncomeEntry() {
+    return select(incomeEntryEntity).get().asStream();
   }
 
   Stream<List<EntryEntityData>> getAllEntryByCategory(int categoryName) {
@@ -231,24 +261,42 @@ class AppDatabase extends _$AppDatabase {
         ]))
       .watch();
 
+  Stream<List<IncomeCategoryEntityData>> getAllIncomeCategory() =>
+      (select(incomeCategoryEntity)
+            ..orderBy([
+              (u) =>
+                  OrderingTerm(expression: u.position, mode: OrderingMode.asc)
+            ]))
+          .watch();
+
   Future<List<CategoryEntityData>> getAllCategory1() => (select(categoryEntity)
         ..orderBy([
           (u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)
         ]))
       .get();
 
-  Stream<int> addCategory(CategoryEntityCompanion category) =>
-      into(categoryEntity).insert(category).asStream();
-
-  Stream<int> addCategory1(CategoryEntityCompanion category) => customInsert(
+  Stream<int> addCategory(CategoryEntityCompanion category) => customInsert(
       "INSERT INTO category_entity (position, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(position), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
       updates: {categoryEntity}).asStream();
+
+  Stream<int> addIncomeCategory(IncomeCategoryEntityCompanion incomeCategory) =>
+      customInsert(
+          "INSERT INTO income_category_entity (position, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(position), 0) + 1 FROM income_category_entity), '${incomeCategory.name.value}', '${incomeCategory.icon.value}', '${incomeCategory.iconColor.value}');",
+          updates: {incomeCategoryEntity}).asStream();
 
   Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
       update(categoryEntity).replace(entity).asStream();
 
+  Stream<bool> updateIncomeCategory(IncomeCategoryEntityCompanion entity) =>
+      update(incomeCategoryEntity).replace(entity).asStream();
+
   Stream<int> deleteCategory(int id) =>
       (delete(categoryEntity)..where((tbl) => tbl.id.equals(id)))
+          .go()
+          .asStream();
+
+  Stream<int> deleteIncomeCategory(int id) =>
+      (delete(incomeCategoryEntity)..where((tbl) => tbl.id.equals(id)))
           .go()
           .asStream();
 
@@ -366,13 +414,5 @@ class AppDatabase extends _$AppDatabase {
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
-  }
-
-  Future createDefaultCategory() async {
-    return transaction(() async {
-      AppConstants.defaultCategoryList.forEach((category) async {
-        await addCategory1(category.toCategoryEntityCompanion()).single;
-      });
-    });
   }
 }

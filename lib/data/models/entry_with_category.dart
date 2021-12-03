@@ -9,7 +9,8 @@ class EntryWithCategory {
 
   EntryWithCategory({@required this.entry, @required this.category});
 
-  factory EntryWithCategory.fromEntryWithCategoryEntity(EntryWithCategoryData entityData) {
+  factory EntryWithCategory.fromEntryWithCategoryEntity(
+      EntryWithCategoryData entityData) {
     return EntryWithCategory(
         entry: Entry.fromEntryEntity(entityData.entry),
         category: Category.fromCategoryEntity(entityData.category));
@@ -18,5 +19,17 @@ class EntryWithCategory {
   @override
   String toString() {
     return 'EntryWithCategory{entry: ${entry.toString()}, category: ${category.toString()}';
+  }
+}
+
+class EntryWithCategoryData {
+  final EntryEntityData entry;
+  final CategoryEntityData category;
+
+  EntryWithCategoryData({@required this.entry, @required this.category});
+
+  @override
+  String toString() {
+    return 'EntryWithCategoryData{entry: ${entry.toString()}, category: ${category.toString()}';
   }
 }
