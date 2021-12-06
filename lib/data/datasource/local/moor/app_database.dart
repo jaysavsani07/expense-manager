@@ -81,7 +81,7 @@ class AppDatabase extends _$AppDatabase {
     return MigrationStrategy(onCreate: (Migrator m) async {
       await m.createAll();
       AppConstants.defaultCategoryList.forEach((category) async {
-        await addCategory(category.toCategoryEntityCompanion()).single;
+        await addExpenseCategory(category.toCategoryEntityCompanion()).single;
       });
     }, beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
@@ -104,7 +104,7 @@ class AppDatabase extends _$AppDatabase {
         .watch();
   }
 
-  Stream<List<int>> getMonthListByYear(int year) {
+  Stream<List<int>> getExpenseMonthListByYear(int year) {
     return customSelect(
         "SELECT DISTINCT CAST(strftime('%m' , entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year;",
         readsFrom: {
@@ -115,26 +115,65 @@ class AppDatabase extends _$AppDatabase {
         ]).map((QueryRow row) => row.read<int>("c1")).watch();
   }
 
-  Stream<List<int>> getYearList() {
+  Stream<List<int>> getIncomeMonthListByYear(int year) {
+    return customSelect(
+        "SELECT DISTINCT CAST(strftime('%m' , income_entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM income_entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year;",
+        readsFrom: {
+          incomeEntryEntity
+        },
+        variables: [
+          Variable.withInt(year)
+        ]).map((QueryRow row) => row.read<int>("c1")).watch();
+  }
+
+  Stream<List<int>> getAllMonthListByYear(int year) {
+    return customSelect(
+        "SELECT DISTINCT CAST(strftime('%m' , income_entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM income_entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year UNION SELECT DISTINCT CAST(strftime('%m' , entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year  ORDER BY c1 DESC;",
+        readsFrom: {
+          incomeEntryEntity,
+          entryEntity
+        },
+        variables: [
+          Variable.withInt(year)
+        ]).map((QueryRow row) => row.read<int>("c1")).watch();
+  }
+
+  Stream<List<int>> getExpenseYearList() {
     return (selectOnly(entryEntity, distinct: true)
           ..addColumns([entryEntity.modifiedDate.year]))
         .map((row) => row.read(entryEntity.modifiedDate.year))
         .watch();
   }
 
-  Stream<int> addEntry(EntryEntityCompanion entity) =>
+  Stream<List<int>> getIncomeYearList() {
+    return (selectOnly(incomeEntryEntity, distinct: true)
+          ..addColumns([incomeEntryEntity.modifiedDate.year]))
+        .map((row) => row.read(incomeEntryEntity.modifiedDate.year))
+        .watch();
+  }
+
+  Stream<List<int>> getAllYearList() {
+    return customSelect(
+        "SELECT DISTINCT CAST(strftime('%Y', entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c0 FROM entry_entity UNION SELECT DISTINCT CAST(strftime('%Y', income_entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c0 FROM income_entry_entity ORDER BY c0 DESC;",
+        readsFrom: {
+          incomeEntryEntity,
+          entryEntity
+        }).map((QueryRow row) => row.read<int>("c0")).watch();
+  }
+
+  Stream<int> addExpenseEntry(EntryEntityCompanion entity) =>
       into(entryEntity).insert(entity).asStream();
 
   Stream<int> addIncomeEntry(IncomeEntryEntityCompanion entity) =>
       into(incomeEntryEntity).insert(entity).asStream();
 
-  Stream<bool> updateEntry(EntryEntityCompanion entity) =>
+  Stream<bool> updateExpenseEntry(EntryEntityCompanion entity) =>
       update(entryEntity).replace(entity).asStream();
 
   Stream<bool> updateIncomeEntry(IncomeEntryEntityCompanion entity) =>
       update(incomeEntryEntity).replace(entity).asStream();
 
-  Stream<int> deleteEntry(int id) =>
+  Stream<int> deleteExpenseEntry(int id) =>
       (delete(entryEntity)..where((tbl) => tbl.id.equals(id))).go().asStream();
 
   Stream<int> deleteIncomeEntry(int id) =>
@@ -142,7 +181,7 @@ class AppDatabase extends _$AppDatabase {
           .go()
           .asStream();
 
-  Stream<List<EntryEntityData>> getAllEntry() {
+  Stream<List<EntryEntityData>> getAllExpenseEntry() {
     return select(entryEntity).get().asStream();
   }
 
@@ -161,7 +200,7 @@ class AppDatabase extends _$AppDatabase {
         .asStream();
   }
 
-  Stream<List<EntryWithCategoryData>> getAllEntryWithCategory(
+  Stream<List<EntryWithCategoryExpenseData>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return (select(entryEntity)
           ..where((row) => row.modifiedDate.isBetweenValues(start, end))
@@ -176,15 +215,15 @@ class AppDatabase extends _$AppDatabase {
         .watch()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
-            return EntryWithCategoryData(
+            return EntryWithCategoryExpenseData(
                 entry: row.readTableOrNull(entryEntity),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
   }
 
-  Stream<List<EntryWithCategoryData>> getAllEntryWithCategoryByMonth(
-      int month, int year) {
+  Stream<List<EntryWithCategoryExpenseData>>
+      getExpenseEntryWithCategoryByMonthAndYear(int month, int year) {
     return (select(entryEntity)
           ..where((tbl) =>
               tbl.modifiedDate.month.equals(month) &
@@ -197,9 +236,56 @@ class AppDatabase extends _$AppDatabase {
         .watch()
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
-            return EntryWithCategoryData(
+            return EntryWithCategoryExpenseData(
                 entry: row.readTableOrNull(entryEntity),
                 category: row.readTableOrNull(categoryEntity));
+          }).toList();
+        })
+        .map((event) {
+          print(event);
+          return event;
+        });
+  }
+
+  Stream<List<EntryWithCategoryAllData>> getAllEntryWithCategoryByMonthAndYear(
+      int month, int year) {
+    print("$month $year");
+    return customSelect(
+        "SELECT *, 0 AS entry_type FROM entry_entity LEFT OUTER JOIN category_entity ON category_entity.id = entry_entity.category_id WHERE (CAST(strftime('%m', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? AND (CAST(strftime('%Y', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? UNION SELECT *, 1 AS entry_type FROM income_entry_entity LEFT OUTER JOIN income_category_entity ON income_category_entity.id = income_entry_entity.category_id WHERE (CAST(strftime('%m', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? AND (CAST(strftime('%Y', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? ORDER BY income_entry_entity.modified_date DESC;",
+        variables: [
+          Variable.withInt(month),
+          Variable.withInt(year),
+          Variable.withInt(month),
+          Variable.withInt(year),
+        ]).watch().map((event) {
+      print(event);
+      return event.map((e) {
+        print(e.data);
+        return EntryWithCategoryAllData(
+            entry: EntryEntityData.fromData(e.data, this),
+            category: CategoryEntityData.fromData(e.data, this),
+            entryType: e.read<int>("entry_type"));
+      }).toList();
+    });
+  }
+
+  Stream<List<EntryWithCategoryIncomeData>>
+      getIncomeEntryWithCategoryByMonthAndYear(int month, int year) {
+    return (select(incomeEntryEntity)
+          ..where((tbl) =>
+              tbl.modifiedDate.month.equals(month) &
+              tbl.modifiedDate.year.equals(year))
+          ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
+        .join([
+          leftOuterJoin(incomeCategoryEntity,
+              incomeCategoryEntity.id.equalsExp(incomeEntryEntity.categoryId))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategoryIncomeData(
+                entry: row.readTableOrNull(incomeEntryEntity),
+                category: row.readTableOrNull(incomeCategoryEntity));
           }).toList();
         })
         .map((event) {
@@ -255,11 +341,13 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
-  Stream<List<CategoryEntityData>> getAllCategory() => (select(categoryEntity)
-        ..orderBy([
-          (u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)
-        ]))
-      .watch();
+  Stream<List<CategoryEntityData>> getAllExpenseCategory() =>
+      (select(categoryEntity)
+            ..orderBy([
+              (u) =>
+                  OrderingTerm(expression: u.position, mode: OrderingMode.asc)
+            ]))
+          .watch();
 
   Stream<List<IncomeCategoryEntityData>> getAllIncomeCategory() =>
       (select(incomeCategoryEntity)
@@ -275,7 +363,7 @@ class AppDatabase extends _$AppDatabase {
         ]))
       .get();
 
-  Stream<int> addCategory(CategoryEntityCompanion category) => customInsert(
+  Stream<int> addExpenseCategory(CategoryEntityCompanion category) => customInsert(
       "INSERT INTO category_entity (position, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(position), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
       updates: {categoryEntity}).asStream();
 
@@ -284,13 +372,13 @@ class AppDatabase extends _$AppDatabase {
           "INSERT INTO income_category_entity (position, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(position), 0) + 1 FROM income_category_entity), '${incomeCategory.name.value}', '${incomeCategory.icon.value}', '${incomeCategory.iconColor.value}');",
           updates: {incomeCategoryEntity}).asStream();
 
-  Stream<bool> updateCategory(CategoryEntityCompanion entity) =>
+  Stream<bool> updateExpenseCategory(CategoryEntityCompanion entity) =>
       update(categoryEntity).replace(entity).asStream();
 
   Stream<bool> updateIncomeCategory(IncomeCategoryEntityCompanion entity) =>
       update(incomeCategoryEntity).replace(entity).asStream();
 
-  Stream<int> deleteCategory(int id) =>
+  Stream<int> deleteExpenseCategory(int id) =>
       (delete(categoryEntity)..where((tbl) => tbl.id.equals(id)))
           .go()
           .asStream();

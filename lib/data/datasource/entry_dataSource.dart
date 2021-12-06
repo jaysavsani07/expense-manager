@@ -8,20 +8,24 @@ import 'package:expense_manager/data/models/history.dart';
 abstract class EntryDataSource {
   Stream<List<String>> getMonthList();
 
-  Stream<List<String>> getMonthListByYear(int year);
+  Stream<List<String>> getExpenseMonthListByYear(int year);
+  Stream<List<String>> getIncomeMonthListByYear(int year);
+  Stream<List<String>> getAllMonthListByYear(int year);
 
-  Stream<List<int>> getYearList();
+  Stream<List<int>> getExpenseYearList();
+  Stream<List<int>> getIncomeYearList();
+  Stream<List<int>> getAllYearList();
 
-  Stream<int> addEntry(Entry entry);
+  Stream<int> addExpenseEntry(Entry entry);
   Stream<int> addIncomeEntry(Entry entry);
 
-  Stream<bool> updateEntry(Entry entry);
+  Stream<bool> updateExpenseEntry(Entry entry);
   Stream<bool> updateIncomeEntry(Entry entry);
 
-  Stream<int> deleteEntry(int id);
+  Stream<int> deleteExpenseEntry(int id);
   Stream<int> deleteIncomeEntry(int id);
 
-  Stream<List<Entry>> getAllEntry();
+  Stream<List<Entry>> getAllExpenseEntry();
   Stream<List<Entry>> getAllIncomeEntry();
 
   Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
@@ -32,21 +36,25 @@ abstract class EntryDataSource {
   Stream<List<History>> getAllEntryWithCategoryDateWise(
       DateTime start, DateTime end);
 
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
+  Stream<List<History>> getExpenseEntryWithCategoryDateWiseByMonthAndYear(
+      int month, int year);
+  Stream<List<History>> getIncomeEntryWithCategoryDateWiseByMonthAndYear(
+      int month, int year);
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
       int month, int year);
 
-  Stream<int> addCategory(Category category);
+  Stream<int> addExpenseCategory(Category category);
   Stream<int> addIncomeCategory(Category category);
 
-  Stream<bool> updateCategory(Category category);
+  Stream<bool> updateExpenseCategory(Category category);
   Stream<bool> updateIncomeCategory(Category category);
 
-  Stream<int> deleteCategory(int id);
+  Stream<int> deleteExpenseCategory(int id);
   Stream<int> deleteIncomeCategory(int id);
 
   Stream<bool> reorderCategory(int oldIndex, int newIndex);
 
-  Stream<List<Category>> getAllCategory();
+  Stream<List<Category>> getAllExpenseCategory();
   Stream<List<Category>> getAllIncomeCategory();
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSum();

@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
@@ -25,18 +26,38 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<String>> getMonthListByYear(int year) {
-    return entryDataSourceImp.getMonthListByYear(year);
+  Stream<List<String>> getMonthListByYear(EntryType entryType, int year) {
+    switch (entryType) {
+      case EntryType.expense:
+        return entryDataSourceImp.getExpenseMonthListByYear(year);
+        break;
+      case EntryType.income:
+        return entryDataSourceImp.getIncomeMonthListByYear(year);
+        break;
+      default:
+        return entryDataSourceImp.getAllMonthListByYear(year);
+        break;
+    }
   }
 
   @override
-  Stream<List<int>> getYearList() {
-    return entryDataSourceImp.getYearList();
+  Stream<List<int>> getYearList(EntryType entryType) {
+    switch (entryType) {
+      case EntryType.expense:
+        return entryDataSourceImp.getExpenseYearList();
+        break;
+      case EntryType.income:
+        return entryDataSourceImp.getIncomeYearList();
+        break;
+      default:
+        return entryDataSourceImp.getAllYearList();
+        break;
+    }
   }
 
   @override
   Stream<int> addEntry(Entry entry) {
-    return entryDataSourceImp.addEntry(entry);
+    return entryDataSourceImp.addExpenseEntry(entry);
   }
 
   @override
@@ -46,7 +67,7 @@ class EntryRepositoryImp extends EntryRepository {
 
   @override
   Stream<bool> updateEntry(Entry entry) {
-    return entryDataSourceImp.updateEntry(entry);
+    return entryDataSourceImp.updateExpenseEntry(entry);
   }
 
   @override
@@ -55,18 +76,17 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<int> deleteEntry(int id) {
-    return entryDataSourceImp.deleteEntry(id);
-  }
-
-  @override
-  Stream<int> deleteIncomeEntry(int id) {
-    return entryDataSourceImp.deleteIncomeEntry(id);
+  Stream<int> deleteEntry(EntryType entryType, int id) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.deleteExpenseEntry(id);
+    } else {
+      return entryDataSourceImp.deleteIncomeEntry(id);
+    }
   }
 
   @override
   Stream<List<Entry>> getAllEntry() {
-    return entryDataSourceImp.getAllEntry();
+    return entryDataSourceImp.getAllExpenseEntry();
   }
 
   @override
@@ -92,15 +112,27 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
-      int month, int year) {
-    return entryDataSourceImp.getAllEntryWithCategoryDateWiseByMonth(
-        month, year);
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
+      EntryType entryType, int month, int year) {
+    switch (entryType) {
+      case EntryType.expense:
+        return entryDataSourceImp
+            .getExpenseEntryWithCategoryDateWiseByMonthAndYear(month, year);
+        break;
+      case EntryType.income:
+        return entryDataSourceImp
+            .getIncomeEntryWithCategoryDateWiseByMonthAndYear(month, year);
+        break;
+      default:
+        return entryDataSourceImp.getAllEntryWithCategoryDateWiseByMonthAndYear(
+            month, year);
+        break;
+    }
   }
 
   @override
   Stream<int> addCategory(Category category) {
-    return entryDataSourceImp.addCategory(category);
+    return entryDataSourceImp.addExpenseCategory(category);
   }
 
   @override
@@ -110,7 +142,7 @@ class EntryRepositoryImp extends EntryRepository {
 
   @override
   Stream<bool> updateCategory(Category category) {
-    return entryDataSourceImp.updateCategory(category);
+    return entryDataSourceImp.updateExpenseCategory(category);
   }
 
   @override
@@ -120,7 +152,7 @@ class EntryRepositoryImp extends EntryRepository {
 
   @override
   Stream<int> deleteCategory(int id) {
-    return entryDataSourceImp.deleteCategory(id);
+    return entryDataSourceImp.deleteExpenseCategory(id);
   }
 
   @override
@@ -135,7 +167,7 @@ class EntryRepositoryImp extends EntryRepository {
 
   @override
   Stream<List<Category>> getAllCategory() {
-    return entryDataSourceImp.getAllCategory();
+    return entryDataSourceImp.getAllExpenseCategory();
   }
 
   @override

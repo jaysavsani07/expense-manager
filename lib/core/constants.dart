@@ -2,7 +2,7 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
-enum EntryType { expense, income }
+enum EntryType { expense, income, all }
 
 class AppConstants {
   static final defaultCategoryList = [

@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/ui/history/entry_type.dart';
 import 'package:expense_manager/ui/history/history_list.dart';
 import 'package:expense_manager/ui/history/month_list.dart';
 import 'package:expense_manager/ui/history/year_list.dart';
@@ -27,28 +28,30 @@ class History extends ConsumerWidget {
           ),
         ),
         actions: [
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  builder: (builder) => YearList());
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Icon(
-                Icons.calendar_today_rounded,
-              ),
-            ),
-          )
+          // InkWell(
+          //   onTap: () {
+          //     showModalBottomSheet(
+          //         context: context,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(10.0),
+          //         ),
+          //         builder: (builder) => YearList());
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(24),
+          //     child: Icon(
+          //       Icons.calendar_today_rounded,
+          //     ),
+          //   ),
+          // )
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10),
+          SizedBox(height: 8),
+          EntryTypeView(),
+          YearList(),
           MonthList(),
           HistoryList(),
         ],

@@ -450,6 +450,7 @@ class AddEntry extends ConsumerWidget {
       firstDate: DateTime(2000),
       lastDate: DateTime(2025),
     );
+    print(picked);
     if (picked != null && picked != vm.date) {
       vm.changeDate(picked);
     }

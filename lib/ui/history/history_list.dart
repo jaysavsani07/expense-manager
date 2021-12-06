@@ -1,6 +1,7 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/history.dart';
+import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,8 +63,11 @@ class HistoryList extends ConsumerWidget {
                                               )),
                                         ),
                                         onDismissed: (direction) {
-                                          ref.read(
-                                              deleteItemProvider(e.entry.id));
+                                          ref
+                                              .read(repositoryProvider)
+                                              .deleteEntry(
+                                                  e.entryEntity, e.entry.id)
+                                              .listen((event) {});
                                         },
                                         child: InkWell(
                                           onTap: () {

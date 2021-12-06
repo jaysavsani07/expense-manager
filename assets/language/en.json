@@ -64,5 +64,6 @@
 
   "type": "Type",
   "expense": "Expense",
-  "income": "Income"
+  "income": "Income",
+  "all": "All"
 }

@@ -3,8 +3,11 @@ import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final entryTypeProvider = StateProvider<EntryType>((ref) => EntryType.all);
+
 final yearListProvider = StreamProvider<List<int>>((ref) {
-  return ref.read(repositoryProvider).getYearList().map((event) {
+  EntryType entryType = ref.watch(entryTypeProvider.state).state;
+  return ref.read(repositoryProvider).getYearList(entryType).map((event) {
     if (event.isNotEmpty) {
       ref.read(yearProvider.state).state = event.first;
     }
@@ -16,7 +19,11 @@ final yearProvider = StateProvider<int>((ref) => DateTime.now().year);
 
 final monthListProvider = StreamProvider<List<String>>((ref) {
   int year = ref.watch(yearProvider.state).state;
-  return ref.read(repositoryProvider).getMonthListByYear(year).map((event) {
+  EntryType entryType = ref.watch(entryTypeProvider.state).state;
+  return ref
+      .read(repositoryProvider)
+      .getMonthListByYear(entryType, year)
+      .map((event) {
     if (event.isNotEmpty) {
       ref.read(monthProvider.state).state = event.first;
     }
@@ -30,13 +37,12 @@ final monthProvider = StateProvider<String>(
 final historyListProvider = StreamProvider<List<History>>((ref) {
   String month = ref.watch(monthProvider.state).state;
   int year = ref.watch(yearProvider.state).state;
-  return ref.read(repositoryProvider).getAllEntryWithCategoryDateWiseByMonth(
-      AppConstants.monthList.keys
-          .firstWhere((element) => AppConstants.monthList[element] == month),
-      year);
-});
-
-final deleteItemProvider = Provider.family<int, int>((ref, id) {
-  ref.read(repositoryProvider).deleteEntry(id).listen((event) {});
-  return 0;
+  EntryType entryType = ref.watch(entryTypeProvider.state).state;
+  return ref
+      .read(repositoryProvider)
+      .getAllEntryWithCategoryDateWiseByMonthAndYear(
+          entryType,
+          AppConstants.monthList.keys.firstWhere(
+              (element) => AppConstants.monthList[element] == month),
+          year);
 });
