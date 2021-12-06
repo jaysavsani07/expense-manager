@@ -4,7 +4,6 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,6 @@ class EntryRepositoryImp extends EntryRepository {
   EntryDataSourceImp entryDataSourceImp;
 
   EntryRepositoryImp({@required this.entryDataSourceImp});
-
-  @override
-  Stream<List<String>> getMonthList() {
-    return entryDataSourceImp.getMonthList();
-  }
 
   @override
   Stream<List<String>> getMonthListByYear(EntryType entryType, int year) {
@@ -56,23 +50,21 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<int> addEntry(Entry entry) {
-    return entryDataSourceImp.addExpenseEntry(entry);
+  Stream<int> addEntry(EntryType entryType, Entry entry) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.addExpenseEntry(entry);
+    } else {
+      return entryDataSourceImp.addIncomeEntry(entry);
+    }
   }
 
   @override
-  Stream<int> addIncomeEntry(Entry entry) {
-    return entryDataSourceImp.addIncomeEntry(entry);
-  }
-
-  @override
-  Stream<bool> updateEntry(Entry entry) {
-    return entryDataSourceImp.updateExpenseEntry(entry);
-  }
-
-  @override
-  Stream<bool> updateIncomeEntry(Entry entry) {
-    return entryDataSourceImp.updateIncomeEntry(entry);
+  Stream<bool> updateEntry(EntryType entryType, Entry entry) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.updateExpenseEntry(entry);
+    } else {
+      return entryDataSourceImp.updateIncomeEntry(entry);
+    }
   }
 
   @override
@@ -85,30 +77,9 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<Entry>> getAllEntry() {
-    return entryDataSourceImp.getAllExpenseEntry();
-  }
-
-  @override
-  Stream<List<Entry>> getAllIncomeEntry() {
-    return entryDataSourceImp.getAllIncomeEntry();
-  }
-
-  @override
-  Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
-    return entryDataSourceImp.getAllEntryByCategory(categoryName);
-  }
-
-  @override
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return entryDataSourceImp.getAllEntryWithCategory(start, end);
-  }
-
-  @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise(
-      DateTime start, DateTime end) {
-    return entryDataSourceImp.getAllEntryWithCategoryDateWise(start, end);
   }
 
   @override
@@ -131,33 +102,30 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<int> addCategory(Category category) {
-    return entryDataSourceImp.addExpenseCategory(category);
+  Stream<int> addCategory(EntryType entryType, Category category) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.addExpenseCategory(category);
+    } else {
+      return entryDataSourceImp.addIncomeCategory(category);
+    }
   }
 
   @override
-  Stream<int> addIncomeCategory(Category category) {
-    return entryDataSourceImp.addIncomeCategory(category);
+  Stream<bool> updateCategory(EntryType entryType, Category category) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.updateExpenseCategory(category);
+    } else {
+      return entryDataSourceImp.updateIncomeCategory(category);
+    }
   }
 
   @override
-  Stream<bool> updateCategory(Category category) {
-    return entryDataSourceImp.updateExpenseCategory(category);
-  }
-
-  @override
-  Stream<bool> updateIncomeCategory(Category category) {
-    return entryDataSourceImp.updateIncomeCategory(category);
-  }
-
-  @override
-  Stream<int> deleteCategory(int id) {
-    return entryDataSourceImp.deleteExpenseCategory(id);
-  }
-
-  @override
-  Stream<int> deleteIncomeCategory(int id) {
-    return entryDataSourceImp.deleteIncomeCategory(id);
+  Stream<int> deleteCategory(EntryType entryType, int id) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.deleteExpenseCategory(id);
+    } else {
+      return entryDataSourceImp.deleteIncomeCategory(id);
+    }
   }
 
   @override
@@ -166,18 +134,12 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<Category>> getAllCategory() {
-    return entryDataSourceImp.getAllExpenseCategory();
-  }
-
-  @override
-  Stream<List<Category>> getAllIncomeCategory() {
-    return entryDataSourceImp.getAllIncomeCategory();
-  }
-
-  @override
-  Stream<List<CategoryWithSum>> getAllCategoryWithSum() {
-    return entryDataSourceImp.getAllCategoryWithSum();
+  Stream<List<Category>> getAllCategory(EntryType entryType) {
+    if (entryType == EntryType.expense) {
+      return entryDataSourceImp.getAllExpenseCategory();
+    } else {
+      return entryDataSourceImp.getAllIncomeCategory();
+    }
   }
 
   @override

@@ -68,7 +68,7 @@ class AddEntry extends ConsumerWidget {
                   ),
                 );
               } else {
-                vm.addUpdate();
+                vm.addUpdateEntry();
                 Navigator.pop(context);
               }
             },

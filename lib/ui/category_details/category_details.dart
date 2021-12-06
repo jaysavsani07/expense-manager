@@ -78,7 +78,7 @@ class CategoryFilterView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filterType = ref.watch(categoryDetailsFilterProvider.state);
+    final filterType = ref.watch(categoryDetailsFilterProvider.state).state;
     final yearList = ref.watch(categoryDetailsYearListProvider);
     return yearList.when(
         data: (list) => Padding(
@@ -179,7 +179,7 @@ class CategoryList1 extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          SizedBox(width: 8),
+                          SizedBox(height: 8),
                           LinearPercentIndicator(
                             lineHeight: 6,
                             percent: e.total / list.first.total,

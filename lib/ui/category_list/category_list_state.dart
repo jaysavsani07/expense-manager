@@ -25,12 +25,13 @@ class CategoryListViewModel with ChangeNotifier {
     @required this.entryDataSourceImp,
     @required this.entryType,
   }) {
-    _expenseSubscription = entryDataSourceImp.getAllCategory().listen((event) {
+    _expenseSubscription =
+        entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {
       expenseCategoryList = event;
       notifyListeners();
     });
     _incomeSubscription =
-        entryDataSourceImp.getAllIncomeCategory().listen((event) {
+        entryDataSourceImp.getAllCategory(EntryType.income).listen((event) {
       incomeCategoryList = event;
       notifyListeners();
     });

@@ -63,7 +63,7 @@ class AddCategory extends ConsumerWidget {
                   ),
                 );
               } else {
-                vm.addUpdate();
+                vm.addUpdateCategory();
                 Navigator.pop(context);
               }
             },

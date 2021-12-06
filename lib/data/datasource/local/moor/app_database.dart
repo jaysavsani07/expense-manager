@@ -97,13 +97,6 @@ class AppDatabase extends _$AppDatabase {
     });
   }
 
-  Stream<List<int>> getMonthList() {
-    return (selectOnly(entryEntity, distinct: true)
-          ..addColumns([entryEntity.modifiedDate.month]))
-        .map((row) => row.read(entryEntity.modifiedDate.month))
-        .watch();
-  }
-
   Stream<List<int>> getExpenseMonthListByYear(int year) {
     return customSelect(
         "SELECT DISTINCT CAST(strftime('%m' , entry_entity.modified_date, 'unixepoch') AS INTEGER) AS c1 FROM entry_entity WHERE (CAST(strftime('%Y', modified_date,'unixepoch') AS INTEGER)) = :year;",
@@ -181,26 +174,7 @@ class AppDatabase extends _$AppDatabase {
           .go()
           .asStream();
 
-  Stream<List<EntryEntityData>> getAllExpenseEntry() {
-    return select(entryEntity).get().asStream();
-  }
-
-  Stream<List<IncomeEntryEntityData>> getAllIncomeEntry() {
-    return select(incomeEntryEntity).get().asStream();
-  }
-
-  Stream<List<EntryEntityData>> getAllEntryByCategory(int categoryName) {
-    return (select(entryEntity)
-          ..where((row) => row.categoryId.equals(categoryName))
-          ..orderBy([
-            (u) => OrderingTerm(
-                expression: u.modifiedDate, mode: OrderingMode.desc)
-          ]))
-        .get()
-        .asStream();
-  }
-
-  Stream<List<EntryWithCategoryExpenseData>> getAllEntryWithCategory(
+    Stream<List<EntryWithCategoryExpenseData>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return (select(entryEntity)
           ..where((row) => row.modifiedDate.isBetweenValues(start, end))
@@ -482,25 +456,5 @@ class AppDatabase extends _$AppDatabase {
 
       return true;
     }).asStream();
-  }
-
-  Stream<List<CategoryWithSumData>> getAllCategoryWithSum() {
-    return (select(entryEntity).join([])
-          ..groupBy([entryEntity.categoryId])
-          ..addColumns([entryEntity.amount.sum()])
-          ..orderBy([OrderingTerm.desc(entryEntity.amount.sum())]))
-        .join([
-          innerJoin(categoryEntity,
-              categoryEntity.id.equalsExp(entryEntity.categoryId))
-        ])
-        .get()
-        .asStream()
-        .map((List<TypedResult> rows) {
-          return rows.map((TypedResult row) {
-            return CategoryWithSumData(
-                total: row.read(entryEntity.amount.sum()),
-                category: row.readTableOrNull(categoryEntity));
-          }).toList();
-        });
   }
 }

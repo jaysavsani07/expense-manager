@@ -53,64 +53,30 @@ class AddCategoryViewModel with ChangeNotifier {
     this.name = name;
   }
 
-  void addUpdate() {
-    if (entryType == EntryType.expense) {
-      addUpdateExpenseCategory();
-    } else {
-      addUpdateIncomeCategory();
-    }
-  }
-
-  void addUpdateExpenseCategory() {
+  void addUpdateCategory() {
     if (category == null) {
       entryDataSourceImp
-          .addCategory(
+          .addCategory(entryType,
               cat.Category(name: name.trim(), icon: iconData, iconColor: color))
           .listen((event) {});
     } else {
       entryDataSourceImp
-          .updateCategory(cat.Category(
-              id: category.id,
-              position: category.position,
-              name: name,
-              icon: iconData,
-              iconColor: color))
-          .listen((event) {});
-    }
-  }
-
-  void addUpdateIncomeCategory() {
-    if (category == null) {
-      entryDataSourceImp
-          .addIncomeCategory(
-              cat.Category(name: name.trim(), icon: iconData, iconColor: color))
-          .listen((event) {});
-    } else {
-      entryDataSourceImp
-          .updateIncomeCategory(cat.Category(
-              id: category.id,
-              position: category.position,
-              name: name,
-              icon: iconData,
-              iconColor: color))
+          .updateCategory(
+              entryType,
+              cat.Category(
+                  id: category.id,
+                  position: category.position,
+                  name: name,
+                  icon: iconData,
+                  iconColor: color))
           .listen((event) {});
     }
   }
 
   void delete() {
-    if (entryType == EntryType.income) {
-      deleteIncomeCategory();
-    } else {
-      deleteExpenseCategory();
-    }
-  }
-
-  void deleteExpenseCategory() {
-    entryDataSourceImp.deleteCategory(category.id).listen((event) {});
-  }
-
-  void deleteIncomeCategory() {
-    entryDataSourceImp.deleteIncomeCategory(category.id).listen((event) {});
+    entryDataSourceImp
+        .deleteCategory(entryType, category.id)
+        .listen((event) {});
   }
 
   @override

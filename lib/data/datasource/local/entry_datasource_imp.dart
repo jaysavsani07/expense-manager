@@ -6,7 +6,6 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,13 +20,6 @@ class EntryDataSourceImp extends EntryDataSource {
   AppDatabase appDatabase;
 
   EntryDataSourceImp({@required this.appDatabase});
-
-  @override
-  Stream<List<String>> getMonthList() {
-    return appDatabase
-        .getMonthList()
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
-  }
 
   @override
   Stream<List<String>> getExpenseMonthListByYear(int year) {
@@ -96,43 +88,12 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<Entry>> getAllExpenseEntry() {
-    return appDatabase
-        .getAllExpenseEntry()
-        .expand((element) => element)
-        .map((event) => Entry.fromEntryEntity(event))
-        .toList()
-        .asStream();
-  }
-
-  @override
-  Stream<List<Entry>> getAllIncomeEntry() {
-    return appDatabase
-        .getAllIncomeEntry()
-        .expand((element) => element)
-        .map((event) => Entry.fromIncomeEntryEntity(event))
-        .toList()
-        .asStream();
-  }
-
-  @override
-  Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
-    return appDatabase
-        .getAllEntryByCategory(categoryName)
-        .map((event) => event.map((e) => Entry.fromEntryEntity(e)))
-        .map((event) => groupBy(event, (Entry e) => e.modifiedDate.toTitle()))
-        .map((list) => list.entries
-            .map((e) => EntryList(title: e.key, list: e.value))
-            .toList());
-  }
-
-  @override
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return appDatabase
         .getAllEntryWithCategory(start, end)
-        .map((event) =>
-            event.map((e) => EntryWithCategory.fromExpenseEntryWithCategoryEntity(e)))
+        .map((event) => event.map(
+            (e) => EntryWithCategory.fromExpenseEntryWithCategoryEntity(e)))
         .map((event) => groupBy(event, (EntryWithCategory e) => e.category))
         .map((list) => list.entries
             .map((e) => CategoryWithEntryList(
@@ -140,23 +101,6 @@ class EntryDataSourceImp extends EntryDataSource {
                 total: e.value.map((e) => e.entry.amount).fold(
                     0, (previousValue, element) => previousValue + element),
                 entry: e.value.map((e) => e.entry).toList()))
-            .toList());
-  }
-
-  @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise(
-      DateTime start, DateTime end) {
-    return appDatabase
-        .getAllEntryWithCategory(start, end)
-        .map((event) => groupBy(event,
-            (EntryWithCategoryExpenseData e) => e.entry.modifiedDate.toTitle()))
-        .map((list) => list.entries
-            .map((e) => History(
-                title: e.key,
-                list: e.value
-                    .map(
-                        (e) => EntryWithCategory.fromExpenseEntryWithCategoryEntity(e))
-                    .toList()))
             .toList());
   }
 
@@ -171,8 +115,8 @@ class EntryDataSourceImp extends EntryDataSource {
             .map((e) => History(
                 title: e.key,
                 list: e.value
-                    .map(
-                        (e) => EntryWithCategory.fromExpenseEntryWithCategoryEntity(e))
+                    .map((e) =>
+                        EntryWithCategory.fromExpenseEntryWithCategoryEntity(e))
                     .toList()))
             .toList());
   }
@@ -260,13 +204,6 @@ class EntryDataSourceImp extends EntryDataSource {
   Stream<List<Category>> getAllIncomeCategory() {
     return appDatabase.getAllIncomeCategory().map((event) =>
         event.map((e) => Category.fromIncomeCategoryEntity(e)).toList());
-  }
-
-  @override
-  Stream<List<CategoryWithSum>> getAllCategoryWithSum() {
-    return appDatabase.getAllCategoryWithSum().map((event) => event
-        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-        .toList());
   }
 
   @override

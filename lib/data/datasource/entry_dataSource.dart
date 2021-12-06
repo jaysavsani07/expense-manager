@@ -6,8 +6,6 @@ import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/history.dart';
 
 abstract class EntryDataSource {
-  Stream<List<String>> getMonthList();
-
   Stream<List<String>> getExpenseMonthListByYear(int year);
   Stream<List<String>> getIncomeMonthListByYear(int year);
   Stream<List<String>> getAllMonthListByYear(int year);
@@ -25,15 +23,7 @@ abstract class EntryDataSource {
   Stream<int> deleteExpenseEntry(int id);
   Stream<int> deleteIncomeEntry(int id);
 
-  Stream<List<Entry>> getAllExpenseEntry();
-  Stream<List<Entry>> getAllIncomeEntry();
-
-  Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
-
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
-      DateTime start, DateTime end);
-
-  Stream<List<History>> getAllEntryWithCategoryDateWise(
       DateTime start, DateTime end);
 
   Stream<List<History>> getExpenseEntryWithCategoryDateWiseByMonthAndYear(
@@ -56,8 +46,6 @@ abstract class EntryDataSource {
 
   Stream<List<Category>> getAllExpenseCategory();
   Stream<List<Category>> getAllIncomeCategory();
-
-  Stream<List<CategoryWithSum>> getAllCategoryWithSum();
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(
       int month, int year);

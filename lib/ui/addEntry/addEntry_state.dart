@@ -42,63 +42,38 @@ class AddEntryViewModel with ChangeNotifier {
       description = entryWithCategory.entry.description;
     }
 
-    entryDataSourceImp.getAllCategory().listen((event) {
+    entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {
       expenseCategoryList = event;
       notifyListeners();
     });
 
-    entryDataSourceImp.getAllIncomeCategory().listen((event) {
+    entryDataSourceImp.getAllCategory(EntryType.income).listen((event) {
       incomeCategoryList = event;
       notifyListeners();
     });
   }
 
-  void addUpdate() {
-    if (entryType == EntryType.income) {
-      addUpdateIncomeEntry();
-    } else {
-      addUpdateEntry();
-    }
-  }
-
   void addUpdateEntry() {
     if (entryWithCategory != null) {
       entryDataSourceImp
-          .updateEntry(Entry(
-              id: entryWithCategory.entry.id,
-              amount: double.parse(amount),
-              categoryId: category.id,
-              modifiedDate: date,
-              description: description))
+          .updateEntry(
+              entryType,
+              Entry(
+                  id: entryWithCategory.entry.id,
+                  amount: double.parse(amount),
+                  categoryId: category.id,
+                  modifiedDate: date,
+                  description: description))
           .listen((event) {});
     } else {
       entryDataSourceImp
-          .addEntry(Entry(
-              amount: double.parse(amount),
-              categoryId: category?.id,
-              modifiedDate: date,
-              description: description))
-          .listen((event) {});
-    }
-  }
-
-  void addUpdateIncomeEntry() {
-    if (entryWithCategory != null) {
-      entryDataSourceImp
-          .updateIncomeEntry(Entry(
-              id: entryWithCategory.entry.id,
-              amount: double.parse(amount),
-              categoryId: category.id,
-              modifiedDate: date,
-              description: description))
-          .listen((event) {});
-    } else {
-      entryDataSourceImp
-          .addIncomeEntry(Entry(
-              amount: double.parse(amount),
-              categoryId: category?.id,
-              modifiedDate: date,
-              description: description))
+          .addEntry(
+              entryType,
+              Entry(
+                  amount: double.parse(amount),
+                  categoryId: category?.id,
+                  modifiedDate: date,
+                  description: description))
           .listen((event) {});
     }
   }

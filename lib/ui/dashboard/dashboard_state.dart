@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/date_time_util.dart';
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
@@ -141,7 +142,7 @@ class CategoryModel with ChangeNotifier {
   List<cat.Category> list = [];
 
   CategoryModel({@required this.entryDataSourceImp}) {
-    entryDataSourceImp.getAllCategory().listen((event) {
+    entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {
       list = event;
       Fimber.e("${list.length}");
       notifyListeners();
