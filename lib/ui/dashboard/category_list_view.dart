@@ -1,13 +1,13 @@
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
-import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
-final _currentCategory = Provider<Category>((ref) => throw UnimplementedError());
+final _currentCategory =
+    Provider<Category>((ref) => throw UnimplementedError());
 
 class CategoryListView extends ConsumerWidget {
   const CategoryListView({
@@ -16,8 +16,6 @@ class CategoryListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Fimber.e("${ref
-        .watch(categoryListProvider).list.length}");
     return GridView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       shrinkWrap: true,

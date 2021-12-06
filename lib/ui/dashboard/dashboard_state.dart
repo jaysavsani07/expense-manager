@@ -142,9 +142,8 @@ class CategoryModel with ChangeNotifier {
   List<cat.Category> list = [];
 
   CategoryModel({@required this.entryDataSourceImp}) {
-    entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {
+    entryDataSourceImp.getAllCategory(EntryType.all).listen((event) {
       list = event;
-      Fimber.e("${list.length}");
       notifyListeners();
     });
   }

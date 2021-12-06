@@ -174,7 +174,7 @@ class AppDatabase extends _$AppDatabase {
           .go()
           .asStream();
 
-    Stream<List<EntryWithCategoryExpenseData>> getAllEntryWithCategory(
+  Stream<List<EntryWithCategoryExpenseData>> getAllEntryWithCategory(
       DateTime start, DateTime end) {
     return (select(entryEntity)
           ..where((row) => row.modifiedDate.isBetweenValues(start, end))
@@ -223,7 +223,6 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<List<EntryWithCategoryAllData>> getAllEntryWithCategoryByMonthAndYear(
       int month, int year) {
-    print("$month $year");
     return customSelect(
         "SELECT *, 0 AS entry_type FROM entry_entity LEFT OUTER JOIN category_entity ON category_entity.id = entry_entity.category_id WHERE (CAST(strftime('%m', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? AND (CAST(strftime('%Y', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? UNION SELECT *, 1 AS entry_type FROM income_entry_entity LEFT OUTER JOIN income_category_entity ON income_category_entity.id = income_entry_entity.category_id WHERE (CAST(strftime('%m', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? AND (CAST(strftime('%Y', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? ORDER BY income_entry_entity.modified_date DESC;",
         variables: [
@@ -232,9 +231,7 @@ class AppDatabase extends _$AppDatabase {
           Variable.withInt(month),
           Variable.withInt(year),
         ]).watch().map((event) {
-      print(event);
       return event.map((e) {
-        print(e.data);
         return EntryWithCategoryAllData(
             entry: EntryEntityData.fromData(e.data, this),
             category: CategoryEntityData.fromData(e.data, this),
@@ -331,11 +328,23 @@ class AppDatabase extends _$AppDatabase {
             ]))
           .watch();
 
-  Future<List<CategoryEntityData>> getAllCategory1() => (select(categoryEntity)
-        ..orderBy([
-          (u) => OrderingTerm(expression: u.position, mode: OrderingMode.asc)
-        ]))
-      .get();
+  Stream<List<CategoryEntityData>> getAllCategory() {
+    return customSelect(
+        "SELECT * FROM income_category_entity UNION SELECT * FROM category_entity ORDER BY name ASC;",
+        readsFrom: {incomeCategoryEntity, categoryEntity}).watch().map((event) {
+      return event.map((e) {
+        return CategoryEntityData.fromData(e.data, this);
+      }).toList();
+    });
+  }
+
+  Future<List<CategoryEntityData>> getExpenseCategoryFeature() =>
+      (select(categoryEntity)
+            ..orderBy([
+              (u) =>
+                  OrderingTerm(expression: u.position, mode: OrderingMode.asc)
+            ]))
+          .get();
 
   Stream<int> addExpenseCategory(CategoryEntityCompanion category) => customInsert(
       "INSERT INTO category_entity (position, name, icon, icon_color) VALUES ((SELECT IFNULL(MAX(position), 0) + 1 FROM category_entity), '${category.name.value}', '${category.icon.value}', '${category.iconColor.value}');",
@@ -412,7 +421,7 @@ class AppDatabase extends _$AppDatabase {
             }).asStream());*/
     return transaction(() async {
       Fimber.e("$oldIndex $newIndex");
-      List<Category> categoryList = await getAllCategory1().then(
+      List<Category> categoryList = await getExpenseCategoryFeature().then(
           (value) => value.map((e) => Category.fromCategoryEntity(e)).toList());
       Fimber.e(
           "Pre ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");

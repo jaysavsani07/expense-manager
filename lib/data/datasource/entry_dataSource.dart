@@ -46,6 +46,7 @@ abstract class EntryDataSource {
 
   Stream<List<Category>> getAllExpenseCategory();
   Stream<List<Category>> getAllIncomeCategory();
+  Stream<List<Category>> getAllCategory();
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(
       int month, int year);

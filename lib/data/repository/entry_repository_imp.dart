@@ -135,10 +135,17 @@ class EntryRepositoryImp extends EntryRepository {
 
   @override
   Stream<List<Category>> getAllCategory(EntryType entryType) {
-    if (entryType == EntryType.expense) {
-      return entryDataSourceImp.getAllExpenseCategory();
-    } else {
-      return entryDataSourceImp.getAllIncomeCategory();
+    switch (entryType) {
+      case EntryType.expense:
+        return entryDataSourceImp.getAllExpenseCategory();
+
+        break;
+      case EntryType.income:
+        return entryDataSourceImp.getAllIncomeCategory();
+        break;
+      default:
+        return entryDataSourceImp.getAllCategory();
+        break;
     }
   }
 
