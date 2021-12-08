@@ -196,6 +196,36 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
+  Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end) {
+    return (select(entryEntity)
+          ..where((row) => row.modifiedDate.isBetweenValues(start, end)))
+        .watch()
+        .map((event) => event
+            .map((e) => e.amount)
+            .toList()
+            .fold(0, (previous, element) => previous + element));
+  }
+
+  Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end) {
+    return (select(incomeEntryEntity)
+          ..where((row) => row.modifiedDate.isBetweenValues(start, end)))
+        .watch()
+        .map((event) => event
+            .map((e) => e.amount)
+            .toList()
+            .fold(0, (previous, element) => previous + element));
+  }
+
+  Stream<double> getTodayExpense() {
+    return (select(entryEntity)
+          ..where((row) => row.modifiedDate.isBiggerOrEqual(currentDate)))
+        .watch()
+        .map((event) => event
+            .map((e) => e.amount)
+            .toList()
+            .fold(0, (previous, element) => previous + element));
+  }
+
   Stream<List<EntryWithCategoryExpenseData>>
       getExpenseEntryWithCategoryByMonthAndYear(int month, int year) {
     return (select(entryEntity)

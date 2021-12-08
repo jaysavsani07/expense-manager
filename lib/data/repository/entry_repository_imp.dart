@@ -77,9 +77,24 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
-      DateTime start, DateTime end) {
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(DateTime start,
+      DateTime end) {
     return entryDataSourceImp.getAllEntryWithCategory(start, end);
+  }
+
+  @override
+  Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end) {
+    return entryDataSourceImp.getExpanseSumByDateRange(start, end);
+  }
+
+  @override
+  Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end) {
+    return entryDataSourceImp.getIncomeSumByDateRange(start, end);
+  }
+
+  @override
+  Stream<double> getTodayExpense() {
+    return entryDataSourceImp.getTodayExpense();
   }
 
   @override
@@ -154,7 +169,9 @@ class EntryRepositoryImp extends EntryRepository {
       Tuple2<String, int> filterType) {
     if (filterType.item1 == "Month")
       return entryDataSourceImp.getAllCategoryWithSumByMonth(
-          filterType.item2, DateTime.now().year);
+          filterType.item2, DateTime
+          .now()
+          .year);
     return entryDataSourceImp.getAllCategoryWithSumByYear(filterType.item2);
   }
 }

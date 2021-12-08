@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
@@ -134,7 +135,10 @@ class TodayAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todayAmount = ref.watch(todayAmountProvider);
+    final todayExpense = ref.watch(todayExpenseProvider);
+    final totalExpense = ref.watch(totalExpenseProvider);
+    final totalIncome = ref.watch(totalIncomeProvider);
+    final totalIncomeExpenseRatio = ref.watch(totalIncomeExpenseRatioProvider);
     String currency = ref.watch(appStateNotifier).currency.item1;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -142,40 +146,84 @@ class TodayAmount extends ConsumerWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 14),
-          child: Row(
+          child: Column(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppLocalization.of(context)
-                          .getTranslatedVal("today_expanse"),
+              Text(
+                AppLocalization.of(context).getTranslatedVal("today_expanse"),
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2
+                    .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 6),
+              FittedBox(
+                child: Text(
+                  "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayExpense)}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      .copyWith(fontSize: 28),
+                ),
+              ),
+              SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FittedBox(
+                    child: Text(
+                      "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
-                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                          .copyWith(fontSize: 16),
                     ),
-                    SizedBox(height: 6),
-                    FittedBox(
-                      child: Text(
-                        "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayAmount)}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(fontSize: 28),
-                      ),
-                    )
-                  ],
+                  ),
+                  FittedBox(
+                    child: Text(
+                      "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalIncome)}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          .copyWith(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 2),
+              LinearPercentIndicator(
+                lineHeight: 12,
+                percent: totalIncomeExpenseRatio,
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                backgroundColor: Theme.of(context).dividerColor,
+                progressColor: Colors.red,
+                center: Text(
+                  "${(totalIncomeExpenseRatio * 100).toStringAsFixed(0)}%",
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(width: 12),
-              Expanded(
-                child: SizedBox(
-                  height: 36,
-                  child: LineChart(ref.watch(todayLineChartProvider)),
-                ),
-              )
+              SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("expense"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    AppLocalization.of(context).getTranslatedVal("income"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ],
           )),
     );

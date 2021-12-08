@@ -143,7 +143,7 @@ class TotalAmount extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalAmount = ref.watch(totalAmountProvider);
+    final totalExpense = ref.watch(totalExpenseProvider);
     String currency = ref.watch(appStateNotifier).currency.item1;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -156,7 +156,7 @@ class TotalAmount extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Text(
-              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalAmount)}",
+              "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
               style: Theme.of(context)
                   .textTheme
                   .subtitle2

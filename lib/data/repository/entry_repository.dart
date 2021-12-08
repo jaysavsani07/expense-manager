@@ -19,6 +19,9 @@ abstract class EntryRepository {
 
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
       DateTime start, DateTime end);
+  Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end);
+  Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end);
+  Stream<double> getTodayExpense();
 
   Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
       EntryType entryType, int month, int year);

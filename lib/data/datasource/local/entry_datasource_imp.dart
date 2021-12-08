@@ -105,6 +105,21 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
+  Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end) {
+    return appDatabase.getExpanseSumByDateRange(start, end);
+  }
+
+  @override
+  Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end) {
+    return appDatabase.getIncomeSumByDateRange(start, end);
+  }
+
+  @override
+  Stream<double> getTodayExpense() {
+    return appDatabase.getTodayExpense();
+  }
+
+  @override
   Stream<List<History>> getExpenseEntryWithCategoryDateWiseByMonthAndYear(
       int month, int year) {
     return appDatabase
