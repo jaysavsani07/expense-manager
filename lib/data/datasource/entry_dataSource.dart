@@ -3,6 +3,7 @@ import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_list.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 
 abstract class EntryDataSource {
@@ -69,4 +70,5 @@ abstract class EntryDataSource {
       int year);
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSumByYear(int year);
+  Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year);
 }

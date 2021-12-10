@@ -66,7 +66,7 @@ class HistoryList extends ConsumerWidget {
                                           ref
                                               .read(repositoryProvider)
                                               .deleteEntry(
-                                                  e.entryEntity, e.entry.id)
+                                                  e.entryType, e.entry.id)
                                               .listen((event) {});
                                         },
                                         child: InkWell(

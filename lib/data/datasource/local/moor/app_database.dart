@@ -320,6 +320,23 @@ class AppDatabase extends _$AppDatabase {
         });
   }
 
+  Stream<List<EntryWithCategoryAllData>> getAllEntryWithCategoryByYear(
+      int year) {
+    return customSelect(
+        "SELECT *, 0 AS entry_type FROM entry_entity LEFT OUTER JOIN category_entity ON category_entity.id = entry_entity.category_id WHERE (CAST(strftime('%Y', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? UNION SELECT *, 1 AS entry_type FROM income_entry_entity LEFT OUTER JOIN income_category_entity ON income_category_entity.id = income_entry_entity.category_id WHERE (CAST(strftime('%Y', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? ORDER BY income_entry_entity.modified_date ASC;",
+        variables: [
+          Variable.withInt(year),
+          Variable.withInt(year),
+        ]).watch().map((event) {
+      return event.map((e) {
+        return EntryWithCategoryAllData(
+            entry: EntryEntityData.fromData(e.data, this),
+            category: CategoryEntityData.fromData(e.data, this),
+            entryType: e.read<int>("entry_type"));
+      }).toList();
+    });
+  }
+
   Stream<List<CategoryWithSumData>> getAllCategoryWithSumByYear(int year) {
     return ((select(entryEntity)
               ..where((tbl) => tbl.modifiedDate.year.equals(year)))

@@ -46,6 +46,7 @@ dependencies:
   firebase_analytics: ^8.3.4
   fimber: ^0.6.4
   smooth_page_indicator: ^1.0.0+2
+  numeral: ^1.2.5
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git

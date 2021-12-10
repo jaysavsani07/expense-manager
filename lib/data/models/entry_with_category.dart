@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 class EntryWithCategory {
   final Entry entry;
   final Category category;
-  final EntryType entryEntity;
+  final EntryType entryType;
 
   EntryWithCategory({
     @required this.entry,
     @required this.category,
-    @required this.entryEntity,
+    @required this.entryType,
   });
 
   factory EntryWithCategory.fromExpenseEntryWithCategoryEntity(
@@ -20,7 +20,7 @@ class EntryWithCategory {
     return EntryWithCategory(
         entry: Entry.fromEntryEntity(entityData.entry),
         category: Category.fromCategoryEntity(entityData.category),
-        entryEntity: EntryType.expense);
+        entryType: EntryType.expense);
   }
 
   factory EntryWithCategory.fromIncomeEntryWithCategoryEntity(
@@ -28,7 +28,7 @@ class EntryWithCategory {
     return EntryWithCategory(
         entry: Entry.fromIncomeEntryEntity(entityData.entry),
         category: Category.fromIncomeCategoryEntity(entityData.category),
-        entryEntity: EntryType.income);
+        entryType: EntryType.income);
   }
 
   factory EntryWithCategory.fromAllEntryWithCategoryEntity(
@@ -36,12 +36,12 @@ class EntryWithCategory {
     return EntryWithCategory(
         entry: Entry.fromEntryEntity(entityData.entry),
         category: Category.fromCategoryEntity(entityData.category),
-        entryEntity: EntryType.values[entryType]);
+        entryType: EntryType.values[entryType]);
   }
 
   @override
   String toString() {
-    return 'EntryWithCategory{entry: ${entry.toString()}, category: ${category.toString()}';
+    return 'EntryWithCategory{entryType: $entryType, entry: ${entry.toString()}, category: ${category.toString()}';
   }
 }
 
