@@ -1,16 +1,15 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_manager/core/app_localization.dart';
-import 'package:expense_manager/ui/history/entry_type.dart';
+import 'package:expense_manager/ui/dialog/common_alert_dialog.dart';
+import 'package:expense_manager/ui/dialog/history_filter_dialog.dart';
 import 'package:expense_manager/ui/history/history_list.dart';
 import 'package:expense_manager/ui/history/month_list.dart';
-import 'package:expense_manager/ui/history/year_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class History extends ConsumerWidget {
+class History extends StatelessWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -28,30 +27,36 @@ class History extends ConsumerWidget {
           ),
         ),
         actions: [
-          // InkWell(
-          //   onTap: () {
-          //     showModalBottomSheet(
-          //         context: context,
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(10.0),
-          //         ),
-          //         builder: (builder) => YearList());
-          //   },
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(24),
-          //     child: Icon(
-          //       Icons.calendar_today_rounded,
-          //     ),
-          //   ),
-          // )
+          InkWell(
+            onTap: () {
+              showGeneralDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  barrierLabel: "history",
+                  transitionDuration: Duration(milliseconds: 200),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      CommonAlertDialog(child: HistoryFilterDialog()),
+                  transitionBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment(0.83, -0.83),
+                            child: child,
+                          ));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Icon(
+                Icons.filter_list_rounded,
+              ),
+            ),
+          )
         ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 8),
-          EntryTypeView(),
-          YearList(),
           MonthList(),
           HistoryList(),
         ],

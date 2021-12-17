@@ -6,12 +6,12 @@ import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/category_list_view.dart';
 import 'package:expense_manager/ui/dashboard/category_pie_chart_view.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
@@ -138,7 +138,6 @@ class TodayAmount extends ConsumerWidget {
     final todayExpense = ref.watch(todayExpenseProvider);
     final totalExpense = ref.watch(totalExpenseProvider);
     final totalIncome = ref.watch(totalIncomeProvider);
-    final totalIncomeExpenseRatio = ref.watch(totalIncomeExpenseRatioProvider);
     String currency = ref.watch(appStateNotifier).currency.item1;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -146,86 +145,197 @@ class TodayAmount extends ConsumerWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 14),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                AppLocalization.of(context).getTranslatedVal("today_expanse"),
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2
-                    .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 6),
-              FittedBox(
-                child: Text(
-                  "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayExpense)}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .copyWith(fontSize: 28),
-                ),
-              ),
-              SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FittedBox(
-                    child: Text(
-                      "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(height: 12),
+                    Text(
+                      AppLocalization.of(context)
+                          .getTranslatedVal("today_expanse"),
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
-                          .copyWith(fontSize: 16),
+                          .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  FittedBox(
-                    child: Text(
-                      "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalIncome)}",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .copyWith(fontSize: 16),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2),
-              LinearPercentIndicator(
-                lineHeight: 12,
-                percent: totalIncomeExpenseRatio,
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                backgroundColor: Theme.of(context).dividerColor,
-                progressColor: Colors.red,
-                center: Text(
-                  "${(totalIncomeExpenseRatio * 100).toStringAsFixed(0)}%",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+                    SizedBox(height: 6),
+                    FittedBox(
+                      child: Text(
+                        "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayExpense)}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            .copyWith(fontSize: 28),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(height: 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppLocalization.of(context).getTranslatedVal("expense"),
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2
-                        .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    AppLocalization.of(context).getTranslatedVal("income"),
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2
-                        .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
-                ],
+              Expanded(
+                child: SizedBox(height: 70, child: RadialTextPointer()),
               ),
             ],
           )),
     );
   }
 }
+
+class RadialTextPointer extends ConsumerStatefulWidget {
+  /// Creates the gauge text pointer sample
+  const RadialTextPointer({Key key}) : super(key: key);
+
+  @override
+  _RadialTextPointerState createState() => _RadialTextPointerState();
+}
+
+class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
+  _RadialTextPointerState();
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildRadialTextPointer();
+  }
+
+  /// Returns the text pointer gauge
+  SfRadialGauge _buildRadialTextPointer() {
+    final totalIncomeExpenseRatio = ref.watch(totalIncomeExpenseRatioProvider);
+    return SfRadialGauge(
+      axes: <RadialAxis>[
+        RadialAxis(
+          showAxisLine: false,
+          showLabels: false,
+          showTicks: false,
+          startAngle: 180,
+          endAngle: 360,
+          minimum: 0,
+          centerY: 0.8,
+          maximum: 120,
+          canScaleToFit: false,
+          radiusFactor: 1.6,
+          pointers: <GaugePointer>[
+            NeedlePointer(
+                needleStartWidth: 0.5,
+                lengthUnit: GaugeSizeUnit.factor,
+                needleEndWidth: 3,
+                needleLength: 0.7,
+                value: totalIncomeExpenseRatio * 120,
+                knobStyle: KnobStyle(knobRadius: 0.07)),
+          ],
+          ranges: <GaugeRange>[
+            GaugeRange(
+                startValue: 0,
+                endValue: 20,
+                startWidth: 0.45,
+                endWidth: 0.45,
+                sizeUnit: GaugeSizeUnit.factor,
+                color: const Color(0xFF64BE00)),
+            GaugeRange(
+                startValue: 20.5,
+                endValue: 40,
+                startWidth: 0.45,
+                sizeUnit: GaugeSizeUnit.factor,
+                endWidth: 0.45,
+                color: const Color(0xFF8BE724)),
+            GaugeRange(
+                startValue: 40.5,
+                endValue: 60,
+                startWidth: 0.45,
+                sizeUnit: GaugeSizeUnit.factor,
+                endWidth: 0.45,
+                color: const Color(0xFFFFBA00)),
+            GaugeRange(
+                startValue: 60.5,
+                endValue: 80,
+                startWidth: 0.45,
+                sizeUnit: GaugeSizeUnit.factor,
+                endWidth: 0.45,
+                color: const Color(0xFFFFDF10)),
+            GaugeRange(
+                startValue: 80.5,
+                endValue: 100,
+                sizeUnit: GaugeSizeUnit.factor,
+                startWidth: 0.45,
+                endWidth: 0.45,
+                color: const Color(0xFFFF4100)),
+            GaugeRange(
+                startValue: 100.5,
+                endValue: 120,
+                startWidth: 0.45,
+                endWidth: 0.45,
+                sizeUnit: GaugeSizeUnit.factor,
+                color: const Color(0xFFDD3800)),
+          ],
+          annotations: <GaugeAnnotation>[
+            GaugeAnnotation(
+              angle: 172,
+              positionFactor: 0.9,
+              widget: Container(
+                child: Text(
+                  AppLocalization.of(context).getTranslatedVal("expense"),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            GaugeAnnotation(
+              angle: 8,
+              positionFactor: 0.9,
+              widget: Container(
+                child: Text(
+                  AppLocalization.of(context).getTranslatedVal("income"),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2
+                      .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+// LinearPercentIndicator(
+// lineHeight: 12,
+// percent: totalIncomeExpenseRatio,
+// padding: EdgeInsets.symmetric(horizontal: 4),
+// backgroundColor: Theme.of(context).dividerColor,
+// progressColor: Colors.red,
+// center: Text(
+// "${(totalIncomeExpenseRatio * 100).toStringAsFixed(0)}%",
+// style: Theme.of(context)
+// .textTheme
+//     .subtitle2
+//     .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+// ),
+// ),
+
+// Row(
+// mainAxisAlignment: MainAxisAlignment.spaceBetween,
+// children: [
+// FittedBox(
+// child: Text(
+// "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
+// style: Theme.of(context)
+// .textTheme
+//     .subtitle2
+//     .copyWith(fontSize: 16),
+// ),
+// ),
+// FittedBox(
+// child: Text(
+// "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalIncome)}",
+// style: Theme.of(context)
+// .textTheme
+//     .subtitle2
+//     .copyWith(fontSize: 16),
+// ),
+// ),
+// ],
+// ),

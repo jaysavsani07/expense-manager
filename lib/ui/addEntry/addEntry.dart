@@ -7,7 +7,6 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
-import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 
 class AddEntry extends ConsumerWidget {
-  final Tuple2<EntryWithCategory, Category> entryWithCategory;
+  final Tuple3<EntryType,EntryWithCategory, Category> entryWithCategory;
 
   AddEntry({@required this.entryWithCategory}) : super();
 

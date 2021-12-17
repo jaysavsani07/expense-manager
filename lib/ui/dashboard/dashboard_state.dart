@@ -48,7 +48,9 @@ final todayExpenseStreamProvider = StreamProvider((ref) {
 final totalIncomeExpenseRatioProvider = StateProvider<double>((ref) {
   var expense = ref.watch(totalExpenseProvider);
   var income = ref.watch(totalIncomeProvider);
-  if (income == 0) {
+  if (income == 0 && expense == 0) {
+    return 0.0;
+  } else if (income == 0) {
     return 1.0;
   } else if (expense == 0) {
     return 0.0;
@@ -100,7 +102,15 @@ class DashboardViewModel with ChangeNotifier {
         .getAllEntryWithCategory(DateTimeUtil.getStartDateTime(cycleDate),
             DateTimeUtil.getEndDateTime(cycleDate))
         .listen((event) {
-      list = event;
+      list = event..sort((a, b) {
+        if (a.total > b.total) {
+          return -1;
+        } else if (a.total < b.total) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       notifyListeners();
     });
   }

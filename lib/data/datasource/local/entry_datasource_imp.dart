@@ -212,7 +212,7 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<List<Category>> getAllExpenseCategory() {
     return appDatabase.getAllExpenseCategory().map(
-        (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
+        (event) => event.map((e) => Category.fromExpenseCategoryEntity(e)).toList());
   }
 
   @override
@@ -224,7 +224,7 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<List<Category>> getAllCategory() {
     return appDatabase.getAllCategory().map(
-        (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
+        (event) => event.map((e) => Category.fromAllCategoryEntity(e.item1,e.item2)).toList());
   }
 
   @override

@@ -29,7 +29,7 @@ class CategoryWithSum {
       CategoryWithSumData entityData) {
     return CategoryWithSum(
         total: entityData.total,
-        category: Category.fromCategoryEntity(entityData.category));
+        category: Category.fromExpenseCategoryEntity(entityData.category));
   }
 
 /*EntryEntityCompanion toEntryEntityCompanion() {

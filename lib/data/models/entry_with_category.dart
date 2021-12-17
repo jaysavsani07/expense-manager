@@ -19,7 +19,7 @@ class EntryWithCategory {
       EntryWithCategoryExpenseData entityData) {
     return EntryWithCategory(
         entry: Entry.fromEntryEntity(entityData.entry),
-        category: Category.fromCategoryEntity(entityData.category),
+        category: Category.fromExpenseCategoryEntity(entityData.category),
         entryType: EntryType.expense);
   }
 
@@ -35,7 +35,7 @@ class EntryWithCategory {
       EntryWithCategoryAllData entityData, int entryType) {
     return EntryWithCategory(
         entry: Entry.fromEntryEntity(entityData.entry),
-        category: Category.fromCategoryEntity(entityData.category),
+        category: Category.fromExpenseCategoryEntity(entityData.category),
         entryType: EntryType.values[entryType]);
   }
 

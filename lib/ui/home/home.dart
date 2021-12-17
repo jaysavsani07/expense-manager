@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.addEntry,
-              arguments: Tuple2(null, null));
+              arguments: Tuple3(EntryType.expense, null, null));
         },
         child: Icon(Icons.add),
       ),
@@ -82,8 +83,7 @@ class HomeScreen extends ConsumerWidget {
                       ),
                       SizedBox(width: 8),
                       Text(
-                        AppLocalization.of(context)
-                            .getTranslatedVal("history"),
+                        AppLocalization.of(context).getTranslatedVal("history"),
                         style: Theme.of(context).textTheme.subtitle2.copyWith(
                             fontSize: 12,
                             color: homeViewModel.activeTab == HomeTab.history

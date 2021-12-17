@@ -9,11 +9,12 @@ import 'package:tuple/tuple.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final addEntryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddEntryViewModel, Tuple2<EntryWithCategory, cat.Category>>(
+    .family<AddEntryViewModel, Tuple3<EntryType,EntryWithCategory, cat.Category>>(
   (ref, entryWithCategory) => AddEntryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
-      entryWithCategory: entryWithCategory.item1,
-      category: entryWithCategory.item2),
+      entryType: entryWithCategory.item1,
+      entryWithCategory: entryWithCategory.item2,
+      category: entryWithCategory.item3),
 );
 
 class AddEntryViewModel with ChangeNotifier {
@@ -26,12 +27,13 @@ class AddEntryViewModel with ChangeNotifier {
   cat.Category category;
   DateTime date = DateTime.now();
   String description = "";
-  EntryType entryType = EntryType.expense;
+  EntryType entryType;
 
   AddEntryViewModel({
     @required this.entryDataSourceImp,
     @required this.entryWithCategory,
     @required this.category,
+    @required this.entryType,
   }) {
     this.entryWithCategory = entryWithCategory;
     if (category != null) {

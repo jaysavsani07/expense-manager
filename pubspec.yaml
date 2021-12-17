@@ -47,6 +47,7 @@ dependencies:
   fimber: ^0.6.4
   smooth_page_indicator: ^1.0.0+2
   numeral: ^1.2.5
+  syncfusion_flutter_gauges: ^19.3.59
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git

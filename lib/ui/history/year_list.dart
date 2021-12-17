@@ -7,10 +7,10 @@ class YearList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vm = ref.watch(yearListProvider);
 
-    return SizedBox(
-      height: 48,
-      child: vm.when(
-        data: (yearList) => ListView(
+    return vm.when(
+      data: (yearList) => yearList.isEmpty?SizedBox(): SizedBox(
+        height: 48,
+        child: ListView(
           shrinkWrap: false,
           padding: EdgeInsets.only(left: 24),
           scrollDirection: Axis.horizontal,
@@ -48,9 +48,11 @@ class YearList extends ConsumerWidget {
               )
               .toList(),
         ),
-        loading: () => CircularProgressIndicator(),
-        error: (e, str) => Center(child: Text(e.toString())),
       ),
+      loading: () => SizedBox(
+          height: 48,
+          child: CircularProgressIndicator()),
+      error: (e, str) => Center(child: Text(e.toString())),
     );
   }
 }

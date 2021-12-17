@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor/moor.dart';
 import 'package:tuple/tuple.dart';
+import 'package:rxdart/rxdart.dart';
 
 final repositoryProvider = Provider((ref) =>
     EntryRepositoryImp(entryDataSourceImp: ref.read(dataSourceProvider)));
@@ -78,8 +79,8 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(DateTime start,
-      DateTime end) {
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
+      DateTime start, DateTime end) {
     return entryDataSourceImp.getAllEntryWithCategory(start, end);
   }
 
@@ -154,7 +155,6 @@ class EntryRepositoryImp extends EntryRepository {
     switch (entryType) {
       case EntryType.expense:
         return entryDataSourceImp.getAllExpenseCategory();
-
         break;
       case EntryType.income:
         return entryDataSourceImp.getAllIncomeCategory();
@@ -170,9 +170,7 @@ class EntryRepositoryImp extends EntryRepository {
       Tuple2<String, int> filterType) {
     if (filterType.item1 == "Month")
       return entryDataSourceImp.getAllCategoryWithSumByMonth(
-          filterType.item2, DateTime
-          .now()
-          .year);
+          filterType.item2, DateTime.now().year);
     return entryDataSourceImp.getAllCategoryWithSumByYear(filterType.item2);
   }
 
@@ -180,5 +178,4 @@ class EntryRepositoryImp extends EntryRepository {
   Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year) {
     return entryDataSourceImp.getAllEntryWithCategoryByYear(year);
   }
-
 }
