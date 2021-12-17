@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 
 class AddEntry extends ConsumerWidget {
-  final Tuple3<EntryType,EntryWithCategory, Category> entryWithCategory;
+  final Tuple3<EntryType, EntryWithCategory, Category> entryWithCategory;
 
   AddEntry({@required this.entryWithCategory}) : super();
 
@@ -36,8 +36,9 @@ class AddEntry extends ConsumerWidget {
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Text(
-                AppLocalization.of(context).getTranslatedVal("add_expense")),
+            child: Text(vm.entryType == EntryType.expense
+                ? AppLocalization.of(context).getTranslatedVal("add_expense")
+                : AppLocalization.of(context).getTranslatedVal("add_income")),
           ),
         ),
         actions: [

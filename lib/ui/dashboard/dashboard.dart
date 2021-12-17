@@ -226,46 +226,25 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
           ranges: <GaugeRange>[
             GaugeRange(
                 startValue: 0,
-                endValue: 20,
-                startWidth: 0.45,
-                endWidth: 0.45,
-                sizeUnit: GaugeSizeUnit.factor,
-                color: const Color(0xFF64BE00)),
-            GaugeRange(
-                startValue: 20.5,
                 endValue: 40,
                 startWidth: 0.45,
                 sizeUnit: GaugeSizeUnit.factor,
                 endWidth: 0.45,
-                color: const Color(0xFF8BE724)),
+                color: const Color(0xCC8BE724)),
             GaugeRange(
                 startValue: 40.5,
-                endValue: 60,
-                startWidth: 0.45,
-                sizeUnit: GaugeSizeUnit.factor,
-                endWidth: 0.45,
-                color: const Color(0xFFFFBA00)),
-            GaugeRange(
-                startValue: 60.5,
                 endValue: 80,
                 startWidth: 0.45,
                 sizeUnit: GaugeSizeUnit.factor,
                 endWidth: 0.45,
-                color: const Color(0xFFFFDF10)),
+                color: const Color(0xCCFFBA00)),
             GaugeRange(
                 startValue: 80.5,
-                endValue: 100,
-                sizeUnit: GaugeSizeUnit.factor,
-                startWidth: 0.45,
-                endWidth: 0.45,
-                color: const Color(0xFFFF4100)),
-            GaugeRange(
-                startValue: 100.5,
                 endValue: 120,
+                sizeUnit: GaugeSizeUnit.factor,
                 startWidth: 0.45,
                 endWidth: 0.45,
-                sizeUnit: GaugeSizeUnit.factor,
-                color: const Color(0xFFDD3800)),
+                color: const Color(0xCCFF4100)),
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(

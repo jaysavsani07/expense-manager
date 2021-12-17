@@ -167,69 +167,66 @@ class PieChartView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final vm = ref.watch(categoryPieChartProvider);
 
-    return Expanded(
-      flex: 4,
-      child: LayoutBuilder(
-        builder: (context, constraint) => Container(
-          decoration: BoxDecoration(
-            color: Color(0xFF292D32),
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: -10,
-                blurRadius: 20,
-                offset: Offset(-8, -8),
-                color: Colors.white.withOpacity(0.1),
+    return LayoutBuilder(
+      builder: (context, constraint) => Container(
+        decoration: BoxDecoration(
+          color: Color(0xFF292D32),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              spreadRadius: -10,
+              blurRadius: 20,
+              offset: Offset(-8, -8),
+              color: Colors.white.withOpacity(0.1),
+            ),
+            BoxShadow(
+              // spreadRadius: -2,
+              blurRadius: 20,
+              offset: Offset(8, 8),
+              color: Colors.black.withOpacity(0.4),
+            )
+          ],
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: SizedBox(
+                width: constraint.maxWidth * 0.6,
+                child: CustomPaint(
+                  child: Center(),
+                  foregroundPainter: PieChart1(
+                    width: constraint.maxWidth * 0.5,
+                    categories:
+                        vm.map((e) => Tuple2(e.value, e.color)).toList(),
+                  ),
+                ),
               ),
-              BoxShadow(
-                // spreadRadius: -2,
-                blurRadius: 20,
-                offset: Offset(8, 8),
-                color: Colors.black.withOpacity(0.4),
-              )
-            ],
-          ),
-          child: Stack(
-            children: [
-              Center(
-                child: SizedBox(
-                  width: constraint.maxWidth * 0.6,
-                  child: CustomPaint(
-                    child: Center(),
-                    foregroundPainter: PieChart1(
-                      width: constraint.maxWidth * 0.5,
-                      categories:
-                          vm.map((e) => Tuple2(e.value, e.color)).toList(),
+            ),
+            Center(
+              child: Container(
+                height: constraint.maxWidth * 0.4,
+                decoration: BoxDecoration(
+                  color: Color(0xFF292D32),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: -10,
+                      blurRadius: 20,
+                      offset: Offset(-8, -8),
+                      color: Colors.white.withOpacity(0.1),
                     ),
-                  ),
+                    BoxShadow(
+                      // spreadRadius: -2,
+                      blurRadius: 20,
+                      offset: Offset(8, 8),
+                      color: Colors.black.withOpacity(0.4),
+                    )
+                  ],
                 ),
+                child: TotalAmount(),
               ),
-              Center(
-                child: Container(
-                  height: constraint.maxWidth * 0.4,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF292D32),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        spreadRadius: -10,
-                        blurRadius: 20,
-                        offset: Offset(-8, -8),
-                        color: Colors.white.withOpacity(0.1),
-                      ),
-                      BoxShadow(
-                        // spreadRadius: -2,
-                        blurRadius: 20,
-                        offset: Offset(8, 8),
-                        color: Colors.black.withOpacity(0.4),
-                      )
-                    ],
-                  ),
-                  child: TotalAmount(),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

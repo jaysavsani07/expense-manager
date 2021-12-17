@@ -60,5 +60,11 @@
   "nov": "novembro",
   "dec": "dezembro",
   "recent_expanse": "Expansão recente",
-  "yesterday": "Ontem"
+  "yesterday": "Ontem",
+
+  "type": "Tipo",
+  "expense": "Despesa",
+  "income": "Renda",
+  "all": "Todos",
+  "add_income": "Adicionar Rendimento"
 }
