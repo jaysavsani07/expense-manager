@@ -380,6 +380,7 @@ class HistoryEmpty extends StatelessWidget {
                 Text(
                   AppLocalization.of(context)
                       .getTranslatedVal("no_expense_yet_2"),
+                  textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1

@@ -3,13 +3,14 @@ import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final addEntryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddEntryViewModel, Tuple3<EntryType,EntryWithCategory, cat.Category>>(
+final addEntryModelProvider = ChangeNotifierProvider.autoDispose.family<
+    AddEntryViewModel, Tuple3<EntryType, EntryWithCategory, cat.Category>>(
   (ref, entryWithCategory) => AddEntryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
       entryType: entryWithCategory.item1,
@@ -36,8 +37,7 @@ class AddEntryViewModel with ChangeNotifier {
     @required this.entryType,
   }) {
     this.entryWithCategory = entryWithCategory;
-    if (category != null) {
-    } else if (entryWithCategory != null) {
+    if (entryWithCategory != null) {
       amount = entryWithCategory.entry.amount.toString();
       date = entryWithCategory.entry.modifiedDate;
       category = entryWithCategory.category;

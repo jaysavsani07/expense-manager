@@ -8,10 +8,12 @@ final entryTypeProvider = StateProvider<EntryType>((ref) => EntryType.all);
 final yearListProvider = StreamProvider<List<int>>((ref) {
   EntryType entryType = ref.watch(entryTypeProvider.state).state;
   return ref.read(repositoryProvider).getYearList(entryType).map((event) {
-    if(event.contains(DateTime.now().year)){
-      ref.read(yearProvider.state).state = DateTime.now().year;
-    }else{
-      ref.read(yearProvider.state).state = event.first;
+    if (event.isNotEmpty) {
+      if (event.contains(DateTime.now().year)) {
+        ref.read(yearProvider.state).state = DateTime.now().year;
+      } else {
+        ref.read(yearProvider.state).state = event.first;
+      }
     }
     return event;
   });
@@ -26,12 +28,18 @@ final monthListProvider = StreamProvider<List<String>>((ref) {
       .read(repositoryProvider)
       .getMonthListByYear(entryType, year)
       .map((event) {
-        if(year==DateTime.now().year){
+    if (year == DateTime.now().year) {
+      if (event.isNotEmpty) {
+        if (event.contains(DateTime.now().month)) {
           ref.read(monthProvider.state).state =
           AppConstants.monthList[DateTime.now().month];
-        }else{
+        } else {
           ref.read(monthProvider.state).state = event.first;
         }
+      }
+    } else {
+      ref.read(monthProvider.state).state = event.first;
+    }
     return event;
   });
 });

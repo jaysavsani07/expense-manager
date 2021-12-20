@@ -162,14 +162,18 @@ class AppDatabase extends _$AppDatabase {
   Stream<int> addExpenseEntry(EntryEntityCompanion entity) =>
       into(entryEntity).insert(entity).asStream();
 
-  Stream<int> addIncomeEntry(IncomeEntryEntityCompanion entity) =>
-      into(incomeEntryEntity).insert(entity).asStream();
+  Stream<int> addIncomeEntry(IncomeEntryEntityCompanion entity) {
+    return into(incomeEntryEntity).insert(entity).asStream();
+  }
 
-  Stream<bool> updateExpenseEntry(EntryEntityCompanion entity) =>
-      update(entryEntity).replace(entity).asStream();
+  Stream<bool> updateExpenseEntry(EntryEntityCompanion entity) {
+    return update(entryEntity).replace(entity).asStream();
+  }
 
-  Stream<bool> updateIncomeEntry(IncomeEntryEntityCompanion entity) =>
-      update(incomeEntryEntity).replace(entity).asStream();
+  Stream<bool> updateIncomeEntry(IncomeEntryEntityCompanion entity) {
+    Fimber.e(entity.id.value.toString());
+    return update(incomeEntryEntity).replace(entity).asStream();
+  }
 
   Stream<int> deleteExpenseEntry(int id) =>
       (delete(entryEntity)..where((tbl) => tbl.id.equals(id))).go().asStream();
@@ -249,17 +253,13 @@ class AppDatabase extends _$AppDatabase {
                 entry: row.readTableOrNull(entryEntity),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
-        })
-        .map((event) {
-          print(event);
-          return event;
         });
   }
 
   Stream<List<EntryWithCategoryAllData>> getAllEntryWithCategoryByMonthAndYear(
       int month, int year) {
     return customSelect(
-      "SELECT *, 0 AS entry_type FROM entry_entity LEFT OUTER JOIN category_entity ON category_entity.id = entry_entity.category_id WHERE (CAST(strftime('%m', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? AND (CAST(strftime('%Y', entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? UNION SELECT *, 1 AS entry_type FROM income_entry_entity LEFT OUTER JOIN income_category_entity ON income_category_entity.id = income_entry_entity.category_id WHERE (CAST(strftime('%m', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? AND (CAST(strftime('%Y', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) =? ORDER BY income_entry_entity.modified_date DESC;",
+      "SELECT 0 AS \"entry_type\", entry_entity.id AS \"entry_entity.id\", entry_entity.amount AS \"entry_entity.amount\", entry_entity.category_id AS \"entry_entity.category_id\", entry_entity.modified_date AS \"entry_entity.modified_date\", entry_entity.description AS \"entry_entity.description\", category_entity.id AS \"category_entity.id\", category_entity.position AS \"category_entity.position\", category_entity.name AS \"category_entity.name\", category_entity.icon AS \"category_entity.icon\", category_entity.icon_color AS \"category_entity.icon_color\" FROM entry_entity LEFT OUTER JOIN category_entity ON category_entity.id = entry_entity.category_id WHERE (CAST(strftime('%m', entry_entity.modified_date, 'unixepoch') AS INTEGER)) = ? AND (CAST(strftime('%Y', entry_entity.modified_date, 'unixepoch') AS INTEGER)) = ? UNION SELECT 1 AS \"entry_type\", income_entry_entity.id AS \"entry_entity.id\", income_entry_entity.amount AS \"entry_entity.amount\", income_entry_entity.category_id AS \"entry_entity.category_id\", income_entry_entity.modified_date AS \"entry_entity.modified_date\", income_entry_entity.description AS \"entry_entity.description\", income_category_entity.id AS \"category_entity.id\", income_category_entity.position AS \"category_entity.position\", income_category_entity.name AS \"category_entity.name\", income_category_entity.icon AS \"category_entity.icon\", income_category_entity.icon_color AS \"category_entity.icon_color\" FROM income_entry_entity LEFT OUTER JOIN income_category_entity ON income_category_entity.id = income_entry_entity.category_id WHERE (CAST(strftime('%m', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) = ? AND (CAST(strftime('%Y', income_entry_entity.modified_date, 'unixepoch') AS INTEGER)) = ? ORDER BY modified_date DESC;",
       variables: [
         Variable.withInt(month),
         Variable.withInt(year),
@@ -269,12 +269,14 @@ class AppDatabase extends _$AppDatabase {
       readsFrom: {
         incomeEntryEntity,
         entryEntity,
+        incomeCategoryEntity,
+        categoryEntity,
       },
     ).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry: EntryEntityData.fromData(e.data, this),
-            category: CategoryEntityData.fromData(e.data, this),
+            entry: EntryEntityData.fromData(e.data, this,prefix: "entry_entity."),
+            category: CategoryEntityData.fromData(e.data, this,prefix: "category_entity."),
             entryType: e.read<int>("entry_type"));
       }).toList();
     });
@@ -298,10 +300,6 @@ class AppDatabase extends _$AppDatabase {
                 entry: row.readTableOrNull(incomeEntryEntity),
                 category: row.readTableOrNull(incomeCategoryEntity));
           }).toList();
-        })
-        .map((event) {
-          print(event);
-          return event;
         });
   }
 
