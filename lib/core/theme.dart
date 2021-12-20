@@ -13,12 +13,10 @@ class AppTheme {
           color: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black, size: 20),
-          textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Color(0xff2196F3),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+          titleTextStyle: TextStyle(
+            color: Color(0xff2196F3),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           )),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: Colors.white,
@@ -62,12 +60,10 @@ class AppTheme {
           color: Colors.black,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.white, size: 20),
-          textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           )),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: Color(0xff212121),

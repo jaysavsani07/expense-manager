@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
+import 'package:expense_manager/core/color_scheme.dart';
 
 class CategoryChartView extends ConsumerWidget {
   const CategoryChartView({
@@ -57,7 +58,6 @@ class CategoryPieChartView extends ConsumerWidget {
         },
         borderRadius: BorderRadius.circular(6),
         child: Card(
-          color: Theme.of(context).primaryColor,
           elevation: 1,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           child: Padding(
@@ -170,20 +170,20 @@ class PieChartView extends ConsumerWidget {
     return LayoutBuilder(
       builder: (context, constraint) => Container(
         decoration: BoxDecoration(
-          color: Color(0xFF292D32),
+          color: Theme.of(context).colorScheme.paiChartColor,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
               spreadRadius: -10,
               blurRadius: 20,
               offset: Offset(-8, -8),
-              color: Colors.white.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.paiChartShadowLightColor.withOpacity(0.1),
             ),
             BoxShadow(
               // spreadRadius: -2,
               blurRadius: 20,
               offset: Offset(8, 8),
-              color: Colors.black.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.paiChartShadowDarkColor.withOpacity(0.4),
             )
           ],
         ),
@@ -206,20 +206,20 @@ class PieChartView extends ConsumerWidget {
               child: Container(
                 height: constraint.maxWidth * 0.4,
                 decoration: BoxDecoration(
-                  color: Color(0xFF292D32),
+                  color: Theme.of(context).colorScheme.paiChartColor,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
                       spreadRadius: -10,
                       blurRadius: 20,
                       offset: Offset(-8, -8),
-                      color: Colors.white.withOpacity(0.1),
+                      color: Theme.of(context).colorScheme.paiChartShadowLightColor.withOpacity(0.1),
                     ),
                     BoxShadow(
                       // spreadRadius: -2,
                       blurRadius: 20,
                       offset: Offset(8, 8),
-                      color: Colors.black.withOpacity(0.4),
+                      color: Theme.of(context).colorScheme.paiChartShadowDarkColor.withOpacity(0.4),
                     )
                   ],
                 ),

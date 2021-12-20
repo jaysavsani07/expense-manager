@@ -15,14 +15,15 @@ class History extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: DottedBorder(
-            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle.color,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child:
-                  Text(AppLocalization.of(context).getTranslatedVal("history")),
+                  Text(AppLocalization.of(context).getTranslatedVal("history"),
+                    style: Theme.of(context).appBarTheme.titleTextStyle,),
             ),
           ),
         ),

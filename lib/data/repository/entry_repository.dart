@@ -40,5 +40,5 @@ abstract class EntryRepository {
   Stream<List<CategoryWithSum>> getCategoryDetails(
       Tuple2<String, int> filterType);
 
-  Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year);
+  Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>> getAllEntryWithCategoryByYear(int year,int currentMonth);
 }

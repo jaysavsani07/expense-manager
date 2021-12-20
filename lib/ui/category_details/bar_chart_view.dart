@@ -1,10 +1,12 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/constants.dart';
+import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:numeral/ext.dart';
 
 class BarChartView extends ConsumerWidget {
@@ -72,7 +74,13 @@ class BarChartView extends ConsumerWidget {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12),
                             getTitles: (data) {
-                              return value.item1.numeral();
+                              return NumberFormat.simpleCurrency(
+                                          locale: ref
+                                              .watch(appStateNotifier)
+                                              .currency
+                                              .item1)
+                                      .currencySymbol +
+                                  data.numeral();
                             },
                           ),
                         ),

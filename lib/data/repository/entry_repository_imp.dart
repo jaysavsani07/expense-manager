@@ -1,3 +1,4 @@
+import 'package:collection/src/iterable_extensions.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';
@@ -7,11 +8,11 @@ import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
+import 'package:expense_manager/extension/list_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:moor/moor.dart';
 import 'package:tuple/tuple.dart';
-import 'package:rxdart/rxdart.dart';
 
 final repositoryProvider = Provider((ref) =>
     EntryRepositoryImp(entryDataSourceImp: ref.read(dataSourceProvider)));
@@ -175,7 +176,15 @@ class EntryRepositoryImp extends EntryRepository {
   }
 
   @override
-  Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year) {
-    return entryDataSourceImp.getAllEntryWithCategoryByYear(year);
+  Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>>
+      getAllEntryWithCategoryByYear(int year,int currentMonth) {
+    return entryDataSourceImp.getAllEntryWithCategoryByYear(year).map((event) =>
+        event.groupListsByMonth(currentMonth).entries.map((e) {
+          var list = e.value.groupListsBy((element) => element.entryType);
+          return Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>(
+              e.key,
+              list[EntryType.expense] ?? [],
+              list[EntryType.income] ?? []);
+        }).toList());
   }
 }

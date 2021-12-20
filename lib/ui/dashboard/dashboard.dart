@@ -21,14 +21,15 @@ class Dashboard extends ConsumerWidget {
         title: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: DottedBorder(
-            color: Theme.of(context).textTheme.subtitle2.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle.color,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Text(
-                  AppLocalization.of(context).getTranslatedVal("dashboard")),
+                  AppLocalization.of(context).getTranslatedVal("dashboard"),
+                style: Theme.of(context).appBarTheme.titleTextStyle,),
             ),
           ),
         ),

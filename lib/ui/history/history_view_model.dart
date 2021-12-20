@@ -8,7 +8,9 @@ final entryTypeProvider = StateProvider<EntryType>((ref) => EntryType.all);
 final yearListProvider = StreamProvider<List<int>>((ref) {
   EntryType entryType = ref.watch(entryTypeProvider.state).state;
   return ref.read(repositoryProvider).getYearList(entryType).map((event) {
-    if (event.isNotEmpty) {
+    if(event.contains(DateTime.now().year)){
+      ref.read(yearProvider.state).state = DateTime.now().year;
+    }else{
       ref.read(yearProvider.state).state = event.first;
     }
     return event;
@@ -24,9 +26,12 @@ final monthListProvider = StreamProvider<List<String>>((ref) {
       .read(repositoryProvider)
       .getMonthListByYear(entryType, year)
       .map((event) {
-    if (event.isNotEmpty) {
-      ref.read(monthProvider.state).state = event.first;
-    }
+        if(year==DateTime.now().year){
+          ref.read(monthProvider.state).state =
+          AppConstants.monthList[DateTime.now().month];
+        }else{
+          ref.read(monthProvider.state).state = event.first;
+        }
     return event;
   });
 });

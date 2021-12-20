@@ -30,7 +30,7 @@ class AddEntry extends ConsumerWidget {
             },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title: DottedBorder(
-          color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+          color: Theme.of(context).appBarTheme.titleTextStyle.color,
           dashPattern: [5, 5],
           radius: Radius.circular(12),
           borderType: BorderType.RRect,
@@ -38,7 +38,8 @@ class AddEntry extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(vm.entryType == EntryType.expense
                 ? AppLocalization.of(context).getTranslatedVal("add_expense")
-                : AppLocalization.of(context).getTranslatedVal("add_income")),
+                : AppLocalization.of(context).getTranslatedVal("add_income"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,),
           ),
         ),
         actions: [

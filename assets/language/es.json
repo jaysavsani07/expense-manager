@@ -66,5 +66,6 @@
   "expense": "Gastos",
   "income": "Ingreso",
   "all": "Toda",
-  "add_income": "Añadir ingresos"
+  "add_income": "Añadir ingresos",
+  "no_entry": "No hay entradas para este mes"
 }

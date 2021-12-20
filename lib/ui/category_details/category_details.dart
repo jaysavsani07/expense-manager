@@ -6,7 +6,6 @@ import 'package:expense_manager/ui/category_details/category_details_view_model.
 import 'package:expense_manager/ui/category_details/category_list_view.dart';
 import 'package:expense_manager/ui/dialog/category_details_filter_dialog.dart';
 import 'package:expense_manager/ui/dialog/common_alert_dialog.dart';
-import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,20 +22,21 @@ class CategoryDetails extends StatelessWidget {
             child: Icon(Icons.arrow_back_ios_rounded),
           ),
           title: DottedBorder(
-            color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle.color,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Text(AppLocalization.of(context)
-                  .getTranslatedVal("total_expense")),
+                  .getTranslatedVal("total_expense"),
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+              ),
             ),
           ),
           actions: [
             InkWell(
               onTap: () {
-                Fimber.e("okClick");
                 showGeneralDialog(
                     context: context,
                     barrierDismissible: true,
@@ -180,6 +180,56 @@ class YearListView extends ConsumerWidget {
         ),
         loading: () => CircularProgressIndicator(),
         error: (e, str) => Center(child: Text(e.toString())),
+      ),
+    );
+  }
+}
+
+class QuarterListView extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(categoryDetailsModelProvider);
+
+    return SizedBox(
+      height: 48,
+      child: ListView(
+        shrinkWrap: false,
+        padding: EdgeInsets.only(left: 24),
+        scrollDirection: Axis.horizontal,
+        children: vm.quarterList.entries.toList().reversed
+            .map((e) => Padding(
+            padding:
+            const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            child: InkWell(
+              onTap: () {
+                vm.changeQuarter(e.key);
+              },
+              borderRadius: BorderRadius.circular(15),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 9, horizontal: 14),
+                decoration: BoxDecoration(
+                  color: vm.quarterlyType == e.key
+                      ? Color(0xff2196F3)
+                      : Theme.of(context).dividerColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  "Q${e.key.index+1}",
+                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                    fontSize: 12,
+                    color:
+                    vm.quarterlyType  ==
+                        e.key
+                        ? Colors.white
+                        : Color(0xff2196F3),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+            .toList(),
       ),
     );
   }

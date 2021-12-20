@@ -24,14 +24,15 @@ class CategoryList extends ConsumerWidget {
             },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title: DottedBorder(
-          color: Theme.of(context).appBarTheme.textTheme.headline6.color,
+          color: Theme.of(context).appBarTheme.titleTextStyle.color,
           dashPattern: [5, 5],
           radius: Radius.circular(12),
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
-                AppLocalization.of(context).getTranslatedVal("category_list")),
+                AppLocalization.of(context).getTranslatedVal("category_list"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,),
           ),
         ),
         actions: [

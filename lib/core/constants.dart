@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 enum EntryType { expense, income, all }
+enum QuarterlyType { Q1, Q2, Q3, Q4 }
 
 class AppConstants {
   static final defaultCategoryList = [
@@ -48,13 +49,6 @@ class AppConstants {
   static final otherCategory = Category(
       name: "Other", icon: Icons.ac_unit_rounded, iconColor: Color(0xFF798897));
 
-  static final keyboard = [
-    ["1", "2", "3"],
-    ["4", "5", "6"],
-    ["7", "8", "9"],
-    [".", "0", "DEL"]
-  ];
-
   static final monthList = {
     1: "jan",
     2: "feb",
@@ -68,6 +62,13 @@ class AppConstants {
     10: "oct",
     11: "nov",
     12: "dec"
+  };
+
+  static final quarterlyMonth ={
+    QuarterlyType.Q1: [1, 2, 3],
+    QuarterlyType.Q2: [4,5, 6],
+    QuarterlyType.Q3: [ 7, 8 ,9],
+    QuarterlyType.Q4: [10, 11, 12],
   };
 
   static final currencyList = [
