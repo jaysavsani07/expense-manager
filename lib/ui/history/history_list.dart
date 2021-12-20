@@ -50,7 +50,7 @@ class HistoryList extends ConsumerWidget {
                                 shrinkWrap: true,
                                 children: history.list
                                     .map((e) => Dismissible(
-                                        key: Key(e.entry.id.toString()),
+                                        key: Key("${e.entryType}${e.entry.id}"),
                                         direction: DismissDirection.endToStart,
                                         background: Container(
                                           color: Theme.of(context).errorColor,
