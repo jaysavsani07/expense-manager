@@ -29,7 +29,7 @@ class CategoryDetails extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Text(AppLocalization.of(context)
-                  .getTranslatedVal("total_expense"),
+                  .getTranslatedVal("statistics"),
                 style: Theme.of(context).appBarTheme.titleTextStyle,
               ),
             ),

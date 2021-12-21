@@ -67,5 +67,6 @@
   "income": "Renda",
   "all": "Todos",
   "add_income": "Adicionar Rendimento",
-  "no_entry": "Sem entrada para este mês"
+  "no_entry": "Sem entrada para este mês",
+  "statistics": "Estatisticas"
 }

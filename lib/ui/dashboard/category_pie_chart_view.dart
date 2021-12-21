@@ -223,7 +223,9 @@ class PieChartView extends ConsumerWidget {
                     )
                   ],
                 ),
-                child: TotalAmount(),
+                child: SizedBox(
+                  width: constraint.maxWidth * 0.4,
+                    child: TotalAmount()),
               ),
             ),
           ],

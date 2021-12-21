@@ -67,5 +67,6 @@
   "income": "Ingreso",
   "all": "Toda",
   "add_income": "Añadir ingresos",
-  "no_entry": "No hay entradas para este mes"
+  "no_entry": "No hay entradas para este mes",
+  "statistics": "Estadísticas"
 }

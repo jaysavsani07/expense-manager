@@ -67,5 +67,6 @@
   "income": "Income",
   "all": "All",
   "add_income": "Add Income",
-  "no_entry": "No entry for this month"
+  "no_entry": "No entry for this month",
+  "statistics": "Statistics"
 }

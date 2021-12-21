@@ -36,10 +36,12 @@ class AddEntry extends ConsumerWidget {
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Text(vm.entryType == EntryType.expense
-                ? AppLocalization.of(context).getTranslatedVal("add_expense")
-                : AppLocalization.of(context).getTranslatedVal("add_income"),
-              style: Theme.of(context).appBarTheme.titleTextStyle,),
+            child: Text(
+              vm.entryType == EntryType.expense
+                  ? AppLocalization.of(context).getTranslatedVal("add_expense")
+                  : AppLocalization.of(context).getTranslatedVal("add_income"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
           ),
         ),
         actions: [
@@ -146,9 +148,11 @@ class AddEntry extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-                        vm.entryTypeChange(EntryType.expense);
-                      },
+                      onTap: entryWithCategory.item2 != null
+                          ? null
+                          : () {
+                              vm.entryTypeChange(EntryType.expense);
+                            },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
@@ -173,9 +177,11 @@ class AddEntry extends ConsumerWidget {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-                        vm.entryTypeChange(EntryType.income);
-                      },
+                      onTap: entryWithCategory.item2 != null
+                          ? null
+                          : () {
+                              vm.entryTypeChange(EntryType.income);
+                            },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
