@@ -13,13 +13,16 @@ class Category {
   final String name;
   final IconData icon;
   final Color iconColor;
+  final EntryType entryType;
 
-  Category(
-      {this.id,
-      this.position,
-      @required this.name,
-      @required this.icon,
-      @required this.iconColor});
+  Category({
+    this.id,
+    this.position,
+    @required this.name,
+    @required this.icon,
+    @required this.iconColor,
+    this.entryType,
+  });
 
   Category copyWith(
       {int id, int position, String name, IconData icon, Color iconColor}) {
@@ -31,7 +34,8 @@ class Category {
         iconColor: iconColor ?? this.iconColor);
   }
 
-  factory Category.fromCategoryEntity(CategoryEntityData categoryEntityData) {
+  factory Category.fromExpenseCategoryEntity(
+      CategoryEntityData categoryEntityData) {
     return Category(
         id: categoryEntityData?.id,
         position: categoryEntityData?.position,
@@ -43,8 +47,45 @@ class Category {
             : AppConstants.otherCategory.iconColor);
   }
 
+  factory Category.fromIncomeCategoryEntity(
+      IncomeCategoryEntityData incomeCategoryEntityData) {
+    return Category(
+        id: incomeCategoryEntityData?.id,
+        position: incomeCategoryEntityData?.position,
+        name: incomeCategoryEntityData?.name ?? AppConstants.otherCategory.name,
+        icon: incomeCategoryEntityData?.icon?.jsonToIconData() ??
+            AppConstants.otherCategory.icon,
+        iconColor: incomeCategoryEntityData?.iconColor != null
+            ? Color(int.parse(incomeCategoryEntityData?.iconColor))
+            : AppConstants.otherCategory.iconColor);
+  }
+
+  factory Category.fromAllCategoryEntity(
+      CategoryEntityData categoryEntityData, int entryType) {
+    return Category(
+        id: categoryEntityData?.id,
+        position: categoryEntityData?.position,
+        name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
+        icon: categoryEntityData?.icon?.jsonToIconData() ??
+            AppConstants.otherCategory.icon,
+        iconColor: categoryEntityData?.iconColor != null
+            ? Color(int.parse(categoryEntityData?.iconColor))
+            : AppConstants.otherCategory.iconColor,
+        entryType: EntryType.values[entryType]);
+  }
+
   CategoryEntityCompanion toCategoryEntityCompanion() {
     return CategoryEntityCompanion(
+        id: id == null ? Value.absent() : Value(id),
+        position: position == null ? Value.absent() : Value(position),
+        name: Value(name),
+        icon: Value(icon.iconDataToJson()),
+        iconColor:
+            Value("0x${iconColor.value.toRadixString(16).padLeft(8, '0')}"));
+  }
+
+  IncomeCategoryEntityCompanion toIncomeCategoryEntityCompanion() {
+    return IncomeCategoryEntityCompanion(
         id: id == null ? Value.absent() : Value(id),
         position: position == null ? Value.absent() : Value(position),
         name: Value(name),

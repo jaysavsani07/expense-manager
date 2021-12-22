@@ -28,7 +28,7 @@ extension DateTimeExtension on DateTime {
     } else if (this.isYesterday()) {
       return "yesterday";
     } else {
-      return DateFormat.yMd().format(this);
+      return DateFormat.yMMMd().format(this);
     }
   }
 

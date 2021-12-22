@@ -1,66 +1,81 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final addEntryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddEntryViewModel, Tuple2<EntryWithCategory, cat.Category>>(
+final addEntryModelProvider = ChangeNotifierProvider.autoDispose.family<
+    AddEntryViewModel, Tuple3<EntryType, EntryWithCategory, cat.Category>>(
   (ref, entryWithCategory) => AddEntryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
-      entryWithCategory: entryWithCategory.item1,
-      category: entryWithCategory.item2),
+      entryType: entryWithCategory.item1,
+      entryWithCategory: entryWithCategory.item2,
+      category: entryWithCategory.item3),
 );
 
 class AddEntryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
   EntryWithCategory entryWithCategory;
 
-  List<cat.Category> categoryList = [];
+  List<cat.Category> expenseCategoryList = [];
+  List<cat.Category> incomeCategoryList = [];
   String amount = "";
   cat.Category category;
   DateTime date = DateTime.now();
   String description = "";
+  EntryType entryType;
 
-  AddEntryViewModel(
-      {@required this.entryDataSourceImp,
-      @required this.entryWithCategory,
-      @required this.category}) {
+  AddEntryViewModel({
+    @required this.entryDataSourceImp,
+    @required this.entryWithCategory,
+    @required this.category,
+    @required this.entryType,
+  }) {
     this.entryWithCategory = entryWithCategory;
-    if (category != null) {
-    } else if (entryWithCategory != null) {
-      print(entryWithCategory);
+    if (entryWithCategory != null) {
       amount = entryWithCategory.entry.amount.toString();
       date = entryWithCategory.entry.modifiedDate;
       category = entryWithCategory.category;
       description = entryWithCategory.entry.description;
     }
-    entryDataSourceImp.getAllCategory().listen((event) {
-      categoryList = event;
+
+    entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {
+      expenseCategoryList = event;
+      notifyListeners();
+    });
+
+    entryDataSourceImp.getAllCategory(EntryType.income).listen((event) {
+      incomeCategoryList = event;
       notifyListeners();
     });
   }
 
-  void addEntry() {
+  void addUpdateEntry() {
     if (entryWithCategory != null) {
       entryDataSourceImp
-          .updateEntry(Entry(
-              id: entryWithCategory.entry.id,
-              amount: double.parse(amount),
-              categoryId: category.id,
-              modifiedDate: date,
-              description: description))
+          .updateEntry(
+              entryType,
+              Entry(
+                  id: entryWithCategory.entry.id,
+                  amount: double.parse(amount),
+                  categoryId: category.id,
+                  modifiedDate: date,
+                  description: description))
           .listen((event) {});
     } else {
       entryDataSourceImp
-          .addEntry(Entry(
-              amount: double.parse(amount),
-              categoryId: category?.id,
-              modifiedDate: date,
-              description: description))
+          .addEntry(
+              entryType,
+              Entry(
+                  amount: double.parse(amount),
+                  categoryId: category?.id,
+                  modifiedDate: date,
+                  description: description))
           .listen((event) {});
     }
   }
@@ -72,6 +87,11 @@ class AddEntryViewModel with ChangeNotifier {
 
   void amountChange(String amount) {
     this.amount = amount;
+    notifyListeners();
+  }
+
+  void entryTypeChange(EntryType entryType) {
+    this.entryType = entryType;
     notifyListeners();
   }
 
@@ -94,7 +114,7 @@ class AddEntryViewModel with ChangeNotifier {
 
   @override
   void dispose() {
-    categoryList = [];
+    expenseCategoryList = [];
     amount = "";
     category = null;
     date = DateTime.now();

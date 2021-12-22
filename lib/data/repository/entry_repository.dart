@@ -1,49 +1,44 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/data/models/entry_list.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:tuple/tuple.dart';
 
 abstract class EntryRepository {
-  Stream<List<String>> getMonthList();
+  Stream<List<String>> getMonthListByYear(EntryType entryType, int year);
 
-  Stream<List<String>> getMonthListByYear(int year);
+  Stream<List<int>> getYearList(EntryType entryType);
 
-  Stream<List<int>> getYearList();
+  Stream<int> addEntry(EntryType entryType, Entry entry);
 
-  Stream<int> addEntry(Entry entry);
+  Stream<bool> updateEntry(EntryType entryType, Entry entry);
 
-  Stream<bool> updateEntry(Entry entry);
-
-  Stream<int> deleteEntry(int id);
-
-  Stream<List<Entry>> getAllEntry();
-
-  Stream<List<EntryList>> getAllEntryByCategory(int categoryName);
+  Stream<int> deleteEntry(EntryType entryType, int id);
 
   Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
       DateTime start, DateTime end);
+  Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end);
+  Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end);
+  Stream<double> getTodayExpense();
 
-  Stream<List<History>> getAllEntryWithCategoryDateWise(
-      DateTime start, DateTime end);
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
+      EntryType entryType, int month, int year);
 
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
-      int month, int year);
+  Stream<int> addCategory(EntryType entryType, Category category);
 
-  Stream<int> addCategory(Category category);
+  Stream<bool> updateCategory(EntryType entryType, Category category);
 
-  Stream<bool> updateCategory(Category category);
-
-  Stream<int> deleteCategory(int id);
+  Stream<int> deleteCategory(EntryType entryType, int id);
 
   Stream<bool> reorderCategory(int oldIndex, int newIndex);
 
-  Stream<List<Category>> getAllCategory();
-
-  Stream<List<CategoryWithSum>> getAllCategoryWithSum();
+  Stream<List<Category>> getAllCategory(EntryType entryType);
 
   Stream<List<CategoryWithSum>> getCategoryDetails(
       Tuple2<String, int> filterType);
+
+  Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>> getAllEntryWithCategoryByYear(int year,int currentMonth);
 }

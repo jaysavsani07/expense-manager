@@ -60,5 +60,14 @@
   "nov": "novembro",
   "dec": "dezembro",
   "recent_expanse": "Expansão recente",
-  "yesterday": "Ontem"
+  "yesterday": "Ontem",
+
+  "type": "Tipo",
+  "expense": "Despesa",
+  "income": "Renda",
+  "all": "Todos",
+  "add_income": "Adicionar Rendimento",
+  "no_entry": "Sem entrada para este mês",
+  "statistics": "Estatisticas",
+  "expense_meter" : "Medidor de despesas mensais"
 }

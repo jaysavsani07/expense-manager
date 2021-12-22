@@ -1,3 +1,4 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/data/models/home_tab.dart';
@@ -5,14 +6,13 @@ import 'package:expense_manager/ui/dashboard/dashboard.dart';
 import 'package:expense_manager/ui/history/history.dart';
 import 'package:expense_manager/ui/home/home_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final homeViewModel = watch(signInModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeViewModel = ref.watch(signInModelProvider);
     return Scaffold(
       body: homeViewModel.activeTab == HomeTab.dashboard
           ? Dashboard()
@@ -20,7 +20,7 @@ class HomeScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.addEntry,
-              arguments: Tuple2(null, null));
+              arguments: Tuple3(EntryType.expense, null, null));
         },
         child: Icon(Icons.add),
       ),
@@ -48,16 +48,16 @@ class HomeScreen extends ConsumerWidget {
                             ? Color(0xff2196F3)
                             : null,
                       ),
-                      8.widthBox,
-                      AppLocalization.of(context)
-                          .getTranslatedVal("dashboard")
-                          .text
-                          .size(12)
-                          .medium
-                          .color(homeViewModel.activeTab == HomeTab.dashboard
-                              ? Color(0xff2196F3)
-                              : null)
-                          .make(),
+                      SizedBox(width: 8),
+                      Text(
+                        AppLocalization.of(context)
+                            .getTranslatedVal("dashboard"),
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 12,
+                            color: homeViewModel.activeTab == HomeTab.dashboard
+                                ? Color(0xff2196F3)
+                                : null),
+                      ),
                     ],
                   ),
                 ),
@@ -68,8 +68,7 @@ class HomeScreen extends ConsumerWidget {
               child: SizedBox(
                 height: 60,
                 child: InkWell(
-                  borderRadius:
-                      BorderRadius.only(topLeft: Radius.circular(24)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(24)),
                   onTap: () => homeViewModel.changeTab(1),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -82,16 +81,15 @@ class HomeScreen extends ConsumerWidget {
                             ? Color(0xff2196F3)
                             : null,
                       ),
-                      8.widthBox,
-                      AppLocalization.of(context)
-                          .getTranslatedVal("history")
-                          .text
-                          .size(12)
-                          .medium
-                          .color(homeViewModel.activeTab == HomeTab.history
-                              ? Color(0xff2196F3)
-                              : null)
-                          .make()
+                      SizedBox(width: 8),
+                      Text(
+                        AppLocalization.of(context).getTranslatedVal("history"),
+                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            fontSize: 12,
+                            color: homeViewModel.activeTab == HomeTab.history
+                                ? Color(0xff2196F3)
+                                : null),
+                      ),
                     ],
                   ),
                 ),

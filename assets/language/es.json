@@ -60,5 +60,14 @@
   "nov": "noviembre",
   "dec": "diciembre",
   "recent_expanse": "Expansión reciente",
-  "yesterday": "Ayer"
+  "yesterday": "Ayer",
+
+  "type": "Tipo",
+  "expense": "Gastos",
+  "income": "Ingreso",
+  "all": "Toda",
+  "add_income": "Añadir ingresos",
+  "no_entry": "No hay entradas para este mes",
+  "statistics": "Estadísticas",
+  "expense_meter" : "Contador de gastos mensuales"
 }

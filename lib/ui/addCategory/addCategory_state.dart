@@ -4,12 +4,15 @@ import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 final addCategoryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddCategoryViewModel, cat.Category>(
-  (ref, category) => AddCategoryViewModel(
-      entryDataSourceImp: ref.read(repositoryProvider), category: category),
-);
+    .family<AddCategoryViewModel, Tuple2<EntryType, cat.Category>>(
+        (ref, tuple2) => AddCategoryViewModel(
+              entryDataSourceImp: ref.read(repositoryProvider),
+              entryType: tuple2.item1,
+              category: tuple2.item2,
+            ));
 
 class AddCategoryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
@@ -17,9 +20,13 @@ class AddCategoryViewModel with ChangeNotifier {
   String name;
   IconData iconData;
   Color color;
+  EntryType entryType;
 
-  AddCategoryViewModel(
-      {@required this.entryDataSourceImp, @required this.category}) {
+  AddCategoryViewModel({
+    @required this.entryDataSourceImp,
+    @required this.category,
+    @required this.entryType,
+  }) {
     if (category == null) {
       name = "";
       iconData = AppConstants.otherCategory.icon;
@@ -46,25 +53,30 @@ class AddCategoryViewModel with ChangeNotifier {
     this.name = name;
   }
 
-  void saveCategory() {
-    if (category == null)
+  void addUpdateCategory() {
+    if (category == null) {
       entryDataSourceImp
-          .addCategory(
+          .addCategory(entryType,
               cat.Category(name: name.trim(), icon: iconData, iconColor: color))
           .listen((event) {});
-    else
+    } else {
       entryDataSourceImp
-          .updateCategory(cat.Category(
-              id: category.id,
-              position: category.position,
-              name: name,
-              icon: iconData,
-              iconColor: color))
+          .updateCategory(
+              entryType,
+              cat.Category(
+                  id: category.id,
+                  position: category.position,
+                  name: name,
+                  icon: iconData,
+                  iconColor: color))
           .listen((event) {});
+    }
   }
 
-  void deleteCategory() {
-    entryDataSourceImp.deleteCategory(category.id).listen((event) {});
+  void delete() {
+    entryDataSourceImp
+        .deleteCategory(entryType, category.id)
+        .listen((event) {});
   }
 
   @override

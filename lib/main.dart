@@ -12,19 +12,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Fimber.plantTree(DebugTree(useColors: true));
-  /* 
   if (kDebugMode) {
     Fimber.plantTree(DebugTree(useColors: true));
+    Fimber.plantTree(CrashReportingTree());
   } else {
     Fimber.plantTree(CrashReportingTree());
   }
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
- */
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(ProviderScope(
-    // observers: [Logger()],
+    observers: [Logger()],
     overrides: [
       sharedPreferencesProvider
           .overrideWithValue(SharedPreferencesHelper(sharedPreferences))

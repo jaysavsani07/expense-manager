@@ -13,14 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_state.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final appState = watch(appStateNotifier);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appState = ref.watch(appStateNotifier);
     return MaterialApp(
       theme: AppTheme.theme,
       darkTheme: AppTheme.darkTheme,
@@ -47,7 +46,7 @@ class MyApp extends ConsumerWidget {
       locale: appState.currentLocale,
       themeMode: appState.themeMode,
       debugShowCheckedModeBanner: false,
-      initialRoute: (context.read(appStateNotifier)).userName.isEmpty
+      initialRoute: (ref.read(appStateNotifier)).userName.isEmpty
           ? AppRoutes.onBoarding
           : AppRoutes.home,
       routes: {
@@ -56,9 +55,10 @@ class MyApp extends ConsumerWidget {
         AppRoutes.home: (context) => HomeScreen(),
         AppRoutes.addEntry: (context) => AddEntry(
             entryWithCategory: ModalRoute.of(context).settings.arguments),
-        AppRoutes.categoryList: (context) => CategoryList(),
+        AppRoutes.categoryList: (context) =>
+            CategoryList(entryType: ModalRoute.of(context).settings.arguments),
         AppRoutes.addCategory: (context) =>
-            AddCategory(category: ModalRoute.of(context).settings.arguments),
+            AddCategory(tuple2: ModalRoute.of(context).settings.arguments),
         AppRoutes.categoryDetails: (context) => CategoryDetails(),
         AppRoutes.setting: (context) => Setting(),
       },

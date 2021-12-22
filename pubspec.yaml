@@ -31,29 +31,30 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   intl: ^0.17.0
-  moor_flutter: ^4.0.0-nullsafety
-  flutter_riverpod: ^0.13.0
-  velocity_x: ^2.5.0
-  fl_chart: ^0.30.0
-  dotted_border: ^1.0.7
-  percent_indicator: "^2.1.7+2"
-  shared_preferences: ^2.0.5
-  rxdart: ^0.26.0
+  moor_flutter: ^4.0.0
+  flutter_riverpod: ^1.0.1
+  fl_chart: ^0.40.2
+  dotted_border: ^2.0.0+1
+  percent_indicator: ^3.4.0
+  shared_preferences: ^2.0.9
+  rxdart: ^0.27.3
   tuple: ^2.0.0
-  collection: ^1.14.13
-  package_info: ^2.0.0
-  firebase_core: ^1.0.2
-  firebase_crashlytics: ^1.0.0
-  firebase_analytics: ^7.0.0
-  fimber: ^0.6.1
-  smooth_page_indicator: ^0.2.1
+  collection: ^1.15.0
+  package_info: ^2.0.2
+  firebase_core: ^1.10.0
+  firebase_crashlytics: ^2.3.0
+  firebase_analytics: ^8.3.4
+  fimber: ^0.6.4
+  smooth_page_indicator: ^1.0.0+2
+  numeral: ^1.2.5
+  syncfusion_flutter_gauges: ^19.3.59
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  moor_generator: ^4.2.0
+  moor_generator: ^4.0.0
   build_runner:
   flutter_launcher_icons: ^0.9.0
 

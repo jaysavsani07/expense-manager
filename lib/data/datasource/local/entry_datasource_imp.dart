@@ -6,7 +6,6 @@ import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:expense_manager/data/models/entry_list.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,58 +22,69 @@ class EntryDataSourceImp extends EntryDataSource {
   EntryDataSourceImp({@required this.appDatabase});
 
   @override
-  Stream<List<String>> getMonthList() {
+  Stream<List<String>> getExpenseMonthListByYear(int year) {
     return appDatabase
-        .getMonthList()
+        .getExpenseMonthListByYear(year)
         .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
   }
 
   @override
-  Stream<List<String>> getMonthListByYear(int year) {
+  Stream<List<String>> getIncomeMonthListByYear(int year) {
     return appDatabase
-        .getMonthListByYear(year)
+        .getIncomeMonthListByYear(year)
         .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
   }
 
   @override
-  Stream<List<int>> getYearList() {
-    return appDatabase.getYearList();
-  }
-
-  @override
-  Stream<int> addEntry(Entry entry) {
-    return appDatabase.addEntry(entry.toEntryEntityCompanion());
-  }
-
-  @override
-  Stream<bool> updateEntry(Entry entry) {
-    return appDatabase.updateEntry(entry.toEntryEntityCompanion());
-  }
-
-  @override
-  Stream<int> deleteEntry(int id) {
-    return appDatabase.deleteEntry(id);
-  }
-
-  @override
-  Stream<List<Entry>> getAllEntry() {
+  Stream<List<String>> getAllMonthListByYear(int year) {
     return appDatabase
-        .getAllEntry()
-        .expand((element) => element)
-        .map((event) => Entry.fromEntryEntity(event))
-        .toList()
-        .asStream();
+        .getAllMonthListByYear(year)
+        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
   }
 
   @override
-  Stream<List<EntryList>> getAllEntryByCategory(int categoryName) {
-    return appDatabase
-        .getAllEntryByCategory(categoryName)
-        .map((event) => event.map((e) => Entry.fromEntryEntity(e)))
-        .map((event) => groupBy(event, (Entry e) => e.modifiedDate.toTitle()))
-        .map((list) => list.entries
-            .map((e) => EntryList(title: e.key, list: e.value))
-            .toList());
+  Stream<List<int>> getExpenseYearList() {
+    return appDatabase.getExpenseYearList();
+  }
+
+  @override
+  Stream<List<int>> getIncomeYearList() {
+    return appDatabase.getIncomeYearList();
+  }
+
+  @override
+  Stream<List<int>> getAllYearList() {
+    return appDatabase.getAllYearList();
+  }
+
+  @override
+  Stream<int> addExpenseEntry(Entry entry) {
+    return appDatabase.addExpenseEntry(entry.toEntryEntityCompanion());
+  }
+
+  @override
+  Stream<int> addIncomeEntry(Entry entry) {
+    return appDatabase.addIncomeEntry(entry.toIncomeEntryEntityCompanion());
+  }
+
+  @override
+  Stream<bool> updateExpenseEntry(Entry entry) {
+    return appDatabase.updateExpenseEntry(entry.toEntryEntityCompanion());
+  }
+
+  @override
+  Stream<bool> updateIncomeEntry(Entry entry) {
+    return appDatabase.updateIncomeEntry(entry.toIncomeEntryEntityCompanion());
+  }
+
+  @override
+  Stream<int> deleteExpenseEntry(int id) {
+    return appDatabase.deleteExpenseEntry(id);
+  }
+
+  @override
+  Stream<int> deleteIncomeEntry(int id) {
+    return appDatabase.deleteIncomeEntry(id);
   }
 
   @override
@@ -82,8 +92,8 @@ class EntryDataSourceImp extends EntryDataSource {
       DateTime start, DateTime end) {
     return appDatabase
         .getAllEntryWithCategory(start, end)
-        .map((event) =>
-            event.map((e) => EntryWithCategory.fromEntryWithCategoryEntity(e)))
+        .map((event) => event.map(
+            (e) => EntryWithCategory.fromExpenseEntryWithCategoryEntity(e)))
         .map((event) => groupBy(event, (EntryWithCategory e) => e.category))
         .map((list) => list.entries
             .map((e) => CategoryWithEntryList(
@@ -95,52 +105,103 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWise(
-      DateTime start, DateTime end) {
-    return appDatabase
-        .getAllEntryWithCategory(start, end)
-        .map((event) => groupBy(
-            event, (EntryWithCategoryData e) => e.entry.modifiedDate.toTitle()))
-        .map((list) => list.entries
-            .map((e) => History(
-                title: e.key,
-                list: e.value
-                    .map(
-                        (e) => EntryWithCategory.fromEntryWithCategoryEntity(e))
-                    .toList()))
-            .toList());
+  Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end) {
+    return appDatabase.getExpanseSumByDateRange(start, end);
   }
 
   @override
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonth(
+  Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end) {
+    return appDatabase.getIncomeSumByDateRange(start, end);
+  }
+
+  @override
+  Stream<double> getTodayExpense() {
+    return appDatabase.getTodayExpense();
+  }
+
+  @override
+  Stream<List<History>> getExpenseEntryWithCategoryDateWiseByMonthAndYear(
       int month, int year) {
     return appDatabase
-        .getAllEntryWithCategoryByMonth(month, year)
-        .map((event) => groupBy(
-            event, (EntryWithCategoryData e) => e.entry.modifiedDate.toTitle()))
+        .getExpenseEntryWithCategoryByMonthAndYear(month, year)
+        .map((event) => groupBy(event,
+            (EntryWithCategoryExpenseData e) => e.entry.modifiedDate.toTitle()))
         .map((list) => list.entries
             .map((e) => History(
                 title: e.key,
                 list: e.value
-                    .map(
-                        (e) => EntryWithCategory.fromEntryWithCategoryEntity(e))
+                    .map((e) =>
+                        EntryWithCategory.fromExpenseEntryWithCategoryEntity(e))
                     .toList()))
             .toList());
   }
 
   @override
-  Stream<int> addCategory(Category category) {
-    return appDatabase.addCategory1(category.toCategoryEntityCompanion());
+  Stream<List<History>> getIncomeEntryWithCategoryDateWiseByMonthAndYear(
+      int month, int year) {
+    return appDatabase
+        .getIncomeEntryWithCategoryByMonthAndYear(month, year)
+        .map((event) => groupBy(event,
+            (EntryWithCategoryIncomeData e) => e.entry.modifiedDate.toTitle()))
+        .map((list) => list.entries
+            .map((e) => History(
+                title: e.key,
+                list: e.value
+                    .map((e) =>
+                        EntryWithCategory.fromIncomeEntryWithCategoryEntity(e))
+                    .toList()))
+            .toList());
   }
 
   @override
-  Stream<bool> updateCategory(Category category) {
-    return appDatabase.updateCategory(category.toCategoryEntityCompanion());
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
+      int month, int year) {
+    return appDatabase
+        .getAllEntryWithCategoryByMonthAndYear(month, year)
+        .map((event) => groupBy(event,
+            (EntryWithCategoryAllData e) => e.entry.modifiedDate.toTitle()))
+        .map((list) => list.entries
+            .map((e) => History(
+                title: e.key,
+                list: e.value
+                    .map((e) =>
+                        EntryWithCategory.fromAllEntryWithCategoryEntity(
+                            e, e.entryType))
+                    .toList()))
+            .toList());
   }
 
   @override
-  Stream<int> deleteCategory(int id) {
-    return appDatabase.deleteCategory(id);
+  Stream<int> addExpenseCategory(Category category) {
+    return appDatabase.addExpenseCategory(category.toCategoryEntityCompanion());
+  }
+
+  @override
+  Stream<int> addIncomeCategory(Category category) {
+    return appDatabase
+        .addIncomeCategory(category.toIncomeCategoryEntityCompanion());
+  }
+
+  @override
+  Stream<bool> updateExpenseCategory(Category category) {
+    return appDatabase
+        .updateExpenseCategory(category.toCategoryEntityCompanion());
+  }
+
+  @override
+  Stream<bool> updateIncomeCategory(Category category) {
+    return appDatabase
+        .updateIncomeCategory(category.toIncomeCategoryEntityCompanion());
+  }
+
+  @override
+  Stream<int> deleteExpenseCategory(int id) {
+    return appDatabase.deleteExpenseCategory(id);
+  }
+
+  @override
+  Stream<int> deleteIncomeCategory(int id) {
+    return appDatabase.deleteIncomeCategory(id);
   }
 
   @override
@@ -149,16 +210,21 @@ class EntryDataSourceImp extends EntryDataSource {
   }
 
   @override
-  Stream<List<Category>> getAllCategory() {
-    return appDatabase.getAllCategory().map(
-        (event) => event.map((e) => Category.fromCategoryEntity(e)).toList());
+  Stream<List<Category>> getAllExpenseCategory() {
+    return appDatabase.getAllExpenseCategory().map(
+        (event) => event.map((e) => Category.fromExpenseCategoryEntity(e)).toList());
   }
 
   @override
-  Stream<List<CategoryWithSum>> getAllCategoryWithSum() {
-    return appDatabase.getAllCategoryWithSum().map((event) => event
-        .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
-        .toList());
+  Stream<List<Category>> getAllIncomeCategory() {
+    return appDatabase.getAllIncomeCategory().map((event) =>
+        event.map((e) => Category.fromIncomeCategoryEntity(e)).toList());
+  }
+
+  @override
+  Stream<List<Category>> getAllCategory() {
+    return appDatabase.getAllCategory().map(
+        (event) => event.map((e) => Category.fromAllCategoryEntity(e.item1,e.item2)).toList());
   }
 
   @override
@@ -175,5 +241,14 @@ class EntryDataSourceImp extends EntryDataSource {
     return appDatabase.getAllCategoryWithSumByYear(year).map((event) => event
         .map((e) => CategoryWithSum.fromCategoryWithSumEntity(e))
         .toList());
+  }
+
+  @override
+  Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year) {
+    return appDatabase.getAllEntryWithCategoryByYear(year).map((event) {
+      return event.map((e) {
+        return EntryWithCategory.fromAllEntryWithCategoryEntity(e, e.entryType);
+      }).toList();
+    });
   }
 }

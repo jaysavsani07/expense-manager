@@ -10,15 +10,14 @@ class AppTheme {
       primaryColor: Color(0xff2196F3),
       dividerColor: Color(0xffeeeeee),
       appBarTheme: AppBarTheme(
+          centerTitle: false,
           color: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black, size: 20),
-          textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Color(0xff2196F3),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+          titleTextStyle: TextStyle(
+            color: Color(0xff2196F3),
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           )),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: Colors.white,
@@ -59,15 +58,14 @@ class AppTheme {
       primaryColor: Color(0xff212121),
       dividerColor: Color(0xff121212),
       appBarTheme: AppBarTheme(
+          centerTitle: false,
           color: Colors.black,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.white, size: 20),
-          textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           )),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: Color(0xff212121),
@@ -98,6 +96,12 @@ class AppTheme {
           fontSize: 12,
           color: Color(0xffc9c9c9),
           fontWeight: FontWeight.normal,
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateColor.resolveWith((states) => Color(0xff212121)),
         ),
       ),
     );

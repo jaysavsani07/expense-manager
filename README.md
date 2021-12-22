@@ -50,7 +50,6 @@ You can instantly see your expense by category and how it changes between each m
 # Dependencies
 - moor_flutter
 - flutter_riverpod
-- velocity_x
 - fl_chart
 - shared_preferences
 - rxdart

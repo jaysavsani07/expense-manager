@@ -1,86 +1,62 @@
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/date_time_util.dart';
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
-import 'package:fimber/fimber.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:expense_manager/extension/datetime_extension.dart';
-import 'package:collection/collection.dart';
-import 'package:tuple/tuple.dart';
 
-final totalAmountProvider = Provider<double>((ref) {
+final totalExpenseProvider = StateProvider((ref) {
   return ref
-      .watch(dashboardProvider)
-      .list
-      .map((e) => e.total)
-      .fold(0.0, (previousValue, element) => previousValue + element);
+      .watch(totalExpenseStreamProvider)
+      .whenOrNull(data: (value) => value, loading: () => 0);
 });
 
-final todayAmountProvider = Provider<double>((ref) {
-  return ref
-      .watch(dashboardProvider)
-      .list
-      .expand((element) => element.entry)
-      .where((e) => e.modifiedDate.isToday())
-      .map((e) => e.amount)
-      .fold(0.0, (previousValue, element) => previousValue + element);
+final totalExpenseStreamProvider = StreamProvider((ref) {
+  var cycleDate = int.parse(ref.watch(monthStartDateStateNotifier).date);
+  return ref.read(repositoryProvider).getExpanseSumByDateRange(
+      DateTimeUtil.getStartDateTime(cycleDate),
+      DateTimeUtil.getEndDateTime(cycleDate));
 });
 
-final todayLineChartProvider = Provider<LineChartData>((ref) {
-  Map<int, double> list1 = {};
-  for (int i = 0; i < DateTime.now().hour; i++) {
-    list1[i] = 0;
+final totalIncomeProvider = StateProvider((ref) {
+  return ref
+      .watch(totalIncomeStreamProvider)
+      .whenOrNull(data: (value) => value, loading: () => 0);
+});
+
+final totalIncomeStreamProvider = StreamProvider((ref) {
+  var cycleDate = int.parse(ref.watch(monthStartDateStateNotifier).date);
+  return ref.read(repositoryProvider).getIncomeSumByDateRange(
+      DateTimeUtil.getStartDateTime(cycleDate),
+      DateTimeUtil.getEndDateTime(cycleDate));
+});
+
+final todayExpenseProvider = StateProvider((ref) {
+  return ref
+      .watch(todayExpenseStreamProvider)
+      .whenOrNull(data: (value) => value, loading: () => 0);
+});
+
+final todayExpenseStreamProvider = StreamProvider((ref) {
+  return ref.read(repositoryProvider).getTodayExpense();
+});
+
+final totalIncomeExpenseRatioProvider = StateProvider<double>((ref) {
+  var expense = ref.watch(totalExpenseProvider);
+  var income = ref.watch(totalIncomeProvider);
+  if (income == 0 && expense == 0) {
+    return 0.0;
+  } else if (income == 0) {
+    return 1.0;
+  } else if (expense == 0) {
+    return 0.0;
+  } else {
+    return expense / income;
   }
-  List<Tuple2<int, double>> list = ref
-      .watch(dashboardProvider)
-      .list
-      .expand((element) => element.entry)
-      .where((e) => e.modifiedDate.isToday())
-      .map((e) => Tuple2(e.modifiedDate.hour, e.amount))
-      .toList();
-
-  groupBy(list, (Tuple2<int, double> e) {
-    return e.item1;
-  })
-      .map((key, value) => MapEntry(
-          key,
-          value.fold(
-              0.0, (previousValue, element) => previousValue + element.item2)))
-      .forEach((key, value) {
-    list1[key] = value;
-  });
-
-  return LineChartData(
-    lineTouchData: LineTouchData(enabled: false),
-    gridData: FlGridData(show: false),
-    titlesData: FlTitlesData(show: false),
-    borderData: FlBorderData(show: false),
-    minX: 0,
-    maxX: 24,
-    minY: 0,
-    maxY: list1.entries.map((e) => e.value).fold(
-        0.0,
-        (previousValue, element) =>
-            previousValue > element ? previousValue : element),
-    lineBarsData: [
-      LineChartBarData(
-        spots: [
-          ...list1.entries
-              .map((e) => FlSpot(e.key.toDouble(), e.value))
-              .toList(),
-        ],
-        isCurved: true,
-        colors: [Colors.white],
-        barWidth: 1,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
-      ),
-    ],
-  );
 });
 
 final categoryPieChartTeachItemProvider = StateProvider<int>((_) => -1);
@@ -89,8 +65,8 @@ final categoryPieChartVisibilityProvider =
     StateProvider<bool>((ref) => ref.watch(dashboardProvider).list.isEmpty);
 
 final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {
-  int touchedIndex = ref.watch(categoryPieChartTeachItemProvider).state;
-  double totalAmount = ref.read(totalAmountProvider);
+  int touchedIndex = ref.watch(categoryPieChartTeachItemProvider.state).state;
+  double totalAmount = ref.read(totalExpenseStreamProvider).value;
   return ref.watch(dashboardProvider).list.asMap().entries.map((e) {
     return PieChartSectionData(
       color: e.value.category.iconColor,
@@ -126,7 +102,15 @@ class DashboardViewModel with ChangeNotifier {
         .getAllEntryWithCategory(DateTimeUtil.getStartDateTime(cycleDate),
             DateTimeUtil.getEndDateTime(cycleDate))
         .listen((event) {
-      list = event;
+      list = event..sort((a, b) {
+        if (a.total > b.total) {
+          return -1;
+        } else if (a.total < b.total) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       notifyListeners();
     });
   }
@@ -141,7 +125,7 @@ class CategoryModel with ChangeNotifier {
   List<cat.Category> list = [];
 
   CategoryModel({@required this.entryDataSourceImp}) {
-    entryDataSourceImp.getAllCategory().listen((event) {
+    entryDataSourceImp.getAllCategory(EntryType.all).listen((event) {
       list = event;
       notifyListeners();
     });
