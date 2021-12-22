@@ -2,9 +2,10 @@ import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/data/datasource/language_data.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
-import 'package:expense_manager/ui/dialog/language.dart';
-import 'package:expense_manager/ui/dialog/month_cycle.dart';
-import 'package:expense_manager/ui/dialog/theme.dart';
+import 'package:expense_manager/ui/dialog/common_alert_dialog.dart';
+import 'package:expense_manager/ui/dialog/language_dialog.dart';
+import 'package:expense_manager/ui/dialog/monthly_cycle_date_dialog.dart';
+import 'package:expense_manager/ui/dialog/theme_dialog.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -133,11 +134,20 @@ class OptionSelection extends ConsumerWidget {
       children: [
         InkWell(
           onTap: () {
-            showDialog(
+            showGeneralDialog(
                 context: context,
-                builder: (BuildContext context) {
-                  return ThemeDialog();
-                });
+                barrierDismissible: true,
+                barrierLabel: "themeDialog",
+                transitionDuration: Duration(milliseconds: 200),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    CommonAlertDialog(child: ThemeDialog()),
+                transitionBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                    Transform.scale(
+                      scale: animation.value,
+                      alignment: Alignment.center,
+                      child: child,
+                    ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -172,11 +182,20 @@ class OptionSelection extends ConsumerWidget {
         ),
         InkWell(
           onTap: () {
-            showDialog(
+            showGeneralDialog(
                 context: context,
-                builder: (BuildContext context) {
-                  return MonthCycleDialog();
-                });
+                barrierDismissible: true,
+                barrierLabel: "monthlyCycleDateDialog",
+                transitionDuration: Duration(milliseconds: 200),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    CommonAlertDialog(child: MonthlyCycleDateDialog()),
+                transitionBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                    Transform.scale(
+                      scale: animation.value,
+                      alignment: Alignment.center,
+                      child: child,
+                    ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -205,11 +224,20 @@ class OptionSelection extends ConsumerWidget {
         ),
         InkWell(
           onTap: () {
-            showDialog(
+            showGeneralDialog(
                 context: context,
-                builder: (BuildContext context) {
-                  return LanguageDialog();
-                });
+                barrierDismissible: true,
+                barrierLabel: "languageDialog",
+                transitionDuration: Duration(milliseconds: 200),
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    CommonAlertDialog(child: LanguageDialog()),
+                transitionBuilder:
+                    (context, animation, secondaryAnimation, child) =>
+                    Transform.scale(
+                      scale: animation.value,
+                      alignment: Alignment.center,
+                      child: child,
+                    ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
