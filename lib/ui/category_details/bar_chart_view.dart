@@ -60,7 +60,7 @@ class BarChartView extends ConsumerWidget {
                               leftTitles: SideTitles(
                                 showTitles: true,
                                 margin: 8,
-                                reservedSize: 36,
+                                reservedSize: 40,
                                 interval: null,
                                 checkToShowTitle: (minValue, maxValue, sideTitles,
                                     appliedInterval, value) {

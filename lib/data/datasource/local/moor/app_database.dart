@@ -227,7 +227,11 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<double> getTodayExpense() {
     return (select(entryEntity)
-          ..where((row) => row.modifiedDate.isBiggerOrEqual(currentDate)))
+          ..where((row) {
+            return row.modifiedDate.year.equalsExp(currentDate.year) &
+                row.modifiedDate.month.equalsExp(currentDate.month)&
+                row.modifiedDate.day.equalsExp(currentDate.day);
+          }))
         .watch()
         .map((event) => event
             .map((e) => e.amount)
@@ -275,8 +279,10 @@ class AppDatabase extends _$AppDatabase {
     ).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry: EntryEntityData.fromData(e.data, this,prefix: "entry_entity."),
-            category: CategoryEntityData.fromData(e.data, this,prefix: "category_entity."),
+            entry:
+                EntryEntityData.fromData(e.data, this, prefix: "entry_entity."),
+            category: CategoryEntityData.fromData(e.data, this,
+                prefix: "category_entity."),
             entryType: e.read<int>("entry_type"));
       }).toList();
     });

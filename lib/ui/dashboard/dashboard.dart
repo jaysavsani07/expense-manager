@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:expense_manager/core/color_scheme.dart';
 
 class Dashboard extends ConsumerWidget {
   @override
@@ -28,8 +29,9 @@ class Dashboard extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Text(
-                  AppLocalization.of(context).getTranslatedVal("dashboard"),
-                style: Theme.of(context).appBarTheme.titleTextStyle,),
+                AppLocalization.of(context).getTranslatedVal("dashboard"),
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+              ),
             ),
           ),
         ),
@@ -137,8 +139,6 @@ class TodayAmount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todayExpense = ref.watch(todayExpenseProvider);
-    final totalExpense = ref.watch(totalExpenseProvider);
-    final totalIncome = ref.watch(totalIncomeProvider);
     String currency = ref.watch(appStateNotifier).currency.item1;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -221,8 +221,11 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                 lengthUnit: GaugeSizeUnit.factor,
                 needleEndWidth: 3,
                 needleLength: 0.7,
+                needleColor: Theme.of(context).colorScheme.crossColor,
                 value: totalIncomeExpenseRatio * 120,
-                knobStyle: KnobStyle(knobRadius: 0.07)),
+                knobStyle: KnobStyle(
+                    knobRadius: 0.07,
+                    color: Theme.of(context).colorScheme.crossColor)),
           ],
           ranges: <GaugeRange>[
             GaugeRange(

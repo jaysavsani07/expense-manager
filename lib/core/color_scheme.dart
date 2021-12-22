@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 extension CustomColorScheme on ColorScheme {
-  // Color get baseColor =>
-  //     brightness == Brightness.light ? AppColor.white : AppColor.black;
+  Color get baseColor =>
+      brightness == Brightness.light ? Colors.white : Colors.black;
   //
   // Color get baseLightColor => brightness == Brightness.light
   //     ? AppColor.whiteLight
   //     : AppColor.blackLight;
   //
-  // Color get crossColor =>
-  //     brightness == Brightness.light ? AppColor.black : AppColor.white;
+  Color get crossColor =>
+      brightness == Brightness.light ? Colors.black : Colors.white;
   //
   // Color get crossLightColor => brightness == Brightness.light
   //     ? AppColor.blackLight
