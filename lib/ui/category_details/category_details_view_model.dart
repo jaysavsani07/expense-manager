@@ -95,11 +95,11 @@ class CategoryDetailsViewModel with ChangeNotifier {
                               (previousValue, element) =>
                                   previousValue + element) ??
                           0,
-                      width: 16,
-                      borderRadius: BorderRadius.circular(2),
+                      width: 30,
+                      borderRadius: BorderRadius.circular(4),
                       colors: [
                         Colors.green,
-                        Colors.greenAccent,
+                        // Colors.greenAccent,
                       ],
                     ),
                     BarChartRodData(
@@ -108,11 +108,11 @@ class CategoryDetailsViewModel with ChangeNotifier {
                               (previousValue, element) =>
                                   previousValue + element) ??
                           0,
-                      width: 16,
-                      borderRadius: BorderRadius.circular(2),
+                      width: 30,
+                      borderRadius: BorderRadius.circular(4),
                       colors: [
                         Colors.red,
-                        Colors.redAccent,
+                        // Colors.redAccent,
                       ],
                     )
                   ],

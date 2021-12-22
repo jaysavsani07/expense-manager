@@ -10,6 +10,7 @@ class AppTheme {
       primaryColor: Color(0xff2196F3),
       dividerColor: Color(0xffeeeeee),
       appBarTheme: AppBarTheme(
+          centerTitle: false,
           color: Colors.white,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black, size: 20),
@@ -57,6 +58,7 @@ class AppTheme {
       primaryColor: Color(0xff212121),
       dividerColor: Color(0xff121212),
       appBarTheme: AppBarTheme(
+          centerTitle: false,
           color: Colors.black,
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.white, size: 20),

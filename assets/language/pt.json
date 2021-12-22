@@ -68,5 +68,6 @@
   "all": "Todos",
   "add_income": "Adicionar Rendimento",
   "no_entry": "Sem entrada para este mês",
-  "statistics": "Estatisticas"
+  "statistics": "Estatisticas",
+  "expense_meter" : "Medidor de despesas mensais"
 }

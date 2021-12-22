@@ -68,5 +68,6 @@
   "all": "All",
   "add_income": "Add Income",
   "no_entry": "No entry for this month",
-  "statistics": "Statistics"
+  "statistics": "Statistics",
+  "expense_meter" : "Monthly Expense Meter"
 }

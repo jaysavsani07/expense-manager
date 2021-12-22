@@ -175,7 +175,7 @@ class TodayAmount extends ConsumerWidget {
                 ),
               ),
               Expanded(
-                child: SizedBox(height: 70, child: RadialTextPointer()),
+                child: SizedBox(height:80, child: RadialTextPointer()),
               ),
             ],
           )),
@@ -200,85 +200,103 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
   }
 
   /// Returns the text pointer gauge
-  SfRadialGauge _buildRadialTextPointer() {
+  Widget _buildRadialTextPointer() {
     final totalIncomeExpenseRatio = ref.watch(totalIncomeExpenseRatioProvider);
-    return SfRadialGauge(
-      axes: <RadialAxis>[
-        RadialAxis(
-          showAxisLine: false,
-          showLabels: false,
-          showTicks: false,
-          startAngle: 180,
-          endAngle: 360,
-          minimum: 0,
-          centerY: 0.8,
-          maximum: 120,
-          canScaleToFit: false,
-          radiusFactor: 1.6,
-          pointers: <GaugePointer>[
-            NeedlePointer(
-                needleStartWidth: 0.5,
-                lengthUnit: GaugeSizeUnit.factor,
-                needleEndWidth: 3,
-                needleLength: 0.7,
-                needleColor: Theme.of(context).colorScheme.crossColor,
-                value: totalIncomeExpenseRatio * 120,
-                knobStyle: KnobStyle(
-                    knobRadius: 0.07,
-                    color: Theme.of(context).colorScheme.crossColor)),
-          ],
-          ranges: <GaugeRange>[
-            GaugeRange(
-                startValue: 0,
-                endValue: 40,
-                startWidth: 0.45,
-                sizeUnit: GaugeSizeUnit.factor,
-                endWidth: 0.45,
-                color: const Color(0xCC8BE724)),
-            GaugeRange(
-                startValue: 40.5,
-                endValue: 80,
-                startWidth: 0.45,
-                sizeUnit: GaugeSizeUnit.factor,
-                endWidth: 0.45,
-                color: const Color(0xCCFFBA00)),
-            GaugeRange(
-                startValue: 80.5,
-                endValue: 120,
-                sizeUnit: GaugeSizeUnit.factor,
-                startWidth: 0.45,
-                endWidth: 0.45,
-                color: const Color(0xCCFF4100)),
-          ],
-          annotations: <GaugeAnnotation>[
-            GaugeAnnotation(
-              angle: 172,
-              positionFactor: 0.9,
-              widget: Container(
-                child: Text(
-                  AppLocalization.of(context).getTranslatedVal("expense"),
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
-                ),
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom : 8.0),
+          child: SfRadialGauge(
+            axes: <RadialAxis>[
+              RadialAxis(
+                showAxisLine: false,
+                showLabels: false,
+                showTicks: false,
+                startAngle: 180,
+                endAngle: 360,
+                minimum: 0,
+                centerY: 0.8,
+                maximum: 120,
+                canScaleToFit: false,
+                radiusFactor: 1.6,
+                pointers: <GaugePointer>[
+                  NeedlePointer(
+                      needleStartWidth: 0.5,
+                      lengthUnit: GaugeSizeUnit.factor,
+                      needleEndWidth: 3,
+                      needleLength: 0.7,
+                      needleColor: Theme.of(context).colorScheme.crossColor,
+                      value: totalIncomeExpenseRatio * 120,
+                      knobStyle: KnobStyle(
+                          knobRadius: 0.07,
+                          color: Theme.of(context).colorScheme.crossColor)),
+                ],
+                ranges: <GaugeRange>[
+                  GaugeRange(
+                      startValue: 0,
+                      endValue: 40,
+                      startWidth: 0.45,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      endWidth: 0.45,
+                      color: const Color(0xCC8BE724)),
+                  GaugeRange(
+                      startValue: 40.5,
+                      endValue: 80,
+                      startWidth: 0.45,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      endWidth: 0.45,
+                      color: const Color(0xCCFFBA00)),
+                  GaugeRange(
+                      startValue: 80.5,
+                      endValue: 120,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      startWidth: 0.45,
+                      endWidth: 0.45,
+                      color: const Color(0xCCFF4100)),
+                ],
+                annotations: <GaugeAnnotation>[
+                 /*GaugeAnnotation(
+                    angle: 172,
+                    positionFactor: 0.9,
+                    widget: Container(
+                      child: Text(
+                        AppLocalization.of(context).getTranslatedVal("expense"),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  GaugeAnnotation(
+                    angle: 8,
+                    positionFactor: 0.9,
+                    axisValue: 0,
+                    widget: Container(
+                      child: Text(
+                        AppLocalization.of(context).getTranslatedVal("income"),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )*/
+                ],
               ),
-            ),
-            GaugeAnnotation(
-              angle: 8,
-              positionFactor: 0.9,
-              widget: Container(
-                child: Text(
-                  AppLocalization.of(context).getTranslatedVal("income"),
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
-                ),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Text(
+            AppLocalization.of(context).getTranslatedVal("expense_meter"),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle2
+                .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
+          ),
+        )
       ],
     );
   }
