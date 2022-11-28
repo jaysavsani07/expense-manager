@@ -6,7 +6,7 @@ part of 'app_database.dart';
 // MoorGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
+// ignore_for_file: type=lint
 class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   final int id;
   final double amount;
@@ -224,15 +224,16 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
 
 class $EntryEntityTable extends EntryEntity
     with TableInfo<$EntryEntityTable, EntryEntityData> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String _alias;
-  $EntryEntityTable(this._db, [this._alias]);
+  $EntryEntityTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedColumn<int> _id;
   @override
   GeneratedColumn<int> get id =>
       _id ??= GeneratedColumn<int>('id', aliasedName, false,
-          typeName: 'INTEGER',
+          type: const IntType(),
           requiredDuringInsert: false,
           defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _amountMeta = const VerificationMeta('amount');
@@ -240,13 +241,13 @@ class $EntryEntityTable extends EntryEntity
   @override
   GeneratedColumn<double> get amount =>
       _amount ??= GeneratedColumn<double>('amount', aliasedName, false,
-          typeName: 'REAL', requiredDuringInsert: true);
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
   GeneratedColumn<int> _categoryId;
   @override
   GeneratedColumn<int> get categoryId =>
       _categoryId ??= GeneratedColumn<int>('category_id', aliasedName, true,
-          typeName: 'INTEGER',
+          type: const IntType(),
           requiredDuringInsert: false,
           $customConstraints:
               'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
@@ -256,7 +257,7 @@ class $EntryEntityTable extends EntryEntity
   @override
   GeneratedColumn<DateTime> get modifiedDate => _modifiedDate ??=
       GeneratedColumn<DateTime>('modified_date', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
   GeneratedColumn<String> _description;
@@ -264,7 +265,7 @@ class $EntryEntityTable extends EntryEntity
   GeneratedColumn<String> get description => _description ??=
       GeneratedColumn<String>('description', aliasedName, false,
           additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
-          typeName: 'TEXT',
+          type: const StringType(),
           requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
@@ -316,13 +317,13 @@ class $EntryEntityTable extends EntryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   EntryEntityData map(Map<String, dynamic> data, {String tablePrefix}) {
-    return EntryEntityData.fromData(data, _db,
+    return EntryEntityData.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $EntryEntityTable createAlias(String alias) {
-    return $EntryEntityTable(_db, alias);
+    return $EntryEntityTable(attachedDatabase, alias);
   }
 }
 
@@ -537,15 +538,16 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
 
 class $CategoryEntityTable extends CategoryEntity
     with TableInfo<$CategoryEntityTable, CategoryEntityData> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String _alias;
-  $CategoryEntityTable(this._db, [this._alias]);
+  $CategoryEntityTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedColumn<int> _id;
   @override
   GeneratedColumn<int> get id =>
       _id ??= GeneratedColumn<int>('id', aliasedName, false,
-          typeName: 'INTEGER',
+          type: const IntType(),
           requiredDuringInsert: false,
           defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _positionMeta = const VerificationMeta('position');
@@ -553,7 +555,7 @@ class $CategoryEntityTable extends CategoryEntity
   @override
   GeneratedColumn<int> get position =>
       _position ??= GeneratedColumn<int>('position', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedColumn<String> _name;
   @override
@@ -561,20 +563,20 @@ class $CategoryEntityTable extends CategoryEntity
       'name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _iconMeta = const VerificationMeta('icon');
   GeneratedColumn<String> _icon;
   @override
   GeneratedColumn<String> get icon =>
       _icon ??= GeneratedColumn<String>('icon', aliasedName, false,
-          typeName: 'TEXT', requiredDuringInsert: true);
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
   GeneratedColumn<String> _iconColor;
   @override
   GeneratedColumn<String> get iconColor =>
       _iconColor ??= GeneratedColumn<String>('icon_color', aliasedName, false,
-          typeName: 'TEXT', requiredDuringInsert: true);
+          type: const StringType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
   @override
@@ -620,13 +622,13 @@ class $CategoryEntityTable extends CategoryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   CategoryEntityData map(Map<String, dynamic> data, {String tablePrefix}) {
-    return CategoryEntityData.fromData(data, _db,
+    return CategoryEntityData.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $CategoryEntityTable createAlias(String alias) {
-    return $CategoryEntityTable(_db, alias);
+    return $CategoryEntityTable(attachedDatabase, alias);
   }
 }
 
@@ -842,15 +844,16 @@ class IncomeCategoryEntityCompanion
 
 class $IncomeCategoryEntityTable extends IncomeCategoryEntity
     with TableInfo<$IncomeCategoryEntityTable, IncomeCategoryEntityData> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String _alias;
-  $IncomeCategoryEntityTable(this._db, [this._alias]);
+  $IncomeCategoryEntityTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedColumn<int> _id;
   @override
   GeneratedColumn<int> get id =>
       _id ??= GeneratedColumn<int>('id', aliasedName, false,
-          typeName: 'INTEGER',
+          type: const IntType(),
           requiredDuringInsert: false,
           defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _positionMeta = const VerificationMeta('position');
@@ -858,7 +861,7 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
   @override
   GeneratedColumn<int> get position =>
       _position ??= GeneratedColumn<int>('position', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedColumn<String> _name;
   @override
@@ -866,20 +869,20 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
       'name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
-      typeName: 'TEXT',
+      type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _iconMeta = const VerificationMeta('icon');
   GeneratedColumn<String> _icon;
   @override
   GeneratedColumn<String> get icon =>
       _icon ??= GeneratedColumn<String>('icon', aliasedName, false,
-          typeName: 'TEXT', requiredDuringInsert: true);
+          type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
   GeneratedColumn<String> _iconColor;
   @override
   GeneratedColumn<String> get iconColor =>
       _iconColor ??= GeneratedColumn<String>('icon_color', aliasedName, false,
-          typeName: 'TEXT', requiredDuringInsert: true);
+          type: const StringType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
   @override
@@ -927,13 +930,13 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
   @override
   IncomeCategoryEntityData map(Map<String, dynamic> data,
       {String tablePrefix}) {
-    return IncomeCategoryEntityData.fromData(data, _db,
+    return IncomeCategoryEntityData.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $IncomeCategoryEntityTable createAlias(String alias) {
-    return $IncomeCategoryEntityTable(_db, alias);
+    return $IncomeCategoryEntityTable(attachedDatabase, alias);
   }
 }
 
@@ -1156,15 +1159,16 @@ class IncomeEntryEntityCompanion
 
 class $IncomeEntryEntityTable extends IncomeEntryEntity
     with TableInfo<$IncomeEntryEntityTable, IncomeEntryEntityData> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String _alias;
-  $IncomeEntryEntityTable(this._db, [this._alias]);
+  $IncomeEntryEntityTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedColumn<int> _id;
   @override
   GeneratedColumn<int> get id =>
       _id ??= GeneratedColumn<int>('id', aliasedName, false,
-          typeName: 'INTEGER',
+          type: const IntType(),
           requiredDuringInsert: false,
           defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _amountMeta = const VerificationMeta('amount');
@@ -1172,13 +1176,13 @@ class $IncomeEntryEntityTable extends IncomeEntryEntity
   @override
   GeneratedColumn<double> get amount =>
       _amount ??= GeneratedColumn<double>('amount', aliasedName, false,
-          typeName: 'REAL', requiredDuringInsert: true);
+          type: const RealType(), requiredDuringInsert: true);
   final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
   GeneratedColumn<int> _categoryId;
   @override
   GeneratedColumn<int> get categoryId =>
       _categoryId ??= GeneratedColumn<int>('category_id', aliasedName, true,
-          typeName: 'INTEGER',
+          type: const IntType(),
           requiredDuringInsert: false,
           $customConstraints:
               'NULL REFERENCES income_category_entity(id) ON DELETE SET NULL');
@@ -1188,7 +1192,7 @@ class $IncomeEntryEntityTable extends IncomeEntryEntity
   @override
   GeneratedColumn<DateTime> get modifiedDate => _modifiedDate ??=
       GeneratedColumn<DateTime>('modified_date', aliasedName, false,
-          typeName: 'INTEGER', requiredDuringInsert: true);
+          type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
   GeneratedColumn<String> _description;
@@ -1196,7 +1200,7 @@ class $IncomeEntryEntityTable extends IncomeEntryEntity
   GeneratedColumn<String> get description => _description ??=
       GeneratedColumn<String>('description', aliasedName, false,
           additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
-          typeName: 'TEXT',
+          type: const StringType(),
           requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
@@ -1249,13 +1253,13 @@ class $IncomeEntryEntityTable extends IncomeEntryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   IncomeEntryEntityData map(Map<String, dynamic> data, {String tablePrefix}) {
-    return IncomeEntryEntityData.fromData(data, _db,
+    return IncomeEntryEntityData.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
   $IncomeEntryEntityTable createAlias(String alias) {
-    return $IncomeEntryEntityTable(_db, alias);
+    return $IncomeEntryEntityTable(attachedDatabase, alias);
   }
 }
 

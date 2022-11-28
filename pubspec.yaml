@@ -41,13 +41,13 @@ dependencies:
   tuple: ^2.0.0
   collection: ^1.15.0
   package_info: ^2.0.2
-  firebase_core: ^1.10.0
-  firebase_crashlytics: ^2.3.0
-  firebase_analytics: ^8.3.4
+  firebase_core: ^2.3.0
+  firebase_crashlytics: ^3.0.6
+  firebase_analytics: ^10.0.6
   fimber: ^0.6.4
   smooth_page_indicator: ^1.0.0+2
   numeral: ^1.2.5
-  syncfusion_flutter_gauges: ^19.3.59
+  syncfusion_flutter_gauges: ^20.3.58
 
   flutter_cupertino_date_picker:
     git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git
