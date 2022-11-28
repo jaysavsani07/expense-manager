@@ -8,8 +8,6 @@ import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';

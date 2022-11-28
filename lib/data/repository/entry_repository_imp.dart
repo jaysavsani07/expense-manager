@@ -1,4 +1,4 @@
-import 'package:collection/src/iterable_extensions.dart';
+import 'package:collection/collection.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';

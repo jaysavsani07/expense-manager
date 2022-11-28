@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';

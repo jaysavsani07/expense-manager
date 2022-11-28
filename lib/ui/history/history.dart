@@ -4,7 +4,6 @@ import 'package:expense_manager/ui/dialog/common_alert_dialog.dart';
 import 'package:expense_manager/ui/dialog/history_filter_dialog.dart';
 import 'package:expense_manager/ui/history/history_list.dart';
 import 'package:expense_manager/ui/history/month_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class History extends StatelessWidget {

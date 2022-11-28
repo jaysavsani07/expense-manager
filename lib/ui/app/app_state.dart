@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:expense_manager/data/datasource/sharedpref/preferences.dart';
 import 'package:expense_manager/data/datasource/sharedpref/shared_preference_helper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info/package_info.dart';

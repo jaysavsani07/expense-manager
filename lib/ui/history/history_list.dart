@@ -4,7 +4,6 @@ import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';

@@ -7,9 +7,7 @@ import 'package:expense_manager/ui/dialog/language_dialog.dart';
 import 'package:expense_manager/ui/dialog/monthly_cycle_date_dialog.dart';
 import 'package:expense_manager/ui/dialog/theme_dialog.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Welcome extends ConsumerStatefulWidget {

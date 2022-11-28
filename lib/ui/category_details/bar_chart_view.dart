@@ -4,10 +4,8 @@ import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:numeral/ext.dart';
 
 class BarChartView extends ConsumerWidget {
   const BarChartView({Key key}) : super(key: key);

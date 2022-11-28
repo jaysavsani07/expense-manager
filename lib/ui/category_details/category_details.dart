@@ -7,7 +7,6 @@ import 'package:expense_manager/ui/category_details/category_list_view.dart';
 import 'package:expense_manager/ui/dialog/category_details_filter_dialog.dart';
 import 'package:expense_manager/ui/dialog/common_alert_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoryDetails extends StatelessWidget {

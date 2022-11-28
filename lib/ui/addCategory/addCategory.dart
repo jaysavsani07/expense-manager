@@ -4,7 +4,6 @@ import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/addCategory/addCategory_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 

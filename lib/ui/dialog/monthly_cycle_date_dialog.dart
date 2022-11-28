@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/color_scheme.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

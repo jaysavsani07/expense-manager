@@ -5,7 +5,6 @@ import 'package:expense_manager/data/models/category_with_entry_list.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

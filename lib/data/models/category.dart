@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:expense_manager/extension/string_extension.dart';
 import 'package:expense_manager/extension/icon_data_extension.dart';
 import 'package:moor/moor.dart';
