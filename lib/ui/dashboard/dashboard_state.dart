@@ -54,7 +54,7 @@ final totalIncomeExpenseRatioProvider = StateProvider<double>((ref) {
   } else if (expense == 0) {
     return 0.0;
   } else {
-    return expense / income;
+    return expense! / income!;
   }
 });
 
@@ -64,13 +64,14 @@ final categoryPieChartVisibilityProvider =
     StateProvider<bool>((ref) => ref.watch(dashboardProvider).list.isEmpty);
 
 final categoryPieChartProvider = Provider<List<PieChartSectionData>>((ref) {
-  int touchedIndex = ref.watch(categoryPieChartTeachItemProvider.state).state;
-  double totalAmount = ref.read(totalExpenseStreamProvider).value;
+  int touchedIndex =
+      ref.watch(categoryPieChartTeachItemProvider.notifier).state;
+  double? totalAmount = ref.read(totalExpenseStreamProvider).value;
   return ref.watch(dashboardProvider).list.asMap().entries.map((e) {
     return PieChartSectionData(
       color: e.value.category.iconColor,
       value: e.value.total,
-      title: '${100 * e.value.total ~/ totalAmount}%',
+      title: '${100 * e.value.total ~/ totalAmount!}%',
       radius: e.key == touchedIndex ? 60 : 50,
       titleStyle: TextStyle(
           fontSize: e.key == touchedIndex ? 20 : 16,
@@ -95,21 +96,24 @@ class DashboardViewModel with ChangeNotifier {
   List<CategoryWithEntryList> list = [];
   int cycleDate = 1;
 
-  DashboardViewModel(
-      {@required this.entryDataSourceImp, @required this.cycleDate}) {
+  DashboardViewModel({
+    required this.entryDataSourceImp,
+    required this.cycleDate,
+  }) {
     entryDataSourceImp
         .getAllEntryWithCategory(DateTimeUtil.getStartDateTime(cycleDate),
             DateTimeUtil.getEndDateTime(cycleDate))
         .listen((event) {
-      list = event..sort((a, b) {
-        if (a.total > b.total) {
-          return -1;
-        } else if (a.total < b.total) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      list = event
+        ..sort((a, b) {
+          if (a.total > b.total) {
+            return -1;
+          } else if (a.total < b.total) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
       notifyListeners();
     });
   }
@@ -123,7 +127,7 @@ class CategoryModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
   List<cat.Category> list = [];
 
-  CategoryModel({@required this.entryDataSourceImp}) {
+  CategoryModel({required this.entryDataSourceImp}) {
     entryDataSourceImp.getAllCategory(EntryType.all).listen((event) {
       list = event;
       notifyListeners();

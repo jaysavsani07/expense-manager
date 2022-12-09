@@ -37,7 +37,7 @@ class HistoryList extends ConsumerWidget {
                                       : history.title),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle2
+                                      .subtitle2!
                                       .copyWith(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
@@ -65,7 +65,7 @@ class HistoryList extends ConsumerWidget {
                                           ref
                                               .read(repositoryProvider)
                                               .deleteEntry(
-                                                  e.entryType, e.entry.id)
+                                                  e.entryType, e.entry.id!)
                                               .listen((event) {});
                                         },
                                         child: InkWell(
@@ -109,7 +109,7 @@ class HistoryList extends ConsumerWidget {
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
-                                                                .subtitle1
+                                                                .subtitle1!
                                                                 .copyWith(
                                                                     fontSize:
                                                                         12),
@@ -122,7 +122,7 @@ class HistoryList extends ConsumerWidget {
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
-                                                                .subtitle1
+                                                                .subtitle1!
                                                                 .copyWith(
                                                                     fontSize:
                                                                         12),
@@ -136,7 +136,7 @@ class HistoryList extends ConsumerWidget {
                                                   "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 2).format(e.entry.amount)}",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2
+                                                      .subtitle2!
                                                       .copyWith(fontSize: 16),
                                                 ),
                                               ],
@@ -372,7 +372,7 @@ class HistoryEmpty extends StatelessWidget {
                       .getTranslatedVal("no_expense_yet"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
@@ -382,7 +382,7 @@ class HistoryEmpty extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 14),
                 ),
               ],

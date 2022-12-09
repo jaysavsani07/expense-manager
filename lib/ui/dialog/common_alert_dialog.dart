@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CommonAlertDialog extends AlertDialog {
   final Widget child;
 
-  CommonAlertDialog({@required this.child}) : super();
+  CommonAlertDialog({required this.child}) : super();
 
   @override
   Widget build(BuildContext context) {

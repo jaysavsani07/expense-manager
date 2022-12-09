@@ -52,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
                       Text(
                         AppLocalization.of(context)
                             .getTranslatedVal("dashboard"),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontSize: 12,
                             color: homeViewModel.activeTab == HomeTab.dashboard
                                 ? Color(0xff2196F3)
@@ -84,7 +84,7 @@ class HomeScreen extends ConsumerWidget {
                       SizedBox(width: 8),
                       Text(
                         AppLocalization.of(context).getTranslatedVal("history"),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontSize: 12,
                             color: homeViewModel.activeTab == HomeTab.history
                                 ? Color(0xff2196F3)

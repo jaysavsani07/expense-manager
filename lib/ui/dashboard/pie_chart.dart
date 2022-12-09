@@ -5,15 +5,15 @@ import 'chart_painter.dart';
 
 class PieChart extends StatefulWidget {
   PieChart({
-    @required this.dataMap,
-    this.chartRadius,
-    this.animationDuration,
+    required this.dataMap,
+    required this.chartRadius,
+    required this.animationDuration,
     this.chartLegendSpacing = 48,
     this.initialAngleInDegree = 0.0,
-    this.centerText,
+    required this.centerText,
     this.ringStrokeWidth = 20.0,
     this.emptyColor = Colors.grey,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final List<Tuple2<double, Color>> dataMap;
@@ -31,12 +31,12 @@ class PieChart extends StatefulWidget {
 
 class _PieChartState extends State<PieChart>
     with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController controller;
+  late final Animation<double> animation;
+  late final AnimationController controller;
   double _animFraction = 0.0;
 
-  List<double> legendValues;
-  List<Color> colorList;
+  late List<double> legendValues;
+  late List<Color> colorList;
 
   void initValues() {
     this.legendValues =

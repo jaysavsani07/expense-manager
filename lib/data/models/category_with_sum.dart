@@ -1,17 +1,19 @@
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:expense_manager/data/models/category.dart';
-import 'package:flutter/material.dart';
 
 class CategoryWithSum {
   final double total;
-  final Category category;
+  final Category? category;
 
   CategoryWithSum({
-    @required this.total,
-    @required this.category,
+    required this.total,
+    required this.category,
   });
 
-  CategoryWithSum copyWith({double total, Category category}) {
+  CategoryWithSum copyWith({
+    double? total,
+    Category? category,
+  }) {
     return CategoryWithSum(
         total: total ?? this.total, category: category ?? this.category);
   }
@@ -42,9 +44,9 @@ class CategoryWithSum {
 
 class CategoryWithSumData {
   final double total;
-  final CategoryEntityData category;
+  final CategoryEntityData? category;
 
-  CategoryWithSumData({@required this.total, @required this.category});
+  CategoryWithSumData({required this.total, required this.category});
 
   @override
   String toString() {

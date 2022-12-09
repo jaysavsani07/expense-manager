@@ -10,7 +10,7 @@ final _currentCategory =
 
 class CategoryListView extends ConsumerWidget {
   const CategoryListView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class CategoryListView extends ConsumerWidget {
 }
 
 class CategoryItem extends ConsumerWidget {
-  const CategoryItem({Key key}) : super(key: key);
+  const CategoryItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -63,7 +63,7 @@ class CategoryItem extends ConsumerWidget {
                 category.name,
                 style: Theme.of(context)
                     .textTheme
-                    .caption
+                    .caption!
                     .copyWith(overflow: TextOverflow.ellipsis),
               ),
             ),

@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class CategoryListView extends ConsumerWidget {
-  const CategoryListView({Key key}) : super(key: key);
+  const CategoryListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,7 +22,7 @@ class CategoryListView extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("no_entry"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 12),
                 ),
               )
@@ -38,7 +38,7 @@ class CategoryListView extends ConsumerWidget {
                               .getTranslatedVal("income"),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2
+                              .subtitle2!
                               .copyWith(fontSize: 12),
                         ),
                       ),
@@ -53,8 +53,8 @@ class CategoryListView extends ConsumerWidget {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        e.category.icon,
-                                        color: e.category.iconColor,
+                                        e.category!.icon,
+                                        color: e.category!.iconColor,
                                         size: 20,
                                       ),
                                       SizedBox(width: 16),
@@ -71,10 +71,10 @@ class CategoryListView extends ConsumerWidget {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  e.category.name,
+                                                  e.category!.name,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2
+                                                      .subtitle2!
                                                       .copyWith(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -85,7 +85,7 @@ class CategoryListView extends ConsumerWidget {
                                                   "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2
+                                                      .subtitle2!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -102,7 +102,7 @@ class CategoryListView extends ConsumerWidget {
                                               backgroundColor: Theme.of(context)
                                                   .dividerColor,
                                               progressColor:
-                                                  e.category.iconColor,
+                                                  e.category!.iconColor,
                                             )
                                           ],
                                         ),
@@ -121,7 +121,7 @@ class CategoryListView extends ConsumerWidget {
                               .getTranslatedVal("expense"),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2
+                              .subtitle2!
                               .copyWith(fontSize: 12),
                         ),
                       ),
@@ -136,8 +136,8 @@ class CategoryListView extends ConsumerWidget {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        e.category.icon,
-                                        color: e.category.iconColor,
+                                        e.category!.icon,
+                                        color: e.category!.iconColor,
                                         size: 20,
                                       ),
                                       SizedBox(width: 16),
@@ -154,10 +154,10 @@ class CategoryListView extends ConsumerWidget {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  e.category.name,
+                                                  e.category!.name,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2
+                                                      .subtitle2!
                                                       .copyWith(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -168,7 +168,7 @@ class CategoryListView extends ConsumerWidget {
                                                   "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2
+                                                      .subtitle2!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -185,7 +185,7 @@ class CategoryListView extends ConsumerWidget {
                                               backgroundColor: Theme.of(context)
                                                   .dividerColor,
                                               progressColor:
-                                                  e.category.iconColor,
+                                                  e.category!.iconColor,
                                             )
                                           ],
                                         ),

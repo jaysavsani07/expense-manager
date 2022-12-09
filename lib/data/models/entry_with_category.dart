@@ -10,15 +10,15 @@ class EntryWithCategory {
   final EntryType entryType;
 
   EntryWithCategory({
-    @required this.entry,
-    @required this.category,
-    @required this.entryType,
+    required this.entry,
+    required this.category,
+    required this.entryType,
   });
 
   factory EntryWithCategory.fromExpenseEntryWithCategoryEntity(
       EntryWithCategoryExpenseData entityData) {
     return EntryWithCategory(
-        entry: Entry.fromEntryEntity(entityData.entry),
+        entry: Entry.fromEntryEntity(entityData.entry!),
         category: Category.fromExpenseCategoryEntity(entityData.category),
         entryType: EntryType.expense);
   }
@@ -26,7 +26,7 @@ class EntryWithCategory {
   factory EntryWithCategory.fromIncomeEntryWithCategoryEntity(
       EntryWithCategoryIncomeData entityData) {
     return EntryWithCategory(
-        entry: Entry.fromIncomeEntryEntity(entityData.entry),
+        entry: Entry.fromIncomeEntryEntity(entityData.entry!),
         category: Category.fromIncomeCategoryEntity(entityData.category),
         entryType: EntryType.income);
   }
@@ -51,9 +51,9 @@ class EntryWithCategoryAllData {
   final int entryType;
 
   EntryWithCategoryAllData({
-    @required this.entry,
-    @required this.category,
-    @required this.entryType,
+   required this.entry,
+   required this.category,
+   required this.entryType,
   });
 
   @override
@@ -63,10 +63,10 @@ class EntryWithCategoryAllData {
 }
 
 class EntryWithCategoryExpenseData {
-  final EntryEntityData entry;
-  final CategoryEntityData category;
+  final EntryEntityData? entry;
+  final CategoryEntityData? category;
 
-  EntryWithCategoryExpenseData({@required this.entry, @required this.category});
+  EntryWithCategoryExpenseData({required this.entry, required this.category});
 
   @override
   String toString() {
@@ -75,10 +75,10 @@ class EntryWithCategoryExpenseData {
 }
 
 class EntryWithCategoryIncomeData {
-  final IncomeEntryEntityData entry;
-  final IncomeCategoryEntityData category;
+  final IncomeEntryEntityData? entry;
+  final IncomeCategoryEntityData? category;
 
-  EntryWithCategoryIncomeData({@required this.entry, @required this.category});
+  EntryWithCategoryIncomeData({required this.entry, required this.category});
 
   @override
   String toString() {

@@ -40,7 +40,7 @@ class CurrencyDialog extends AlertDialog {
                   "${NumberFormat.simpleCurrency(locale: e.item1).currencySymbol} ${e.item2}",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 14),
                 ),
               ))

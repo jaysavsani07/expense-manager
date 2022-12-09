@@ -14,16 +14,16 @@ final categoryListModelProvider =
 );
 
 class CategoryListViewModel with ChangeNotifier {
-  EntryRepositoryImp entryDataSourceImp;
+  final EntryRepositoryImp entryDataSourceImp;
   List<cat.Category> expenseCategoryList = [];
   List<cat.Category> incomeCategoryList = [];
-  StreamSubscription _expenseSubscription;
-  StreamSubscription _incomeSubscription;
-  EntryType entryType;
+  late final StreamSubscription _expenseSubscription;
+  late final StreamSubscription _incomeSubscription;
+  EntryType? entryType;
 
   CategoryListViewModel({
-    @required this.entryDataSourceImp,
-    @required this.entryType,
+    required this.entryDataSourceImp,
+    this.entryType,
   }) {
     _expenseSubscription =
         entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {

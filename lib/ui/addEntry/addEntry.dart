@@ -1,8 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/currency_text_input_formatter.dart';
 import 'package:expense_manager/core/routes.dart';
-import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addEntry/addEntry_state.dart';
@@ -15,7 +15,7 @@ import 'package:tuple/tuple.dart';
 class AddEntry extends ConsumerWidget {
   final Tuple3<EntryType, EntryWithCategory, Category> entryWithCategory;
 
-  AddEntry({@required this.entryWithCategory}) : super();
+  AddEntry({required this.entryWithCategory}) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +28,7 @@ class AddEntry extends ConsumerWidget {
             },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title: DottedBorder(
-          color: Theme.of(context).appBarTheme.titleTextStyle.color,
+          color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
           dashPattern: [5, 5],
           radius: Radius.circular(12),
           borderType: BorderType.RRect,
@@ -78,7 +78,7 @@ class AddEntry extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               child: Text(
                 AppLocalization.of(context).getTranslatedVal("save"),
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     fontWeight: FontWeight.bold, color: Color(0xff2196F3)),
               ),
             ),
@@ -136,7 +136,7 @@ class AddEntry extends ConsumerWidget {
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2
-                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    !.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(height: 8),
@@ -219,7 +219,7 @@ class AddEntry extends ConsumerWidget {
                     style: Theme.of(context)
                         .textTheme
                         .subtitle2
-                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                        !.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
                     onTap: () {
@@ -234,7 +234,7 @@ class AddEntry extends ConsumerWidget {
                           horizontal: 12, vertical: 8),
                       child: Text(
                         AppLocalization.of(context).getTranslatedVal("edit"),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff2196F3)),
@@ -285,7 +285,7 @@ class AddEntry extends ConsumerWidget {
                                       style: Theme.of(context)
                                           .textTheme
                                           .caption
-                                          .copyWith(
+                                          !.copyWith(
                                               overflow: TextOverflow.ellipsis),
                                     ),
                                   ),
@@ -308,7 +308,7 @@ class AddEntry extends ConsumerWidget {
                       children: [
                         Text(
                           AppLocalization.of(context).getTranslatedVal("date"),
-                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8),
@@ -356,7 +356,7 @@ class AddEntry extends ConsumerWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle2
-                                .copyWith(
+                                !.copyWith(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 8),
@@ -404,7 +404,7 @@ class AddEntry extends ConsumerWidget {
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2
-                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    !.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(height: 8),
@@ -449,7 +449,7 @@ class AddEntry extends ConsumerWidget {
   }
 
   _selectDate(BuildContext context, AddEntryViewModel vm) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: vm.date, // Refer step 1
       firstDate: DateTime(2000),
@@ -462,7 +462,7 @@ class AddEntry extends ConsumerWidget {
   }
 
   _selectTime(BuildContext context, AddEntryViewModel vm) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(vm.date), // Refer step 1
     );

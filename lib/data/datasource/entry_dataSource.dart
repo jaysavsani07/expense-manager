@@ -12,11 +12,11 @@ abstract class EntryDataSource {
 
   Stream<List<String>> getAllMonthListByYear(int year);
 
-  Stream<List<int>> getExpenseYearList();
+  Stream<List<int?>> getExpenseYearList();
 
-  Stream<List<int>> getIncomeYearList();
+  Stream<List<int?>> getIncomeYearList();
 
-  Stream<List<int>> getAllYearList();
+  Stream<List<int?>> getAllYearList();
 
   Stream<int> addExpenseEntry(Entry entry);
 

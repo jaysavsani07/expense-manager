@@ -20,7 +20,7 @@ class Dashboard extends ConsumerWidget {
         title: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: DottedBorder(
-            color: Theme.of(context).appBarTheme.titleTextStyle.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
@@ -60,7 +60,7 @@ class Dashboard extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("hello"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .subtitle2!
                         .copyWith(fontSize: 34),
                   ),
                   const UserName()
@@ -80,7 +80,7 @@ class Dashboard extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("quick_add"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .subtitle2!
                         .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
@@ -96,7 +96,7 @@ class Dashboard extends ConsumerWidget {
                       child: Text(
                         AppLocalization.of(context)
                             .getTranslatedVal("manage_category"),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff2196F3)),
@@ -116,7 +116,7 @@ class Dashboard extends ConsumerWidget {
 }
 
 class UserName extends ConsumerWidget {
-  const UserName({Key key}) : super(key: key);
+  const UserName({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -125,14 +125,14 @@ class UserName extends ConsumerWidget {
       appState.userName,
       style: Theme.of(context)
           .textTheme
-          .subtitle2
+          .subtitle2!
           .copyWith(fontSize: 34, fontWeight: FontWeight.w300),
     );
   }
 }
 
 class TodayAmount extends ConsumerWidget {
-  const TodayAmount({Key key}) : super(key: key);
+  const TodayAmount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,7 +156,7 @@ class TodayAmount extends ConsumerWidget {
                           .getTranslatedVal("today_expanse"),
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2
+                          .subtitle2!
                           .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 6),
@@ -165,7 +165,7 @@ class TodayAmount extends ConsumerWidget {
                         "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayExpense)}",
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2
+                            .subtitle2!
                             .copyWith(fontSize: 28),
                       ),
                     )
@@ -183,7 +183,7 @@ class TodayAmount extends ConsumerWidget {
 
 class RadialTextPointer extends ConsumerStatefulWidget {
   /// Creates the gauge text pointer sample
-  const RadialTextPointer({Key key}) : super(key: key);
+  const RadialTextPointer({Key? key}) : super(key: key);
 
   @override
   _RadialTextPointerState createState() => _RadialTextPointerState();
@@ -291,7 +291,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
             AppLocalization.of(context).getTranslatedVal("expense_meter"),
             style: Theme.of(context)
                 .textTheme
-                .subtitle2
+                .subtitle2!
                 .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
           ),
         )

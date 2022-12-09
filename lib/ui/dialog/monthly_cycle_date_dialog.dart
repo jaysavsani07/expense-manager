@@ -62,7 +62,7 @@ class MonthlyCycleDateDialog extends StatelessWidget {
                           e,
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2
+                              .subtitle2!
                               .copyWith(
                               fontSize: e == selected ? 24 : 14,
                               fontWeight: e == selected

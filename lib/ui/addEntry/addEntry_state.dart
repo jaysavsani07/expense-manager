@@ -4,8 +4,8 @@ import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 final addEntryModelProvider = ChangeNotifierProvider.autoDispose.family<
     AddEntryViewModel, Tuple3<EntryType, EntryWithCategory, cat.Category>>(
@@ -18,28 +18,28 @@ final addEntryModelProvider = ChangeNotifierProvider.autoDispose.family<
 
 class AddEntryViewModel with ChangeNotifier {
   EntryRepositoryImp entryDataSourceImp;
-  EntryWithCategory entryWithCategory;
+  EntryWithCategory? entryWithCategory;
 
   List<cat.Category> expenseCategoryList = [];
   List<cat.Category> incomeCategoryList = [];
   String amount = "";
-  cat.Category category;
+  cat.Category? category;
   DateTime date = DateTime.now();
   String description = "";
   EntryType entryType;
 
   AddEntryViewModel({
-    @required this.entryDataSourceImp,
-    @required this.entryWithCategory,
-    @required this.category,
-    @required this.entryType,
+    required this.entryDataSourceImp,
+    this.entryWithCategory,
+    required this.category,
+    required this.entryType,
   }) {
     this.entryWithCategory = entryWithCategory;
     if (entryWithCategory != null) {
-      amount = entryWithCategory.entry.amount.toString();
-      date = entryWithCategory.entry.modifiedDate;
-      category = entryWithCategory.category;
-      description = entryWithCategory.entry.description;
+      amount = entryWithCategory!.entry.amount.toString();
+      date = entryWithCategory!.entry.modifiedDate;
+      category = entryWithCategory!.category;
+      description = entryWithCategory!.entry.description;
     }
 
     entryDataSourceImp.getAllCategory(EntryType.expense).listen((event) {
@@ -59,9 +59,9 @@ class AddEntryViewModel with ChangeNotifier {
           .updateEntry(
               entryType,
               Entry(
-                  id: entryWithCategory.entry.id,
+                  id: entryWithCategory!.entry.id,
                   amount: double.parse(amount),
-                  categoryId: category.id,
+                  categoryId: category!.id,
                   modifiedDate: date,
                   description: description))
           .listen((event) {});
@@ -71,7 +71,7 @@ class AddEntryViewModel with ChangeNotifier {
               entryType,
               Entry(
                   amount: double.parse(amount),
-                  categoryId: category?.id,
+                  categoryId: category!.id,
                   modifiedDate: date,
                   description: description))
           .listen((event) {});

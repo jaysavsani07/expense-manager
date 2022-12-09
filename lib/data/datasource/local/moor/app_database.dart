@@ -136,14 +136,14 @@ class AppDatabase extends _$AppDatabase {
         ]).map((QueryRow row) => row.read<int>("c1")).watch();
   }
 
-  Stream<List<int>> getExpenseYearList() {
+  Stream<List<int?>> getExpenseYearList() {
     return (selectOnly(entryEntity, distinct: true)
           ..addColumns([entryEntity.modifiedDate.year]))
         .map((row) => row.read(entryEntity.modifiedDate.year))
         .watch();
   }
 
-  Stream<List<int>> getIncomeYearList() {
+  Stream<List<int?>> getIncomeYearList() {
     return (selectOnly(incomeEntryEntity, distinct: true)
           ..addColumns([incomeEntryEntity.modifiedDate.year]))
         .map((row) => row.read(incomeEntryEntity.modifiedDate.year))
@@ -229,7 +229,7 @@ class AppDatabase extends _$AppDatabase {
     return (select(entryEntity)
           ..where((row) {
             return row.modifiedDate.year.equalsExp(currentDate.year) &
-                row.modifiedDate.month.equalsExp(currentDate.month)&
+                row.modifiedDate.month.equalsExp(currentDate.month) &
                 row.modifiedDate.day.equalsExp(currentDate.day);
           }))
         .watch()
@@ -328,7 +328,8 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total: row.read(entryEntity.amount.sum()),
+                total:
+                    row.read(coalesce([entryEntity.amount.sum(), Constant(0)])),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -367,7 +368,7 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total: row.read(entryEntity.amount.sum()),
+                total: row.read(coalesce([entryEntity.amount.sum(),Constant(0)])),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -497,17 +498,17 @@ class AppDatabase extends _$AppDatabase {
           "Old ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
       if (oldIndex > newIndex) {
         for (int i = 0; i < categoryList.length; i++) {
-          if (categoryList[i].position >= newIndex) {
+          if (categoryList[i].position! >= newIndex) {
             categoryList[i] = categoryList[i]
-                .copyWith(position: categoryList[i].position + 1);
+                .copyWith(position: categoryList[i].position! + 1);
           }
         }
       } else {
         for (int i = 0; i < categoryList.length; i++) {
-          if (categoryList[i].position > oldIndex &&
-              categoryList[i].position <= newIndex) {
+          if (categoryList[i].position! > oldIndex &&
+              categoryList[i].position! <= newIndex) {
             categoryList[i] = categoryList[i]
-                .copyWith(position: categoryList[i].position - 1);
+                .copyWith(position: categoryList[i].position! - 1);
           }
         }
       }

@@ -44,7 +44,7 @@ class LanguageDialog extends AlertDialog {
                       e.name,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2
+                          .subtitle2!
                           .copyWith(fontSize: 14),
                     ),
                   ],

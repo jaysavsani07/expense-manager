@@ -5,28 +5,28 @@ import 'package:moor/moor.dart';
 @immutable
 class Entry {
   final double amount;
-  final int id;
-  final int categoryId;
+  final int? id;
+  final int? categoryId;
   final DateTime modifiedDate;
   final String description;
 
   Entry({
     this.id,
-    @required this.amount,
-    @required this.categoryId,
-    @required this.modifiedDate,
-    @required this.description,
+    required this.amount,
+    this.categoryId,
+    required this.modifiedDate,
+    required this.description,
   });
 
   Entry copyWith({
-    double amount,
-    String categoryName,
-    DateTime modifiedDate,
-    String description,
+    double? amount,
+    int? categoryId,
+    DateTime? modifiedDate,
+    String? description,
   }) {
     return Entry(
         amount: amount ?? this.amount,
-        categoryId: categoryName ?? this.categoryId,
+        categoryId: categoryId ?? this.categoryId,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         description: description ?? this.description);
   }
@@ -51,16 +51,16 @@ class Entry {
 
   EntryEntityCompanion toEntryEntityCompanion() {
     return EntryEntityCompanion(
-        id: id == null ? Value.absent() : Value(id),
+        id: id == null ? Value.absent() : Value(id!),
         amount: Value(amount),
-        categoryId: categoryId == null ? Value.absent() : Value(categoryId),
+        categoryId: categoryId == null ? Value.absent() : Value(categoryId!),
         modifiedDate: Value(modifiedDate),
         description: Value(description));
   }
 
   IncomeEntryEntityCompanion toIncomeEntryEntityCompanion() {
     return IncomeEntryEntityCompanion(
-        id: id == null ? Value.absent() : Value(id),
+        id: id == null ? Value.absent() : Value(id!),
         amount: Value(amount),
         categoryId: categoryId == null ? Value.absent() : Value(categoryId),
         modifiedDate: Value(modifiedDate),

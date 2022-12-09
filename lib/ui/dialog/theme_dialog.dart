@@ -46,7 +46,7 @@ class ThemeDialog extends StatelessWidget {
                   e.item2,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 14),
                 ),
               ))

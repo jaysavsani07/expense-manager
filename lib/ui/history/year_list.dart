@@ -21,23 +21,23 @@ class YearList extends ConsumerWidget {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                   child: InkWell(
                     onTap: () {
-                      ref.read(yearProvider.state).state = e;
+                      ref.read(yearProvider.notifier).state = e;
                     },
                     borderRadius: BorderRadius.circular(15),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 9, horizontal: 14),
                       decoration: BoxDecoration(
-                        color: ref.watch(yearProvider.state).state == e
+                        color: ref.watch(yearProvider.notifier).state == e
                             ? Color(0xff2196F3)
                             : Theme.of(context).dividerColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Text(
                         e.toString(),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               fontSize: 12,
-                              color: ref.watch(yearProvider.state).state == e
+                              color: ref.watch(yearProvider.notifier).state == e
                                   ? Colors.white
                                   : Color(0xff2196F3),
                             ),

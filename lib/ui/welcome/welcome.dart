@@ -32,7 +32,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 AppLocalization.of(context).getTranslatedVal("welcome_to"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .subtitle2!
                     .copyWith(fontSize: 38, fontWeight: FontWeight.w300),
               ),
             ),
@@ -42,7 +42,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 AppLocalization.of(context).getTranslatedVal("expense_manager"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .subtitle2!
                     .copyWith(fontSize: 38, fontWeight: FontWeight.bold),
               ),
             ),
@@ -61,7 +61,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 },
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .subtitle2!
                     .copyWith(fontSize: 30),
               ),
             ),
@@ -107,7 +107,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                     AppLocalization.of(context).getTranslatedVal("next"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .subtitle1!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -121,7 +121,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
 }
 
 class OptionSelection extends ConsumerWidget {
-  const OptionSelection({Key key}) : super(key: key);
+  const OptionSelection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -156,7 +156,7 @@ class OptionSelection extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("appearance"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -171,7 +171,7 @@ class OptionSelection extends ConsumerWidget {
                               .getTranslatedVal("light_theme"))),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],
@@ -205,7 +205,7 @@ class OptionSelection extends ConsumerWidget {
                       .getTranslatedVal("month_cycle_date"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -213,7 +213,7 @@ class OptionSelection extends ConsumerWidget {
                   monthStartDate.date,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],
@@ -246,7 +246,7 @@ class OptionSelection extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("language"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .subtitle2!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -257,7 +257,7 @@ class OptionSelection extends ConsumerWidget {
                       .name,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .subtitle1!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],

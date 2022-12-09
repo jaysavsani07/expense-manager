@@ -25,7 +25,7 @@ Future<void> main() async {
     observers: [Logger()],
     overrides: [
       sharedPreferencesProvider
-          .overrideWithValue(SharedPreferencesHelper(sharedPreferences))
+          .overrideWithValue(SharedPreferencesHelper(prefs: sharedPreferences))
     ],
     child: MyApp(),
   ));

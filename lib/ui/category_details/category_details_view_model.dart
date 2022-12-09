@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
@@ -10,13 +11,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
-import 'package:collection/collection.dart';
 
 final yearListStreamProvider = StreamProvider<List<int>>((ref) {
-  return ref
-      .read(repositoryProvider)
-      .getYearList(EntryType.all)
-      .map((event) => event.where((element) => element <= DateTime.now().year).toList());
+  return ref.read(repositoryProvider).getYearList(EntryType.all).map((event) =>
+      event.where((element) => element <= DateTime.now().year).toList());
 });
 
 final selectedYearProvider =
@@ -29,14 +27,15 @@ final categoryDetailsModelProvider =
         ));
 
 class CategoryDetailsViewModel with ChangeNotifier {
-  EntryRepositoryImp entryDataSourceImp;
-  int year;
-  int month;
-  QuarterlyType quarterlyType;
+  final EntryRepositoryImp entryDataSourceImp;
+  final int year;
+  late int month;
+  late QuarterlyType quarterlyType;
 
-  StreamSubscription streamSubscription;
-  List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>> mainList;
-  List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>> list;
+  late final StreamSubscription streamSubscription;
+  late List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>
+      mainList;
+  late List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>> list;
 
   List<int> monthList = [];
   Map<QuarterlyType, List<int>> quarterList = {};
@@ -47,8 +46,8 @@ class CategoryDetailsViewModel with ChangeNotifier {
       AsyncValue.loading();
 
   CategoryDetailsViewModel({
-    @required this.entryDataSourceImp,
-    @required this.year,
+    required this.entryDataSourceImp,
+    required this.year,
   }) {
     getQuarterList();
     getMonthList();
@@ -62,7 +61,7 @@ class CategoryDetailsViewModel with ChangeNotifier {
 
   updateData() {
     list = mainList
-        .where((element) => quarterList[quarterlyType].contains(element.item1))
+        .where((element) => quarterList[quarterlyType]!.contains(element.item1))
         .toList();
 
     updateCategoryList();
@@ -73,12 +72,12 @@ class CategoryDetailsViewModel with ChangeNotifier {
                       event.item2?.map((e) => e.entry.amount)?.fold(
                               0,
                               (previousValue, element) =>
-                                  previousValue + element) ??
+                                  previousValue! + element) ??
                           0,
                       event.item3?.map((e) => e.entry.amount)?.fold(
                               0,
                               (previousValue, element) =>
-                                  previousValue + element) ??
+                                  previousValue! + element) ??
                           0
                     ])
                 ?.expand((element) => element)
@@ -90,30 +89,26 @@ class CategoryDetailsViewModel with ChangeNotifier {
                   x: e.item1,
                   barRods: [
                     BarChartRodData(
-                      y: e.item3?.map((e) => e.entry.amount)?.fold(
+                      toY: e.item3?.map((e) => e.entry.amount)?.fold(
                               0,
                               (previousValue, element) =>
-                                  previousValue + element) ??
+                                  previousValue! + element) ??
                           0,
                       width: 30,
                       borderRadius: BorderRadius.circular(4),
-                      colors: [
-                        Colors.green,
-                        // Colors.greenAccent,
-                      ],
+                      color: Colors.green,
+                      // Colors.greenAccent,
                     ),
                     BarChartRodData(
-                      y: e.item2?.map((e) => e.entry.amount)?.fold(
+                      toY: e.item2?.map((e) => e.entry.amount)?.fold(
                               0,
                               (previousValue, element) =>
-                                  previousValue + element) ??
+                                  previousValue! + element) ??
                           0,
                       width: 30,
                       borderRadius: BorderRadius.circular(4),
-                      colors: [
-                        Colors.red,
-                        // Colors.redAccent,
-                      ],
+                      color: Colors.red,
+                      // Colors.redAccent,
                     )
                   ],
                   showingTooltipIndicators: [0],
@@ -184,22 +179,22 @@ class CategoryDetailsViewModel with ChangeNotifier {
           if (quarterList[QuarterlyType.Q1] == null)
             quarterList[QuarterlyType.Q1] = [i];
           else
-            quarterList[QuarterlyType.Q1].add(i);
+            quarterList[QuarterlyType.Q1]!.add(i);
         } else if (i <= 6) {
           if (quarterList[QuarterlyType.Q2] == null)
             quarterList[QuarterlyType.Q2] = [i];
           else
-            quarterList[QuarterlyType.Q2].add(i);
+            quarterList[QuarterlyType.Q2]!.add(i);
         } else if (i <= 9) {
           if (quarterList[QuarterlyType.Q3] == null)
             quarterList[QuarterlyType.Q3] = [i];
           else
-            quarterList[QuarterlyType.Q3].add(i);
+            quarterList[QuarterlyType.Q3]!.add(i);
         } else {
           if (quarterList[QuarterlyType.Q4] == null)
             quarterList[QuarterlyType.Q4] = [i];
           else
-            quarterList[QuarterlyType.Q4].add(i);
+            quarterList[QuarterlyType.Q4]!.add(i);
         }
       }
       quarterlyType = quarterList.entries.last.key;
@@ -212,7 +207,7 @@ class CategoryDetailsViewModel with ChangeNotifier {
   }
 
   void getMonthList() {
-    monthList = quarterList[quarterlyType].sorted((a, b) {
+    monthList = quarterList[quarterlyType]!.sorted((a, b) {
       if (a > b)
         return -1;
       else if (a < b)

@@ -6,7 +6,12 @@ class Language {
   final String flag;
   final Locale locale;
 
-  Language({this.id, this.name, this.flag, this.locale});
+  Language({
+    required this.id,
+    required this.name,
+    required this.flag,
+    required this.locale,
+  });
 
   static List<Language> languageList() {
     return <Language>[

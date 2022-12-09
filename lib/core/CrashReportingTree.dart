@@ -12,8 +12,13 @@ class CrashReportingTree extends LogTree {
   CrashReportingTree({this.logLevels = defaultLevels});
 
   @override
-  void log(String level, String message,
-      {String tag, dynamic ex, StackTrace stacktrace}) {
+  void log(
+    String level,
+    String message, {
+    String? tag,
+    dynamic ex,
+    StackTrace? stacktrace,
+  }) {
     final crashlytics = FirebaseCrashlytics.instance;
     crashlytics.log(message);
 

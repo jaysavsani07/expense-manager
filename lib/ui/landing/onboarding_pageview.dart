@@ -12,14 +12,14 @@ class CustomScrollOnboarding extends StatefulWidget {
 
 class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   int _focusedIndex = -1;
-  double cardSize;
+  late double cardSize;
   double heightFromTop = 0;
-  double listViewTopPadding;
-  double deviceHeight;
-  double deviceWidth;
-  double marginFromTop;
-  double cardIconSize;
-  double backgroundImageHeight;
+  late  double listViewTopPadding;
+  late double deviceHeight;
+  late double deviceWidth;
+  late double marginFromTop;
+  late double cardIconSize;
+  late double backgroundImageHeight;
 
   @override
   void initState() {

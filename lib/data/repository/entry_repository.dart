@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 abstract class EntryRepository {
   Stream<List<String>> getMonthListByYear(EntryType entryType, int year);
 
-  Stream<List<int>> getYearList(EntryType entryType);
+  Stream<List<int?>> getYearList(EntryType entryType);
 
   Stream<int> addEntry(EntryType entryType, Entry entry);
 

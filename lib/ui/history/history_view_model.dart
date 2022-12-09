@@ -6,13 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final entryTypeProvider = StateProvider<EntryType>((ref) => EntryType.all);
 
 final yearListProvider = StreamProvider<List<int>>((ref) {
-  EntryType entryType = ref.watch(entryTypeProvider.state).state;
+  EntryType entryType = ref.watch(entryTypeProvider.notifier).state;
   return ref.read(repositoryProvider).getYearList(entryType).map((event) {
     if (event.isNotEmpty) {
       if (event.contains(DateTime.now().year)) {
-        ref.read(yearProvider.state).state = DateTime.now().year;
+        ref.read(yearProvider.notifier).state = DateTime.now().year;
       } else {
-        ref.read(yearProvider.state).state = event.first;
+        ref.read(yearProvider.notifier).state = event.first;
       }
     }
     return event;
@@ -22,8 +22,8 @@ final yearListProvider = StreamProvider<List<int>>((ref) {
 final yearProvider = StateProvider<int>((ref) => DateTime.now().year);
 
 final monthListProvider = StreamProvider<List<String>>((ref) {
-  int year = ref.watch(yearProvider.state).state;
-  EntryType entryType = ref.watch(entryTypeProvider.state).state;
+  int year = ref.watch(yearProvider.notifier).state;
+  EntryType entryType = ref.watch(entryTypeProvider.notifier).state;
   return ref
       .read(repositoryProvider)
       .getMonthListByYear(entryType, year)
@@ -31,26 +31,26 @@ final monthListProvider = StreamProvider<List<String>>((ref) {
     if (year == DateTime.now().year) {
       if (event.isNotEmpty) {
         if (event.contains(DateTime.now().month)) {
-          ref.read(monthProvider.state).state =
-          AppConstants.monthList[DateTime.now().month];
+          ref.read(monthProvider.notifier).state =
+          AppConstants.monthList[DateTime.now().month]!;
         } else {
-          ref.read(monthProvider.state).state = event.first;
+          ref.read(monthProvider.notifier).state = event.first;
         }
       }
     } else {
-      ref.read(monthProvider.state).state = event.first;
+      ref.read(monthProvider.notifier).state = event.first;
     }
     return event;
   });
 });
 
 final monthProvider = StateProvider<String>(
-    (ref) => AppConstants.monthList[DateTime.now().month]);
+    (ref) => AppConstants.monthList[DateTime.now().month]!);
 
 final historyListProvider = StreamProvider<List<History>>((ref) {
-  String month = ref.watch(monthProvider.state).state;
-  int year = ref.watch(yearProvider.state).state;
-  EntryType entryType = ref.watch(entryTypeProvider.state).state;
+  String month = ref.watch(monthProvider.notifier).state;
+  int year = ref.watch(yearProvider.notifier).state;
+  EntryType entryType = ref.watch(entryTypeProvider.notifier).state;
   return ref
       .read(repositoryProvider)
       .getAllEntryWithCategoryDateWiseByMonthAndYear(

@@ -21,7 +21,7 @@ class CategoryDetails extends StatelessWidget {
             child: Icon(Icons.arrow_back_ios_rounded),
           ),
           title: DottedBorder(
-            color: Theme.of(context).appBarTheme.titleTextStyle.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
@@ -74,7 +74,7 @@ class CategoryDetails extends StatelessWidget {
 }
 
 class MonthListView extends ConsumerWidget {
-  const MonthListView({Key key}) : super(key: key);
+  const MonthListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -109,8 +109,8 @@ class MonthListView extends ConsumerWidget {
                   ),
                   child: Text(
                     AppLocalization.of(context)
-                        .getTranslatedVal(AppConstants.monthList[e]),
-                    style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        .getTranslatedVal(AppConstants.monthList[e]!),
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
                       fontSize: 12,
                       color: ref.watch(categoryDetailsModelProvider
                           .select((value) => value.month)) ==
@@ -148,24 +148,24 @@ class YearListView extends ConsumerWidget {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                   child: InkWell(
                     onTap: () {
-                      ref.read(selectedYearProvider.state).state = e;
+                      ref.read(selectedYearProvider.notifier).state = e;
                     },
                     borderRadius: BorderRadius.circular(15),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 9, horizontal: 14),
                       decoration: BoxDecoration(
-                        color: ref.watch(selectedYearProvider.state).state == e
+                        color: ref.watch(selectedYearProvider.notifier).state == e
                             ? Color(0xff2196F3)
                             : Theme.of(context).dividerColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Text(
                         e.toString(),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               fontSize: 12,
                               color:
-                                  ref.watch(selectedYearProvider.state).state ==
+                                  ref.watch(selectedYearProvider.notifier).state ==
                                           e
                                       ? Colors.white
                                       : Color(0xff2196F3),
@@ -215,7 +215,7 @@ class QuarterListView extends ConsumerWidget {
                 ),
                 child: Text(
                   "Q${e.key.index+1}",
-                  style: Theme.of(context).textTheme.subtitle2.copyWith(
+                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
                     fontSize: 12,
                     color:
                     vm.quarterlyType  ==

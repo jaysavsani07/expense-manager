@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EntryTypeView extends ConsumerWidget {
-  const EntryTypeView({Key key}) : super(key: key);
+  const EntryTypeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +18,7 @@ class EntryTypeView extends ConsumerWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-                ref.read(entryTypeProvider.state).state = EntryType.all;
+                ref.read(entryTypeProvider.notifier).state = EntryType.all;
               },
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -44,7 +44,7 @@ class EntryTypeView extends ConsumerWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-                ref.read(entryTypeProvider.state).state = EntryType.expense;
+                ref.read(entryTypeProvider.notifier).state = EntryType.expense;
               },
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -70,7 +70,7 @@ class EntryTypeView extends ConsumerWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-                ref.read(entryTypeProvider.state).state = EntryType.income;
+                ref.read(entryTypeProvider.notifier).state = EntryType.income;
               },
               child: Card(
                 shape: RoundedRectangleBorder(

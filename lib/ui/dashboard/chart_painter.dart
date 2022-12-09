@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
-  List<double> _subParts;
+  late List<double> _subParts;
   double _total = 0;
   double _totalAngle = math.pi * 2;
 
@@ -17,10 +17,10 @@ class PieChartPainter extends CustomPainter {
   PieChartPainter(
     double angleFactor,
     List<Color> colorList, {
-    @required List<double> values,
-    this.initialAngle,
-    this.strokeWidth,
-    this.emptyColor,
+    required List<double> values,
+    required this.initialAngle,
+    required this.strokeWidth,
+    required this.emptyColor,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     for (int i = 0; i < values.length; i++) {

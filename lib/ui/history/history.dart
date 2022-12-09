@@ -14,7 +14,7 @@ class History extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: DottedBorder(
-            color: Theme.of(context).appBarTheme.titleTextStyle.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,

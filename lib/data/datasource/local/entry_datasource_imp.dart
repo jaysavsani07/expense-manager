@@ -19,36 +19,36 @@ final dataSourceProvider = Provider(
 class EntryDataSourceImp extends EntryDataSource {
   AppDatabase appDatabase;
 
-  EntryDataSourceImp({@required this.appDatabase});
+  EntryDataSourceImp({required this.appDatabase});
 
   @override
   Stream<List<String>> getExpenseMonthListByYear(int year) {
     return appDatabase
         .getExpenseMonthListByYear(year)
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+        .map((event) => event.map((e) => AppConstants.monthList[e]!).toList());
   }
 
   @override
   Stream<List<String>> getIncomeMonthListByYear(int year) {
     return appDatabase
         .getIncomeMonthListByYear(year)
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+        .map((event) => event.map((e) => AppConstants.monthList[e]!).toList());
   }
 
   @override
   Stream<List<String>> getAllMonthListByYear(int year) {
     return appDatabase
         .getAllMonthListByYear(year)
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+        .map((event) => event.map((e) => AppConstants.monthList[e]!).toList());
   }
 
   @override
-  Stream<List<int>> getExpenseYearList() {
+  Stream<List<int?>> getExpenseYearList() {
     return appDatabase.getExpenseYearList();
   }
 
   @override
-  Stream<List<int>> getIncomeYearList() {
+  Stream<List<int?>> getIncomeYearList() {
     return appDatabase.getIncomeYearList();
   }
 
@@ -125,7 +125,7 @@ class EntryDataSourceImp extends EntryDataSource {
     return appDatabase
         .getExpenseEntryWithCategoryByMonthAndYear(month, year)
         .map((event) => groupBy(event,
-            (EntryWithCategoryExpenseData e) => e.entry.modifiedDate.toTitle()))
+            (EntryWithCategoryExpenseData e) => e.entry!.modifiedDate.toTitle()))
         .map((list) => list.entries
             .map((e) => History(
                 title: e.key,
@@ -142,7 +142,7 @@ class EntryDataSourceImp extends EntryDataSource {
     return appDatabase
         .getIncomeEntryWithCategoryByMonthAndYear(month, year)
         .map((event) => groupBy(event,
-            (EntryWithCategoryIncomeData e) => e.entry.modifiedDate.toTitle()))
+            (EntryWithCategoryIncomeData e) => e.entry!.modifiedDate.toTitle()))
         .map((list) => list.entries
             .map((e) => History(
                 title: e.key,
