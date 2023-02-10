@@ -19,9 +19,9 @@ class AppThemeState extends ChangeNotifier {
     userName = ref
         .read(sharedPreferencesProvider)
         .getString(Preferences.USER_NAME, defValue: "");
-    themeMode = ThemeMode.values[
-        ref.read(sharedPreferencesProvider).getInt(Preferences.IS_DARK_MODE) ??
-            0];
+    themeMode = ThemeMode.values[ref
+        .read(sharedPreferencesProvider)
+        .getInt(Preferences.IS_DARK_MODE, defValue: 0)];
     currentLocale = ref.read(sharedPreferencesProvider).getObj(
         Preferences.DEFAULT_LANGUAGE, (v) => Locale(v["lc"], v["cc"]),
         defValue: Locale('en', 'US'));
