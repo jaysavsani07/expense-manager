@@ -72,7 +72,8 @@ class HistoryList extends ConsumerWidget {
                                           onTap: () {
                                             Navigator.pushNamed(
                                                 context, AppRoutes.addEntry,
-                                                arguments: Tuple3(e.entryType,e, null));
+                                                arguments: Tuple3(
+                                                    e.entryType, e, null));
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(

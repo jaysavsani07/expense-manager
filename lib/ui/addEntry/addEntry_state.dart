@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
 final addEntryModelProvider = ChangeNotifierProvider.autoDispose.family<
-    AddEntryViewModel, Tuple3<EntryType, EntryWithCategory, cat.Category>>(
+    AddEntryViewModel, Tuple3<EntryType, EntryWithCategory?, cat.Category?>>(
   (ref, entryWithCategory) => AddEntryViewModel(
       entryDataSourceImp: ref.read(repositoryProvider),
       entryType: entryWithCategory.item1,

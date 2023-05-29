@@ -13,9 +13,11 @@ import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
 
 class AddEntry extends ConsumerWidget {
-  final Tuple3<EntryType, EntryWithCategory, Category> entryWithCategory;
+  final Tuple3<EntryType, EntryWithCategory?, Category?> entryWithCategory;
 
-  AddEntry({required this.entryWithCategory}) : super();
+  AddEntry({
+    required this.entryWithCategory,
+  }) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -135,8 +137,8 @@ class AddEntry extends ConsumerWidget {
                 AppLocalization.of(context).getTranslatedVal("type"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
-                    !.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    .subtitle2!
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(height: 8),
@@ -218,8 +220,8 @@ class AddEntry extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("category"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
-                        !.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                        .subtitle2!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
                     onTap: () {
@@ -284,8 +286,8 @@ class AddEntry extends ConsumerWidget {
                                       category.name,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption
-                                          !.copyWith(
+                                          .caption!
+                                          .copyWith(
                                               overflow: TextOverflow.ellipsis),
                                     ),
                                   ),
@@ -308,8 +310,11 @@ class AddEntry extends ConsumerWidget {
                       children: [
                         Text(
                           AppLocalization.of(context).getTranslatedVal("date"),
-                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8),
                         InkWell(
@@ -355,8 +360,8 @@ class AddEntry extends ConsumerWidget {
                                 .getTranslatedVal("time"),
                             style: Theme.of(context)
                                 .textTheme
-                                .subtitle2
-                                !.copyWith(
+                                .subtitle2!
+                                .copyWith(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 8),
@@ -403,8 +408,8 @@ class AddEntry extends ConsumerWidget {
                 AppLocalization.of(context).getTranslatedVal("note"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
-                    !.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    .subtitle2!
+                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(height: 8),

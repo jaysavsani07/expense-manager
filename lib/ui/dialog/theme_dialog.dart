@@ -28,28 +28,30 @@ class ThemeDialog extends StatelessWidget {
                     ThemeMode.system,
                     AppLocalization.of(context)
                         .getTranslatedVal("use_device_theme")),
-                Tuple2(ThemeMode.light,
-                    AppLocalization.of(context).getTranslatedVal("light_theme")),
+                Tuple2(
+                    ThemeMode.light,
+                    AppLocalization.of(context)
+                        .getTranslatedVal("light_theme")),
                 Tuple2(ThemeMode.dark,
                     AppLocalization.of(context).getTranslatedVal("dark_theme"))
               ]
                   .map((e) => RadioListTile(
-                groupValue: selected,
-                value: e.item1,
-                onChanged: (val) {
-                  ref
-                      .watch(appStateNotifier.notifier)
-                      .changeTheme(e.item1);
-                  Navigator.of(context).pop();
-                },
-                title: Text(
-                  e.item2,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(fontSize: 14),
-                ),
-              ))
+                        groupValue: selected,
+                        value: e.item1,
+                        onChanged: (val) {
+                          ref
+                              .watch(appStateNotifier.notifier)
+                              .changeTheme(e.item1);
+                          Navigator.of(context).pop();
+                        },
+                        title: Text(
+                          e.item2,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(fontSize: 14),
+                        ),
+                      ))
                   .toList(),
             );
           },

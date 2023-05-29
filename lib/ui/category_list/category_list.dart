@@ -30,8 +30,9 @@ class CategoryList extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
-                AppLocalization.of(context).getTranslatedVal("category_list"),
-              style: Theme.of(context).appBarTheme.titleTextStyle,),
+              AppLocalization.of(context).getTranslatedVal("category_list"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
           ),
         ),
         actions: [

@@ -20,9 +20,10 @@ class History extends StatelessWidget {
             borderType: BorderType.RRect,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child:
-                  Text(AppLocalization.of(context).getTranslatedVal("history"),
-                    style: Theme.of(context).appBarTheme.titleTextStyle,),
+              child: Text(
+                AppLocalization.of(context).getTranslatedVal("history"),
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+              ),
             ),
           ),
         ),

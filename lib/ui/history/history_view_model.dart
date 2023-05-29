@@ -32,7 +32,7 @@ final monthListProvider = StreamProvider<List<String>>((ref) {
       if (event.isNotEmpty) {
         if (event.contains(DateTime.now().month)) {
           ref.read(monthProvider.notifier).state =
-          AppConstants.monthList[DateTime.now().month]!;
+              AppConstants.monthList[DateTime.now().month]!;
         } else {
           ref.read(monthProvider.notifier).state = event.first;
         }

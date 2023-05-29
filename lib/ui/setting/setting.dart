@@ -31,9 +31,10 @@ class Setting extends ConsumerWidget {
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child:
-                Text(AppLocalization.of(context).getTranslatedVal("settings"),
-                  style: Theme.of(context).appBarTheme.titleTextStyle,),
+            child: Text(
+              AppLocalization.of(context).getTranslatedVal("settings"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
           ),
         ),
       ),
@@ -52,11 +53,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: ThemeDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -100,11 +101,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: MonthlyCycleDateDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -142,11 +143,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: LanguageDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -186,11 +187,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: CurrencyDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

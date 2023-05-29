@@ -326,7 +326,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
 
   ///Then trigger `onItemFocus`
   double _calcCardLocation({
-     double? pixel,
+    double? pixel,
     required double itemSize,
     int? index,
   }) {

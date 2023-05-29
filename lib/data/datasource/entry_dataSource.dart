@@ -30,8 +30,8 @@ abstract class EntryDataSource {
 
   Stream<int> deleteIncomeEntry(int id);
 
-  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(DateTime start,
-      DateTime end);
+  Stream<List<CategoryWithEntryList>> getAllEntryWithCategory(
+      DateTime start, DateTime end);
   Stream<double> getExpanseSumByDateRange(DateTime start, DateTime end);
   Stream<double> getIncomeSumByDateRange(DateTime start, DateTime end);
   Stream<double> getTodayExpense();
@@ -42,8 +42,8 @@ abstract class EntryDataSource {
   Stream<List<History>> getIncomeEntryWithCategoryDateWiseByMonthAndYear(
       int month, int year);
 
-  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(int month,
-      int year);
+  Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
+      int month, int year);
 
   Stream<int> addExpenseCategory(Category category);
 
@@ -65,8 +65,8 @@ abstract class EntryDataSource {
 
   Stream<List<Category>> getAllCategory();
 
-  Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(int month,
-      int year);
+  Stream<List<CategoryWithSum>> getAllCategoryWithSumByMonth(
+      int month, int year);
 
   Stream<List<CategoryWithSum>> getAllCategoryWithSumByYear(int year);
   Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year);

@@ -4,7 +4,8 @@ import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:drift_sqflite/drift_sqflite.dart';
+import 'package:drift/drift.dart';
 import 'package:tuple/tuple.dart';
 
 part 'app_database.g.dart';
@@ -29,7 +30,7 @@ class CategoryEntity extends Table {
 
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
-  TextColumn get icon => text()();
+  TextColumn get icon => text().nullable()();
 
   TextColumn get iconColor => text()();
 }
@@ -54,14 +55,14 @@ class IncomeCategoryEntity extends Table {
 
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
-  TextColumn get icon => text()();
+  TextColumn get icon => text().nullable()();
 
   TextColumn get iconColor => text()();
 }
 
 final appDatabaseProvider = Provider((ref) => AppDatabase());
 
-@UseMoor(tables: [
+@DriftDatabase(tables: [
   EntryEntity,
   CategoryEntity,
   IncomeCategoryEntity,
@@ -69,7 +70,7 @@ final appDatabaseProvider = Provider((ref) => AppDatabase());
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
-      : super((FlutterQueryExecutor.inDatabaseFolder(
+      : super((SqfliteQueryExecutor.inDatabaseFolder(
           path: 'db.sqlite',
           logStatements: true,
         )));
@@ -279,10 +280,9 @@ class AppDatabase extends _$AppDatabase {
     ).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry:
-                EntryEntityData.fromData(e.data, this, prefix: "entry_entity."),
-            category: CategoryEntityData.fromData(e.data, this,
-                prefix: "category_entity."),
+            entry: EntryEntityData.fromData(e.data, prefix: "entry_entity."),
+            category:
+                CategoryEntityData.fromData(e.data, prefix: "category_entity."),
             entryType: e.read<int>("entry_type"));
       }).toList();
     });
@@ -345,8 +345,8 @@ class AppDatabase extends _$AppDatabase {
         ]).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry: EntryEntityData.fromData(e.data, this),
-            category: CategoryEntityData.fromData(e.data, this),
+            entry: EntryEntityData.fromData(e.data),
+            category: CategoryEntityData.fromData(e.data),
             entryType: e.read<int>("entry_type"));
       }).toList();
     });
@@ -368,7 +368,8 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total: row.read(coalesce([entryEntity.amount.sum(),Constant(0)])),
+                total:
+                    row.read(coalesce([entryEntity.amount.sum(), Constant(0)])),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -395,8 +396,8 @@ class AppDatabase extends _$AppDatabase {
         "SELECT *, 1 AS entry_type FROM income_category_entity UNION SELECT *, 0 AS entry_type FROM category_entity ORDER BY name ASC;",
         readsFrom: {incomeCategoryEntity, categoryEntity}).watch().map((event) {
       return event.map((e) {
-        return Tuple2(CategoryEntityData.fromData(e.data, this),
-            e.read<int>("entry_type"));
+        return Tuple2(
+            CategoryEntityData.fromData(e.data), e.read<int>("entry_type"));
       }).toList();
     });
   }

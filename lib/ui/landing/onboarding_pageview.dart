@@ -14,7 +14,7 @@ class _CustomScrollOnboardingState extends State<CustomScrollOnboarding> {
   int _focusedIndex = -1;
   late double cardSize;
   double heightFromTop = 0;
-  late  double listViewTopPadding;
+  late double listViewTopPadding;
   late double deviceHeight;
   late double deviceWidth;
   late double marginFromTop;

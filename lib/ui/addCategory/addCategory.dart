@@ -17,7 +17,6 @@ class AddCategory extends ConsumerWidget {
     final vm = ref.watch(addCategoryModelProvider(tuple2));
     return Scaffold(
       appBar: AppBar(
-
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
@@ -38,7 +37,6 @@ class AddCategory extends ConsumerWidget {
           ),
         ),
         actions: [
-
           InkWell(
             onTap: () {
               FocusScope.of(context).unfocus();

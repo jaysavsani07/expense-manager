@@ -173,7 +173,7 @@ class TodayAmount extends ConsumerWidget {
                 ),
               ),
               Expanded(
-                child: SizedBox(height:80, child: RadialTextPointer()),
+                child: SizedBox(height: 80, child: RadialTextPointer()),
               ),
             ],
           )),
@@ -203,7 +203,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom : 8.0),
+          padding: const EdgeInsets.only(bottom: 8.0),
           child: SfRadialGauge(
             axes: <RadialAxis>[
               RadialAxis(
@@ -253,7 +253,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                       color: const Color(0xCCFF4100)),
                 ],
                 annotations: <GaugeAnnotation>[
-                 /*GaugeAnnotation(
+                  /*GaugeAnnotation(
                     angle: 172,
                     positionFactor: 0.9,
                     widget: Container(

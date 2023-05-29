@@ -60,7 +60,7 @@ class MyApp extends ConsumerWidget {
         AppRoutes.home: (context) => HomeScreen(),
         AppRoutes.addEntry: (context) => AddEntry(
             entryWithCategory: ModalRoute.of(context)?.settings.arguments
-                as Tuple3<EntryType, EntryWithCategory, Category>),
+                as Tuple3<EntryType, EntryWithCategory?, Category?>),
         AppRoutes.categoryList: (context) => CategoryList(
             entryType: ModalRoute.of(context)?.settings.arguments as EntryType),
         AppRoutes.addCategory: (context) => AddCategory(

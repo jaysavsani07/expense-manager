@@ -27,8 +27,8 @@ class CategoryDetails extends StatelessWidget {
             borderType: BorderType.RRect,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Text(AppLocalization.of(context)
-                  .getTranslatedVal("statistics"),
+              child: Text(
+                AppLocalization.of(context).getTranslatedVal("statistics"),
                 style: Theme.of(context).appBarTheme.titleTextStyle,
               ),
             ),
@@ -87,42 +87,40 @@ class MonthListView extends ConsumerWidget {
         padding: EdgeInsets.only(left: 24),
         scrollDirection: Axis.horizontal,
         children: monthList
-            .map(
-                (e) => Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-              child: InkWell(
-                onTap: () {
-                  ref.read(categoryDetailsModelProvider).changeMonth(e);
-                },
-                borderRadius: BorderRadius.circular(15),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 9, horizontal: 14),
-                  decoration: BoxDecoration(
-                    color: ref.watch(categoryDetailsModelProvider
-                        .select((value) => value.month)) ==
-                        e
-                        ? Color(0xff2196F3)
-                        : Theme.of(context).dividerColor,
+            .map((e) => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  child: InkWell(
+                    onTap: () {
+                      ref.read(categoryDetailsModelProvider).changeMonth(e);
+                    },
                     borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    AppLocalization.of(context)
-                        .getTranslatedVal(AppConstants.monthList[e]!),
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                      fontSize: 12,
-                      color: ref.watch(categoryDetailsModelProvider
-                          .select((value) => value.month)) ==
-                          e
-                          ? Colors.white
-                          : Color(0xff2196F3),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 9, horizontal: 14),
+                      decoration: BoxDecoration(
+                        color: ref.watch(categoryDetailsModelProvider
+                                    .select((value) => value.month)) ==
+                                e
+                            ? Color(0xff2196F3)
+                            : Theme.of(context).dividerColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Text(
+                        AppLocalization.of(context)
+                            .getTranslatedVal(AppConstants.monthList[e]!),
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              fontSize: 12,
+                              color: ref.watch(categoryDetailsModelProvider
+                                          .select((value) => value.month)) ==
+                                      e
+                                  ? Colors.white
+                                  : Color(0xff2196F3),
+                            ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            )
-        )
+                ))
             .toList(),
       ),
     );
@@ -155,20 +153,22 @@ class YearListView extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 9, horizontal: 14),
                       decoration: BoxDecoration(
-                        color: ref.watch(selectedYearProvider.notifier).state == e
-                            ? Color(0xff2196F3)
-                            : Theme.of(context).dividerColor,
+                        color:
+                            ref.watch(selectedYearProvider.notifier).state == e
+                                ? Color(0xff2196F3)
+                                : Theme.of(context).dividerColor,
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Text(
                         e.toString(),
                         style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               fontSize: 12,
-                              color:
-                                  ref.watch(selectedYearProvider.notifier).state ==
-                                          e
-                                      ? Colors.white
-                                      : Color(0xff2196F3),
+                              color: ref
+                                          .watch(selectedYearProvider.notifier)
+                                          .state ==
+                                      e
+                                  ? Colors.white
+                                  : Color(0xff2196F3),
                             ),
                       ),
                     ),
@@ -195,39 +195,39 @@ class QuarterListView extends ConsumerWidget {
         shrinkWrap: false,
         padding: EdgeInsets.only(left: 24),
         scrollDirection: Axis.horizontal,
-        children: vm.quarterList.entries.toList().reversed
-            .map((e) => Padding(
-            padding:
-            const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-            child: InkWell(
-              onTap: () {
-                vm.changeQuarter(e.key);
-              },
-              borderRadius: BorderRadius.circular(15),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 9, horizontal: 14),
-                decoration: BoxDecoration(
-                  color: vm.quarterlyType == e.key
-                      ? Color(0xff2196F3)
-                      : Theme.of(context).dividerColor,
+        children: vm.quarterList.entries
+            .toList()
+            .reversed
+            .map(
+              (e) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                child: InkWell(
+                  onTap: () {
+                    vm.changeQuarter(e.key);
+                  },
                   borderRadius: BorderRadius.circular(15),
-                ),
-                child: Text(
-                  "Q${e.key.index+1}",
-                  style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                    fontSize: 12,
-                    color:
-                    vm.quarterlyType  ==
-                        e.key
-                        ? Colors.white
-                        : Color(0xff2196F3),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 9, horizontal: 14),
+                    decoration: BoxDecoration(
+                      color: vm.quarterlyType == e.key
+                          ? Color(0xff2196F3)
+                          : Theme.of(context).dividerColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      "Q${e.key.index + 1}",
+                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            fontSize: 12,
+                            color: vm.quarterlyType == e.key
+                                ? Colors.white
+                                : Color(0xff2196F3),
+                          ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-        )
+            )
             .toList(),
       ),
     );

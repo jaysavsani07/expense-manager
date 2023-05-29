@@ -141,11 +141,11 @@ class OptionSelection extends ConsumerWidget {
                     CommonAlertDialog(child: ThemeDialog()),
                 transitionBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    Transform.scale(
-                      scale: animation.value,
-                      alignment: Alignment.center,
-                      child: child,
-                    ));
+                        Transform.scale(
+                          scale: animation.value,
+                          alignment: Alignment.center,
+                          child: child,
+                        ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -189,11 +189,11 @@ class OptionSelection extends ConsumerWidget {
                     CommonAlertDialog(child: MonthlyCycleDateDialog()),
                 transitionBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    Transform.scale(
-                      scale: animation.value,
-                      alignment: Alignment.center,
-                      child: child,
-                    ));
+                        Transform.scale(
+                          scale: animation.value,
+                          alignment: Alignment.center,
+                          child: child,
+                        ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -231,11 +231,11 @@ class OptionSelection extends ConsumerWidget {
                     CommonAlertDialog(child: LanguageDialog()),
                 transitionBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    Transform.scale(
-                      scale: animation.value,
-                      alignment: Alignment.center,
-                      child: child,
-                    ));
+                        Transform.scale(
+                          scale: animation.value,
+                          alignment: Alignment.center,
+                          child: child,
+                        ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

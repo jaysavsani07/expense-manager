@@ -8,9 +8,7 @@ import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moor/moor.dart';
 import 'package:expense_manager/extension/datetime_extension.dart';
 
 final dataSourceProvider = Provider(
@@ -124,8 +122,10 @@ class EntryDataSourceImp extends EntryDataSource {
       int month, int year) {
     return appDatabase
         .getExpenseEntryWithCategoryByMonthAndYear(month, year)
-        .map((event) => groupBy(event,
-            (EntryWithCategoryExpenseData e) => e.entry!.modifiedDate.toTitle()))
+        .map((event) => groupBy(
+            event,
+            (EntryWithCategoryExpenseData e) =>
+                e.entry!.modifiedDate.toTitle()))
         .map((list) => list.entries
             .map((e) => History(
                 title: e.key,
@@ -211,8 +211,8 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<Category>> getAllExpenseCategory() {
-    return appDatabase.getAllExpenseCategory().map(
-        (event) => event.map((e) => Category.fromExpenseCategoryEntity(e)).toList());
+    return appDatabase.getAllExpenseCategory().map((event) =>
+        event.map((e) => Category.fromExpenseCategoryEntity(e)).toList());
   }
 
   @override
@@ -223,8 +223,9 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<Category>> getAllCategory() {
-    return appDatabase.getAllCategory().map(
-        (event) => event.map((e) => Category.fromAllCategoryEntity(e.item1,e.item2)).toList());
+    return appDatabase.getAllCategory().map((event) => event
+        .map((e) => Category.fromAllCategoryEntity(e.item1, e.item2))
+        .toList());
   }
 
   @override

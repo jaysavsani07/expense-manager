@@ -14,7 +14,7 @@ class AppLocalization {
     return Localizations.of<AppLocalization>(context, AppLocalization)!;
   }
 
- late Map<String, String> _localizedValues;
+  late Map<String, String> _localizedValues;
 
   Future load() async {
     String languageJsonValues = await rootBundle
@@ -26,7 +26,7 @@ class AppLocalization {
   }
 
   String getTranslatedVal(String key) {
-    return _localizedValues[key]??"No text";
+    return _localizedValues[key] ?? "No text";
   }
 
   static const LocalizationsDelegate<AppLocalization> delegate =

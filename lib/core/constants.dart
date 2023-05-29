@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 enum EntryType { expense, income, all }
+
 enum QuarterlyType { Q1, Q2, Q3, Q4 }
 
 class AppConstants {
@@ -64,10 +65,10 @@ class AppConstants {
     12: "dec"
   };
 
-  static final quarterlyMonth ={
+  static final quarterlyMonth = {
     QuarterlyType.Q1: [1, 2, 3],
-    QuarterlyType.Q2: [4,5, 6],
-    QuarterlyType.Q3: [ 7, 8 ,9],
+    QuarterlyType.Q2: [4, 5, 6],
+    QuarterlyType.Q3: [7, 8, 9],
     QuarterlyType.Q4: [10, 11, 12],
   };
 

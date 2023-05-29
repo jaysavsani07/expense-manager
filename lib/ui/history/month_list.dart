@@ -36,11 +36,15 @@ class MonthList extends ConsumerWidget {
                         ),
                         child: Text(
                           AppLocalization.of(context).getTranslatedVal(e),
-                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
                                 fontSize: 12,
-                                color: ref.watch(monthProvider.notifier).state == e
-                                    ? Colors.white
-                                    : Color(0xff2196F3),
+                                color:
+                                    ref.watch(monthProvider.notifier).state == e
+                                        ? Colors.white
+                                        : Color(0xff2196F3),
                               ),
                         ),
                       ),

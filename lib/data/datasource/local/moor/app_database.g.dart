@@ -19,8 +19,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
       this.categoryId,
       required this.modifiedDate,
       required this.description});
-  factory EntryEntityData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory EntryEntityData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return EntryEntityData(
@@ -63,7 +62,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
 
   factory EntryEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return EntryEntityData(
       id: serializer.fromJson<int>(json['id']),
       amount: serializer.fromJson<double>(json['amount']),
@@ -74,7 +73,7 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'amount': serializer.toJson<double>(amount),
@@ -300,7 +299,7 @@ class $EntryEntityTable extends EntryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   EntryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return EntryEntityData.fromData(data, attachedDatabase,
+    return EntryEntityData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
@@ -315,16 +314,15 @@ class CategoryEntityData extends DataClass
   final int id;
   final int position;
   final String name;
-  final String icon;
+  final String? icon;
   final String iconColor;
   CategoryEntityData(
       {required this.id,
       required this.position,
       required this.name,
-      required this.icon,
+      this.icon,
       required this.iconColor});
-  factory CategoryEntityData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory CategoryEntityData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return CategoryEntityData(
@@ -335,7 +333,7 @@ class CategoryEntityData extends DataClass
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
       icon: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon']),
       iconColor: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}icon_color'])!,
     );
@@ -346,7 +344,9 @@ class CategoryEntityData extends DataClass
     map['id'] = Variable<int>(id);
     map['position'] = Variable<int>(position);
     map['name'] = Variable<String>(name);
-    map['icon'] = Variable<String>(icon);
+    if (!nullToAbsent || icon != null) {
+      map['icon'] = Variable<String?>(icon);
+    }
     map['icon_color'] = Variable<String>(iconColor);
     return map;
   }
@@ -356,30 +356,30 @@ class CategoryEntityData extends DataClass
       id: Value(id),
       position: Value(position),
       name: Value(name),
-      icon: Value(icon),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
       iconColor: Value(iconColor),
     );
   }
 
   factory CategoryEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return CategoryEntityData(
       id: serializer.fromJson<int>(json['id']),
       position: serializer.fromJson<int>(json['position']),
       name: serializer.fromJson<String>(json['name']),
-      icon: serializer.fromJson<String>(json['icon']),
+      icon: serializer.fromJson<String?>(json['icon']),
       iconColor: serializer.fromJson<String>(json['iconColor']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'position': serializer.toJson<int>(position),
       'name': serializer.toJson<String>(name),
-      'icon': serializer.toJson<String>(icon),
+      'icon': serializer.toJson<String?>(icon),
       'iconColor': serializer.toJson<String>(iconColor),
     };
   }
@@ -426,7 +426,7 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
   final Value<int> id;
   final Value<int> position;
   final Value<String> name;
-  final Value<String> icon;
+  final Value<String?> icon;
   final Value<String> iconColor;
   const CategoryEntityCompanion({
     this.id = const Value.absent(),
@@ -439,17 +439,16 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
     this.id = const Value.absent(),
     required int position,
     required String name,
-    required String icon,
+    this.icon = const Value.absent(),
     required String iconColor,
   })  : position = Value(position),
         name = Value(name),
-        icon = Value(icon),
         iconColor = Value(iconColor);
   static Insertable<CategoryEntityData> custom({
     Expression<int>? id,
     Expression<int>? position,
     Expression<String>? name,
-    Expression<String>? icon,
+    Expression<String?>? icon,
     Expression<String>? iconColor,
   }) {
     return RawValuesInsertable({
@@ -465,7 +464,7 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
       {Value<int>? id,
       Value<int>? position,
       Value<String>? name,
-      Value<String>? icon,
+      Value<String?>? icon,
       Value<String>? iconColor}) {
     return CategoryEntityCompanion(
       id: id ?? this.id,
@@ -489,7 +488,7 @@ class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
       map['name'] = Variable<String>(name.value);
     }
     if (icon.present) {
-      map['icon'] = Variable<String>(icon.value);
+      map['icon'] = Variable<String?>(icon.value);
     }
     if (iconColor.present) {
       map['icon_color'] = Variable<String>(iconColor.value);
@@ -539,8 +538,8 @@ class $CategoryEntityTable extends CategoryEntity
   final VerificationMeta _iconMeta = const VerificationMeta('icon');
   @override
   late final GeneratedColumn<String?> icon = GeneratedColumn<String?>(
-      'icon', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      'icon', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
   @override
   late final GeneratedColumn<String?> iconColor = GeneratedColumn<String?>(
@@ -575,8 +574,6 @@ class $CategoryEntityTable extends CategoryEntity
     if (data.containsKey('icon')) {
       context.handle(
           _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
-    } else if (isInserting) {
-      context.missing(_iconMeta);
     }
     if (data.containsKey('icon_color')) {
       context.handle(_iconColorMeta,
@@ -591,7 +588,7 @@ class $CategoryEntityTable extends CategoryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   CategoryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return CategoryEntityData.fromData(data, attachedDatabase,
+    return CategoryEntityData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
@@ -606,16 +603,15 @@ class IncomeCategoryEntityData extends DataClass
   final int id;
   final int position;
   final String name;
-  final String icon;
+  final String? icon;
   final String iconColor;
   IncomeCategoryEntityData(
       {required this.id,
       required this.position,
       required this.name,
-      required this.icon,
+      this.icon,
       required this.iconColor});
-  factory IncomeCategoryEntityData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory IncomeCategoryEntityData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return IncomeCategoryEntityData(
@@ -626,7 +622,7 @@ class IncomeCategoryEntityData extends DataClass
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
       icon: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon'])!,
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon']),
       iconColor: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}icon_color'])!,
     );
@@ -637,7 +633,9 @@ class IncomeCategoryEntityData extends DataClass
     map['id'] = Variable<int>(id);
     map['position'] = Variable<int>(position);
     map['name'] = Variable<String>(name);
-    map['icon'] = Variable<String>(icon);
+    if (!nullToAbsent || icon != null) {
+      map['icon'] = Variable<String?>(icon);
+    }
     map['icon_color'] = Variable<String>(iconColor);
     return map;
   }
@@ -647,30 +645,30 @@ class IncomeCategoryEntityData extends DataClass
       id: Value(id),
       position: Value(position),
       name: Value(name),
-      icon: Value(icon),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
       iconColor: Value(iconColor),
     );
   }
 
   factory IncomeCategoryEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return IncomeCategoryEntityData(
       id: serializer.fromJson<int>(json['id']),
       position: serializer.fromJson<int>(json['position']),
       name: serializer.fromJson<String>(json['name']),
-      icon: serializer.fromJson<String>(json['icon']),
+      icon: serializer.fromJson<String?>(json['icon']),
       iconColor: serializer.fromJson<String>(json['iconColor']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'position': serializer.toJson<int>(position),
       'name': serializer.toJson<String>(name),
-      'icon': serializer.toJson<String>(icon),
+      'icon': serializer.toJson<String?>(icon),
       'iconColor': serializer.toJson<String>(iconColor),
     };
   }
@@ -718,7 +716,7 @@ class IncomeCategoryEntityCompanion
   final Value<int> id;
   final Value<int> position;
   final Value<String> name;
-  final Value<String> icon;
+  final Value<String?> icon;
   final Value<String> iconColor;
   const IncomeCategoryEntityCompanion({
     this.id = const Value.absent(),
@@ -731,17 +729,16 @@ class IncomeCategoryEntityCompanion
     this.id = const Value.absent(),
     required int position,
     required String name,
-    required String icon,
+    this.icon = const Value.absent(),
     required String iconColor,
   })  : position = Value(position),
         name = Value(name),
-        icon = Value(icon),
         iconColor = Value(iconColor);
   static Insertable<IncomeCategoryEntityData> custom({
     Expression<int>? id,
     Expression<int>? position,
     Expression<String>? name,
-    Expression<String>? icon,
+    Expression<String?>? icon,
     Expression<String>? iconColor,
   }) {
     return RawValuesInsertable({
@@ -757,7 +754,7 @@ class IncomeCategoryEntityCompanion
       {Value<int>? id,
       Value<int>? position,
       Value<String>? name,
-      Value<String>? icon,
+      Value<String?>? icon,
       Value<String>? iconColor}) {
     return IncomeCategoryEntityCompanion(
       id: id ?? this.id,
@@ -781,7 +778,7 @@ class IncomeCategoryEntityCompanion
       map['name'] = Variable<String>(name.value);
     }
     if (icon.present) {
-      map['icon'] = Variable<String>(icon.value);
+      map['icon'] = Variable<String?>(icon.value);
     }
     if (iconColor.present) {
       map['icon_color'] = Variable<String>(iconColor.value);
@@ -831,8 +828,8 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
   final VerificationMeta _iconMeta = const VerificationMeta('icon');
   @override
   late final GeneratedColumn<String?> icon = GeneratedColumn<String?>(
-      'icon', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      'icon', aliasedName, true,
+      type: const StringType(), requiredDuringInsert: false);
   final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
   @override
   late final GeneratedColumn<String?> iconColor = GeneratedColumn<String?>(
@@ -868,8 +865,6 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
     if (data.containsKey('icon')) {
       context.handle(
           _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
-    } else if (isInserting) {
-      context.missing(_iconMeta);
     }
     if (data.containsKey('icon_color')) {
       context.handle(_iconColorMeta,
@@ -885,7 +880,7 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
   @override
   IncomeCategoryEntityData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
-    return IncomeCategoryEntityData.fromData(data, attachedDatabase,
+    return IncomeCategoryEntityData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
@@ -908,8 +903,7 @@ class IncomeEntryEntityData extends DataClass
       this.categoryId,
       required this.modifiedDate,
       required this.description});
-  factory IncomeEntryEntityData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory IncomeEntryEntityData.fromData(Map<String, dynamic> data,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return IncomeEntryEntityData(
@@ -952,7 +946,7 @@ class IncomeEntryEntityData extends DataClass
 
   factory IncomeEntryEntityData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return IncomeEntryEntityData(
       id: serializer.fromJson<int>(json['id']),
       amount: serializer.fromJson<double>(json['amount']),
@@ -963,7 +957,7 @@ class IncomeEntryEntityData extends DataClass
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
+    serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'amount': serializer.toJson<double>(amount),
@@ -1191,7 +1185,7 @@ class $IncomeEntryEntityTable extends IncomeEntryEntity
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
   IncomeEntryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return IncomeEntryEntityData.fromData(data, attachedDatabase,
+    return IncomeEntryEntityData.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 

@@ -28,22 +28,22 @@ class CurrencyDialog extends AlertDialog {
               mainAxisSize: MainAxisSize.min,
               children: AppConstants.currencyList
                   .map((e) => RadioListTile(
-                groupValue: selected,
-                value: e,
-                onChanged: (val) {
-                  ref
-                      .watch(appStateNotifier.notifier)
-                      .changeCurrency(currency: e);
-                  Navigator.of(context).pop();
-                },
-                title: Text(
-                  "${NumberFormat.simpleCurrency(locale: e.item1).currencySymbol} ${e.item2}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(fontSize: 14),
-                ),
-              ))
+                        groupValue: selected,
+                        value: e,
+                        onChanged: (val) {
+                          ref
+                              .watch(appStateNotifier.notifier)
+                              .changeCurrency(currency: e);
+                          Navigator.of(context).pop();
+                        },
+                        title: Text(
+                          "${NumberFormat.simpleCurrency(locale: e.item1).currencySymbol} ${e.item2}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(fontSize: 14),
+                        ),
+                      ))
                   .toList(),
             );
           },
