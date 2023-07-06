@@ -68,7 +68,7 @@ class Setting extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("appearance"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -83,7 +83,7 @@ class Setting extends ConsumerWidget {
                                 .getTranslatedVal("light_theme"))),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -117,7 +117,7 @@ class Setting extends ConsumerWidget {
                         .getTranslatedVal("month_cycle_date"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -125,7 +125,7 @@ class Setting extends ConsumerWidget {
                     monthStartDate.date,
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -158,7 +158,7 @@ class Setting extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("language"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -169,7 +169,7 @@ class Setting extends ConsumerWidget {
                         .name,
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -202,7 +202,7 @@ class Setting extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("currency"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -210,7 +210,7 @@ class Setting extends ConsumerWidget {
                     "${NumberFormat.simpleCurrency(locale: appState.currency.item1).currencySymbol} ${appState.currency.item2}",
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -226,7 +226,7 @@ class Setting extends ConsumerWidget {
                       .getTranslatedVal("expense_manager_by_nividata"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1!
+                      .titleMedium!
                       .copyWith(fontSize: 14),
                 ),
               ),
@@ -235,7 +235,7 @@ class Setting extends ConsumerWidget {
                   "${AppLocalization.of(context).getTranslatedVal("app_version")}${appState.appVersion}",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1!
+                      .titleMedium!
                       .copyWith(fontSize: 14),
                 ),
               ),

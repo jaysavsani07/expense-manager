@@ -54,7 +54,7 @@ class AddEntry extends ConsumerWidget {
                     content: Text(
                       AppLocalization.of(context)
                           .getTranslatedVal("pls_enter_amount"),
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     backgroundColor: Colors.redAccent,
                   ),
@@ -65,7 +65,7 @@ class AddEntry extends ConsumerWidget {
                     content: Text(
                       AppLocalization.of(context)
                           .getTranslatedVal("amount_should_grater_then_zero"),
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     backgroundColor: Colors.redAccent,
                   ),
@@ -80,7 +80,7 @@ class AddEntry extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               child: Text(
                 AppLocalization.of(context).getTranslatedVal("save"),
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: Color(0xff2196F3)),
               ),
             ),
@@ -137,7 +137,7 @@ class AddEntry extends ConsumerWidget {
                 AppLocalization.of(context).getTranslatedVal("type"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -169,7 +169,7 @@ class AddEntry extends ConsumerWidget {
                             AppLocalization.of(context)
                                 .getTranslatedVal("expense"),
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                       ),
@@ -198,7 +198,7 @@ class AddEntry extends ConsumerWidget {
                             AppLocalization.of(context)
                                 .getTranslatedVal("income"),
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.caption,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
                       ),
@@ -220,7 +220,7 @@ class AddEntry extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("category"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
@@ -236,7 +236,7 @@ class AddEntry extends ConsumerWidget {
                           horizontal: 12, vertical: 8),
                       child: Text(
                         AppLocalization.of(context).getTranslatedVal("edit"),
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff2196F3)),
@@ -286,7 +286,7 @@ class AddEntry extends ConsumerWidget {
                                       category.name,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption!
+                                          .bodySmall!
                                           .copyWith(
                                               overflow: TextOverflow.ellipsis),
                                     ),
@@ -312,7 +312,7 @@ class AddEntry extends ConsumerWidget {
                           AppLocalization.of(context).getTranslatedVal("date"),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -339,7 +339,7 @@ class AddEntry extends ConsumerWidget {
                                   child: Text(
                                     DateFormat('dd/MM/yy').format(vm.date),
                                     style:
-                                        Theme.of(context).textTheme.bodyText2,
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                                 Icon(Icons.arrow_drop_down)
@@ -360,7 +360,7 @@ class AddEntry extends ConsumerWidget {
                                 .getTranslatedVal("time"),
                             style: Theme.of(context)
                                 .textTheme
-                                .subtitle2!
+                                .titleSmall!
                                 .copyWith(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                           ),
@@ -387,8 +387,9 @@ class AddEntry extends ConsumerWidget {
                                     padding: const EdgeInsets.all(8),
                                     child: Text(
                                       DateFormat('HH:mm').format(vm.date),
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
                                     ),
                                   ),
                                   Icon(Icons.arrow_drop_down)
@@ -408,7 +409,7 @@ class AddEntry extends ConsumerWidget {
                 AppLocalization.of(context).getTranslatedVal("note"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),

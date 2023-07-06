@@ -109,7 +109,7 @@ class MonthListView extends ConsumerWidget {
                       child: Text(
                         AppLocalization.of(context)
                             .getTranslatedVal(AppConstants.monthList[e]!),
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               fontSize: 12,
                               color: ref.watch(categoryDetailsModelProvider
                                           .select((value) => value.month)) ==
@@ -161,7 +161,7 @@ class YearListView extends ConsumerWidget {
                       ),
                       child: Text(
                         e.toString(),
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                               fontSize: 12,
                               color: ref
                                           .watch(selectedYearProvider.notifier)
@@ -217,7 +217,7 @@ class QuarterListView extends ConsumerWidget {
                     ),
                     child: Text(
                       "Q${e.key.index + 1}",
-                      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 12,
                             color: vm.quarterlyType == e.key
                                 ? Colors.white

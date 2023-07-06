@@ -29,7 +29,7 @@ class CategoryChartView extends ConsumerWidget {
               AppLocalization.of(context).getTranslatedVal("total_expense"),
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -112,7 +112,7 @@ class CategoryPieChatListView extends ConsumerWidget {
                             list.name,
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(overflow: TextOverflow.ellipsis),
                           ),
                         ],
@@ -137,7 +137,7 @@ class TotalAmount extends ConsumerWidget {
       children: [
         Text(
           AppLocalization.of(context).getTranslatedVal("last_month"),
-          style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 10),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
         ),
         FittedBox(
           child: Padding(
@@ -146,7 +146,7 @@ class TotalAmount extends ConsumerWidget {
               "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ),

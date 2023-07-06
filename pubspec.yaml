@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.3+18
 
 environment:
-  sdk: ">=2.18.6 <3.0.0"
+  sdk: '>=3.0.1 <4.0.0'
 
 dependencies:
   flutter:
@@ -28,7 +28,7 @@ dependencies:
 
   flutter_riverpod: ^2.1.3
 
-  drift_sqflite: ^1.0.0
+  drift_sqflite: ^2.0.0
   shared_preferences: ^2.0.15
   flutter_localization: ^0.1.11
 
@@ -55,9 +55,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
-  drift_dev: ^1.0.0
+  drift_dev: ^2.8.3
   freezed: ^2.2.0
-  build_runner: ^2.3.2
+  build_runner: ^2.4.5
   flutter_launcher_icons: ^0.11.0
 
 flutter_icons:
@@ -88,7 +88,7 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom fonts to your application, add a fonts section here,zz
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For

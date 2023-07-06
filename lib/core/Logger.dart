@@ -8,10 +8,10 @@ class Logger extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    print('''
-{
-  "provider": "${provider.name ?? provider.runtimeType}",
-  "newValue": "$newValue"
-}''');
+//     print('''
+// {
+//   "provider": "${provider.name ?? provider.runtimeType}",
+//   "newValue": "$newValue"
+// }''');
   }
 }

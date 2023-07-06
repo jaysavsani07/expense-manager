@@ -14,7 +14,7 @@ class LanguageDialog extends AlertDialog {
         SizedBox(height: 24),
         Text(
           AppLocalization.of(context).getTranslatedVal("language"),
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 8),
         Divider(color: Theme.of(context).colorScheme.crossLightColor),
@@ -38,14 +38,14 @@ class LanguageDialog extends AlertDialog {
                           children: [
                             Text(
                               e.flag,
-                              style: Theme.of(context).textTheme.subtitle1,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                             SizedBox(width: 4),
                             Text(
                               e.name,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2!
+                                  .titleSmall!
                                   .copyWith(fontSize: 14),
                             ),
                           ],

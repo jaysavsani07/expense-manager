@@ -155,7 +155,7 @@ class BarChartView extends ConsumerWidget {
                   SizedBox(width: 4),
                   Text(
                     AppLocalization.of(context).getTranslatedVal("income"),
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   SizedBox(width: 8),
                   Icon(
@@ -166,7 +166,7 @@ class BarChartView extends ConsumerWidget {
                   SizedBox(width: 4),
                   Text(
                     AppLocalization.of(context).getTranslatedVal("expense"),
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),

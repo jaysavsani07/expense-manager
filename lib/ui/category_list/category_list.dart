@@ -49,7 +49,7 @@ class CategoryList extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               child: Text(
                 AppLocalization.of(context).getTranslatedVal("add_new"),
-                style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: Color(0xff2196F3)),
               ),
             ),
@@ -84,7 +84,7 @@ class CategoryList extends ConsumerWidget {
                           AppLocalization.of(context)
                               .getTranslatedVal("expense"),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     ),
@@ -111,7 +111,7 @@ class CategoryList extends ConsumerWidget {
                           AppLocalization.of(context)
                               .getTranslatedVal("income"),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     ),
@@ -157,7 +157,7 @@ class CategoryList extends ConsumerWidget {
                                     child: Text(
                                       e.name,
                                       style:
-                                          Theme.of(context).textTheme.subtitle2,
+                                          Theme.of(context).textTheme.titleSmall,
                                     ),
                                   ),
                                   /*Icon(

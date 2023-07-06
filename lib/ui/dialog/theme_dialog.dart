@@ -14,7 +14,7 @@ class ThemeDialog extends StatelessWidget {
         SizedBox(height: 24),
         Text(
           AppLocalization.of(context).getTranslatedVal("appearance"),
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 8),
         Divider(color: Theme.of(context).colorScheme.crossLightColor),
@@ -48,7 +48,7 @@ class ThemeDialog extends StatelessWidget {
                           e.item2,
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontSize: 14),
                         ),
                       ))

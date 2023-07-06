@@ -2,46 +2,428 @@
 
 part of 'app_database.dart';
 
-// **************************************************************************
-// MoorGenerator
-// **************************************************************************
-
 // ignore_for_file: type=lint
+class $CategoryEntityTable extends CategoryEntity
+    with TableInfo<$CategoryEntityTable, CategoryEntityData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CategoryEntityTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _positionMeta =
+      const VerificationMeta('position');
+  @override
+  late final GeneratedColumn<int> position = GeneratedColumn<int>(
+      'position', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _iconMeta = const VerificationMeta('icon');
+  @override
+  late final GeneratedColumn<String> icon = GeneratedColumn<String>(
+      'icon', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _iconColorMeta =
+      const VerificationMeta('iconColor');
+  @override
+  late final GeneratedColumn<String> iconColor = GeneratedColumn<String>(
+      'icon_color', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
+  @override
+  String get aliasedName => _alias ?? 'category_entity';
+  @override
+  String get actualTableName => 'category_entity';
+  @override
+  VerificationContext validateIntegrity(Insertable<CategoryEntityData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('position')) {
+      context.handle(_positionMeta,
+          position.isAcceptableOrUnknown(data['position']!, _positionMeta));
+    } else if (isInserting) {
+      context.missing(_positionMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('icon')) {
+      context.handle(
+          _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
+    }
+    if (data.containsKey('icon_color')) {
+      context.handle(_iconColorMeta,
+          iconColor.isAcceptableOrUnknown(data['icon_color']!, _iconColorMeta));
+    } else if (isInserting) {
+      context.missing(_iconColorMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CategoryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CategoryEntityData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      position: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}position'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      icon: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}icon']),
+      iconColor: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}icon_color'])!,
+    );
+  }
+
+  @override
+  $CategoryEntityTable createAlias(String alias) {
+    return $CategoryEntityTable(attachedDatabase, alias);
+  }
+}
+
+class CategoryEntityData extends DataClass
+    implements Insertable<CategoryEntityData> {
+  final int id;
+  final int position;
+  final String name;
+  final String? icon;
+  final String iconColor;
+  const CategoryEntityData(
+      {required this.id,
+      required this.position,
+      required this.name,
+      this.icon,
+      required this.iconColor});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['position'] = Variable<int>(position);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || icon != null) {
+      map['icon'] = Variable<String>(icon);
+    }
+    map['icon_color'] = Variable<String>(iconColor);
+    return map;
+  }
+
+  CategoryEntityCompanion toCompanion(bool nullToAbsent) {
+    return CategoryEntityCompanion(
+      id: Value(id),
+      position: Value(position),
+      name: Value(name),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
+      iconColor: Value(iconColor),
+    );
+  }
+
+  factory CategoryEntityData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CategoryEntityData(
+      id: serializer.fromJson<int>(json['id']),
+      position: serializer.fromJson<int>(json['position']),
+      name: serializer.fromJson<String>(json['name']),
+      icon: serializer.fromJson<String?>(json['icon']),
+      iconColor: serializer.fromJson<String>(json['iconColor']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'position': serializer.toJson<int>(position),
+      'name': serializer.toJson<String>(name),
+      'icon': serializer.toJson<String?>(icon),
+      'iconColor': serializer.toJson<String>(iconColor),
+    };
+  }
+
+  CategoryEntityData copyWith(
+          {int? id,
+          int? position,
+          String? name,
+          Value<String?> icon = const Value.absent(),
+          String? iconColor}) =>
+      CategoryEntityData(
+        id: id ?? this.id,
+        position: position ?? this.position,
+        name: name ?? this.name,
+        icon: icon.present ? icon.value : this.icon,
+        iconColor: iconColor ?? this.iconColor,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CategoryEntityData(')
+          ..write('id: $id, ')
+          ..write('position: $position, ')
+          ..write('name: $name, ')
+          ..write('icon: $icon, ')
+          ..write('iconColor: $iconColor')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, position, name, icon, iconColor);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CategoryEntityData &&
+          other.id == this.id &&
+          other.position == this.position &&
+          other.name == this.name &&
+          other.icon == this.icon &&
+          other.iconColor == this.iconColor);
+}
+
+class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
+  final Value<int> id;
+  final Value<int> position;
+  final Value<String> name;
+  final Value<String?> icon;
+  final Value<String> iconColor;
+  const CategoryEntityCompanion({
+    this.id = const Value.absent(),
+    this.position = const Value.absent(),
+    this.name = const Value.absent(),
+    this.icon = const Value.absent(),
+    this.iconColor = const Value.absent(),
+  });
+  CategoryEntityCompanion.insert({
+    this.id = const Value.absent(),
+    required int position,
+    required String name,
+    this.icon = const Value.absent(),
+    required String iconColor,
+  })  : position = Value(position),
+        name = Value(name),
+        iconColor = Value(iconColor);
+  static Insertable<CategoryEntityData> custom({
+    Expression<int>? id,
+    Expression<int>? position,
+    Expression<String>? name,
+    Expression<String>? icon,
+    Expression<String>? iconColor,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (position != null) 'position': position,
+      if (name != null) 'name': name,
+      if (icon != null) 'icon': icon,
+      if (iconColor != null) 'icon_color': iconColor,
+    });
+  }
+
+  CategoryEntityCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? position,
+      Value<String>? name,
+      Value<String?>? icon,
+      Value<String>? iconColor}) {
+    return CategoryEntityCompanion(
+      id: id ?? this.id,
+      position: position ?? this.position,
+      name: name ?? this.name,
+      icon: icon ?? this.icon,
+      iconColor: iconColor ?? this.iconColor,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (position.present) {
+      map['position'] = Variable<int>(position.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (icon.present) {
+      map['icon'] = Variable<String>(icon.value);
+    }
+    if (iconColor.present) {
+      map['icon_color'] = Variable<String>(iconColor.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CategoryEntityCompanion(')
+          ..write('id: $id, ')
+          ..write('position: $position, ')
+          ..write('name: $name, ')
+          ..write('icon: $icon, ')
+          ..write('iconColor: $iconColor')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EntryEntityTable extends EntryEntity
+    with TableInfo<$EntryEntityTable, EntryEntityData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EntryEntityTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
+  @override
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+      'amount', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _categoryIdMeta =
+      const VerificationMeta('categoryId');
+  @override
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+      'category_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
+  static const VerificationMeta _modifiedDateMeta =
+      const VerificationMeta('modifiedDate');
+  @override
+  late final GeneratedColumn<DateTime> modifiedDate = GeneratedColumn<DateTime>(
+      'modified_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, amount, categoryId, modifiedDate, description];
+  @override
+  String get aliasedName => _alias ?? 'entry_entity';
+  @override
+  String get actualTableName => 'entry_entity';
+  @override
+  VerificationContext validateIntegrity(Insertable<EntryEntityData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
+    } else if (isInserting) {
+      context.missing(_amountMeta);
+    }
+    if (data.containsKey('category_id')) {
+      context.handle(
+          _categoryIdMeta,
+          categoryId.isAcceptableOrUnknown(
+              data['category_id']!, _categoryIdMeta));
+    }
+    if (data.containsKey('modified_date')) {
+      context.handle(
+          _modifiedDateMeta,
+          modifiedDate.isAcceptableOrUnknown(
+              data['modified_date']!, _modifiedDateMeta));
+    } else if (isInserting) {
+      context.missing(_modifiedDateMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EntryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EntryEntityData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      amount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}amount'])!,
+      categoryId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}category_id']),
+      modifiedDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}modified_date'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+    );
+  }
+
+  @override
+  $EntryEntityTable createAlias(String alias) {
+    return $EntryEntityTable(attachedDatabase, alias);
+  }
+}
+
 class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   final int id;
   final double amount;
   final int? categoryId;
   final DateTime modifiedDate;
   final String description;
-  EntryEntityData(
+  const EntryEntityData(
       {required this.id,
       required this.amount,
       this.categoryId,
       required this.modifiedDate,
       required this.description});
-  factory EntryEntityData.fromData(Map<String, dynamic> data,
-      {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return EntryEntityData(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      amount: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}amount'])!,
-      categoryId: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
-      modifiedDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}modified_date'])!,
-      description: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
-    );
-  }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['amount'] = Variable<double>(amount);
     if (!nullToAbsent || categoryId != null) {
-      map['category_id'] = Variable<int?>(categoryId);
+      map['category_id'] = Variable<int>(categoryId);
     }
     map['modified_date'] = Variable<DateTime>(modifiedDate);
     map['description'] = Variable<String>(description);
@@ -86,13 +468,13 @@ class EntryEntityData extends DataClass implements Insertable<EntryEntityData> {
   EntryEntityData copyWith(
           {int? id,
           double? amount,
-          int? categoryId,
+          Value<int?> categoryId = const Value.absent(),
           DateTime? modifiedDate,
           String? description}) =>
       EntryEntityData(
         id: id ?? this.id,
         amount: amount ?? this.amount,
-        categoryId: categoryId ?? this.categoryId,
+        categoryId: categoryId.present ? categoryId.value : this.categoryId,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         description: description ?? this.description,
       );
@@ -147,7 +529,7 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   static Insertable<EntryEntityData> custom({
     Expression<int>? id,
     Expression<double>? amount,
-    Expression<int?>? categoryId,
+    Expression<int>? categoryId,
     Expression<DateTime>? modifiedDate,
     Expression<String>? description,
   }) {
@@ -185,7 +567,7 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
       map['amount'] = Variable<double>(amount.value);
     }
     if (categoryId.present) {
-      map['category_id'] = Variable<int?>(categoryId.value);
+      map['category_id'] = Variable<int>(categoryId.value);
     }
     if (modifiedDate.present) {
       map['modified_date'] = Variable<DateTime>(modifiedDate.value);
@@ -209,350 +591,55 @@ class EntryEntityCompanion extends UpdateCompanion<EntryEntityData> {
   }
 }
 
-class $EntryEntityTable extends EntryEntity
-    with TableInfo<$EntryEntityTable, EntryEntityData> {
+class $IncomeCategoryEntityTable extends IncomeCategoryEntity
+    with TableInfo<$IncomeCategoryEntityTable, IncomeCategoryEntityData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $EntryEntityTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $IncomeCategoryEntityTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: const IntType(),
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _amountMeta = const VerificationMeta('amount');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _positionMeta =
+      const VerificationMeta('position');
   @override
-  late final GeneratedColumn<double?> amount = GeneratedColumn<double?>(
-      'amount', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
-  final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
-  @override
-  late final GeneratedColumn<int?> categoryId = GeneratedColumn<int?>(
-      'category_id', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      $customConstraints:
-          'NULL REFERENCES category_entity(id) ON DELETE SET NULL');
-  final VerificationMeta _modifiedDateMeta =
-      const VerificationMeta('modifiedDate');
-  @override
-  late final GeneratedColumn<DateTime?> modifiedDate =
-      GeneratedColumn<DateTime?>('modified_date', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
-      'description', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
-      type: const StringType(),
-      requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, amount, categoryId, modifiedDate, description];
-  @override
-  String get aliasedName => _alias ?? 'entry_entity';
-  @override
-  String get actualTableName => 'entry_entity';
-  @override
-  VerificationContext validateIntegrity(Insertable<EntryEntityData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('amount')) {
-      context.handle(_amountMeta,
-          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
-    } else if (isInserting) {
-      context.missing(_amountMeta);
-    }
-    if (data.containsKey('category_id')) {
-      context.handle(
-          _categoryIdMeta,
-          categoryId.isAcceptableOrUnknown(
-              data['category_id']!, _categoryIdMeta));
-    }
-    if (data.containsKey('modified_date')) {
-      context.handle(
-          _modifiedDateMeta,
-          modifiedDate.isAcceptableOrUnknown(
-              data['modified_date']!, _modifiedDateMeta));
-    } else if (isInserting) {
-      context.missing(_modifiedDateMeta);
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  EntryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return EntryEntityData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $EntryEntityTable createAlias(String alias) {
-    return $EntryEntityTable(attachedDatabase, alias);
-  }
-}
-
-class CategoryEntityData extends DataClass
-    implements Insertable<CategoryEntityData> {
-  final int id;
-  final int position;
-  final String name;
-  final String? icon;
-  final String iconColor;
-  CategoryEntityData(
-      {required this.id,
-      required this.position,
-      required this.name,
-      this.icon,
-      required this.iconColor});
-  factory CategoryEntityData.fromData(Map<String, dynamic> data,
-      {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return CategoryEntityData(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      position: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}position'])!,
-      name: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
-      icon: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon']),
-      iconColor: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon_color'])!,
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['position'] = Variable<int>(position);
-    map['name'] = Variable<String>(name);
-    if (!nullToAbsent || icon != null) {
-      map['icon'] = Variable<String?>(icon);
-    }
-    map['icon_color'] = Variable<String>(iconColor);
-    return map;
-  }
-
-  CategoryEntityCompanion toCompanion(bool nullToAbsent) {
-    return CategoryEntityCompanion(
-      id: Value(id),
-      position: Value(position),
-      name: Value(name),
-      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
-      iconColor: Value(iconColor),
-    );
-  }
-
-  factory CategoryEntityData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CategoryEntityData(
-      id: serializer.fromJson<int>(json['id']),
-      position: serializer.fromJson<int>(json['position']),
-      name: serializer.fromJson<String>(json['name']),
-      icon: serializer.fromJson<String?>(json['icon']),
-      iconColor: serializer.fromJson<String>(json['iconColor']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'position': serializer.toJson<int>(position),
-      'name': serializer.toJson<String>(name),
-      'icon': serializer.toJson<String?>(icon),
-      'iconColor': serializer.toJson<String>(iconColor),
-    };
-  }
-
-  CategoryEntityData copyWith(
-          {int? id,
-          int? position,
-          String? name,
-          String? icon,
-          String? iconColor}) =>
-      CategoryEntityData(
-        id: id ?? this.id,
-        position: position ?? this.position,
-        name: name ?? this.name,
-        icon: icon ?? this.icon,
-        iconColor: iconColor ?? this.iconColor,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('CategoryEntityData(')
-          ..write('id: $id, ')
-          ..write('position: $position, ')
-          ..write('name: $name, ')
-          ..write('icon: $icon, ')
-          ..write('iconColor: $iconColor')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, position, name, icon, iconColor);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is CategoryEntityData &&
-          other.id == this.id &&
-          other.position == this.position &&
-          other.name == this.name &&
-          other.icon == this.icon &&
-          other.iconColor == this.iconColor);
-}
-
-class CategoryEntityCompanion extends UpdateCompanion<CategoryEntityData> {
-  final Value<int> id;
-  final Value<int> position;
-  final Value<String> name;
-  final Value<String?> icon;
-  final Value<String> iconColor;
-  const CategoryEntityCompanion({
-    this.id = const Value.absent(),
-    this.position = const Value.absent(),
-    this.name = const Value.absent(),
-    this.icon = const Value.absent(),
-    this.iconColor = const Value.absent(),
-  });
-  CategoryEntityCompanion.insert({
-    this.id = const Value.absent(),
-    required int position,
-    required String name,
-    this.icon = const Value.absent(),
-    required String iconColor,
-  })  : position = Value(position),
-        name = Value(name),
-        iconColor = Value(iconColor);
-  static Insertable<CategoryEntityData> custom({
-    Expression<int>? id,
-    Expression<int>? position,
-    Expression<String>? name,
-    Expression<String?>? icon,
-    Expression<String>? iconColor,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (position != null) 'position': position,
-      if (name != null) 'name': name,
-      if (icon != null) 'icon': icon,
-      if (iconColor != null) 'icon_color': iconColor,
-    });
-  }
-
-  CategoryEntityCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? position,
-      Value<String>? name,
-      Value<String?>? icon,
-      Value<String>? iconColor}) {
-    return CategoryEntityCompanion(
-      id: id ?? this.id,
-      position: position ?? this.position,
-      name: name ?? this.name,
-      icon: icon ?? this.icon,
-      iconColor: iconColor ?? this.iconColor,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (position.present) {
-      map['position'] = Variable<int>(position.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (icon.present) {
-      map['icon'] = Variable<String?>(icon.value);
-    }
-    if (iconColor.present) {
-      map['icon_color'] = Variable<String>(iconColor.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('CategoryEntityCompanion(')
-          ..write('id: $id, ')
-          ..write('position: $position, ')
-          ..write('name: $name, ')
-          ..write('icon: $icon, ')
-          ..write('iconColor: $iconColor')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $CategoryEntityTable extends CategoryEntity
-    with TableInfo<$CategoryEntityTable, CategoryEntityData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $CategoryEntityTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _positionMeta = const VerificationMeta('position');
-  @override
-  late final GeneratedColumn<int?> position = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> position = GeneratedColumn<int>(
       'position', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
-      type: const StringType(),
+      type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _iconMeta = const VerificationMeta('icon');
+  static const VerificationMeta _iconMeta = const VerificationMeta('icon');
   @override
-  late final GeneratedColumn<String?> icon = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> icon = GeneratedColumn<String>(
       'icon', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _iconColorMeta =
+      const VerificationMeta('iconColor');
   @override
-  late final GeneratedColumn<String?> iconColor = GeneratedColumn<String?>(
+  late final GeneratedColumn<String> iconColor = GeneratedColumn<String>(
       'icon_color', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+      type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
   @override
-  String get aliasedName => _alias ?? 'category_entity';
+  String get aliasedName => _alias ?? 'income_category_entity';
   @override
-  String get actualTableName => 'category_entity';
+  String get actualTableName => 'income_category_entity';
   @override
-  VerificationContext validateIntegrity(Insertable<CategoryEntityData> instance,
+  VerificationContext validateIntegrity(
+      Insertable<IncomeCategoryEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -587,14 +674,26 @@ class $CategoryEntityTable extends CategoryEntity
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  CategoryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return CategoryEntityData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  IncomeCategoryEntityData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IncomeCategoryEntityData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      position: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}position'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      icon: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}icon']),
+      iconColor: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}icon_color'])!,
+    );
   }
 
   @override
-  $CategoryEntityTable createAlias(String alias) {
-    return $CategoryEntityTable(attachedDatabase, alias);
+  $IncomeCategoryEntityTable createAlias(String alias) {
+    return $IncomeCategoryEntityTable(attachedDatabase, alias);
   }
 }
 
@@ -605,28 +704,12 @@ class IncomeCategoryEntityData extends DataClass
   final String name;
   final String? icon;
   final String iconColor;
-  IncomeCategoryEntityData(
+  const IncomeCategoryEntityData(
       {required this.id,
       required this.position,
       required this.name,
       this.icon,
       required this.iconColor});
-  factory IncomeCategoryEntityData.fromData(Map<String, dynamic> data,
-      {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return IncomeCategoryEntityData(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      position: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}position'])!,
-      name: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
-      icon: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon']),
-      iconColor: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon_color'])!,
-    );
-  }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -634,7 +717,7 @@ class IncomeCategoryEntityData extends DataClass
     map['position'] = Variable<int>(position);
     map['name'] = Variable<String>(name);
     if (!nullToAbsent || icon != null) {
-      map['icon'] = Variable<String?>(icon);
+      map['icon'] = Variable<String>(icon);
     }
     map['icon_color'] = Variable<String>(iconColor);
     return map;
@@ -677,13 +760,13 @@ class IncomeCategoryEntityData extends DataClass
           {int? id,
           int? position,
           String? name,
-          String? icon,
+          Value<String?> icon = const Value.absent(),
           String? iconColor}) =>
       IncomeCategoryEntityData(
         id: id ?? this.id,
         position: position ?? this.position,
         name: name ?? this.name,
-        icon: icon ?? this.icon,
+        icon: icon.present ? icon.value : this.icon,
         iconColor: iconColor ?? this.iconColor,
       );
   @override
@@ -738,7 +821,7 @@ class IncomeCategoryEntityCompanion
     Expression<int>? id,
     Expression<int>? position,
     Expression<String>? name,
-    Expression<String?>? icon,
+    Expression<String>? icon,
     Expression<String>? iconColor,
   }) {
     return RawValuesInsertable({
@@ -778,7 +861,7 @@ class IncomeCategoryEntityCompanion
       map['name'] = Variable<String>(name.value);
     }
     if (icon.present) {
-      map['icon'] = Variable<String?>(icon.value);
+      map['icon'] = Variable<String>(icon.value);
     }
     if (iconColor.present) {
       map['icon_color'] = Variable<String>(iconColor.value);
@@ -799,78 +882,92 @@ class IncomeCategoryEntityCompanion
   }
 }
 
-class $IncomeCategoryEntityTable extends IncomeCategoryEntity
-    with TableInfo<$IncomeCategoryEntityTable, IncomeCategoryEntityData> {
+class $IncomeEntryEntityTable extends IncomeEntryEntity
+    with TableInfo<$IncomeEntryEntityTable, IncomeEntryEntityData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $IncomeCategoryEntityTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $IncomeEntryEntityTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      type: const IntType(),
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _positionMeta = const VerificationMeta('position');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _amountMeta = const VerificationMeta('amount');
   @override
-  late final GeneratedColumn<int?> position = GeneratedColumn<int?>(
-      'position', aliasedName, false,
-      type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<double> amount = GeneratedColumn<double>(
+      'amount', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _categoryIdMeta =
+      const VerificationMeta('categoryId');
   @override
-  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
-      'name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
-      type: const StringType(),
+  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+      'category_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints:
+          'NULL REFERENCES income_category_entity(id) ON DELETE SET NULL');
+  static const VerificationMeta _modifiedDateMeta =
+      const VerificationMeta('modifiedDate');
+  @override
+  late final GeneratedColumn<DateTime> modifiedDate = GeneratedColumn<DateTime>(
+      'modified_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
+      type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _iconMeta = const VerificationMeta('icon');
   @override
-  late final GeneratedColumn<String?> icon = GeneratedColumn<String?>(
-      'icon', aliasedName, true,
-      type: const StringType(), requiredDuringInsert: false);
-  final VerificationMeta _iconColorMeta = const VerificationMeta('iconColor');
+  List<GeneratedColumn> get $columns =>
+      [id, amount, categoryId, modifiedDate, description];
   @override
-  late final GeneratedColumn<String?> iconColor = GeneratedColumn<String?>(
-      'icon_color', aliasedName, false,
-      type: const StringType(), requiredDuringInsert: true);
+  String get aliasedName => _alias ?? 'income_entry_entity';
   @override
-  List<GeneratedColumn> get $columns => [id, position, name, icon, iconColor];
-  @override
-  String get aliasedName => _alias ?? 'income_category_entity';
-  @override
-  String get actualTableName => 'income_category_entity';
+  String get actualTableName => 'income_entry_entity';
   @override
   VerificationContext validateIntegrity(
-      Insertable<IncomeCategoryEntityData> instance,
+      Insertable<IncomeEntryEntityData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('position')) {
-      context.handle(_positionMeta,
-          position.isAcceptableOrUnknown(data['position']!, _positionMeta));
+    if (data.containsKey('amount')) {
+      context.handle(_amountMeta,
+          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
     } else if (isInserting) {
-      context.missing(_positionMeta);
+      context.missing(_amountMeta);
     }
-    if (data.containsKey('name')) {
+    if (data.containsKey('category_id')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
+          _categoryIdMeta,
+          categoryId.isAcceptableOrUnknown(
+              data['category_id']!, _categoryIdMeta));
     }
-    if (data.containsKey('icon')) {
+    if (data.containsKey('modified_date')) {
       context.handle(
-          _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
-    }
-    if (data.containsKey('icon_color')) {
-      context.handle(_iconColorMeta,
-          iconColor.isAcceptableOrUnknown(data['icon_color']!, _iconColorMeta));
+          _modifiedDateMeta,
+          modifiedDate.isAcceptableOrUnknown(
+              data['modified_date']!, _modifiedDateMeta));
     } else if (isInserting) {
-      context.missing(_iconColorMeta);
+      context.missing(_modifiedDateMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
     }
     return context;
   }
@@ -878,15 +975,25 @@ class $IncomeCategoryEntityTable extends IncomeCategoryEntity
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  IncomeCategoryEntityData map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
-    return IncomeCategoryEntityData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  IncomeEntryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IncomeEntryEntityData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      amount: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}amount'])!,
+      categoryId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}category_id']),
+      modifiedDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}modified_date'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+    );
   }
 
   @override
-  $IncomeCategoryEntityTable createAlias(String alias) {
-    return $IncomeCategoryEntityTable(attachedDatabase, alias);
+  $IncomeEntryEntityTable createAlias(String alias) {
+    return $IncomeEntryEntityTable(attachedDatabase, alias);
   }
 }
 
@@ -897,35 +1004,19 @@ class IncomeEntryEntityData extends DataClass
   final int? categoryId;
   final DateTime modifiedDate;
   final String description;
-  IncomeEntryEntityData(
+  const IncomeEntryEntityData(
       {required this.id,
       required this.amount,
       this.categoryId,
       required this.modifiedDate,
       required this.description});
-  factory IncomeEntryEntityData.fromData(Map<String, dynamic> data,
-      {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return IncomeEntryEntityData(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      amount: const RealType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}amount'])!,
-      categoryId: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}category_id']),
-      modifiedDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}modified_date'])!,
-      description: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
-    );
-  }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['amount'] = Variable<double>(amount);
     if (!nullToAbsent || categoryId != null) {
-      map['category_id'] = Variable<int?>(categoryId);
+      map['category_id'] = Variable<int>(categoryId);
     }
     map['modified_date'] = Variable<DateTime>(modifiedDate);
     map['description'] = Variable<String>(description);
@@ -970,13 +1061,13 @@ class IncomeEntryEntityData extends DataClass
   IncomeEntryEntityData copyWith(
           {int? id,
           double? amount,
-          int? categoryId,
+          Value<int?> categoryId = const Value.absent(),
           DateTime? modifiedDate,
           String? description}) =>
       IncomeEntryEntityData(
         id: id ?? this.id,
         amount: amount ?? this.amount,
-        categoryId: categoryId ?? this.categoryId,
+        categoryId: categoryId.present ? categoryId.value : this.categoryId,
         modifiedDate: modifiedDate ?? this.modifiedDate,
         description: description ?? this.description,
       );
@@ -1032,7 +1123,7 @@ class IncomeEntryEntityCompanion
   static Insertable<IncomeEntryEntityData> custom({
     Expression<int>? id,
     Expression<double>? amount,
-    Expression<int?>? categoryId,
+    Expression<int>? categoryId,
     Expression<DateTime>? modifiedDate,
     Expression<String>? description,
   }) {
@@ -1070,7 +1161,7 @@ class IncomeEntryEntityCompanion
       map['amount'] = Variable<double>(amount.value);
     }
     if (categoryId.present) {
-      map['category_id'] = Variable<int?>(categoryId.value);
+      map['category_id'] = Variable<int>(categoryId.value);
     }
     if (modifiedDate.present) {
       map['modified_date'] = Variable<DateTime>(modifiedDate.value);
@@ -1094,118 +1185,37 @@ class IncomeEntryEntityCompanion
   }
 }
 
-class $IncomeEntryEntityTable extends IncomeEntryEntity
-    with TableInfo<$IncomeEntryEntityTable, IncomeEntryEntityData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $IncomeEntryEntityTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _amountMeta = const VerificationMeta('amount');
-  @override
-  late final GeneratedColumn<double?> amount = GeneratedColumn<double?>(
-      'amount', aliasedName, false,
-      type: const RealType(), requiredDuringInsert: true);
-  final VerificationMeta _categoryIdMeta = const VerificationMeta('categoryId');
-  @override
-  late final GeneratedColumn<int?> categoryId = GeneratedColumn<int?>(
-      'category_id', aliasedName, true,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      $customConstraints:
-          'NULL REFERENCES income_category_entity(id) ON DELETE SET NULL');
-  final VerificationMeta _modifiedDateMeta =
-      const VerificationMeta('modifiedDate');
-  @override
-  late final GeneratedColumn<DateTime?> modifiedDate =
-      GeneratedColumn<DateTime?>('modified_date', aliasedName, false,
-          type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
-      'description', aliasedName, false,
-      additionalChecks: GeneratedColumn.checkTextLength(maxTextLength: 100),
-      type: const StringType(),
-      requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, amount, categoryId, modifiedDate, description];
-  @override
-  String get aliasedName => _alias ?? 'income_entry_entity';
-  @override
-  String get actualTableName => 'income_entry_entity';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<IncomeEntryEntityData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('amount')) {
-      context.handle(_amountMeta,
-          amount.isAcceptableOrUnknown(data['amount']!, _amountMeta));
-    } else if (isInserting) {
-      context.missing(_amountMeta);
-    }
-    if (data.containsKey('category_id')) {
-      context.handle(
-          _categoryIdMeta,
-          categoryId.isAcceptableOrUnknown(
-              data['category_id']!, _categoryIdMeta));
-    }
-    if (data.containsKey('modified_date')) {
-      context.handle(
-          _modifiedDateMeta,
-          modifiedDate.isAcceptableOrUnknown(
-              data['modified_date']!, _modifiedDateMeta));
-    } else if (isInserting) {
-      context.missing(_modifiedDateMeta);
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  IncomeEntryEntityData map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return IncomeEntryEntityData.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $IncomeEntryEntityTable createAlias(String alias) {
-    return $IncomeEntryEntityTable(attachedDatabase, alias);
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
-  _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  late final $EntryEntityTable entryEntity = $EntryEntityTable(this);
+  _$AppDatabase(QueryExecutor e) : super(e);
   late final $CategoryEntityTable categoryEntity = $CategoryEntityTable(this);
+  late final $EntryEntityTable entryEntity = $EntryEntityTable(this);
   late final $IncomeCategoryEntityTable incomeCategoryEntity =
       $IncomeCategoryEntityTable(this);
   late final $IncomeEntryEntityTable incomeEntryEntity =
       $IncomeEntryEntityTable(this);
   @override
-  Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
+  Iterable<TableInfo<Table, Object?>> get allTables =>
+      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [entryEntity, categoryEntity, incomeCategoryEntity, incomeEntryEntity];
+      [categoryEntity, entryEntity, incomeCategoryEntity, incomeEntryEntity];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('category_entity',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('entry_entity', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('income_category_entity',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('income_entry_entity', kind: UpdateKind.update),
+            ],
+          ),
+        ],
+      );
 }

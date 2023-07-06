@@ -46,7 +46,7 @@ class EntryWithCategory {
 
 class EntryWithCategoryAllData {
   final EntryEntityData entry;
-  final CategoryEntityData category;
+  final CategoryEntityData? category;
   final int entryType;
 
   EntryWithCategoryAllData({

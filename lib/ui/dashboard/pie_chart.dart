@@ -114,7 +114,7 @@ class _PieChartState extends State<PieChart>
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

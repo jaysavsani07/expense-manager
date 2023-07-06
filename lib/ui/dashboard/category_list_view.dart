@@ -63,7 +63,7 @@ class CategoryItem extends ConsumerWidget {
                 category.name,
                 style: Theme.of(context)
                     .textTheme
-                    .caption!
+                    .bodySmall!
                     .copyWith(overflow: TextOverflow.ellipsis),
               ),
             ),

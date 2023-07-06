@@ -22,7 +22,7 @@ class CategoryListView extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("no_entry"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontSize: 12),
                 ),
               )
@@ -38,7 +38,7 @@ class CategoryListView extends ConsumerWidget {
                               .getTranslatedVal("income"),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontSize: 12),
                         ),
                       ),
@@ -74,7 +74,7 @@ class CategoryListView extends ConsumerWidget {
                                                   e.category!.name,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2!
+                                                      .titleSmall!
                                                       .copyWith(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -85,7 +85,7 @@ class CategoryListView extends ConsumerWidget {
                                                   "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2!
+                                                      .titleSmall!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.bold),
@@ -121,7 +121,7 @@ class CategoryListView extends ConsumerWidget {
                               .getTranslatedVal("expense"),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontSize: 12),
                         ),
                       ),
@@ -157,7 +157,7 @@ class CategoryListView extends ConsumerWidget {
                                                   e.category!.name,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2!
+                                                      .titleSmall!
                                                       .copyWith(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -168,7 +168,7 @@ class CategoryListView extends ConsumerWidget {
                                                   "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(e.total)}",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2!
+                                                      .titleSmall!
                                                       .copyWith(
                                                           fontWeight:
                                                               FontWeight.bold),

@@ -35,7 +35,7 @@ class EntryTypeView extends ConsumerWidget {
                   child: Text(
                     AppLocalization.of(context).getTranslatedVal("all"),
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ),
@@ -61,7 +61,7 @@ class EntryTypeView extends ConsumerWidget {
                   child: Text(
                     AppLocalization.of(context).getTranslatedVal("expense"),
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ),
@@ -87,7 +87,7 @@ class EntryTypeView extends ConsumerWidget {
                   child: Text(
                     AppLocalization.of(context).getTranslatedVal("income"),
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ),

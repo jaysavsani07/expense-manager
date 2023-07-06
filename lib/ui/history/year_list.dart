@@ -39,7 +39,7 @@ class YearList extends ConsumerWidget {
                               e.toString(),
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2!
+                                  .titleSmall!
                                   .copyWith(
                                     fontSize: 12,
                                     color: ref

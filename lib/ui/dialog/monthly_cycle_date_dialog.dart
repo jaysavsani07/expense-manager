@@ -13,7 +13,7 @@ class MonthlyCycleDateDialog extends StatelessWidget {
         SizedBox(height: 24),
         Text(
           AppLocalization.of(context).getTranslatedVal("month_cycle_date"),
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 16),
         Divider(color: Theme.of(context).colorScheme.crossLightColor),
@@ -62,7 +62,7 @@ class MonthlyCycleDateDialog extends StatelessWidget {
                                   e,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle2!
+                                      .titleSmall!
                                       .copyWith(
                                           fontSize: e == selected ? 24 : 14,
                                           fontWeight: e == selected

@@ -48,9 +48,9 @@ final monthProvider = StateProvider<String>(
     (ref) => AppConstants.monthList[DateTime.now().month]!);
 
 final historyListProvider = StreamProvider<List<History>>((ref) {
-  String month = ref.watch(monthProvider.notifier).state;
-  int year = ref.watch(yearProvider.notifier).state;
-  EntryType entryType = ref.watch(entryTypeProvider.notifier).state;
+  String month = ref.watch(monthProvider);
+  int year = ref.watch(yearProvider);
+  EntryType entryType = ref.watch(entryTypeProvider);
   return ref
       .read(repositoryProvider)
       .getAllEntryWithCategoryDateWiseByMonthAndYear(

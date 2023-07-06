@@ -32,7 +32,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 AppLocalization.of(context).getTranslatedVal("welcome_to"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 38, fontWeight: FontWeight.w300),
               ),
             ),
@@ -42,7 +42,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 AppLocalization.of(context).getTranslatedVal("expense_manager"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 38, fontWeight: FontWeight.bold),
               ),
             ),
@@ -61,7 +61,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 },
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 30),
               ),
             ),
@@ -78,7 +78,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                         content: Text(
                           AppLocalization.of(context)
                               .getTranslatedVal("pls_enter_user_name"),
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         backgroundColor: Colors.redAccent,
                       ),
@@ -89,7 +89,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                         content: Text(
                           AppLocalization.of(context).getTranslatedVal(
                               "user_name_allowed_from_3_to_20_characters"),
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         backgroundColor: Colors.redAccent,
                       ),
@@ -107,7 +107,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                     AppLocalization.of(context).getTranslatedVal("next"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -156,7 +156,7 @@ class OptionSelection extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("appearance"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -171,7 +171,7 @@ class OptionSelection extends ConsumerWidget {
                               .getTranslatedVal("light_theme"))),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1!
+                      .titleMedium!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],
@@ -205,7 +205,7 @@ class OptionSelection extends ConsumerWidget {
                       .getTranslatedVal("month_cycle_date"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -213,7 +213,7 @@ class OptionSelection extends ConsumerWidget {
                   monthStartDate.date,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1!
+                      .titleMedium!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],
@@ -246,7 +246,7 @@ class OptionSelection extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("language"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -257,7 +257,7 @@ class OptionSelection extends ConsumerWidget {
                       .name,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1!
+                      .titleMedium!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],

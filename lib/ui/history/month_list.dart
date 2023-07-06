@@ -29,7 +29,7 @@ class MonthList extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 9, horizontal: 14),
                         decoration: BoxDecoration(
-                          color: ref.watch(monthProvider.notifier).state == e
+                          color: ref.watch(monthProvider) == e
                               ? Color(0xff2196F3)
                               : Theme.of(context).dividerColor,
                           borderRadius: BorderRadius.circular(15),
@@ -38,11 +38,11 @@ class MonthList extends ConsumerWidget {
                           AppLocalization.of(context).getTranslatedVal(e),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(
                                 fontSize: 12,
                                 color:
-                                    ref.watch(monthProvider.notifier).state == e
+                                    ref.watch(monthProvider) == e
                                         ? Colors.white
                                         : Color(0xff2196F3),
                               ),

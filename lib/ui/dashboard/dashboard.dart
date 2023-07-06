@@ -60,7 +60,7 @@ class Dashboard extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("hello"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 34),
                   ),
                   const UserName()
@@ -80,7 +80,7 @@ class Dashboard extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("quick_add"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
@@ -96,7 +96,7 @@ class Dashboard extends ConsumerWidget {
                       child: Text(
                         AppLocalization.of(context)
                             .getTranslatedVal("manage_category"),
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff2196F3)),
@@ -125,7 +125,7 @@ class UserName extends ConsumerWidget {
       appState.userName,
       style: Theme.of(context)
           .textTheme
-          .subtitle2!
+          .titleSmall!
           .copyWith(fontSize: 34, fontWeight: FontWeight.w300),
     );
   }
@@ -156,7 +156,7 @@ class TodayAmount extends ConsumerWidget {
                           .getTranslatedVal("today_expanse"),
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 6),
@@ -165,7 +165,7 @@ class TodayAmount extends ConsumerWidget {
                         "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayExpense)}",
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2!
+                            .titleSmall!
                             .copyWith(fontSize: 28),
                       ),
                     )
@@ -261,7 +261,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                         AppLocalization.of(context).getTranslatedVal("expense"),
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2
+                            .titleSmall
                             .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -275,7 +275,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                         AppLocalization.of(context).getTranslatedVal("income"),
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2
+                            .titleSmall
                             .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -291,7 +291,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
             AppLocalization.of(context).getTranslatedVal("expense_meter"),
             style: Theme.of(context)
                 .textTheme
-                .subtitle2!
+                .titleSmall!
                 .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
           ),
         )
@@ -310,7 +310,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
 // "${(totalIncomeExpenseRatio * 100).toStringAsFixed(0)}%",
 // style: Theme.of(context)
 // .textTheme
-//     .subtitle2
+//     .titleSmall
 //     .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
 // ),
 // ),
@@ -323,7 +323,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
 // "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
 // style: Theme.of(context)
 // .textTheme
-//     .subtitle2
+//     .titleSmall
 //     .copyWith(fontSize: 16),
 // ),
 // ),
@@ -332,7 +332,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
 // "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalIncome)}",
 // style: Theme.of(context)
 // .textTheme
-//     .subtitle2
+//     .titleSmall
 //     .copyWith(fontSize: 16),
 // ),
 // ),

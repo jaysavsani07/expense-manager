@@ -43,7 +43,7 @@ class AppTheme {
             borderSide: BorderSide(color: Color(0xff2196F3))),
       ),
       textTheme: TextTheme(
-        caption: TextStyle(
+        bodySmall: TextStyle(
           fontSize: 12,
           color: Color(0xff212121),
         ),
@@ -96,7 +96,7 @@ class AppTheme {
             borderSide: BorderSide(color: Color(0xff2196F3))),
       ),
       textTheme: TextTheme(
-        caption: TextStyle(
+        bodySmall: TextStyle(
           fontSize: 12,
           color: Color(0xffc9c9c9),
           fontWeight: FontWeight.normal,

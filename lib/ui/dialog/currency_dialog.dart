@@ -16,7 +16,7 @@ class CurrencyDialog extends AlertDialog {
         SizedBox(height: 24),
         Text(
           AppLocalization.of(context).getTranslatedVal("currency"),
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 8),
         Divider(color: Theme.of(context).colorScheme.crossLightColor),
@@ -40,7 +40,7 @@ class CurrencyDialog extends AlertDialog {
                           "${NumberFormat.simpleCurrency(locale: e.item1).currencySymbol} ${e.item2}",
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(fontSize: 14),
                         ),
                       ))
