@@ -1,13 +1,32 @@
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
+//
+// part 'addCategory_state.freezed.dart';
+//
+// @freezed
+// class AddCategoryEntity with _$AddCategoryEntity {
+//   factory AddCategoryEntity({
+//     @required cat.Category category,
+//     @required String name,
+//     @required IconData iconData,
+//     @required Color color,
+//     @required EntryType entryType,
+//   }) = _AddCategoryEntity;
+//
+//   factory AddCategoryEntity.initial({@required cat.Category category,}) =>
+//       AddCategoryEntity(
+//           category:category,
+//         name:
+//       );
+// }
+
 final addCategoryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddCategoryViewModel, Tuple2<EntryType, cat.Category>>(
+    .family<AddCategoryViewModel, Tuple2<EntryType, cat.Category?>>(
         (ref, tuple2) => AddCategoryViewModel(
               entryDataSourceImp: ref.read(repositoryProvider),
               entryType: tuple2.item1,
@@ -15,26 +34,26 @@ final addCategoryModelProvider = ChangeNotifierProvider.autoDispose
             ));
 
 class AddCategoryViewModel with ChangeNotifier {
-  EntryRepositoryImp entryDataSourceImp;
-  cat.Category category;
-  String name;
-  IconData iconData;
-  Color color;
-  EntryType entryType;
+  final EntryRepositoryImp entryDataSourceImp;
+  cat.Category? category;
+  final EntryType entryType;
+  late String name;
+  late IconData iconData;
+  late Color color;
 
   AddCategoryViewModel({
-    @required this.entryDataSourceImp,
-    @required this.category,
-    @required this.entryType,
+    required this.entryDataSourceImp,
+    this.category,
+    required this.entryType,
   }) {
     if (category == null) {
       name = "";
       iconData = AppConstants.otherCategory.icon;
       color = AppConstants.otherCategory.iconColor;
     } else {
-      name = category.name;
-      iconData = category.icon;
-      color = category.iconColor;
+      name = category!.name;
+      iconData = category!.icon;
+      color = category!.iconColor;
     }
     notifyListeners();
   }
@@ -56,26 +75,34 @@ class AddCategoryViewModel with ChangeNotifier {
   void addUpdateCategory() {
     if (category == null) {
       entryDataSourceImp
-          .addCategory(entryType,
-              cat.Category(name: name.trim(), icon: iconData, iconColor: color))
+          .addCategory(
+              entryType,
+              cat.Category(
+                name: name.trim(),
+                icon: iconData,
+                iconColor: color,
+                entryType: entryType,
+              ))
           .listen((event) {});
     } else {
       entryDataSourceImp
           .updateCategory(
               entryType,
               cat.Category(
-                  id: category.id,
-                  position: category.position,
-                  name: name,
-                  icon: iconData,
-                  iconColor: color))
+                id: category!.id,
+                position: category!.position,
+                name: name,
+                icon: iconData,
+                iconColor: color,
+                entryType: entryType,
+              ))
           .listen((event) {});
     }
   }
 
   void delete() {
     entryDataSourceImp
-        .deleteCategory(entryType, category.id)
+        .deleteCategory(entryType, category!.id!)
         .listen((event) {});
   }
 

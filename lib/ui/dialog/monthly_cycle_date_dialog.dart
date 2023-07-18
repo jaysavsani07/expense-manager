@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/core/color_scheme.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,7 +13,7 @@ class MonthlyCycleDateDialog extends StatelessWidget {
         SizedBox(height: 24),
         Text(
           AppLocalization.of(context).getTranslatedVal("month_cycle_date"),
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 16),
         Divider(color: Theme.of(context).colorScheme.crossLightColor),
@@ -25,7 +24,7 @@ class MonthlyCycleDateDialog extends StatelessWidget {
               String selected =
                   ref.watch(monthStartDateStateNotifier.notifier).date;
               return ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   shrinkWrap: true,
                   children: [
                     "1",
@@ -50,29 +49,29 @@ class MonthlyCycleDateDialog extends StatelessWidget {
                     "20",
                   ]
                       .map((e) => InkWell(
-                    onTap: () {
-                      ref
-                          .watch(monthStartDateStateNotifier.notifier)
-                          .setDate(e);
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Center(
-                        child: Text(
-                          e,
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2
-                              .copyWith(
-                              fontSize: e == selected ? 24 : 14,
-                              fontWeight: e == selected
-                                  ? FontWeight.bold
-                                  : FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  ))
+                            onTap: () {
+                              ref
+                                  .watch(monthStartDateStateNotifier.notifier)
+                                  .setDate(e);
+                              Navigator.pop(context);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Center(
+                                child: Text(
+                                  e,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          fontSize: e == selected ? 24 : 14,
+                                          fontWeight: e == selected
+                                              ? FontWeight.bold
+                                              : FontWeight.w500),
+                                ),
+                              ),
+                            ),
+                          ))
                       .toList());
             },
           ),

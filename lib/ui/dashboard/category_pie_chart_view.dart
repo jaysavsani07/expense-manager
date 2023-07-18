@@ -1,25 +1,23 @@
 import 'dart:math';
 
-import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/core/color_scheme.dart';
+import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:tuple/tuple.dart';
-import 'package:expense_manager/core/color_scheme.dart';
 
 class CategoryChartView extends ConsumerWidget {
   const CategoryChartView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.watch(categoryPieChartVisibilityProvider.state);
+    final vm = ref.watch(categoryPieChartVisibilityProvider.notifier);
     return Visibility(
       visible: !vm.state,
       child: Column(
@@ -31,7 +29,7 @@ class CategoryChartView extends ConsumerWidget {
               AppLocalization.of(context).getTranslatedVal("total_expense"),
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .titleSmall!
                   .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -44,7 +42,7 @@ class CategoryChartView extends ConsumerWidget {
 
 class CategoryPieChartView extends ConsumerWidget {
   const CategoryPieChartView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -86,7 +84,7 @@ class CategoryPieChartView extends ConsumerWidget {
 
 class CategoryPieChatListView extends ConsumerWidget {
   const CategoryPieChatListView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -114,7 +112,7 @@ class CategoryPieChatListView extends ConsumerWidget {
                             list.name,
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2
+                                .bodyMedium!
                                 .copyWith(overflow: TextOverflow.ellipsis),
                           ),
                         ],
@@ -127,7 +125,7 @@ class CategoryPieChatListView extends ConsumerWidget {
 }
 
 class TotalAmount extends ConsumerWidget {
-  const TotalAmount({Key key}) : super(key: key);
+  const TotalAmount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -139,7 +137,7 @@ class TotalAmount extends ConsumerWidget {
       children: [
         Text(
           AppLocalization.of(context).getTranslatedVal("last_month"),
-          style: Theme.of(context).textTheme.caption.copyWith(fontSize: 10),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10),
         ),
         FittedBox(
           child: Padding(
@@ -148,7 +146,7 @@ class TotalAmount extends ConsumerWidget {
               "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .titleSmall!
                   .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ),
@@ -160,7 +158,7 @@ class TotalAmount extends ConsumerWidget {
 
 class PieChartView extends ConsumerWidget {
   const PieChartView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -177,13 +175,19 @@ class PieChartView extends ConsumerWidget {
               spreadRadius: -10,
               blurRadius: 20,
               offset: Offset(-8, -8),
-              color: Theme.of(context).colorScheme.paiChartShadowLightColor.withOpacity(0.1),
+              color: Theme.of(context)
+                  .colorScheme
+                  .paiChartShadowLightColor
+                  .withOpacity(0.1),
             ),
             BoxShadow(
               // spreadRadius: -2,
               blurRadius: 20,
               offset: Offset(8, 8),
-              color: Theme.of(context).colorScheme.paiChartShadowDarkColor.withOpacity(0.4),
+              color: Theme.of(context)
+                  .colorScheme
+                  .paiChartShadowDarkColor
+                  .withOpacity(0.4),
             )
           ],
         ),
@@ -213,19 +217,24 @@ class PieChartView extends ConsumerWidget {
                       spreadRadius: -10,
                       blurRadius: 20,
                       offset: Offset(-8, -8),
-                      color: Theme.of(context).colorScheme.paiChartShadowLightColor.withOpacity(0.1),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .paiChartShadowLightColor
+                          .withOpacity(0.1),
                     ),
                     BoxShadow(
                       // spreadRadius: -2,
                       blurRadius: 20,
                       offset: Offset(8, 8),
-                      color: Theme.of(context).colorScheme.paiChartShadowDarkColor.withOpacity(0.4),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .paiChartShadowDarkColor
+                          .withOpacity(0.4),
                     )
                   ],
                 ),
                 child: SizedBox(
-                  width: constraint.maxWidth * 0.4,
-                    child: TotalAmount()),
+                    width: constraint.maxWidth * 0.4, child: TotalAmount()),
               ),
             ),
           ],
@@ -236,7 +245,10 @@ class PieChartView extends ConsumerWidget {
 }
 
 class PieChart1 extends CustomPainter {
-  PieChart1({@required this.categories, @required this.width});
+  PieChart1({
+    required this.categories,
+    required this.width,
+  });
 
   final List<Tuple2<double, Color>> categories;
   final double width;

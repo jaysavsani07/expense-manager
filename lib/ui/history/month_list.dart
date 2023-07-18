@@ -1,7 +1,6 @@
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MonthList extends ConsumerWidget {
@@ -23,25 +22,29 @@ class MonthList extends ConsumerWidget {
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                     child: InkWell(
                       onTap: () {
-                        ref.read(monthProvider.state).state = e;
+                        ref.read(monthProvider.notifier).state = e;
                       },
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 9, horizontal: 14),
                         decoration: BoxDecoration(
-                          color: ref.watch(monthProvider.state).state == e
+                          color: ref.watch(monthProvider) == e
                               ? Color(0xff2196F3)
                               : Theme.of(context).dividerColor,
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Text(
                           AppLocalization.of(context).getTranslatedVal(e),
-                          style: Theme.of(context).textTheme.subtitle2.copyWith(
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
                                 fontSize: 12,
-                                color: ref.watch(monthProvider.state).state == e
-                                    ? Colors.white
-                                    : Color(0xff2196F3),
+                                color:
+                                    ref.watch(monthProvider) == e
+                                        ? Colors.white
+                                        : Color(0xff2196F3),
                               ),
                         ),
                       ),

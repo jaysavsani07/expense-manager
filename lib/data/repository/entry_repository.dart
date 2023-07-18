@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 abstract class EntryRepository {
   Stream<List<String>> getMonthListByYear(EntryType entryType, int year);
 
-  Stream<List<int>> getYearList(EntryType entryType);
+  Stream<List<int?>> getYearList(EntryType entryType);
 
   Stream<int> addEntry(EntryType entryType, Entry entry);
 
@@ -40,5 +40,6 @@ abstract class EntryRepository {
   Stream<List<CategoryWithSum>> getCategoryDetails(
       Tuple2<String, int> filterType);
 
-  Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>> getAllEntryWithCategoryByYear(int year,int currentMonth);
+  Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>>
+      getAllEntryWithCategoryByYear(int year, int currentMonth);
 }

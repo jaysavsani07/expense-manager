@@ -8,10 +8,9 @@ import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moor/moor.dart';
 import 'package:expense_manager/extension/datetime_extension.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rxdart/rxdart.dart';
 
 final dataSourceProvider = Provider(
     (ref) => EntryDataSourceImp(appDatabase: ref.read(appDatabaseProvider)));
@@ -19,36 +18,36 @@ final dataSourceProvider = Provider(
 class EntryDataSourceImp extends EntryDataSource {
   AppDatabase appDatabase;
 
-  EntryDataSourceImp({@required this.appDatabase});
+  EntryDataSourceImp({required this.appDatabase});
 
   @override
   Stream<List<String>> getExpenseMonthListByYear(int year) {
     return appDatabase
         .getExpenseMonthListByYear(year)
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+        .map((event) => event.map((e) => AppConstants.monthList[e]!).toList());
   }
 
   @override
   Stream<List<String>> getIncomeMonthListByYear(int year) {
     return appDatabase
         .getIncomeMonthListByYear(year)
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+        .map((event) => event.map((e) => AppConstants.monthList[e]!).toList());
   }
 
   @override
   Stream<List<String>> getAllMonthListByYear(int year) {
     return appDatabase
         .getAllMonthListByYear(year)
-        .map((event) => event.map((e) => AppConstants.monthList[e]).toList());
+        .map((event) => event.map((e) => AppConstants.monthList[e]!).toList());
   }
 
   @override
-  Stream<List<int>> getExpenseYearList() {
+  Stream<List<int?>> getExpenseYearList() {
     return appDatabase.getExpenseYearList();
   }
 
   @override
-  Stream<List<int>> getIncomeYearList() {
+  Stream<List<int?>> getIncomeYearList() {
     return appDatabase.getIncomeYearList();
   }
 
@@ -124,8 +123,10 @@ class EntryDataSourceImp extends EntryDataSource {
       int month, int year) {
     return appDatabase
         .getExpenseEntryWithCategoryByMonthAndYear(month, year)
-        .map((event) => groupBy(event,
-            (EntryWithCategoryExpenseData e) => e.entry.modifiedDate.toTitle()))
+        .map((event) => groupBy(
+            event,
+            (EntryWithCategoryExpenseData e) =>
+                e.entry!.modifiedDate.toTitle()))
         .map((list) => list.entries
             .map((e) => History(
                 title: e.key,
@@ -142,7 +143,7 @@ class EntryDataSourceImp extends EntryDataSource {
     return appDatabase
         .getIncomeEntryWithCategoryByMonthAndYear(month, year)
         .map((event) => groupBy(event,
-            (EntryWithCategoryIncomeData e) => e.entry.modifiedDate.toTitle()))
+            (EntryWithCategoryIncomeData e) => e.entry!.modifiedDate.toTitle()))
         .map((list) => list.entries
             .map((e) => History(
                 title: e.key,
@@ -156,19 +157,45 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<List<History>> getAllEntryWithCategoryDateWiseByMonthAndYear(
       int month, int year) {
-    return appDatabase
-        .getAllEntryWithCategoryByMonthAndYear(month, year)
-        .map((event) => groupBy(event,
-            (EntryWithCategoryAllData e) => e.entry.modifiedDate.toTitle()))
-        .map((list) => list.entries
-            .map((e) => History(
-                title: e.key,
-                list: e.value
-                    .map((e) =>
-                        EntryWithCategory.fromAllEntryWithCategoryEntity(
-                            e, e.entryType))
-                    .toList()))
-            .toList());
+    return ZipStream.zip2(
+            appDatabase
+                .getExpenseEntryWithCategoryByMonthAndYear(month, year)
+                .map(
+                  (event) => event
+                      .map((e) =>
+                          EntryWithCategory.fromExpenseEntryWithCategoryEntity(
+                              e))
+                      .toList(),
+                ),
+            appDatabase
+                .getIncomeEntryWithCategoryByMonthAndYear(month, year)
+                .map(
+                  (event) => event
+                      .map((e) =>
+                          EntryWithCategory.fromIncomeEntryWithCategoryEntity(
+                              e))
+                      .toList(),
+                ),
+            (a, b) => [...a, ...b])
+        .map((event) => groupBy(event, (p0) => p0.entry.modifiedDate.toTitle()))
+        .map(
+          (event) => event.entries
+              .map((e) => History(title: e.key, list: e.value))
+              .toList(),
+        );
+    // return appDatabase
+    //     .getAllEntryWithCategoryByMonthAndYear(month, year)
+    //     .map((event) => groupBy(event,
+    //         (EntryWithCategoryAllData e) => e.entry.modifiedDate.toTitle()))
+    //     .map((list) => list.entries
+    //         .map((e) => History(
+    //             title: e.key,
+    //             list: e.value
+    //                 .map((e) =>
+    //                     EntryWithCategory.fromAllEntryWithCategoryEntity(
+    //                         e, e.entryType))
+    //                 .toList()))
+    //         .toList());
   }
 
   @override
@@ -212,19 +239,29 @@ class EntryDataSourceImp extends EntryDataSource {
   @override
   Stream<List<Category>> getAllExpenseCategory() {
     return appDatabase.getAllExpenseCategory().map(
-        (event) => event.map((e) => Category.fromExpenseCategoryEntity(e)).toList());
+          (event) =>
+              event.map((e) => Category.fromExpenseCategoryEntity(e)).toList(),
+        );
   }
 
   @override
   Stream<List<Category>> getAllIncomeCategory() {
-    return appDatabase.getAllIncomeCategory().map((event) =>
-        event.map((e) => Category.fromIncomeCategoryEntity(e)).toList());
+    return appDatabase.getAllIncomeCategory().map(
+          (event) =>
+              event.map((e) => Category.fromIncomeCategoryEntity(e)).toList(),
+        );
   }
 
   @override
   Stream<List<Category>> getAllCategory() {
-    return appDatabase.getAllCategory().map(
-        (event) => event.map((e) => Category.fromAllCategoryEntity(e.item1,e.item2)).toList());
+    // return ZipStream.zip2(
+    //   getAllExpenseCategory(),
+    //   getAllIncomeCategory(),
+    //   (a, b) => [...a, ...b],
+    // );
+    return appDatabase.getAllCategory().map((event) => event
+        .map((e) => Category.fromAllCategoryEntity(e.item1, e.item2))
+        .toList());
   }
 
   @override
@@ -245,10 +282,24 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<EntryWithCategory>> getAllEntryWithCategoryByYear(int year) {
-    return appDatabase.getAllEntryWithCategoryByYear(year).map((event) {
-      return event.map((e) {
-        return EntryWithCategory.fromAllEntryWithCategoryEntity(e, e.entryType);
-      }).toList();
-    });
+    return ZipStream.zip2(
+      appDatabase.getExpenseEntryWithCategoryByYear(year).map((event) {
+        return event.map((e) {
+          return EntryWithCategory.fromExpenseEntryWithCategoryEntity(e);
+        }).toList();
+      }),
+      appDatabase.getIncomeEntryWithCategoryByYear(year).map((event) {
+        return event.map((e) {
+          return EntryWithCategory.fromIncomeEntryWithCategoryEntity(e);
+        }).toList();
+      }),
+      (a, b) => [...a, ...b],
+    );
+
+    // return appDatabase.getAllEntryWithCategoryByYear(year).map((event) {
+    //   return event.map((e) {
+    //     return EntryWithCategory.fromAllEntryWithCategoryEntity(e, e.entryType);
+    //   }).toList();
+    // });
   }
 }

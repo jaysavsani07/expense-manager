@@ -6,11 +6,9 @@ import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/dashboard/category_list_view.dart';
 import 'package:expense_manager/ui/dashboard/category_pie_chart_view.dart';
 import 'package:expense_manager/ui/dashboard/dashboard_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:expense_manager/core/color_scheme.dart';
 
@@ -22,7 +20,7 @@ class Dashboard extends ConsumerWidget {
         title: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: DottedBorder(
-            color: Theme.of(context).appBarTheme.titleTextStyle.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
@@ -62,7 +60,7 @@ class Dashboard extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("hello"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .titleSmall!
                         .copyWith(fontSize: 34),
                   ),
                   const UserName()
@@ -82,7 +80,7 @@ class Dashboard extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("quick_add"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .titleSmall!
                         .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   InkWell(
@@ -98,7 +96,7 @@ class Dashboard extends ConsumerWidget {
                       child: Text(
                         AppLocalization.of(context)
                             .getTranslatedVal("manage_category"),
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(0xff2196F3)),
@@ -118,7 +116,7 @@ class Dashboard extends ConsumerWidget {
 }
 
 class UserName extends ConsumerWidget {
-  const UserName({Key key}) : super(key: key);
+  const UserName({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -127,14 +125,14 @@ class UserName extends ConsumerWidget {
       appState.userName,
       style: Theme.of(context)
           .textTheme
-          .subtitle2
+          .titleSmall!
           .copyWith(fontSize: 34, fontWeight: FontWeight.w300),
     );
   }
 }
 
 class TodayAmount extends ConsumerWidget {
-  const TodayAmount({Key key}) : super(key: key);
+  const TodayAmount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -158,7 +156,7 @@ class TodayAmount extends ConsumerWidget {
                           .getTranslatedVal("today_expanse"),
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2
+                          .titleSmall!
                           .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 6),
@@ -167,7 +165,7 @@ class TodayAmount extends ConsumerWidget {
                         "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(todayExpense)}",
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2
+                            .titleSmall!
                             .copyWith(fontSize: 28),
                       ),
                     )
@@ -175,7 +173,7 @@ class TodayAmount extends ConsumerWidget {
                 ),
               ),
               Expanded(
-                child: SizedBox(height:80, child: RadialTextPointer()),
+                child: SizedBox(height: 80, child: RadialTextPointer()),
               ),
             ],
           )),
@@ -185,7 +183,7 @@ class TodayAmount extends ConsumerWidget {
 
 class RadialTextPointer extends ConsumerStatefulWidget {
   /// Creates the gauge text pointer sample
-  const RadialTextPointer({Key key}) : super(key: key);
+  const RadialTextPointer({Key? key}) : super(key: key);
 
   @override
   _RadialTextPointerState createState() => _RadialTextPointerState();
@@ -205,7 +203,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom : 8.0),
+          padding: const EdgeInsets.only(bottom: 8.0),
           child: SfRadialGauge(
             axes: <RadialAxis>[
               RadialAxis(
@@ -255,7 +253,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                       color: const Color(0xCCFF4100)),
                 ],
                 annotations: <GaugeAnnotation>[
-                 /*GaugeAnnotation(
+                  /*GaugeAnnotation(
                     angle: 172,
                     positionFactor: 0.9,
                     widget: Container(
@@ -263,7 +261,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                         AppLocalization.of(context).getTranslatedVal("expense"),
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2
+                            .titleSmall
                             .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -277,7 +275,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
                         AppLocalization.of(context).getTranslatedVal("income"),
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2
+                            .titleSmall
                             .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -293,7 +291,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
             AppLocalization.of(context).getTranslatedVal("expense_meter"),
             style: Theme.of(context)
                 .textTheme
-                .subtitle2
+                .titleSmall!
                 .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
           ),
         )
@@ -312,7 +310,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
 // "${(totalIncomeExpenseRatio * 100).toStringAsFixed(0)}%",
 // style: Theme.of(context)
 // .textTheme
-//     .subtitle2
+//     .titleSmall
 //     .copyWith(fontSize: 10, fontWeight: FontWeight.bold),
 // ),
 // ),
@@ -325,7 +323,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
 // "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalExpense)}",
 // style: Theme.of(context)
 // .textTheme
-//     .subtitle2
+//     .titleSmall
 //     .copyWith(fontSize: 16),
 // ),
 // ),
@@ -334,7 +332,7 @@ class _RadialTextPointerState extends ConsumerState<RadialTextPointer> {
 // "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 0).format(totalIncome)}",
 // style: Theme.of(context)
 // .textTheme
-//     .subtitle2
+//     .titleSmall
 //     .copyWith(fontSize: 16),
 // ),
 // ),

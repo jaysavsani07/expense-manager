@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomScrollPhysics extends PageScrollPhysics {
-  const CustomScrollPhysics({ScrollPhysics parent}) : super(parent: parent);
+  const CustomScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
 
   @override
   double get minFlingVelocity => 0.01;
@@ -16,7 +16,7 @@ class CustomScrollPhysics extends PageScrollPhysics {
   double get dragStartDistanceMotionThreshold => 40;
 
   @override
-  CustomScrollPhysics applyTo(ScrollPhysics ancestor) {
+  CustomScrollPhysics applyTo(ScrollPhysics? ancestor) {
     return CustomScrollPhysics(parent: buildParent(ancestor));
   }
 }

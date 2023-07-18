@@ -2,7 +2,6 @@ import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/entry.dart';
-import 'package:flutter/material.dart';
 
 class EntryWithCategory {
   final Entry entry;
@@ -10,33 +9,36 @@ class EntryWithCategory {
   final EntryType entryType;
 
   EntryWithCategory({
-    @required this.entry,
-    @required this.category,
-    @required this.entryType,
+    required this.entry,
+    required this.category,
+    required this.entryType,
   });
 
   factory EntryWithCategory.fromExpenseEntryWithCategoryEntity(
       EntryWithCategoryExpenseData entityData) {
     return EntryWithCategory(
-        entry: Entry.fromEntryEntity(entityData.entry),
-        category: Category.fromExpenseCategoryEntity(entityData.category),
-        entryType: EntryType.expense);
+      entry: Entry.fromEntryEntity(entityData.entry!),
+      category: Category.fromExpenseCategoryEntity(entityData.category),
+      entryType: EntryType.expense,
+    );
   }
 
   factory EntryWithCategory.fromIncomeEntryWithCategoryEntity(
       EntryWithCategoryIncomeData entityData) {
     return EntryWithCategory(
-        entry: Entry.fromIncomeEntryEntity(entityData.entry),
-        category: Category.fromIncomeCategoryEntity(entityData.category),
-        entryType: EntryType.income);
+      entry: Entry.fromIncomeEntryEntity(entityData.entry!),
+      category: Category.fromIncomeCategoryEntity(entityData.category),
+      entryType: EntryType.income,
+    );
   }
 
   factory EntryWithCategory.fromAllEntryWithCategoryEntity(
       EntryWithCategoryAllData entityData, int entryType) {
     return EntryWithCategory(
-        entry: Entry.fromEntryEntity(entityData.entry),
-        category: Category.fromExpenseCategoryEntity(entityData.category),
-        entryType: EntryType.values[entryType]);
+      entry: Entry.fromEntryEntity(entityData.entry),
+      category: Category.fromExpenseCategoryEntity(entityData.category),
+      entryType: EntryType.values[entryType],
+    );
   }
 
   @override
@@ -47,13 +49,13 @@ class EntryWithCategory {
 
 class EntryWithCategoryAllData {
   final EntryEntityData entry;
-  final CategoryEntityData category;
+  final CategoryEntityData? category;
   final int entryType;
 
   EntryWithCategoryAllData({
-    @required this.entry,
-    @required this.category,
-    @required this.entryType,
+    required this.entry,
+    required this.category,
+    required this.entryType,
   });
 
   @override
@@ -63,10 +65,10 @@ class EntryWithCategoryAllData {
 }
 
 class EntryWithCategoryExpenseData {
-  final EntryEntityData entry;
-  final CategoryEntityData category;
+  final EntryEntityData? entry;
+  final CategoryEntityData? category;
 
-  EntryWithCategoryExpenseData({@required this.entry, @required this.category});
+  EntryWithCategoryExpenseData({required this.entry, required this.category});
 
   @override
   String toString() {
@@ -75,10 +77,10 @@ class EntryWithCategoryExpenseData {
 }
 
 class EntryWithCategoryIncomeData {
-  final IncomeEntryEntityData entry;
-  final IncomeCategoryEntityData category;
+  final IncomeEntryEntityData? entry;
+  final IncomeCategoryEntityData? category;
 
-  EntryWithCategoryIncomeData({@required this.entry, @required this.category});
+  EntryWithCategoryIncomeData({required this.entry, required this.category});
 
   @override
   String toString() {

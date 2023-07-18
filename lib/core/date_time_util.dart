@@ -2,7 +2,8 @@ import 'package:expense_manager/extension/datetime_extension.dart';
 
 class DateTimeUtil {
   static getStartDateTime(int cycleDate) {
-    DateTime currentDate = DateTime.now().copyWith(hour: 0, minute: 0, second: 0);
+    DateTime currentDate =
+        DateTime.now().copyWith(hour: 0, minute: 0, second: 0);
 
     if (currentDate.day == 1) {
       return currentDate.copyWith(day: cycleDate);
@@ -17,7 +18,8 @@ class DateTimeUtil {
   }
 
   static getEndDateTime(int cycleDate) {
-    DateTime currentDate = DateTime.now().copyWith(hour: 23, minute: 59, second: 59);
+    DateTime currentDate =
+        DateTime.now().copyWith(hour: 23, minute: 59, second: 59);
 
     if (currentDate.day == 1) {
       return currentDate.copyWith(

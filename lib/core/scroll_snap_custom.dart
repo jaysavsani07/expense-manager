@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -13,9 +14,6 @@ enum SelectedItemAnchor { START, MIDDLE, END }
 ///
 ///Contains `ScrollNotification` widget, so might be incompatible with other scroll notification.
 class ScrollSnapPageCustom extends StatefulWidget {
-  ///List background
-  final Color background;
-
   ///Widget builder.
   final Widget Function(BuildContext, int) itemBuilder;
 
@@ -31,13 +29,13 @@ class ScrollSnapPageCustom extends StatefulWidget {
 
   ///Pixel tolerance to trigger onReachEnd.
   ///Default is itemSize/2
-  final double endOfListTolerance;
+  final double? endOfListTolerance;
 
   ///Focus to an item when user tap on it. Inactive if the list-item have its own onTap detector (use state-key to help focusing instead).
   final bool focusOnItemTap;
 
   ///Method to manually trigger focus to an item. Call with help of `GlobalKey<ScrollSnapListState>`.
-  final void Function(int) focusToItem;
+  final void Function(int)? focusToItem;
 
   ///Container's margin
   final EdgeInsetsGeometry margin;
@@ -58,10 +56,10 @@ class ScrollSnapPageCustom extends StatefulWidget {
   final double itemSize;
 
   ///Global key that's used to call `focusToItem` method to manually trigger focus event.
-  final Key key;
+  final Key? key;
 
   ///Global key that passed to child ListView. Can be used for PageStorageKey
-  final Key listViewKey;
+  final Key? listViewKey;
 
   ///Callback function when list snaps/focuses to an item
   final void Function(int) onItemFocus;
@@ -69,7 +67,7 @@ class ScrollSnapPageCustom extends StatefulWidget {
   ///Callback function when user reach end of list.
   ///
   ///Can be used to load more data from database.
-  final Function onReachEnd;
+  final Function? onReachEnd;
 
   ///Container's padding
   final EdgeInsetsGeometry padding;
@@ -78,10 +76,10 @@ class ScrollSnapPageCustom extends StatefulWidget {
   final bool reverse;
 
   ///Calls onItemFocus (if it exists) when ScrollUpdateNotification fires
-  final bool updateOnScroll;
+  final bool? updateOnScroll;
 
   ///An optional initial position which will not snap until after the first drag
-  final double initialIndex;
+  final double? initialIndex;
 
   ///ListView's scrollDirection
   final Axis scrollDirection;
@@ -101,44 +99,43 @@ class ScrollSnapPageCustom extends StatefulWidget {
   ///Output value is scale size (must be >=0, 1 is normal-size)
   ///
   ///Need to set `dynamicItemSize` to `true`
-  final double Function(double distance) dynamicSizeEquation;
+  final double Function(double distance)? dynamicSizeEquation;
 
   ///Custom Opacity of items off center
-  final double dynamicItemOpacity;
+  final double? dynamicItemOpacity;
 
   ///Anchor location for selected item in the list
   final SelectedItemAnchor selectedItemAnchor;
 
-  ScrollSnapPageCustom(
-      {this.background,
-      @required this.itemBuilder,
-      @required this.textItemBuilder,
-      @required this.backgroundItemBuilder,
-      ScrollController listController,
-      PageController pageController,
-      this.curve = Curves.ease,
-      this.duration = 500,
-      this.endOfListTolerance,
-      this.focusOnItemTap = true,
-      this.focusToItem,
-      this.itemCount,
-      @required this.itemSize,
-      @required this.backgroundImgHeight,
-      this.key,
-      this.listViewKey,
-      this.margin,
-      @required this.onItemFocus,
-      this.onReachEnd,
-      this.padding,
-      this.reverse = false,
-      this.updateOnScroll,
-      this.initialIndex,
-      this.scrollDirection = Axis.horizontal,
-      this.dynamicItemSize = false,
-      this.dynamicSizeEquation,
-      this.dynamicItemOpacity,
-      this.selectedItemAnchor = SelectedItemAnchor.MIDDLE})
-      : listController = listController ?? ScrollController(),
+  ScrollSnapPageCustom({
+    required this.itemBuilder,
+    required this.textItemBuilder,
+    required this.backgroundItemBuilder,
+    ScrollController? listController,
+    PageController? pageController,
+    this.curve = Curves.ease,
+    this.duration = 500,
+    this.endOfListTolerance,
+    this.focusOnItemTap = true,
+    this.focusToItem,
+    required this.itemCount,
+    required this.itemSize,
+    required this.backgroundImgHeight,
+    this.key,
+    this.listViewKey,
+    required this.margin,
+    required this.onItemFocus,
+    this.onReachEnd,
+    required this.padding,
+    this.reverse = false,
+    this.updateOnScroll,
+    this.initialIndex,
+    this.scrollDirection = Axis.horizontal,
+    this.dynamicItemSize = false,
+    this.dynamicSizeEquation,
+    this.dynamicItemOpacity,
+    this.selectedItemAnchor = SelectedItemAnchor.MIDDLE,
+  })  : listController = listController ?? ScrollController(),
         pageController = PageController(viewportFraction: 0.9),
         super(key: key);
 
@@ -149,15 +146,17 @@ class ScrollSnapPageCustom extends StatefulWidget {
 class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   //true if initialIndex exists and first drag hasn't occurred
   bool isInit = true;
+
   //to avoid multiple onItemFocus when using updateOnScroll
   int previousIndex = -1;
+
   //Current scroll-position in pixel
   double currentPixel = 0;
 
   bool isCardMovable = true;
 
-  PageController secondPageController;
-  PageController backgroundPageController;
+  late PageController secondPageController;
+  late PageController backgroundPageController;
 
   void initState() {
     super.initState();
@@ -212,7 +211,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     double difference = intendedPixel - currentPixel;
 
     if (widget.dynamicSizeEquation != null) {
-      double scale = widget.dynamicSizeEquation(difference);
+      double scale = widget.dynamicSizeEquation!(difference);
       return scale < 0 ? 0 : scale;
     }
     return 1 - min(difference.abs() / widget.itemSize * 0.5, 0.5);
@@ -241,7 +240,7 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
     double difference = intendedPixel - currentPixel;
 
     if (widget.dynamicSizeEquation != null) {
-      double scale = widget.dynamicSizeEquation(difference);
+      double scale = widget.dynamicSizeEquation!(difference);
       return scale < 0 ? 0 : scale;
     }
     return 1 - min(difference.abs() / widget.itemSize * 0.5, 0.5);
@@ -326,10 +325,13 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   }
 
   ///Then trigger `onItemFocus`
-  double _calcCardLocation(
-      {double pixel, @required double itemSize, int index}) {
+  double _calcCardLocation({
+    double? pixel,
+    required double itemSize,
+    int? index,
+  }) {
     int cardIndex =
-        index != null ? index : ((pixel - itemSize / 2) / itemSize).ceil();
+        index != null ? index : ((pixel! - itemSize / 2) / itemSize).ceil();
 
     if (widget.onItemFocus != null && cardIndex != previousIndex) {
       previousIndex = cardIndex;
@@ -346,11 +348,11 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
   }
 
   void focusToInitialPosition() {
-    widget.listController.jumpTo((widget.initialIndex * widget.itemSize));
+    widget.listController.jumpTo((widget.initialIndex! * widget.itemSize));
   }
 
   void _onReachEnd() {
-    if (widget.onReachEnd != null) widget.onReachEnd();
+    if (widget.onReachEnd != null) widget.onReachEnd!();
   }
 
   @override
@@ -366,28 +368,6 @@ class ScrollSnapPageCustomState extends State<ScrollSnapPageCustom> {
       margin: widget.margin,
       child: LayoutBuilder(
         builder: (BuildContext ctx, BoxConstraints constraint) {
-          double _listPadding = 0;
-
-          //determine anchor
-          switch (widget.selectedItemAnchor) {
-            case SelectedItemAnchor.START:
-              _listPadding = 0;
-              break;
-            case SelectedItemAnchor.MIDDLE:
-              _listPadding = (widget.scrollDirection == Axis.horizontal
-                          ? constraint.maxWidth
-                          : constraint.maxHeight) /
-                      2 -
-                  widget.itemSize / 2;
-              break;
-            case SelectedItemAnchor.END:
-              _listPadding = (widget.scrollDirection == Axis.horizontal
-                      ? constraint.maxWidth
-                      : constraint.maxHeight) -
-                  widget.itemSize;
-              break;
-          }
-
           return GestureDetector(
             //by catching onTapDown gesture, it's possible to keep animateTo from removing user's scroll listener
             onTapDown: (_) {},

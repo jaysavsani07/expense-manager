@@ -7,9 +7,7 @@ import 'package:expense_manager/ui/dialog/language_dialog.dart';
 import 'package:expense_manager/ui/dialog/monthly_cycle_date_dialog.dart';
 import 'package:expense_manager/ui/dialog/theme_dialog.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Welcome extends ConsumerStatefulWidget {
@@ -34,7 +32,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 AppLocalization.of(context).getTranslatedVal("welcome_to"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .titleSmall!
                     .copyWith(fontSize: 38, fontWeight: FontWeight.w300),
               ),
             ),
@@ -44,7 +42,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 AppLocalization.of(context).getTranslatedVal("expense_manager"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .titleSmall!
                     .copyWith(fontSize: 38, fontWeight: FontWeight.bold),
               ),
             ),
@@ -52,7 +50,8 @@ class _WelcomeState extends ConsumerState<Welcome> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextFormField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.name,
+
                 // borderType: VxTextFieldBorderType.underLine,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
@@ -63,7 +62,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                 },
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .titleSmall!
                     .copyWith(fontSize: 30),
               ),
             ),
@@ -80,7 +79,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                         content: Text(
                           AppLocalization.of(context)
                               .getTranslatedVal("pls_enter_user_name"),
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         backgroundColor: Colors.redAccent,
                       ),
@@ -91,7 +90,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                         content: Text(
                           AppLocalization.of(context).getTranslatedVal(
                               "user_name_allowed_from_3_to_20_characters"),
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         backgroundColor: Colors.redAccent,
                       ),
@@ -109,7 +108,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
                     AppLocalization.of(context).getTranslatedVal("next"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .titleMedium!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -123,7 +122,7 @@ class _WelcomeState extends ConsumerState<Welcome> {
 }
 
 class OptionSelection extends ConsumerWidget {
-  const OptionSelection({Key key}) : super(key: key);
+  const OptionSelection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -143,11 +142,11 @@ class OptionSelection extends ConsumerWidget {
                     CommonAlertDialog(child: ThemeDialog()),
                 transitionBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    Transform.scale(
-                      scale: animation.value,
-                      alignment: Alignment.center,
-                      child: child,
-                    ));
+                        Transform.scale(
+                          scale: animation.value,
+                          alignment: Alignment.center,
+                          child: child,
+                        ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -158,7 +157,7 @@ class OptionSelection extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("appearance"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .titleSmall!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -173,7 +172,7 @@ class OptionSelection extends ConsumerWidget {
                               .getTranslatedVal("light_theme"))),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],
@@ -191,11 +190,11 @@ class OptionSelection extends ConsumerWidget {
                     CommonAlertDialog(child: MonthlyCycleDateDialog()),
                 transitionBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    Transform.scale(
-                      scale: animation.value,
-                      alignment: Alignment.center,
-                      child: child,
-                    ));
+                        Transform.scale(
+                          scale: animation.value,
+                          alignment: Alignment.center,
+                          child: child,
+                        ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -207,7 +206,7 @@ class OptionSelection extends ConsumerWidget {
                       .getTranslatedVal("month_cycle_date"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .titleSmall!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -215,7 +214,7 @@ class OptionSelection extends ConsumerWidget {
                   monthStartDate.date,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],
@@ -233,11 +232,11 @@ class OptionSelection extends ConsumerWidget {
                     CommonAlertDialog(child: LanguageDialog()),
                 transitionBuilder:
                     (context, animation, secondaryAnimation, child) =>
-                    Transform.scale(
-                      scale: animation.value,
-                      alignment: Alignment.center,
-                      child: child,
-                    ));
+                        Transform.scale(
+                          scale: animation.value,
+                          alignment: Alignment.center,
+                          child: child,
+                        ));
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -248,7 +247,7 @@ class OptionSelection extends ConsumerWidget {
                   AppLocalization.of(context).getTranslatedVal("language"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .titleSmall!
                       .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 4),
@@ -259,7 +258,7 @@ class OptionSelection extends ConsumerWidget {
                       .name,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium!
                       .copyWith(fontSize: 12, color: Color(0xff616161)),
                 ),
               ],

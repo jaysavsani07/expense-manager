@@ -3,15 +3,15 @@ import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/category_list/category_list_state.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
 class CategoryList extends ConsumerWidget {
   final EntryType entryType;
 
-  CategoryList({@required this.entryType}) : super();
+  CategoryList({required this.entryType}) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,15 +24,16 @@ class CategoryList extends ConsumerWidget {
             },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title: DottedBorder(
-          color: Theme.of(context).appBarTheme.titleTextStyle.color,
+          color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
           dashPattern: [5, 5],
           radius: Radius.circular(12),
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
-                AppLocalization.of(context).getTranslatedVal("category_list"),
-              style: Theme.of(context).appBarTheme.titleTextStyle,),
+              AppLocalization.of(context).getTranslatedVal("category_list"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
           ),
         ),
         actions: [
@@ -41,7 +42,7 @@ class CategoryList extends ConsumerWidget {
               Navigator.pushNamed(
                 context,
                 AppRoutes.addCategory,
-                arguments: Tuple2(vm.entryType, null),
+                arguments: Tuple2(vm.entryType!, null),
               );
             },
             borderRadius: BorderRadius.circular(20),
@@ -49,7 +50,7 @@ class CategoryList extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               child: Text(
                 AppLocalization.of(context).getTranslatedVal("add_new"),
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: Color(0xff2196F3)),
               ),
             ),
@@ -84,7 +85,7 @@ class CategoryList extends ConsumerWidget {
                           AppLocalization.of(context)
                               .getTranslatedVal("expense"),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     ),
@@ -111,7 +112,7 @@ class CategoryList extends ConsumerWidget {
                           AppLocalization.of(context)
                               .getTranslatedVal("income"),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
                     ),
@@ -133,7 +134,7 @@ class CategoryList extends ConsumerWidget {
                         Navigator.pushNamed(
                           context,
                           AppRoutes.addCategory,
-                          arguments: Tuple2(vm.entryType, e),
+                          arguments: Tuple2(vm.entryType!, e),
                         );
                       },
                       child: Padding(
@@ -157,7 +158,7 @@ class CategoryList extends ConsumerWidget {
                                     child: Text(
                                       e.name,
                                       style:
-                                          Theme.of(context).textTheme.subtitle2,
+                                          Theme.of(context).textTheme.titleSmall,
                                     ),
                                   ),
                                   /*Icon(

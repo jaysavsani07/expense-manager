@@ -14,42 +14,43 @@ class LanguageDialog extends AlertDialog {
         SizedBox(height: 24),
         Text(
           AppLocalization.of(context).getTranslatedVal("language"),
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         SizedBox(height: 8),
         Divider(color: Theme.of(context).colorScheme.crossLightColor),
         Consumer(
           builder: (context, ref, child) {
-            Locale selected = ref.watch(appStateNotifier.notifier).currentLocale;
+            Locale selected =
+                ref.watch(appStateNotifier.notifier).currentLocale;
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: Language.languageList()
                   .map((e) => RadioListTile(
-                groupValue: selected,
-                value: e.locale,
-                onChanged: (val) {
-                  ref
-                      .watch(appStateNotifier.notifier)
-                      .changeLocale(switchToLocale: e.locale);
-                  Navigator.of(context).pop();
-                },
-                title: Row(
-                  children: [
-                    Text(
-                      e.flag,
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      e.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .copyWith(fontSize: 14),
-                    ),
-                  ],
-                ),
-              ))
+                        groupValue: selected,
+                        value: e.locale,
+                        onChanged: (val) {
+                          ref
+                              .watch(appStateNotifier.notifier)
+                              .changeLocale(switchToLocale: e.locale);
+                          Navigator.of(context).pop();
+                        },
+                        title: Row(
+                          children: [
+                            Text(
+                              e.flag,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            SizedBox(width: 4),
+                            Text(
+                              e.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ))
                   .toList(),
             );
           },

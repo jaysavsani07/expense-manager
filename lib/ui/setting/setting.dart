@@ -7,7 +7,6 @@ import 'package:expense_manager/ui/dialog/language_dialog.dart';
 import 'package:expense_manager/ui/dialog/monthly_cycle_date_dialog.dart';
 import 'package:expense_manager/ui/dialog/theme_dialog.dart';
 import 'package:expense_manager/ui/setting/setting_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
@@ -26,15 +25,16 @@ class Setting extends ConsumerWidget {
             },
             child: Icon(Icons.arrow_back_ios_rounded)),
         title: DottedBorder(
-          color: Theme.of(context).appBarTheme.titleTextStyle.color,
+          color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
           dashPattern: [5, 5],
           radius: Radius.circular(12),
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child:
-                Text(AppLocalization.of(context).getTranslatedVal("settings"),
-                  style: Theme.of(context).appBarTheme.titleTextStyle,),
+            child: Text(
+              AppLocalization.of(context).getTranslatedVal("settings"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
           ),
         ),
       ),
@@ -53,11 +53,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: ThemeDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -68,7 +68,7 @@ class Setting extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("appearance"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -83,7 +83,7 @@ class Setting extends ConsumerWidget {
                                 .getTranslatedVal("light_theme"))),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -101,11 +101,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: MonthlyCycleDateDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -117,7 +117,7 @@ class Setting extends ConsumerWidget {
                         .getTranslatedVal("month_cycle_date"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -125,7 +125,7 @@ class Setting extends ConsumerWidget {
                     monthStartDate.date,
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -143,11 +143,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: LanguageDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -158,7 +158,7 @@ class Setting extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("language"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -169,7 +169,7 @@ class Setting extends ConsumerWidget {
                         .name,
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -187,11 +187,11 @@ class Setting extends ConsumerWidget {
                       CommonAlertDialog(child: CurrencyDialog()),
                   transitionBuilder:
                       (context, animation, secondaryAnimation, child) =>
-                      Transform.scale(
-                        scale: animation.value,
-                        alignment: Alignment.center,
-                        child: child,
-                      ));
+                          Transform.scale(
+                            scale: animation.value,
+                            alignment: Alignment.center,
+                            child: child,
+                          ));
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -202,7 +202,7 @@ class Setting extends ConsumerWidget {
                     AppLocalization.of(context).getTranslatedVal("currency"),
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .titleSmall!
                         .copyWith(fontSize: 16),
                   ),
                   SizedBox(height: 4),
@@ -210,7 +210,7 @@ class Setting extends ConsumerWidget {
                     "${NumberFormat.simpleCurrency(locale: appState.currency.item1).currencySymbol} ${appState.currency.item2}",
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .titleMedium!
                         .copyWith(fontSize: 12),
                   ),
                 ],
@@ -226,7 +226,7 @@ class Setting extends ConsumerWidget {
                       .getTranslatedVal("expense_manager_by_nividata"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium!
                       .copyWith(fontSize: 14),
                 ),
               ),
@@ -235,7 +235,7 @@ class Setting extends ConsumerWidget {
                   "${AppLocalization.of(context).getTranslatedVal("app_version")}${appState.appVersion}",
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium!
                       .copyWith(fontSize: 14),
                 ),
               ),

@@ -6,7 +6,6 @@ class AppTheme {
       brightness: Brightness.light,
       scaffoldBackgroundColor: Colors.white,
       backgroundColor: Colors.white,
-      cursorColor: Colors.black,
       primaryColor: Color(0xff2196F3),
       dividerColor: Color(0xffeeeeee),
       appBarTheme: AppBarTheme(
@@ -29,6 +28,9 @@ class AppTheme {
       cardTheme: CardTheme(
         color: Colors.white,
       ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.black,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         fillColor: Colors.black,
         labelStyle: TextStyle(
@@ -41,7 +43,7 @@ class AppTheme {
             borderSide: BorderSide(color: Color(0xff2196F3))),
       ),
       textTheme: TextTheme(
-        caption: TextStyle(
+        bodySmall: TextStyle(
           fontSize: 12,
           color: Color(0xff212121),
         ),
@@ -53,7 +55,6 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.dark,
       scaffoldBackgroundColor: Colors.black,
-      cursorColor: Colors.white,
       backgroundColor: Colors.black,
       primaryColor: Color(0xff212121),
       dividerColor: Color(0xff121212),
@@ -78,6 +79,9 @@ class AppTheme {
         color: Color(0xff212121),
         shadowColor: Color(0x000000DE),
       ),
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: Colors.white,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         fillColor: Colors.black,
         labelStyle: TextStyle(
@@ -92,7 +96,7 @@ class AppTheme {
             borderSide: BorderSide(color: Color(0xff2196F3))),
       ),
       textTheme: TextTheme(
-        caption: TextStyle(
+        bodySmall: TextStyle(
           fontSize: 12,
           color: Color(0xffc9c9c9),
           fontWeight: FontWeight.normal,

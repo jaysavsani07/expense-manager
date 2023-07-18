@@ -1,10 +1,11 @@
+import 'package:drift/drift.dart';
+import 'package:drift_sqflite/drift_sqflite.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moor_flutter/moor_flutter.dart';
 import 'package:tuple/tuple.dart';
 
 part 'app_database.g.dart';
@@ -29,7 +30,7 @@ class CategoryEntity extends Table {
 
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
-  TextColumn get icon => text()();
+  TextColumn get icon => text().nullable()();
 
   TextColumn get iconColor => text()();
 }
@@ -54,14 +55,14 @@ class IncomeCategoryEntity extends Table {
 
   TextColumn get name => text().withLength(min: 3, max: 20)();
 
-  TextColumn get icon => text()();
+  TextColumn get icon => text().nullable()();
 
   TextColumn get iconColor => text()();
 }
 
 final appDatabaseProvider = Provider((ref) => AppDatabase());
 
-@UseMoor(tables: [
+@DriftDatabase(tables: [
   EntryEntity,
   CategoryEntity,
   IncomeCategoryEntity,
@@ -69,9 +70,9 @@ final appDatabaseProvider = Provider((ref) => AppDatabase());
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
-      : super((FlutterQueryExecutor.inDatabaseFolder(
+      : super((SqfliteQueryExecutor.inDatabaseFolder(
           path: 'db.sqlite',
-          logStatements: true,
+          logStatements: false,
         )));
 
   @override
@@ -136,14 +137,14 @@ class AppDatabase extends _$AppDatabase {
         ]).map((QueryRow row) => row.read<int>("c1")).watch();
   }
 
-  Stream<List<int>> getExpenseYearList() {
+  Stream<List<int?>> getExpenseYearList() {
     return (selectOnly(entryEntity, distinct: true)
           ..addColumns([entryEntity.modifiedDate.year]))
         .map((row) => row.read(entryEntity.modifiedDate.year))
         .watch();
   }
 
-  Stream<List<int>> getIncomeYearList() {
+  Stream<List<int?>> getIncomeYearList() {
     return (selectOnly(incomeEntryEntity, distinct: true)
           ..addColumns([incomeEntryEntity.modifiedDate.year]))
         .map((row) => row.read(incomeEntryEntity.modifiedDate.year))
@@ -171,7 +172,6 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Stream<bool> updateIncomeEntry(IncomeEntryEntityCompanion entity) {
-    Fimber.e(entity.id.value.toString());
     return update(incomeEntryEntity).replace(entity).asStream();
   }
 
@@ -229,7 +229,7 @@ class AppDatabase extends _$AppDatabase {
     return (select(entryEntity)
           ..where((row) {
             return row.modifiedDate.year.equalsExp(currentDate.year) &
-                row.modifiedDate.month.equalsExp(currentDate.month)&
+                row.modifiedDate.month.equalsExp(currentDate.month) &
                 row.modifiedDate.day.equalsExp(currentDate.day);
           }))
         .watch()
@@ -279,11 +279,10 @@ class AppDatabase extends _$AppDatabase {
     ).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry:
-                EntryEntityData.fromData(e.data, this, prefix: "entry_entity."),
-            category: CategoryEntityData.fromData(e.data, this,
-                prefix: "category_entity."),
-            entryType: e.read<int>("entry_type"));
+          entry: entryEntity.map(e.data, tablePrefix: "entry_entity."),
+          category: categoryEntity.map(e.data, tablePrefix: "category_entity."),
+          entryType: e.read<int>("entry_type"),
+        );
       }).toList();
     });
   }
@@ -328,7 +327,27 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total: row.read(entryEntity.amount.sum()),
+              total: row.read(entryEntity.amount.total())!,
+              category: row.readTableOrNull(categoryEntity),
+            );
+          }).toList();
+        });
+  }
+
+  Stream<List<EntryWithCategoryExpenseData>> getExpenseEntryWithCategoryByYear(
+      int year) {
+    return (select(entryEntity)
+          ..where((tbl) => tbl.modifiedDate.year.equals(year))
+          ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
+        .join([
+          leftOuterJoin(categoryEntity,
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategoryExpenseData(
+                entry: row.readTableOrNull(entryEntity),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -344,11 +363,30 @@ class AppDatabase extends _$AppDatabase {
         ]).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry: EntryEntityData.fromData(e.data, this),
-            category: CategoryEntityData.fromData(e.data, this),
+            entry: entryEntity.map(e.data),
+            category: categoryEntity.map(e.data),
             entryType: e.read<int>("entry_type"));
       }).toList();
     });
+  }
+
+  Stream<List<EntryWithCategoryIncomeData>> getIncomeEntryWithCategoryByYear(
+      int year) {
+    return (select(incomeEntryEntity)
+          ..where((tbl) => tbl.modifiedDate.year.equals(year))
+          ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
+        .join([
+          leftOuterJoin(incomeCategoryEntity,
+              incomeCategoryEntity.id.equalsExp(incomeEntryEntity.categoryId))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategoryIncomeData(
+                entry: row.readTableOrNull(incomeEntryEntity),
+                category: row.readTableOrNull(incomeCategoryEntity));
+          }).toList();
+        });
   }
 
   Stream<List<CategoryWithSumData>> getAllCategoryWithSumByYear(int year) {
@@ -367,7 +405,8 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total: row.read(entryEntity.amount.sum()),
+                total: row
+                    .read(coalesce([entryEntity.amount.sum(), Constant(0)]))!,
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -394,8 +433,10 @@ class AppDatabase extends _$AppDatabase {
         "SELECT *, 1 AS entry_type FROM income_category_entity UNION SELECT *, 0 AS entry_type FROM category_entity ORDER BY name ASC;",
         readsFrom: {incomeCategoryEntity, categoryEntity}).watch().map((event) {
       return event.map((e) {
-        return Tuple2(CategoryEntityData.fromData(e.data, this),
-            e.read<int>("entry_type"));
+        return Tuple2(
+          categoryEntity.map(e.data),
+          e.read<int>("entry_type"),
+        );
       }).toList();
     });
   }
@@ -497,17 +538,17 @@ class AppDatabase extends _$AppDatabase {
           "Old ${categoryList.map((e) => "${e.name[0]} ${e.position}").toList()}");
       if (oldIndex > newIndex) {
         for (int i = 0; i < categoryList.length; i++) {
-          if (categoryList[i].position >= newIndex) {
+          if (categoryList[i].position! >= newIndex) {
             categoryList[i] = categoryList[i]
-                .copyWith(position: categoryList[i].position + 1);
+                .copyWith(position: categoryList[i].position! + 1);
           }
         }
       } else {
         for (int i = 0; i < categoryList.length; i++) {
-          if (categoryList[i].position > oldIndex &&
-              categoryList[i].position <= newIndex) {
+          if (categoryList[i].position! > oldIndex &&
+              categoryList[i].position! <= newIndex) {
             categoryList[i] = categoryList[i]
-                .copyWith(position: categoryList[i].position - 1);
+                .copyWith(position: categoryList[i].position! - 1);
           }
         }
       }

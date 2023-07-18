@@ -1,4 +1,4 @@
-import 'package:collection/src/iterable_extensions.dart';
+import 'package:collection/collection.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/entry_datasource_imp.dart';
 import 'package:expense_manager/data/models/category.dart';
@@ -9,9 +9,7 @@ import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository.dart';
 import 'package:expense_manager/extension/list_extension.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moor/moor.dart';
 import 'package:tuple/tuple.dart';
 
 final repositoryProvider = Provider((ref) =>
@@ -20,20 +18,17 @@ final repositoryProvider = Provider((ref) =>
 class EntryRepositoryImp extends EntryRepository {
   EntryDataSourceImp entryDataSourceImp;
 
-  EntryRepositoryImp({@required this.entryDataSourceImp});
+  EntryRepositoryImp({required this.entryDataSourceImp});
 
   @override
   Stream<List<String>> getMonthListByYear(EntryType entryType, int year) {
     switch (entryType) {
       case EntryType.expense:
         return entryDataSourceImp.getExpenseMonthListByYear(year);
-        break;
       case EntryType.income:
         return entryDataSourceImp.getIncomeMonthListByYear(year);
-        break;
       default:
         return entryDataSourceImp.getAllMonthListByYear(year);
-        break;
     }
   }
 
@@ -41,14 +36,15 @@ class EntryRepositoryImp extends EntryRepository {
   Stream<List<int>> getYearList(EntryType entryType) {
     switch (entryType) {
       case EntryType.expense:
-        return entryDataSourceImp.getExpenseYearList();
-        break;
+        return entryDataSourceImp
+            .getExpenseYearList()
+            .map((event) => event.whereNotNull().toList());
       case EntryType.income:
-        return entryDataSourceImp.getIncomeYearList();
-        break;
+        return entryDataSourceImp
+            .getIncomeYearList()
+            .map((event) => event.whereNotNull().toList());
       default:
         return entryDataSourceImp.getAllYearList();
-        break;
     }
   }
 
@@ -107,15 +103,12 @@ class EntryRepositoryImp extends EntryRepository {
       case EntryType.expense:
         return entryDataSourceImp
             .getExpenseEntryWithCategoryDateWiseByMonthAndYear(month, year);
-        break;
       case EntryType.income:
         return entryDataSourceImp
             .getIncomeEntryWithCategoryDateWiseByMonthAndYear(month, year);
-        break;
       default:
         return entryDataSourceImp.getAllEntryWithCategoryDateWiseByMonthAndYear(
             month, year);
-        break;
     }
   }
 
@@ -156,13 +149,10 @@ class EntryRepositoryImp extends EntryRepository {
     switch (entryType) {
       case EntryType.expense:
         return entryDataSourceImp.getAllExpenseCategory();
-        break;
       case EntryType.income:
         return entryDataSourceImp.getAllIncomeCategory();
-        break;
       default:
         return entryDataSourceImp.getAllCategory();
-        break;
     }
   }
 
@@ -177,14 +167,18 @@ class EntryRepositoryImp extends EntryRepository {
 
   @override
   Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>>
-      getAllEntryWithCategoryByYear(int year,int currentMonth) {
-    return entryDataSourceImp.getAllEntryWithCategoryByYear(year).map((event) =>
-        event.groupListsByMonth(currentMonth).entries.map((e) {
+      getAllEntryWithCategoryByYear(int year, int currentMonth) {
+    return entryDataSourceImp.getAllEntryWithCategoryByYear(year).map(
+      (event) {
+        return event.groupListsByMonth(currentMonth).entries.map((e) {
           var list = e.value.groupListsBy((element) => element.entryType);
           return Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>(
-              e.key,
-              list[EntryType.expense] ?? [],
-              list[EntryType.income] ?? []);
-        }).toList());
+            e.key,
+            list[EntryType.expense] ?? [],
+            list[EntryType.income] ?? [],
+          );
+        }).toList();
+      },
+    );
   }
 }

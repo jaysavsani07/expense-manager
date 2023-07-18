@@ -4,7 +4,6 @@ import 'package:expense_manager/data/models/history.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
 import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/history/history_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -38,7 +37,7 @@ class HistoryList extends ConsumerWidget {
                                       : history.title),
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle2
+                                      .titleSmall!
                                       .copyWith(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
@@ -53,7 +52,7 @@ class HistoryList extends ConsumerWidget {
                                         key: Key("${e.entryType}${e.entry.id}"),
                                         direction: DismissDirection.endToStart,
                                         background: Container(
-                                          color: Theme.of(context).errorColor,
+                                          color: Theme.of(context).colorScheme.error,
                                           child: Align(
                                               alignment: Alignment.centerRight,
                                               child: Padding(
@@ -66,14 +65,15 @@ class HistoryList extends ConsumerWidget {
                                           ref
                                               .read(repositoryProvider)
                                               .deleteEntry(
-                                                  e.entryType, e.entry.id)
+                                                  e.entryType, e.entry.id!)
                                               .listen((event) {});
                                         },
                                         child: InkWell(
                                           onTap: () {
                                             Navigator.pushNamed(
                                                 context, AppRoutes.addEntry,
-                                                arguments: Tuple3(e.entryType,e, null));
+                                                arguments: Tuple3(
+                                                    e.entryType, e, null));
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -99,7 +99,7 @@ class HistoryList extends ConsumerWidget {
                                                         e.category.name,
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .subtitle2,
+                                                            .titleSmall,
                                                       ),
                                                       Row(
                                                         children: [
@@ -110,7 +110,7 @@ class HistoryList extends ConsumerWidget {
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
-                                                                .subtitle1
+                                                                .titleMedium!
                                                                 .copyWith(
                                                                     fontSize:
                                                                         12),
@@ -123,7 +123,7 @@ class HistoryList extends ConsumerWidget {
                                                             style: Theme.of(
                                                                     context)
                                                                 .textTheme
-                                                                .subtitle1
+                                                                .titleMedium!
                                                                 .copyWith(
                                                                     fontSize:
                                                                         12),
@@ -137,7 +137,7 @@ class HistoryList extends ConsumerWidget {
                                                   "${NumberFormat.simpleCurrency(locale: currency, decimalDigits: 2).format(e.entry.amount)}",
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2
+                                                      .titleSmall!
                                                       .copyWith(fontSize: 16),
                                                 ),
                                               ],
@@ -373,7 +373,7 @@ class HistoryEmpty extends StatelessWidget {
                       .getTranslatedVal("no_expense_yet"),
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2
+                      .titleSmall!
                       .copyWith(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
@@ -383,7 +383,7 @@ class HistoryEmpty extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1
+                      .titleMedium!
                       .copyWith(fontSize: 14),
                 ),
               ],

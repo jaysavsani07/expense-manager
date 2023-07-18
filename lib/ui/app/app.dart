@@ -1,6 +1,9 @@
+import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/theme.dart';
-import 'package:expense_manager/core/app_localization.dart';
+import 'package:expense_manager/data/models/category.dart';
+import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/ui/addCategory/addCategory.dart';
 import 'package:expense_manager/ui/addEntry/addEntry.dart';
 import 'package:expense_manager/ui/category_details/category_details.dart';
@@ -12,10 +15,12 @@ import 'package:expense_manager/ui/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tuple/tuple.dart';
+
 import 'app_state.dart';
 
 class MyApp extends ConsumerWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,8 +41,8 @@ class MyApp extends ConsumerWidget {
       ],
       localeResolutionCallback: (deviceLocale, supportedLocales) {
         for (var locale in supportedLocales) {
-          if (locale.languageCode == deviceLocale.languageCode &&
-              locale.countryCode == deviceLocale.countryCode) {
+          if (locale.languageCode == deviceLocale?.languageCode &&
+              locale.countryCode == deviceLocale?.countryCode) {
             return deviceLocale;
           }
         }
@@ -54,11 +59,13 @@ class MyApp extends ConsumerWidget {
         AppRoutes.onBoarding: (context) => CustomScrollOnboarding(),
         AppRoutes.home: (context) => HomeScreen(),
         AppRoutes.addEntry: (context) => AddEntry(
-            entryWithCategory: ModalRoute.of(context).settings.arguments),
-        AppRoutes.categoryList: (context) =>
-            CategoryList(entryType: ModalRoute.of(context).settings.arguments),
-        AppRoutes.addCategory: (context) =>
-            AddCategory(tuple2: ModalRoute.of(context).settings.arguments),
+            entryWithCategory: ModalRoute.of(context)?.settings.arguments
+                as Tuple3<EntryType, EntryWithCategory?, Category?>),
+        AppRoutes.categoryList: (context) => CategoryList(
+            entryType: ModalRoute.of(context)?.settings.arguments as EntryType),
+        AppRoutes.addCategory: (context) => AddCategory(
+            tuple2: ModalRoute.of(context)?.settings.arguments
+                as Tuple2<EntryType, Category?>),
         AppRoutes.categoryDetails: (context) => CategoryDetails(),
         AppRoutes.setting: (context) => Setting(),
       },

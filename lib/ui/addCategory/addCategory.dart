@@ -4,14 +4,13 @@ import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/ui/addCategory/addCategory_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
 class AddCategory extends ConsumerWidget {
-  final Tuple2<EntryType, Category> tuple2;
+  final Tuple2<EntryType, Category?> tuple2;
 
-  AddCategory({@required this.tuple2}) : super();
+  AddCategory({required this.tuple2}) : super();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,15 +24,16 @@ class AddCategory extends ConsumerWidget {
           child: Icon(Icons.arrow_back_ios_rounded),
         ),
         title: DottedBorder(
-          color: Theme.of(context).appBarTheme.titleTextStyle.color,
+          color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
           dashPattern: [5, 5],
           radius: Radius.circular(12),
           borderType: BorderType.RRect,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Text(
-                AppLocalization.of(context).getTranslatedVal("new_category"),
-              style: Theme.of(context).appBarTheme.titleTextStyle,),
+              AppLocalization.of(context).getTranslatedVal("new_category"),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
           ),
         ),
         actions: [
@@ -46,7 +46,7 @@ class AddCategory extends ConsumerWidget {
                     content: Text(
                       AppLocalization.of(context)
                           .getTranslatedVal("pls_enter_category_name"),
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     backgroundColor: Colors.redAccent,
                   ),
@@ -58,7 +58,7 @@ class AddCategory extends ConsumerWidget {
                     content: Text(
                       AppLocalization.of(context).getTranslatedVal(
                           "category_name_allowed_from_3_to_20_characters"),
-                      style: Theme.of(context).textTheme.bodyText2,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     backgroundColor: Colors.redAccent,
                   ),
@@ -73,7 +73,7 @@ class AddCategory extends ConsumerWidget {
               padding: const EdgeInsets.all(20),
               child: Text(
                 AppLocalization.of(context).getTranslatedVal("save"),
-                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: Color(0xff2196F3)),
               ),
             ),
@@ -143,7 +143,7 @@ class AddCategory extends ConsumerWidget {
                 AppLocalization.of(context).getTranslatedVal("icon"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .titleSmall!
                     .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
@@ -176,7 +176,7 @@ class AddCategory extends ConsumerWidget {
                 AppLocalization.of(context).getTranslatedVal("color"),
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2
+                    .titleSmall!
                     .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),

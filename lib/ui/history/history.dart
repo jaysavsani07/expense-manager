@@ -4,7 +4,6 @@ import 'package:expense_manager/ui/dialog/common_alert_dialog.dart';
 import 'package:expense_manager/ui/dialog/history_filter_dialog.dart';
 import 'package:expense_manager/ui/history/history_list.dart';
 import 'package:expense_manager/ui/history/month_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class History extends StatelessWidget {
@@ -15,15 +14,16 @@ class History extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: DottedBorder(
-            color: Theme.of(context).appBarTheme.titleTextStyle.color,
+            color: Theme.of(context).appBarTheme.titleTextStyle!.color!,
             dashPattern: [5, 5],
             radius: Radius.circular(12),
             borderType: BorderType.RRect,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child:
-                  Text(AppLocalization.of(context).getTranslatedVal("history"),
-                    style: Theme.of(context).appBarTheme.titleTextStyle,),
+              child: Text(
+                AppLocalization.of(context).getTranslatedVal("history"),
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+              ),
             ),
           ),
         ),

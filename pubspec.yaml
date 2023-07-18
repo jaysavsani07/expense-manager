@@ -15,56 +15,57 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.3+18
+version: 1.1.0+19
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=3.0.1 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
 
+  cupertino_icons: ^1.0.5
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  intl: ^0.17.0
-  moor_flutter: ^4.0.0
-  flutter_riverpod: ^1.0.1
-  fl_chart: ^0.40.2
-  dotted_border: ^2.0.0+1
-  percent_indicator: ^3.4.0
-  shared_preferences: ^2.0.9
-  rxdart: ^0.27.3
-  tuple: ^2.0.0
-  collection: ^1.15.0
+  flutter_riverpod: ^2.1.3
+
+  drift_sqflite: ^2.0.0
+  shared_preferences: ^2.0.15
+  flutter_localization: ^0.1.11
+
+  intl: ^0.18.0
+  rxdart: ^0.27.7
+  tuple: ^2.0.1
+  collection: ^1.16.0
+  freezed_annotation: ^2.2.0
+  numeral: ^2.0.1
   package_info: ^2.0.2
-  firebase_core: ^1.10.0
-  firebase_crashlytics: ^2.3.0
-  firebase_analytics: ^8.3.4
-  fimber: ^0.6.4
-  smooth_page_indicator: ^1.0.0+2
-  numeral: ^1.2.5
-  syncfusion_flutter_gauges: ^19.3.59
+  fimber: ^0.6.6
+  path_provider: ^2.0.9
+  path: ^1.8.0
 
-  flutter_cupertino_date_picker:
-    git: https://github.com/yasseralsamman/flutter-cupertino-date-picker.git
+  fl_chart: ^0.55.2
+  dotted_border: ^2.0.0+3
+  percent_indicator: ^4.2.2
+  smooth_page_indicator: ^1.0.0+2
+  syncfusion_flutter_gauges: ^20.3.58
+
+  firebase_core: ^2.4.1
+  firebase_crashlytics: ^3.0.11
+  firebase_analytics: ^10.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  moor_generator: ^4.0.0
-  build_runner:
-  flutter_launcher_icons: ^0.9.0
+  flutter_lints: ^2.0.1
+  drift_dev: ^2.8.3
+  freezed: ^2.2.0
+  build_runner: ^2.4.5
+  flutter_launcher_icons: ^0.11.0
 
 flutter_icons:
   android: "ic_launcher"
   ios: true
   image_path: "assets/images/expense_manage.png"
-
-#dependency_overrides:
-#  intl: ^0.16.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -89,7 +90,7 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom fonts to your application, add a fonts section here,zz
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For

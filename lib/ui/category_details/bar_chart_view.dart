@@ -4,13 +4,11 @@ import 'package:expense_manager/ui/app/app_state.dart';
 import 'package:expense_manager/ui/category_details/category_details_view_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:numeral/ext.dart';
 
 class BarChartView extends ConsumerWidget {
-  const BarChartView({Key key}) : super(key: key);
+  const BarChartView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,52 +35,104 @@ class BarChartView extends ConsumerWidget {
                             maxY: value.item1,
                             barTouchData: BarTouchData(
                                 touchTooltipData: BarTouchTooltipData(
-                              getTooltipItem: (group, groupIndex, rod, rodIndex) =>
-                                  null,
+                              getTooltipItem:
+                                  (group, groupIndex, rod, rodIndex) => null,
                             )),
                             titlesData: FlTitlesData(
                               show: true,
-                              topTitles: SideTitles(showTitles: false),
-                              rightTitles: SideTitles(showTitles: false),
-                              bottomTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 8,
-                                margin: 8,
-                                getTextStyles: (context, value) => const TextStyle(
-                                  color: Color(0xff7589a2),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                                getTitles: (double value) =>
-                                    AppLocalization.of(context).getTranslatedVal(
-                                        AppConstants.monthList[value]),
+                              topTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
                               ),
-                              leftTitles: SideTitles(
-                                showTitles: true,
-                                margin: 8,
-                                reservedSize: 40,
-                                interval: null,
-                                checkToShowTitle: (minValue, maxValue, sideTitles,
-                                    appliedInterval, value) {
-                                  if (value == minValue)
-                                    return true;
-                                  else if (value == maxValue)
-                                    return true;
-                                  else
-                                    return false;
-                                },
-                                getTextStyles: (context, value) => const TextStyle(
-                                    color: Color(0xff7589a2),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12),
-                                getTitles: (data) {
-                                  return NumberFormat.compactCurrency(
-                                    decimalDigits: 0,
-                                              symbol:NumberFormat.simpleCurrency(locale:  ref
-                                                  .watch(appStateNotifier)
-                                                  .currency.item1).currencySymbol
-                                  ).format(data);
-                                },
+                              rightTitles: AxisTitles(
+                                sideTitles: SideTitles(showTitles: false),
+                              ),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 8,
+                                  getTitlesWidget: (value, meta) {
+                                    return SideTitleWidget(
+                                      child: Text(
+                                        AppLocalization.of(context)
+                                            .getTranslatedVal(
+                                                AppConstants.monthList[value]!),
+                                        style: const TextStyle(
+                                          color: Color(0xff7589a2),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      space: 8,
+                                      axisSide: meta.axisSide,
+                                    );
+                                  },
+                                  // margin: 8,
+                                  // getTextStyles: (context, value) =>
+                                  //     const TextStyle(
+                                  //   color: Color(0xff7589a2),
+                                  //   fontWeight: FontWeight.bold,
+                                  //   fontSize: 12,
+                                  // ),
+                                  // getTitles: (double value) =>
+                                  //     AppLocalization.of(context)
+                                  //         .getTranslatedVal(
+                                  //             AppConstants.monthList[value]),
+                                ),
+                              ),
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  reservedSize: 40,
+                                  interval: null,
+                                  getTitlesWidget: (value, meta) {
+                                    return SideTitleWidget(
+                                      child: Text(
+                                        NumberFormat.compactCurrency(
+                                                decimalDigits: 0,
+                                                symbol: NumberFormat.simpleCurrency(
+                                                        locale: ref
+                                                            .watch(
+                                                                appStateNotifier)
+                                                            .currency
+                                                            .item1)
+                                                    .currencySymbol)
+                                            .format(value),
+                                        style: const TextStyle(
+                                            color: Color(0xff7589a2),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12),
+                                      ),
+                                      space: 8,
+                                      axisSide: meta.axisSide,
+                                    );
+                                  },
+                                  // margin: 8,
+                                  // checkToShowTitle: (minValue, maxValue,
+                                  //     sideTitles, appliedInterval, value) {
+                                  //   if (value == minValue)
+                                  //     return true;
+                                  //   else if (value == maxValue)
+                                  //     return true;
+                                  //   else
+                                  //     return false;
+                                  // },
+                                  // getTextStyles: (context, value) =>
+                                  //     const TextStyle(
+                                  //         color: Color(0xff7589a2),
+                                  //         fontWeight: FontWeight.bold,
+                                  //         fontSize: 12),
+                                  // getTitles: (data) {
+                                  //   return NumberFormat.compactCurrency(
+                                  //           decimalDigits: 0,
+                                  //           symbol: NumberFormat.simpleCurrency(
+                                  //                   locale: ref
+                                  //                       .watch(appStateNotifier)
+                                  //                       .currency
+                                  //                       .item1)
+                                  //               .currencySymbol)
+                                  //       .format(data);
+                                  // },
+                                ),
                               ),
                             ),
                             barGroups: value.item2,
@@ -100,27 +150,23 @@ class BarChartView extends ConsumerWidget {
                   Icon(
                     Icons.circle,
                     size: 10,
-                    color:  Colors.green,
+                    color: Colors.green,
                   ),
                   SizedBox(width: 4),
                   Text(
                     AppLocalization.of(context).getTranslatedVal("income"),
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   SizedBox(width: 8),
                   Icon(
                     Icons.circle,
                     size: 10,
-                    color:  Colors.red,
+                    color: Colors.red,
                   ),
                   SizedBox(width: 4),
                   Text(
                     AppLocalization.of(context).getTranslatedVal("expense"),
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
