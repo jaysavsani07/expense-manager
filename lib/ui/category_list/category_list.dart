@@ -3,6 +3,7 @@ import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/core/routes.dart';
 import 'package:expense_manager/core/app_localization.dart';
 import 'package:expense_manager/ui/category_list/category_list_state.dart';
+import 'package:fimber/fimber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
@@ -38,10 +39,11 @@ class CategoryList extends ConsumerWidget {
         actions: [
           InkWell(
             onTap: () {
+              Fimber.e(Tuple2(vm.entryType!, null).toString());
               Navigator.pushNamed(
                 context,
                 AppRoutes.addCategory,
-                arguments: Tuple2(vm.entryType, null),
+                arguments: Tuple2(vm.entryType!, null),
               );
             },
             borderRadius: BorderRadius.circular(20),

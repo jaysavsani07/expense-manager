@@ -26,7 +26,7 @@ import 'package:tuple/tuple.dart';
 // }
 
 final addCategoryModelProvider = ChangeNotifierProvider.autoDispose
-    .family<AddCategoryViewModel, Tuple2<EntryType, cat.Category>>(
+    .family<AddCategoryViewModel, Tuple2<EntryType, cat.Category?>>(
         (ref, tuple2) => AddCategoryViewModel(
               entryDataSourceImp: ref.read(repositoryProvider),
               entryType: tuple2.item1,

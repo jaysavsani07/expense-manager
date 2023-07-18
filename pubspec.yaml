@@ -40,6 +40,8 @@ dependencies:
   numeral: ^2.0.1
   package_info: ^2.0.2
   fimber: ^0.6.6
+  path_provider: ^2.0.9
+  path: ^1.8.0
 
   fl_chart: ^0.55.2
   dotted_border: ^2.0.0+3

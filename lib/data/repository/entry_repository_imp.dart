@@ -168,13 +168,17 @@ class EntryRepositoryImp extends EntryRepository {
   @override
   Stream<List<Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>>>
       getAllEntryWithCategoryByYear(int year, int currentMonth) {
-    return entryDataSourceImp.getAllEntryWithCategoryByYear(year).map((event) =>
-        event.groupListsByMonth(currentMonth).entries.map((e) {
+    return entryDataSourceImp.getAllEntryWithCategoryByYear(year).map(
+      (event) {
+        return event.groupListsByMonth(currentMonth).entries.map((e) {
           var list = e.value.groupListsBy((element) => element.entryType);
           return Tuple3<int, List<EntryWithCategory>, List<EntryWithCategory>>(
-              e.key,
-              list[EntryType.expense] ?? [],
-              list[EntryType.income] ?? []);
-        }).toList());
+            e.key,
+            list[EntryType.expense] ?? [],
+            list[EntryType.income] ?? [],
+          );
+        }).toList();
+      },
+    );
   }
 }

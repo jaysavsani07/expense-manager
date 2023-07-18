@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
 class AddCategory extends ConsumerWidget {
-  final Tuple2<EntryType, Category> tuple2;
+  final Tuple2<EntryType, Category?> tuple2;
 
   AddCategory({required this.tuple2}) : super();
 

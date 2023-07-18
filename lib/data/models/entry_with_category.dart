@@ -17,25 +17,28 @@ class EntryWithCategory {
   factory EntryWithCategory.fromExpenseEntryWithCategoryEntity(
       EntryWithCategoryExpenseData entityData) {
     return EntryWithCategory(
-        entry: Entry.fromEntryEntity(entityData.entry!),
-        category: Category.fromExpenseCategoryEntity(entityData.category),
-        entryType: EntryType.expense);
+      entry: Entry.fromEntryEntity(entityData.entry!),
+      category: Category.fromExpenseCategoryEntity(entityData.category),
+      entryType: EntryType.expense,
+    );
   }
 
   factory EntryWithCategory.fromIncomeEntryWithCategoryEntity(
       EntryWithCategoryIncomeData entityData) {
     return EntryWithCategory(
-        entry: Entry.fromIncomeEntryEntity(entityData.entry!),
-        category: Category.fromIncomeCategoryEntity(entityData.category),
-        entryType: EntryType.income);
+      entry: Entry.fromIncomeEntryEntity(entityData.entry!),
+      category: Category.fromIncomeCategoryEntity(entityData.category),
+      entryType: EntryType.income,
+    );
   }
 
   factory EntryWithCategory.fromAllEntryWithCategoryEntity(
       EntryWithCategoryAllData entityData, int entryType) {
     return EntryWithCategory(
-        entry: Entry.fromEntryEntity(entityData.entry),
-        category: Category.fromExpenseCategoryEntity(entityData.category),
-        entryType: EntryType.values[entryType]);
+      entry: Entry.fromEntryEntity(entityData.entry),
+      category: Category.fromExpenseCategoryEntity(entityData.category),
+      entryType: EntryType.values[entryType],
+    );
   }
 
   @override

@@ -1,11 +1,11 @@
+import 'package:drift/drift.dart';
+import 'package:drift_sqflite/drift_sqflite.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:fimber/fimber.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:drift_sqflite/drift_sqflite.dart';
-import 'package:drift/drift.dart';
 import 'package:tuple/tuple.dart';
 
 part 'app_database.g.dart';
@@ -72,7 +72,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super((SqfliteQueryExecutor.inDatabaseFolder(
           path: 'db.sqlite',
-          logStatements: true,
+          logStatements: false,
         )));
 
   @override
@@ -172,7 +172,6 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Stream<bool> updateIncomeEntry(IncomeEntryEntityCompanion entity) {
-    Fimber.e(entity.id.value.toString());
     return update(incomeEntryEntity).replace(entity).asStream();
   }
 
@@ -280,10 +279,10 @@ class AppDatabase extends _$AppDatabase {
     ).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry: EntryEntityData.fromData(e.data, prefix: "entry_entity."),
-            category:
-                CategoryEntityData.fromData(e.data, prefix: "category_entity."),
-            entryType: e.read<int>("entry_type"));
+          entry: entryEntity.map(e.data, tablePrefix: "entry_entity."),
+          category: categoryEntity.map(e.data, tablePrefix: "category_entity."),
+          entryType: e.read<int>("entry_type"),
+        );
       }).toList();
     });
   }
@@ -328,8 +327,27 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total:
-                    row.read(coalesce([entryEntity.amount.sum(), Constant(0)])),
+              total: row.read(entryEntity.amount.total())!,
+              category: row.readTableOrNull(categoryEntity),
+            );
+          }).toList();
+        });
+  }
+
+  Stream<List<EntryWithCategoryExpenseData>> getExpenseEntryWithCategoryByYear(
+      int year) {
+    return (select(entryEntity)
+          ..where((tbl) => tbl.modifiedDate.year.equals(year))
+          ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
+        .join([
+          leftOuterJoin(categoryEntity,
+              categoryEntity.id.equalsExp(entryEntity.categoryId))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategoryExpenseData(
+                entry: row.readTableOrNull(entryEntity),
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -345,11 +363,30 @@ class AppDatabase extends _$AppDatabase {
         ]).watch().map((event) {
       return event.map((e) {
         return EntryWithCategoryAllData(
-            entry: EntryEntityData.fromData(e.data),
-            category: CategoryEntityData.fromData(e.data),
+            entry: entryEntity.map(e.data),
+            category: categoryEntity.map(e.data),
             entryType: e.read<int>("entry_type"));
       }).toList();
     });
+  }
+
+  Stream<List<EntryWithCategoryIncomeData>> getIncomeEntryWithCategoryByYear(
+      int year) {
+    return (select(incomeEntryEntity)
+          ..where((tbl) => tbl.modifiedDate.year.equals(year))
+          ..orderBy([(u) => OrderingTerm.desc(u.modifiedDate)]))
+        .join([
+          leftOuterJoin(incomeCategoryEntity,
+              incomeCategoryEntity.id.equalsExp(incomeEntryEntity.categoryId))
+        ])
+        .watch()
+        .map((List<TypedResult> rows) {
+          return rows.map((TypedResult row) {
+            return EntryWithCategoryIncomeData(
+                entry: row.readTableOrNull(incomeEntryEntity),
+                category: row.readTableOrNull(incomeCategoryEntity));
+          }).toList();
+        });
   }
 
   Stream<List<CategoryWithSumData>> getAllCategoryWithSumByYear(int year) {
@@ -368,8 +405,8 @@ class AppDatabase extends _$AppDatabase {
         .map((List<TypedResult> rows) {
           return rows.map((TypedResult row) {
             return CategoryWithSumData(
-                total:
-                    row.read(coalesce([entryEntity.amount.sum(), Constant(0)])),
+                total: row
+                    .read(coalesce([entryEntity.amount.sum(), Constant(0)]))!,
                 category: row.readTableOrNull(categoryEntity));
           }).toList();
         });
@@ -397,7 +434,9 @@ class AppDatabase extends _$AppDatabase {
         readsFrom: {incomeCategoryEntity, categoryEntity}).watch().map((event) {
       return event.map((e) {
         return Tuple2(
-            CategoryEntityData.fromData(e.data), e.read<int>("entry_type"));
+          categoryEntity.map(e.data),
+          e.read<int>("entry_type"),
+        );
       }).toList();
     });
   }

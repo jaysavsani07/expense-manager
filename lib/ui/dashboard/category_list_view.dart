@@ -43,7 +43,7 @@ class CategoryItem extends ConsumerWidget {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, AppRoutes.addEntry,
-            arguments: Tuple3(category.entryType, null, category));
+            arguments: Tuple3(category.entryType!, null, category));
       },
       borderRadius: BorderRadius.circular(6),
       child: Card(

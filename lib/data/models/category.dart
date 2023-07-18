@@ -1,9 +1,9 @@
+import 'package:drift/drift.dart';
 import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/datasource/local/moor/app_database.dart';
 import 'package:expense_manager/extension/icon_data_extension.dart';
 import 'package:expense_manager/extension/string_extension.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:drift/drift.dart';
 
 @immutable
 class Category {
@@ -42,28 +42,32 @@ class Category {
   factory Category.fromExpenseCategoryEntity(
       CategoryEntityData? categoryEntityData) {
     return Category(
-        id: categoryEntityData?.id,
-        position: categoryEntityData?.position,
-        name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
-        icon: categoryEntityData?.icon?.jsonToIconData() ??
-            AppConstants.otherCategory.icon,
-        iconColor: categoryEntityData?.iconColor != null
-            ? Color(int.parse(categoryEntityData!.iconColor))
-            : AppConstants.otherCategory.iconColor);
+      id: categoryEntityData?.id,
+      position: categoryEntityData?.position,
+      name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
+      icon: categoryEntityData?.icon?.jsonToIconData() ??
+          AppConstants.otherCategory.icon,
+      iconColor: categoryEntityData?.iconColor != null
+          ? Color(int.parse(categoryEntityData!.iconColor))
+          : AppConstants.otherCategory.iconColor,
+      entryType: EntryType.expense,
+    );
   }
 
   factory Category.fromIncomeCategoryEntity(
     IncomeCategoryEntityData? incomeCategoryEntityData,
   ) {
     return Category(
-        id: incomeCategoryEntityData?.id,
-        position: incomeCategoryEntityData?.position,
-        name: incomeCategoryEntityData?.name ?? AppConstants.otherCategory.name,
-        icon: incomeCategoryEntityData?.icon?.jsonToIconData() ??
-            AppConstants.otherCategory.icon,
-        iconColor: incomeCategoryEntityData?.iconColor != null
-            ? Color(int.parse(incomeCategoryEntityData!.iconColor))
-            : AppConstants.otherCategory.iconColor);
+      id: incomeCategoryEntityData?.id,
+      position: incomeCategoryEntityData?.position,
+      name: incomeCategoryEntityData?.name ?? AppConstants.otherCategory.name,
+      icon: incomeCategoryEntityData?.icon?.jsonToIconData() ??
+          AppConstants.otherCategory.icon,
+      iconColor: incomeCategoryEntityData?.iconColor != null
+          ? Color(int.parse(incomeCategoryEntityData!.iconColor))
+          : AppConstants.otherCategory.iconColor,
+      entryType: EntryType.income,
+    );
   }
 
   factory Category.fromAllCategoryEntity(
@@ -71,15 +75,16 @@ class Category {
     int entryType,
   ) {
     return Category(
-        id: categoryEntityData?.id,
-        position: categoryEntityData?.position,
-        name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
-        icon: categoryEntityData?.icon?.jsonToIconData() ??
-            AppConstants.otherCategory.icon,
-        iconColor: categoryEntityData?.iconColor != null
-            ? Color(int.parse(categoryEntityData!.iconColor))
-            : AppConstants.otherCategory.iconColor,
-        entryType: EntryType.values[entryType]);
+      id: categoryEntityData?.id,
+      position: categoryEntityData?.position,
+      name: categoryEntityData?.name ?? AppConstants.otherCategory.name,
+      icon: categoryEntityData?.icon?.jsonToIconData() ??
+          AppConstants.otherCategory.icon,
+      iconColor: categoryEntityData?.iconColor != null
+          ? Color(int.parse(categoryEntityData!.iconColor))
+          : AppConstants.otherCategory.iconColor,
+      entryType: EntryType.values[entryType],
+    );
   }
 
   CategoryEntityCompanion toCategoryEntityCompanion() {
