@@ -46,7 +46,7 @@ class _PieChartState extends State<PieChart>
 
   void initData() {
     assert(
-      widget.dataMap != null && widget.dataMap.isNotEmpty,
+      widget.dataMap.isNotEmpty,
       "dataMap passed to pie chart cant be null or empty",
     );
     initValues();
@@ -57,7 +57,7 @@ class _PieChartState extends State<PieChart>
     super.initState();
     initData();
     controller = AnimationController(
-      duration: widget.animationDuration ?? Duration(milliseconds: 800),
+      duration: widget.animationDuration,
       vsync: this,
     );
     final Animation curve = CurvedAnimation(

@@ -3,6 +3,7 @@ import 'package:expense_manager/data/models/category.dart' as cat;
 import 'package:expense_manager/data/models/entry.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
+import 'package:expense_manager/ui/history/history_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tuple/tuple.dart';
@@ -10,10 +11,12 @@ import 'package:tuple/tuple.dart';
 final addEntryModelProvider = ChangeNotifierProvider.autoDispose.family<
     AddEntryViewModel, Tuple3<EntryType, EntryWithCategory?, cat.Category?>>(
   (ref, entryWithCategory) => AddEntryViewModel(
-      entryDataSourceImp: ref.read(repositoryProvider),
-      entryType: entryWithCategory.item1,
-      entryWithCategory: entryWithCategory.item2,
-      category: entryWithCategory.item3),
+    entryDataSourceImp: ref.read(repositoryProvider),
+    entryType: entryWithCategory.item1,
+    entryWithCategory: entryWithCategory.item2,
+    category: entryWithCategory.item3,
+    ref: ref,
+  ),
 );
 
 class AddEntryViewModel with ChangeNotifier {
@@ -27,12 +30,14 @@ class AddEntryViewModel with ChangeNotifier {
   DateTime date = DateTime.now();
   String description = "";
   EntryType entryType;
+  final Ref ref;
 
   AddEntryViewModel({
     required this.entryDataSourceImp,
     this.entryWithCategory,
     required this.category,
     required this.entryType,
+    required this.ref,
   }) {
     this.entryWithCategory = entryWithCategory;
     if (entryWithCategory != null) {
@@ -64,7 +69,9 @@ class AddEntryViewModel with ChangeNotifier {
                   categoryId: category?.id,
                   modifiedDate: date,
                   description: description))
-          .listen((event) {});
+          .listen((event) {
+        ref.invalidate(historyListProvider);
+      });
     } else {
       entryDataSourceImp
           .addEntry(
@@ -74,7 +81,9 @@ class AddEntryViewModel with ChangeNotifier {
                   categoryId: category?.id,
                   modifiedDate: date,
                   description: description))
-          .listen((event) {});
+          .listen((event) {
+        ref.invalidate(historyListProvider);
+      });
     }
   }
 

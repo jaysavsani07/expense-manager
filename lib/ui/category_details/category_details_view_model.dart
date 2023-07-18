@@ -6,7 +6,6 @@ import 'package:expense_manager/core/constants.dart';
 import 'package:expense_manager/data/models/category_with_sum.dart';
 import 'package:expense_manager/data/models/entry_with_category.dart';
 import 'package:expense_manager/data/repository/entry_repository_imp.dart';
-import 'package:fimber/fimber.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,28 +67,27 @@ class CategoryDetailsViewModel with ChangeNotifier {
 
     barChartList = AsyncValue.data(Tuple2(
         list
-                .map((event) => <double>[
-                      event.item2?.map((e) => e.entry.amount)?.fold(
-                              0,
-                              (previousValue, element) =>
-                                  previousValue! + element) ??
+            .map((event) => <double>[
+                  event.item2.map((e) => e.entry.amount).fold(
                           0,
-                      event.item3?.map((e) => e.entry.amount)?.fold(
-                              0,
-                              (previousValue, element) =>
-                                  previousValue! + element) ??
-                          0
-                    ])
-                ?.expand((element) => element)
-                ?.toList()
-                ?.reduce(max) ??
-            0,
+                          (previousValue, element) =>
+                              previousValue! + element) ??
+                      0,
+                  event.item3.map((e) => e.entry.amount).fold(
+                          0,
+                          (previousValue, element) =>
+                              previousValue! + element) ??
+                      0
+                ])
+            .expand((element) => element)
+            .toList()
+            .reduce(max),
         list
             .map((e) => BarChartGroupData(
                   x: e.item1,
                   barRods: [
                     BarChartRodData(
-                      toY: e.item3?.map((e) => e.entry.amount)?.fold(
+                      toY: e.item3.map((e) => e.entry.amount).fold(
                               0,
                               (previousValue, element) =>
                                   previousValue! + element) ??
@@ -100,7 +98,7 @@ class CategoryDetailsViewModel with ChangeNotifier {
                       // Colors.greenAccent,
                     ),
                     BarChartRodData(
-                      toY: e.item2?.map((e) => e.entry.amount)?.fold(
+                      toY: e.item2.map((e) => e.entry.amount).fold(
                               0,
                               (previousValue, element) =>
                                   previousValue! + element) ??
@@ -202,8 +200,6 @@ class CategoryDetailsViewModel with ChangeNotifier {
       quarterList = AppConstants.quarterlyMonth;
       quarterlyType = QuarterlyType.Q4;
     }
-    Fimber.e(quarterlyType.toString());
-    Fimber.e(quarterList.toString());
   }
 
   void getMonthList() {
@@ -216,8 +212,6 @@ class CategoryDetailsViewModel with ChangeNotifier {
         return 0;
     });
     month = monthList.first;
-    Fimber.e(month.toString());
-    Fimber.e(monthList.toString());
   }
 
   @override

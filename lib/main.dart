@@ -13,11 +13,11 @@ import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // FlutterError.demangleStackTrace = (StackTrace stack) {
-  //   if (stack is stack_trace.Trace) return stack.vmTrace;
-  //   if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
-  //   return stack;
-  // };
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is stack_trace.Trace) return stack.vmTrace;
+    if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
+    return stack;
+  };
 
   await Firebase.initializeApp();
 

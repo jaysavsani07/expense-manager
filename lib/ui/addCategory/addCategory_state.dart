@@ -75,8 +75,14 @@ class AddCategoryViewModel with ChangeNotifier {
   void addUpdateCategory() {
     if (category == null) {
       entryDataSourceImp
-          .addCategory(entryType,
-              cat.Category(name: name.trim(), icon: iconData, iconColor: color))
+          .addCategory(
+              entryType,
+              cat.Category(
+                name: name.trim(),
+                icon: iconData,
+                iconColor: color,
+                entryType: entryType,
+              ))
           .listen((event) {});
     } else {
       entryDataSourceImp
@@ -88,6 +94,7 @@ class AddCategoryViewModel with ChangeNotifier {
                 name: name,
                 icon: iconData,
                 iconColor: color,
+                entryType: entryType,
               ))
           .listen((event) {});
     }

@@ -50,7 +50,8 @@ class _WelcomeState extends ConsumerState<Welcome> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextFormField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.name,
+
                 // borderType: VxTextFieldBorderType.underLine,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(

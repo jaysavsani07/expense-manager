@@ -39,7 +39,6 @@ class CategoryList extends ConsumerWidget {
         actions: [
           InkWell(
             onTap: () {
-              Fimber.e(Tuple2(vm.entryType!, null).toString());
               Navigator.pushNamed(
                 context,
                 AppRoutes.addCategory,
@@ -135,7 +134,7 @@ class CategoryList extends ConsumerWidget {
                         Navigator.pushNamed(
                           context,
                           AppRoutes.addCategory,
-                          arguments: Tuple2(vm.entryType, e),
+                          arguments: Tuple2(vm.entryType!, e),
                         );
                       },
                       child: Padding(

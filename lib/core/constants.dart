@@ -9,46 +9,70 @@ enum QuarterlyType { Q1, Q2, Q3, Q4 }
 class AppConstants {
   static final defaultCategoryList = [
     Category(
-        name: "Food", icon: Icons.restaurant, iconColor: Color(0xFFc03c42)),
+      name: "Food",
+      icon: Icons.restaurant,
+      iconColor: Color(0xFFc03c42),
+      entryType: EntryType.expense,
+    ),
     Category(
-        name: "Health",
-        icon: Icons.local_hospital_rounded,
-        iconColor: Color(0xFF56717c)),
+      name: "Health",
+      icon: Icons.local_hospital_rounded,
+      iconColor: Color(0xFF56717c),
+      entryType: EntryType.expense,
+    ),
     Category(
-        name: "Shopping",
-        icon: Icons.shopping_cart_rounded,
-        iconColor: Color(0xFFfdbe0d)),
+      name: "Shopping",
+      icon: Icons.shopping_cart_rounded,
+      iconColor: Color(0xFFfdbe0d),
+      entryType: EntryType.expense,
+    ),
     Category(
-        name: "Transportation",
-        icon: Icons.directions_bus_rounded,
-        iconColor: Color(0xFF188976)),
+      name: "Transportation",
+      icon: Icons.directions_bus_rounded,
+      iconColor: Color(0xFF188976),
+      entryType: EntryType.expense,
+    ),
     Category(
-        name: "Utilities",
-        icon: Icons.build_rounded,
-        iconColor: Color(0xFFAB3A66)),
+      name: "Utilities",
+      icon: Icons.build_rounded,
+      iconColor: Color(0xFFAB3A66),
+      entryType: EntryType.expense,
+    ),
   ];
 
   static final defaultIncomeCategoryList = [
     Category(
-        name: "Salary",
-        icon: Icons.attach_money_outlined,
-        iconColor: Color(0xFFc03c42)),
+      name: "Salary",
+      icon: Icons.attach_money_outlined,
+      iconColor: Color(0xFFc03c42),
+      entryType: EntryType.income,
+    ),
     Category(
-        name: "Allowance",
-        icon: Icons.security_outlined,
-        iconColor: Color(0xFF84C03C)),
+      name: "Allowance",
+      icon: Icons.security_outlined,
+      iconColor: Color(0xFF84C03C),
+      entryType: EntryType.income,
+    ),
     Category(
-        name: "Bonus",
-        icon: Icons.sentiment_very_satisfied_outlined,
-        iconColor: Color(0xFF3CC0BA)),
+      name: "Bonus",
+      icon: Icons.sentiment_very_satisfied_outlined,
+      iconColor: Color(0xFF3CC0BA),
+      entryType: EntryType.income,
+    ),
     Category(
-        name: "Petty Cash",
-        icon: Icons.money_outlined,
-        iconColor: Color(0xFF783CC0)),
+      name: "Petty Cash",
+      icon: Icons.money_outlined,
+      iconColor: Color(0xFF783CC0),
+      entryType: EntryType.income,
+    ),
   ];
 
   static final otherCategory = Category(
-      name: "Other", icon: Icons.ac_unit_rounded, iconColor: Color(0xFF798897));
+    name: "Other",
+    icon: Icons.ac_unit_rounded,
+    iconColor: Color(0xFF798897),
+    entryType: EntryType.all,
+  );
 
   static final monthList = {
     1: "jan",

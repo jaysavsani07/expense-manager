@@ -12,7 +12,7 @@ class Category {
   final String name;
   final IconData icon;
   final Color iconColor;
-  final EntryType? entryType;
+  final EntryType entryType;
 
   Category({
     this.id,
@@ -20,7 +20,7 @@ class Category {
     required this.name,
     required this.icon,
     required this.iconColor,
-    this.entryType,
+    required this.entryType,
   });
 
   Category copyWith({
@@ -29,6 +29,7 @@ class Category {
     String? name,
     IconData? icon,
     Color? iconColor,
+    EntryType? entryType,
   }) {
     return Category(
       id: id ?? this.id,
@@ -36,6 +37,7 @@ class Category {
       name: name ?? this.name,
       icon: icon ?? this.icon,
       iconColor: iconColor ?? this.iconColor,
+      entryType: entryType ?? this.entryType,
     );
   }
 

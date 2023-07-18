@@ -254,14 +254,14 @@ class EntryDataSourceImp extends EntryDataSource {
 
   @override
   Stream<List<Category>> getAllCategory() {
-    return ZipStream.zip2(
-      getAllExpenseCategory(),
-      getAllIncomeCategory(),
-      (a, b) => [...a, ...b],
-    );
-    // return appDatabase.getAllCategory().map((event) => event
-    //     .map((e) => Category.fromAllCategoryEntity(e.item1, e.item2))
-    //     .toList());
+    // return ZipStream.zip2(
+    //   getAllExpenseCategory(),
+    //   getAllIncomeCategory(),
+    //   (a, b) => [...a, ...b],
+    // );
+    return appDatabase.getAllCategory().map((event) => event
+        .map((e) => Category.fromAllCategoryEntity(e.item1, e.item2))
+        .toList());
   }
 
   @override
